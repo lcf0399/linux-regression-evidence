@@ -3,11 +3,6 @@
 This repository is a curated public evidence bundle for Linux performance
 regressions that still look actionable after follow-up validation.
 
-It is intentionally smaller than the local research workspace.  Failed,
-weakened, platform-blocked, or synthetic-only candidates that no longer look
-like useful upstream regression reports are kept in the local investigation
-tree, not here.
-
 ## Current Evidence
 
 - `mprotect-shared-dirty-toggle/`
@@ -21,18 +16,6 @@ tree, not here.
 
   Scope: source-calibrated shared-dirty PTE workload, not a generic
   `mprotect()` regression claim.
-
-## What Is Not Included
-
-Earlier MM candidates such as `MADV_PAGEOUT`, `mincore()`,
-`migrate_pages()`, and `mseal()` are not included here because follow-up work
-showed that they are not currently strong upstream regression reports.  The
-reasons include missing platform prerequisites, QEMU/codegen sensitivity,
-semantic mismatch, or only semantic-smoke value.
-
-The local research workspace may still keep those histories for method review,
-but this public evidence tree should stay focused on currently actionable
-regression evidence.
 
 ## Evidence Policy
 

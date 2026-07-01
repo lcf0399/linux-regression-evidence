@@ -1,0 +1,4 @@
+kernel,n,mean_iteration_ns_per_page,cv_pct,values,role
+6.16.0-bm-6.16,3,25.000,0.000,25 25 25,clean release baseline before slowdown
+6.17.0-bm-6.17,3,37.000,0.000,37 37 37,clean release after slowdown appears
+6.17.0-bm-6.17-singlepte-probe,3,25.000,0.000,25 25 25,attribution probe restoring single-PTE hot path

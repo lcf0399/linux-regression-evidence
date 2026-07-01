@@ -1,0 +1,25 @@
+environment,cpu,memory_mib,version_family,exact_version,metric,value,median_value,run_count,ok_runs,failed_runs,reliable,note
+lab,1,14336,6.12,6.12.77,cycle_ns_per_page,336.111111,334.000000,9,9,0,yes,
+lab,1,14336,6.19,6.19.9,cycle_ns_per_page,532.000000,537.000000,9,9,0,yes,
+lab,1,14336,mm-unstable,7.1.0-rc3-mm-unstable-444fc9435e57,cycle_ns_per_page,497.000000,496.000000,9,9,0,yes,
+lab,2,14336,6.12,6.12.77,cycle_ns_per_page,369.222222,374.000000,9,9,0,yes,
+lab,2,14336,6.19,6.19.9,cycle_ns_per_page,581.888889,569.000000,9,9,0,yes,
+lab,2,14336,mm-unstable,7.1.0-rc3-mm-unstable-444fc9435e57,cycle_ns_per_page,503.333333,496.000000,9,9,0,yes,
+lab,4,14336,6.12,6.12.77,cycle_ns_per_page,355.666667,349.000000,9,9,0,yes,
+lab,4,14336,6.19,6.19.9,cycle_ns_per_page,587.222222,602.000000,9,9,0,yes,
+lab,4,14336,mm-unstable,7.1.0-rc3-mm-unstable-444fc9435e57,cycle_ns_per_page,524.222222,521.000000,9,9,0,yes,
+lab,8,16384,6.12,6.12.77,cycle_ns_per_page,369.666667,378.000000,9,9,0,yes,
+lab,8,16384,6.19,6.19.9,cycle_ns_per_page,583.555556,577.000000,9,9,0,yes,
+lab,8,16384,mm-unstable,7.1.0-rc3-mm-unstable-444fc9435e57,cycle_ns_per_page,534.222222,512.000000,9,9,0,yes,
+lab,16,32768,6.12,6.12.77,cycle_ns_per_page,374.750000,368.000000,9,8,1,no,one v6.12.77 QEMU failure
+lab,16,32768,6.19,6.19.9,cycle_ns_per_page,607.111111,594.000000,9,9,0,yes,
+lab,16,32768,mm-unstable,7.1.0-rc3-mm-unstable-444fc9435e57,cycle_ns_per_page,547.777778,556.000000,9,9,0,yes,
+local,1,,6.12,6.12.77,cycle_ns_per_page,247.777778,257.000000,9,9,0,yes,local timing is noisier than lab
+local,1,,6.19,6.19.9,cycle_ns_per_page,397.222222,392.000000,9,9,0,yes,local timing is noisier than lab
+local,1,,mm-unstable,7.1.0-rc3-mm-unstable-444fc9435e57,cycle_ns_per_page,350.888889,342.000000,9,9,0,no,local timing is noisier than lab
+local,2,,6.12,6.12.77,cycle_ns_per_page,326.444444,318.000000,9,9,0,yes,local timing is noisier than lab
+local,2,,6.19,6.19.9,cycle_ns_per_page,486.000000,509.000000,9,9,0,yes,local timing is noisier than lab
+local,2,,mm-unstable,7.1.0-rc3-mm-unstable-444fc9435e57,cycle_ns_per_page,450.888889,452.000000,9,9,0,no,local timing is noisier than lab
+local,4,,6.12,6.12.77,cycle_ns_per_page,352.777778,357.000000,9,9,0,no,local timing is noisier than lab
+local,4,,6.19,6.19.9,cycle_ns_per_page,541.111111,535.000000,9,9,0,yes,local timing is noisier than lab
+local,4,,mm-unstable,7.1.0-rc3-mm-unstable-444fc9435e57,cycle_ns_per_page,503.111111,514.000000,9,9,0,no,local timing is noisier than lab

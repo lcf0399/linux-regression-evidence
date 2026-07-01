@@ -1,0 +1,63 @@
+{
+  "schema": "mm-regression-pipeline-run-v1",
+  "run_id": "20260526T051807Z-102008-performance",
+  "run_purpose": "performance",
+  "status": "completed",
+  "started_at_utc": "2026-05-26T05:18:07Z",
+  "root": "/workspace/kernel-study",
+  "out_dir": "mm_regression_gen/out/mprotect_reproducer_smp_matrix_lab_20260526T045839Z/perf_16cpu",
+  "version_file": "mm_regression_gen/out/kernel_versions_mprotect_mm_unstable.json",
+  "jobs": 8,
+  "coverage_enabled": false,
+  "performance_clean": true,
+  "requested_execution_order": "interleaved",
+  "effective_execution_order": "interleaved",
+  "execution_seed": 20260526,
+  "run_env_history_path": "mm_regression_gen/out/mprotect_reproducer_smp_matrix_lab_20260526T045839Z/perf_16cpu/pipeline_runs/20260526T051807Z-102008-performance.json",
+  "git_commit": "",
+  "host": {
+    "hostname": "lcf",
+    "platform": "Linux-6.14.0-37-generic-x86_64-with-glibc2.39",
+    "uname": "Linux lcf 6.14.0-37-generic #37~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Thu Nov 20 10:25:38 UTC 2 x86_64 x86_64 x86_64 GNU/Linux",
+    "python": "3.12.3",
+    "cpu_count": 128,
+    "cgroup": {
+      "memory.max": "51539607552",
+      "memory.swap.max": "17179869184",
+      "cpuset.cpus.effective": "0,2,4,6,8,10,12,14"
+    }
+  },
+  "tools": {
+    "qemu_system_x86_64": "QEMU emulator version 8.2.2 (Debian 1:8.2.2+ds-0ubuntu1.14)\nCopyright (c) 2003-2023 Fabrice Bellard and the QEMU Project developers"
+  },
+  "environment": {
+    "QEMU_SMP": "16",
+    "QEMU_TASKSET": "0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30",
+    "QEMU_MEM": "32768",
+    "QEMU_MEM_MB": "32768",
+    "QEMU_NUMA_NODES": "",
+    "WORKLOAD_EXTERNAL_ROUNDS": "5"
+  },
+  "profiles": [
+    {
+      "name": "mprotect_shared_dirty_reproducer_check",
+      "profile_path": "mm_regression_gen/mprotect/experiments/mprotect_shared_dirty_reproducer_check.toml",
+      "source_file": "mm/mprotect.c",
+      "generate_from_version": "6.19",
+      "baseline_version": "6.19",
+      "compare_versions": [
+        "6.12",
+        "6.19",
+        "mm-unstable"
+      ],
+      "repetitions": 5,
+      "tolerance": 0.05,
+      "max_cv": 0.15,
+      "profile_content_sha256": "2b94e1fb177a70e59e0b1697a7103bb064a84335265e92d361a186ff053be6fa"
+    }
+  ],
+  "finished_at_utc": "2026-05-26T05:23:10Z",
+  "completed_profiles": [
+    "mprotect_shared_dirty_reproducer_check"
+  ]
+}

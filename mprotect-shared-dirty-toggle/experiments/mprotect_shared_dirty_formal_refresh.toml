@@ -1,0 +1,38 @@
+name = "mprotect_shared_dirty_formal_refresh"
+source_file = "mm/mprotect.c"
+generate_from_version = "6.19"
+baseline_version = "6.19"
+compare_versions = ["6.19", "6.12"]
+tolerance = 0.05
+repetitions = 9
+max_cv = 0.10
+description = "9-repeat focused refresh for the current mprotect shared-dirty old-faster signal under split validation and 1/2/4 CPU clean performance."
+
+[[entry]]
+kind = "workload"
+profile = "mprotect_paths"
+binary_name = "mmreg_mprotect_shared_dirty_formal_refresh"
+scenarios = [
+  "shared_dirty_full_toggle_64m",
+]
+metrics = [
+  "cycle_ns_per_page",
+  "protect_ns_per_page",
+  "restore_ns_per_page",
+]
+
+[entry.overrides.defaults]
+rounds = 4
+max_rounds = 256
+min_measure_ns = 1200000000
+batch_ops = 1
+touch_passes = 1
+warmup_rounds = 2
+prefault_before_protect = true
+post_touch_mode = "write"
+
+[[entry.overrides.scenario]]
+name = "shared_dirty_full_toggle_64m"
+pattern = "shared_dirty_full_toggle"
+mapping_kb = 65536
+protect_kb = 65536

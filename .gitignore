@@ -1,0 +1,11 @@
+# Private/mail drafting history
+*/email/
+
+# Local-only raw archives
+*/local-archive/
+
+# Common scratch/build outputs
+out/
+*.o
+*.tmp
+*.log.tmp

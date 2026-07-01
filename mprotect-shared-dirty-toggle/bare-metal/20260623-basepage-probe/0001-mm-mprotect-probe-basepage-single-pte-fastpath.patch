@@ -1,0 +1,41 @@
+--- mm/mprotect.c
++++ mm/mprotect.c
+@@ -266,6 +266,38 @@ static long change_pte_range(struct mmu_gather *tlb,
+ 				continue;
+ 			}
+ 
++			/*
++			 * Attribution probe for resident base-page workloads:
++			 * avoid the folio-batch setup when it cannot batch.
++			 *
++			 * This intentionally mirrors the old single-PTE
++			 * modify/commit shape and is not meant as a complete
++			 * upstream-ready replacement.
++			 */
++			if (!prot_numa && (!folio || !folio_test_large(folio))) {
++				oldpte = ptep_modify_prot_start(vma, addr, pte);
++				ptent = pte_modify(oldpte, newprot);
++
++				if (uffd_wp)
++					ptent = pte_mkuffd_wp(ptent);
++				else if (uffd_wp_resolve)
++					ptent = pte_clear_uffd_wp(ptent);
++
++				if ((cp_flags & MM_CP_TRY_CHANGE_WRITABLE) &&
++				    !pte_write(ptent) &&
++				    can_change_pte_writable(vma, addr, ptent))
++					ptent = pte_mkwrite(ptent, vma);
++
++				ptep_modify_prot_commit(vma, addr, pte,
++							oldpte, ptent);
++				if (pte_needs_flush(oldpte, ptent))
++					tlb_flush_pte_range(tlb, addr,
++							    PAGE_SIZE);
++
++				pages++;
++				continue;
++			}
++
+ 			nr_ptes = mprotect_folio_pte_batch(folio, pte, oldpte, max_nr_ptes, flags);
+ 
+ 			oldpte = modify_prot_start_ptes(vma, addr, pte, nr_ptes);

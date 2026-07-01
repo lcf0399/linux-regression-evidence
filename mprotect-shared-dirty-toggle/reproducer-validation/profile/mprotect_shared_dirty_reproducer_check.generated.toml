@@ -1,0 +1,20 @@
+name = "mprotect_shared_dirty_reproducer"
+family = "mprotect_shared_dirty_reproducer"
+source_file = "linux-kernel-trees/sources/linux-v6.19/mm/mprotect.c"
+output_name = "mprotect_shared_dirty_reproducer.c"
+description = "Standalone shared-dirty mprotect() full-range toggle reproducer wired into the workload pipeline for cross-version QEMU validation."
+[build]
+mode = "userspace"
+
+[defaults]
+rounds = 1
+max_rounds = 64
+min_measure_ns = 500000000
+warmup_rounds = 1
+mapping_kb = 65536
+pattern = "shared_dirty_full_toggle"
+
+[[scenario]]
+name = "shared_dirty_full_toggle_64m"
+pattern = "shared_dirty_full_toggle"
+mapping_kb = 65536

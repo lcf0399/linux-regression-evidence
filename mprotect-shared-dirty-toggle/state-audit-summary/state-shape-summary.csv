@@ -1,0 +1,15 @@
+metric,v6.12.77,v6.19.9,mm-unstable,note
+expected_match_ratio,100,100,100,all successful runs
+unexpected_results,0,0,0,all successful runs
+final_vmas_avg,1,1,1,all successful runs
+split_vmas_avg,1,1,1,all successful runs
+pagemap_before_protect_present_pages_avg,16384,16384,16384,all successful runs
+pagemap_after_restore_present_pages_avg,16384,16384,16384,all successful runs
+smaps_before_protect_anon_huge_kb_avg,0,0,0,all successful runs
+smaps_before_protect_kernel_page_kb_avg,4,4,4,all successful runs
+smaps_before_protect_mmu_page_kb_avg,4,4,4,all successful runs
+smaps_before_protect_thpeligible_pct,0,0,0,all successful runs
+smaps_after_restore_anon_huge_kb_avg,0,0,0,all successful runs
+smaps_after_restore_kernel_page_kb_avg,4,4,4,all successful runs
+smaps_after_restore_mmu_page_kb_avg,4,4,4,all successful runs
+smaps_after_restore_thpeligible_pct,0,0,0,all successful runs

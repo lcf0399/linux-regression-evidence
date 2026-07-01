@@ -1,0 +1,103 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chengfeng Lin <chengfenglin@stu.xmu.edu.cn>
+Date: Wed, 24 Jun 2026 00:00:00 +0000
+Subject: [PROBE] mm/mprotect: use single-PTE hot path in v6.17
+
+This is an attribution-only probe for the bare-metal
+mprotect_shared_dirty_reproducer. It is not intended as an upstream patch.
+
+The v6.17 mprotect path batches PTEs via folio helpers. For the current
+4 KiB shared-dirty base-page workload the effective batch is expected to be
+one PTE, so this probe restores the present-PTE branch in change_pte_range()
+to the old single-PTE start/commit/flush shape while keeping the rest of the
+v6.17 tree intact.
+
+---
+ mm/mprotect.c | 43 +++++++++++++++++++------------------------
+ 1 file changed, 19 insertions(+), 24 deletions(-)
+
+diff --git a/mm/mprotect.c b/mm/mprotect.c
+--- a/mm/mprotect.c
++++ b/mm/mprotect.c
+@@ -280,7 +280,6 @@ static long change_pte_range(struct mmu_gather *tlb,
+ 	bool prot_numa = cp_flags & MM_CP_PROT_NUMA;
+ 	bool uffd_wp = cp_flags & MM_CP_UFFD_WP;
+ 	bool uffd_wp_resolve = cp_flags & MM_CP_UFFD_WP_RESOLVE;
+-	int nr_ptes;
+ 
+ 	tlb_change_page_size(tlb, PAGE_SIZE);
+ 	pte = pte_offset_map_lock(vma->vm_mm, pmd, addr, &ptl);
+@@ -295,37 +294,24 @@ static long change_pte_range(struct mmu_gather *tlb,
+ 	flush_tlb_batched_pending(vma->vm_mm);
+ 	arch_enter_lazy_mmu_mode();
+ 	do {
+-		nr_ptes = 1;
+ 		oldpte = ptep_get(pte);
+ 		if (pte_present(oldpte)) {
+-			const fpb_t flags = FPB_RESPECT_SOFT_DIRTY | FPB_RESPECT_WRITE;
+-			int max_nr_ptes = (end - addr) >> PAGE_SHIFT;
+-			struct folio *folio = NULL;
+-			struct page *page;
+ 			pte_t ptent;
+ 
+-			page = vm_normal_page(vma, addr, oldpte);
+-			if (page)
+-				folio = page_folio(page);
+ 			/*
+ 			 * Avoid trapping faults against the zero or KSM
+ 			 * pages. See similar comment in change_huge_pmd.
+ 			 */
+ 			if (prot_numa) {
++				struct folio *folio = vm_normal_folio(vma, addr, oldpte);
+ 				int ret = prot_numa_skip(vma, addr, oldpte, pte,
+ 							 target_node, folio);
+-				if (ret) {
+ 
+-					/* determine batch to skip */
+-					nr_ptes = mprotect_folio_pte_batch(folio,
+-						  pte, oldpte, max_nr_ptes, /* flags = */ 0);
++				if (ret)
+ 					continue;
+-				}
+ 			}
+ 
+-			nr_ptes = mprotect_folio_pte_batch(folio, pte, oldpte, max_nr_ptes, flags);
+-
+-			oldpte = modify_prot_start_ptes(vma, addr, pte, nr_ptes);
++			oldpte = ptep_modify_prot_start(vma, addr, pte);
+ 			ptent = pte_modify(oldpte, newprot);
+ 
+ 			if (uffd_wp)
+@@ -347,13 +333,14 @@ static long change_pte_range(struct mmu_gather *tlb,
+ 			 * COW or special handling is required.
+ 			 */
+ 			if ((cp_flags & MM_CP_TRY_CHANGE_WRITABLE) &&
+-			     !pte_write(ptent))
+-				set_write_prot_commit_flush_ptes(vma, folio, page,
+-				addr, pte, oldpte, ptent, nr_ptes, tlb);
+-			else
+-				prot_commit_flush_ptes(vma, addr, pte, oldpte, ptent,
+-					nr_ptes, /* idx = */ 0, /* set_write = */ false, tlb);
+-			pages += nr_ptes;
++			    !pte_write(ptent) &&
++			    can_change_pte_writable(vma, addr, ptent))
++				ptent = pte_mkwrite(ptent, vma);
++
++			ptep_modify_prot_commit(vma, addr, pte, oldpte, ptent);
++			if (pte_needs_flush(oldpte, ptent))
++				tlb_flush_pte_range(tlb, addr, PAGE_SIZE);
++			pages++;
+ 		} else if (is_swap_pte(oldpte)) {
+ 			swp_entry_t entry = pte_to_swp_entry(oldpte);
+ 			pte_t newpte;
+@@ -438,7 +425,7 @@ static long change_pte_range(struct mmu_gather *tlb,
+ 				pages++;
+ 			}
+ 		}
+-	} while (pte += nr_ptes, addr += nr_ptes * PAGE_SIZE, addr != end);
++	} while (pte++, addr += PAGE_SIZE, addr != end);
+ 	arch_leave_lazy_mmu_mode();
+ 	pte_unmap_unlock(pte - 1, ptl);
+ 
+-- 
+2.43.0

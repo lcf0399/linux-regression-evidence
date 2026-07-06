@@ -1,0 +1,10 @@
+function,old_avg_ns,new_avg_ns,delta_percent
+listxattr,1782.266,1876.309,5.28
+vfs_listxattr,1495.954,1591.404,6.38
+security_inode_listxattr,114.549,110.564,-3.48
+shmem_listxattr,1039.734,1140.212,9.66
+simple_xattr_list,817.466,914.481,11.87
+posix_acl_listxattr,112.720,111.081,-1.45
+security_inode_listsecurity,111.531,112.756,1.10
+xattr_list_one,118.407,114.600,-3.22
+

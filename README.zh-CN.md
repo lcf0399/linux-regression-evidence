@@ -15,6 +15,16 @@
   当前口径：这是 source-calibrated shared-dirty PTE workload，不是 generic
   `mprotect()` regression claim。
 
+- `tmpfs-flistxattr-small-list/`
+
+  一条很窄的 Linux FS `flistxattr(fd)` workload：tmpfs 文件上有少量 `user.*`
+  xattr。围绕 `52b364fed6e1 shmem: adapt to rhashtable-based simple_xattrs
+  with lazy allocation` 的 bare-metal parent/child A/B 显示，tmpfs 从旧 rbtree
+  path 切到 lazy rhashtable-based `simple_xattrs` 后，小列表固定成本明显增加。
+
+  当前口径：这是 tmpfs small-list `flistxattr(fd)` 回归，不是 generic xattr 或
+  generic tmpfs regression claim。
+
 ## 证据取舍
 
 - 只保留整理后的 README、standalone reproducer、紧凑 CSV/JSON summary，以及理解

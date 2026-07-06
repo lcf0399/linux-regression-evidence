@@ -1,0 +1,4 @@
+probe,baseline,probe_result,interpretation,upstream_patch
+fixed-name flistxattr fastpath,"v7.1 original about 222-227 ns/op","about 150 ns/op","skipping rhashtable walk removes most measured small-list cost; changes multi-xattr list semantics",no
+rbtree-backend probe,"v7.1 original about 222 ns/op","about 131 ns/op","old backend shape removes the measured fixed cost for this workload",no
+

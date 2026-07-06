@@ -1,0 +1,6 @@
+xattr_count,parent_a_mean_ns_per_op,child_mean_ns_per_op,parent_b_mean_ns_per_op,child_vs_parent_avg_percent,expected_match_ratio,unexpected_results
+1,156.102,242.886,156.872,55.2,100,0
+4,185.109,273.756,181.206,49.5,100,0
+16,312.894,378.211,315.962,20.3,100,0
+64,885.222,934.356,870.759,6.4,100,0
+

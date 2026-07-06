@@ -1,0 +1,4 @@
+target,kernel,mean_ns_per_op_skip_first_1,min_ns_per_op_skip_first_1,max_ns_per_op_skip_first_1,stdev_ns_per_op_skip_first_1,expected_match_ratio,unexpected_results,notes
+parent_a,7.0.0-rc1-bm-xattr-before-shmem-rhash-prod,148.536,147.100,153.348,1.458,100,0,no SLUB_DEBUG / no KASAN; tmpfs old rbtree path
+child,7.0.0-rc1-bm-xattr-after-shmem-rhash-prod,223.866,215.126,235.209,5.846,100,0,no SLUB_DEBUG / no KASAN; tmpfs lazy rhashtable path
+parent_b,7.0.0-rc1-bm-xattr-before-shmem-rhash-prod,149.178,148.350,150.778,0.556,100,0,no SLUB_DEBUG / no KASAN; tmpfs old rbtree path recheck

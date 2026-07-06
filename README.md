@@ -17,6 +17,17 @@ regressions that still look actionable after follow-up validation.
   Scope: source-calibrated shared-dirty PTE workload, not a generic
   `mprotect()` regression claim.
 
+- `tmpfs-flistxattr-small-list/`
+
+  A narrow Linux FS `flistxattr(fd)` workload on tmpfs files with small
+  `user.*` xattr lists.  Bare-metal parent/child A/B around
+  `52b364fed6e1 shmem: adapt to rhashtable-based simple_xattrs with lazy
+  allocation` shows that the tmpfs switch from the old rbtree path to lazy
+  rhashtable-based `simple_xattrs` increases the small-list fixed cost.
+
+  Scope: tmpfs `flistxattr(fd)` with small xattr lists, not a generic xattr or
+  tmpfs regression claim.
+
 ## Evidence Policy
 
 - Keep only curated summaries, standalone reproducers, compact CSV/JSON

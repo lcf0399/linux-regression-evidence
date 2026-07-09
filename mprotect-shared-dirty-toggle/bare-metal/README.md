@@ -170,6 +170,72 @@ The source-attribution and exact-revert caveat are recorded in:
 20260624-6.17-singlepte-probe/source-attribution-note.zh-CN.md
 ```
 
+## 2026-07-02 culprit-candidate review
+
+Result directory:
+
+```text
+20260702-culprit-candidate-review/
+```
+
+This directory consolidates the source-level hypothesis for maintainer review.
+The strongest current candidate is:
+
+```text
+cac1db8c3aad ("mm: optimize mprotect() by PTE batching")
+```
+
+This is based on the `v6.16 -> v6.17` release-window narrowing, the
+`change_pte_range()` hot-path change, and the v6.17 single-PTE attribution
+probe returning this workload to the v6.16 timing range.
+
+It is not a full `git bisect` result and not a clean exact-revert A/B.  The
+recommended upstream wording is therefore that the slowdown appears aligned
+with the v6.17 PTE batching change, especially `cac1db8c3aad`, and that the
+targeted v6.17 single-PTE hot-path probe brings this workload back to the v6.16
+range.
+
+## 2026-07-02 cac1db8c3aad revert attempt
+
+Result directory:
+
+```text
+20260702-cac1db8c3aad-revert-attempt/
+```
+
+This follow-up tried to move from attribution probe toward an exact
+commit-level check.
+
+Direct `git revert --no-commit cac1db8c3aad` conflicts in `mm/mprotect.c` on
+the real `v6.17` tag.  The likely reason is that later `mm/mprotect.c` commits
+in the same release window are layered on top of the batching change:
+
+```text
+cf1b80dc31a1 mm: pass page directly instead of using folio_page
+8b2914162aa3 mm/mseal: small cleanups
+```
+
+A synthesized `v6.17` mprotect-only minus-cac candidate patch was created and
+passed both an object-level build check for `mm/mprotect.o` and a full
+`bzImage` build.  It was then installed and tested in an interleaved
+three-kernel bare-metal queue:
+
+```text
+kernel                                      n  iteration_mean  values
+6.16.0-bm-6.16                             3          25.000  25 25 25
+6.17.0-bm-6.17                             3          36.667  38 36 36
+6.17.0-bm-6.17-minus-cac1db8c3aad          3          26.667  27 27 26
+```
+
+All steps reported `expected_match_ratio=100`, `unexpected_results=0`, and
+the same 4 KiB/no THP state shape.
+
+This synthesized mprotect-only minus-cac candidate brings the workload from
+the slow `v6.17` range back near the `v6.16` fast range.  It is the strongest
+mechanism-attribution evidence so far for `cac1db8c3aad`, but it is still not
+a clean exact-revert A/B because the tested tree is a hand-synthesized
+`mm/mprotect.c`-only candidate.
+
 ## 2026-06-30 single-protect follow-up
 
 Result directory:
@@ -196,3 +262,53 @@ All steps reported `expected_match_ratio=100` and `unexpected_results=0`.
 This shows that the `v6.16 -> v6.17` slowdown is visible even for a single
 `mprotect(PROT_READ)` on the prepared shared-dirty range.  It is supporting
 evidence for the existing mprotect report, not a separate claim.
+
+
+## 2026-07-06 folio-order state-shape check
+
+Result directory:
+
+```text
+20260706-folio-order-check/
+```
+
+This follow-up checks a possible state-shape caveat: 4 KiB smaps output rules
+out a PMD THP mapping, but not by itself every possible PTE-mapped compound
+folio case.  The probe reads smaps, pagemap, and kpageflags for the tested
+64 MiB shared-dirty base-page shape.
+
+Across three interleaved bare-metal rounds each on `6.16.0-bm-6.16`,
+`6.17.0-bm-6.17`, and `7.1.0-bm-7.1`, all nine runs reported 16384 present
+pages, 4 KiB KernelPageSize/MMUPageSize, and zero `KPF_COMPOUND_HEAD`,
+`KPF_COMPOUND_TAIL`, `KPF_HUGE`, and `KPF_THP` pages.
+
+This supports treating the tested workload as an order-0/base-page mprotect
+path for attribution purposes.
+
+## 2026-07-09 userfaultfd bulk writeprotect bridge
+
+Result directory:
+
+```text
+20260709-userfaultfd-bulk-wp-bridge/
+```
+
+This is a related entry-point check, not a separate `mm/userfaultfd.c`
+regression claim.  The workload uses bulk `UFFDIO_WRITEPROTECT` over a 1 GiB
+anonymous mapping to enter the same `change_protection()` / PTE write-protect
+path.
+
+Main metric: `protect_ns_avg / pages`, lower is better.
+
+```text
+kernel                                  mean ns/page
+6.16.0-bm-6.16                          25.720
+6.17.0-bm-6.17                          33.544
+6.17.0-bm-6.17-minus-cac1db8c3aad       26.040
+```
+
+The `minus-cac1db8c3aad` kernel is a hand-adapted mprotect-only mechanism
+candidate, not a clean exact revert.  Still, it pulls the userfaultfd bulk-WP
+slowdown back near the `6.16` range, supporting the interpretation that this
+related entry point inherits the same mprotect/PTE permission-change mechanism
+signal.

@@ -49,6 +49,40 @@ patch.  It is mechanism-attribution evidence pointing at the v6.17
 PTE-batching hot-path shape in `mm/mprotect.c::change_pte_range()` for this
 workload.
 
+A dedicated culprit-candidate review records the current source-level
+hypothesis:
+
+```text
+bare-metal/20260702-culprit-candidate-review/
+```
+
+The strongest current candidate is `cac1db8c3aad ("mm: optimize mprotect() by
+PTE batching")`.  This is a strong candidate/series direction, not an exact
+culprit proof: no full `git bisect` or clean exact-revert A/B has been completed
+yet.
+
+A follow-up revert attempt is recorded in:
+
+```text
+bare-metal/20260702-cac1db8c3aad-revert-attempt/
+```
+
+Direct `git revert --no-commit cac1db8c3aad` conflicts on the real `v6.17` tag
+because later `mm/mprotect.c` edits are layered on top.  A synthesized
+`v6.17` mprotect-only minus-cac candidate passed build/install and was timed on
+bare metal:
+
+| Kernel | values | mean |
+| --- | --- | ---: |
+| `v6.16` | 25 25 25 | 25.000 |
+| `v6.17` | 38 36 36 | 36.667 |
+| `v6.17 mprotect-only minus-cac1db8c3aad` | 27 27 26 | 26.667 |
+
+This is not a clean exact-revert proof, because direct revert conflicts on
+`v6.17`; however it is stronger mechanism evidence than the earlier
+single-PTE probe and points at the batching change as the relevant mechanism
+for this workload.
+
 `v6.19.9 + Pedro v3 patch-only` and the later mm-unstable/Pedro follow-up did
 not improve this standalone bare-metal result.
 
@@ -78,6 +112,33 @@ This shows that a single `mprotect(PROT_READ)` on the prepared shared-dirty
 range already reproduces the `v6.16 -> v6.17` slowdown.  It is supporting
 evidence for the same `mprotect()` PTE update path, not a separate regression
 claim.
+
+A later folio-order state-shape check is recorded in:
+
+```text
+bare-metal/20260706-folio-order-check/
+```
+
+It reads pagemap/kpageflags for the same 64 MiB shared-dirty base-page shape.
+Across `6.16.0-bm-6.16`, `6.17.0-bm-6.17`, and `7.1.0-bm-7.1`, all nine runs
+reported 16384 present pages, 4 KiB `KernelPageSize`/`MMUPageSize`, and zero
+`KPF_COMPOUND_HEAD`, `KPF_COMPOUND_TAIL`, and `KPF_THP` pages.  This is
+state-shape attribution evidence that the tested workload was not a
+PTE-mapped compound/THP folio case.
+
+A related userfaultfd bulk write-protect bridge is recorded in:
+
+```text
+bare-metal/20260709-userfaultfd-bulk-wp-bridge/
+```
+
+This is not a separate `mm/userfaultfd.c` regression claim.  It checks another
+entry point into the same PTE permission-change machinery.  In five interleaved
+bare-metal batches, `bulk_writeprotect_ioctl_1024m` measured `6.16=25.720`,
+`6.17=33.544`, and `6.17-minus-cac1db8c3aad=26.040 ns/page`.  The
+`minus-cac` kernel is a hand-adapted mprotect-only mechanism candidate, not a
+clean exact revert, but it pulls the userfaultfd bulk-WP result back toward the
+`6.16` range.
 
 Related exploratory `mmap_lock` and `mmu_notifier` routes also observed timing
 signals, but split/no-KVM/KVM attribution showed their main difference comes
@@ -158,8 +219,19 @@ comparison.
   `mm/mprotect.c::change_pte_range()`. The probe is not an exact commit
   revert; see
   `bare-metal/20260624-6.17-singlepte-probe/source-attribution-note.zh-CN.md`.
+  `bare-metal/20260702-culprit-candidate-review/` records the current strongest
+  candidate, `cac1db8c3aad ("mm: optimize mprotect() by PTE batching")`, while
+  keeping the no-full-bisect/no-exact-revert caveat explicit.
+  `bare-metal/20260702-cac1db8c3aad-revert-attempt/` records the first
+  follow-up exact-revert attempt: direct git revert conflicts on `v6.17`, while
+  a synthesized mprotect-only minus-cac candidate builds, installs, and brings
+  the bare-metal metric back close to the `v6.16` fast range.
   The later `bare-metal/20260630-single-protect-followup/` directory shows that
   a single protect operation also reproduces the same release-window slowdown.
+  `bare-metal/20260706-folio-order-check/` records the no-compound/no-THP
+  state-shape check, and `bare-metal/20260709-userfaultfd-bulk-wp-bridge/`
+  records a related userfaultfd bulk-WP cross-entry check that is pulled back by
+  the same mprotect-only minus-cac mechanism candidate.
 
 For the formal lab and follow-up matrices, the public bundle keeps compact
 metric summaries. Full runner directories, raw CSV/JSON, pipeline metadata, and

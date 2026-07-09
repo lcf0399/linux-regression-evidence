@@ -48,6 +48,37 @@
 指向该 workload 在 `mm/mprotect.c::change_pte_range()` 中的 v6.17 PTE-batching
 hot-path shape。
 
+新增的 culprit-candidate review 单独记录当前源码层假设：
+
+```text
+bare-metal/20260702-culprit-candidate-review/
+```
+
+目前最强的候选是 `cac1db8c3aad ("mm: optimize mprotect() by PTE batching")`。
+这是一条很强的 candidate commit / series 方向，但还不是 exact culprit proof：目前
+还没有完成完整 `git bisect`，也没有做 clean exact-revert A/B。
+
+后续 revert 尝试记录在：
+
+```text
+bare-metal/20260702-cac1db8c3aad-revert-attempt/
+```
+
+在真实 `v6.17` tag 上直接执行 `git revert --no-commit cac1db8c3aad` 会因为后续
+`mm/mprotect.c` 改动叠在上面而发生冲突。合成的 `v6.17` mprotect-only minus-cac
+candidate 已经通过 `mm/mprotect.o` 编译检查和完整 `bzImage` build，并完成真机
+interleaved timing：
+
+| Kernel | iteration_ns_per_page values | mean |
+| --- | ---: | ---: |
+| `6.16.0-bm-6.16` | 25 25 25 | 25.000 |
+| `6.17.0-bm-6.17` | 38 36 36 | 36.667 |
+| `6.17.0-bm-6.17-minus-cac1db8c3aad` | 27 27 26 | 26.667 |
+
+这个结果把 `v6.17` 慢区间基本拉回 `v6.16` 快区间，是目前最强的
+`cac1db8c3aad` 机制归因证据。不过它仍然不是 clean exact-revert A/B：测试内核是
+手工合成的 `mm/mprotect.c`-only minus-cac candidate。
+
 `v6.19.9 + Pedro v3 patch-only` 和后续 mm-unstable/Pedro follow-up 都没有改善这条
 standalone bare-metal 结果。
 
@@ -76,6 +107,31 @@ bare-metal/20260630-single-protect-followup/
 这说明：在准备好的 shared-dirty range 上，单次 `mprotect(PROT_READ)` 本身已经复现
 `v6.16 -> v6.17` slowdown。它是同一条 `mprotect()` PTE update path 的补充证据，
 不是独立的新 regression claim。
+
+后续 folio-order state-shape 检查记录在：
+
+```text
+bare-metal/20260706-folio-order-check/
+```
+
+它对同一个 64 MiB shared-dirty base-page workload 读取 pagemap/kpageflags。
+在 `6.16.0-bm-6.16`、`6.17.0-bm-6.17`、`7.1.0-bm-7.1` 上共 9 轮均显示：
+16384 个 present pages，`KernelPageSize` / `MMUPageSize` 都是 4 KiB，并且
+`KPF_COMPOUND_HEAD`、`KPF_COMPOUND_TAIL`、`KPF_THP` 都为 0。这是 state-shape
+归因证据，说明当前测试的 workload 不是 PTE-mapped compound/THP folio 场景。
+
+相关的 userfaultfd bulk write-protect bridge 记录在：
+
+```text
+bare-metal/20260709-userfaultfd-bulk-wp-bridge/
+```
+
+这不是单独的 `mm/userfaultfd.c` regression claim，而是检查另一个进入同一 PTE
+permission-change 机制的入口。`bulk_writeprotect_ioctl_1024m` 的 5 个 interleaved
+bare-metal batch 结果为 `6.16=25.720`、`6.17=33.544`、
+`6.17-minus-cac1db8c3aad=26.040 ns/page`。`minus-cac` kernel 是 hand-adapted
+mprotect-only 机制候选，不是 clean exact revert，但它也能把 userfaultfd bulk-WP
+结果拉回接近 `6.16` 的区间。
 
 另外，探索性的 `mmap_lock` 和 `mmu_notifier` 路线也观察到 timing signal，但
 split/no-KVM/KVM attribution 显示主差异仍回到 `mprotect()` permission-change /
@@ -145,8 +201,18 @@ cost，而不是 workload-state mismatch comparison。
   `mm/mprotect.c::change_pte_range()` 的 v6.17 PTE-batching hot-path shape。
   该 probe 不是 exact commit revert；细节见
   `bare-metal/20260624-6.17-singlepte-probe/source-attribution-note.zh-CN.md`。
+  `bare-metal/20260702-culprit-candidate-review/` 单独记录当前最强候选
+  `cac1db8c3aad ("mm: optimize mprotect() by PTE batching")`，并明确保留
+  no-full-bisect / no-exact-revert caveat。
+  `bare-metal/20260702-cac1db8c3aad-revert-attempt/` 记录第一次后续 exact-revert
+  尝试：直接 git revert 在 `v6.17` 上冲突；合成的 mprotect-only minus-cac candidate
+  能 build 出 `bzImage`，并在真机 interleaved timing 中把 `v6.17` 慢区间基本拉回
+  `v6.16` 快区间。该结果是强机制归因证据，但仍不是 clean exact-revert A/B。
   后续 `bare-metal/20260630-single-protect-followup/` 说明单次 protect 操作本身也能
-  复现同一个 release-window slowdown。
+  复现同一个 release-window slowdown。`bare-metal/20260706-folio-order-check/` 记录
+  no-compound/no-THP state-shape check；`bare-metal/20260709-userfaultfd-bulk-wp-bridge/`
+  记录相关 userfaultfd bulk-WP cross-entry check，并显示同一个 mprotect-only
+  minus-cac 机制候选也能把该入口拉回旧版本区间。
 
 formal lab 和 follow-up matrix 的 public bundle 只保留精简指标汇总。完整 runner
 目录、raw CSV/JSON、pipeline metadata 和冗长 launch logs 保留在本地

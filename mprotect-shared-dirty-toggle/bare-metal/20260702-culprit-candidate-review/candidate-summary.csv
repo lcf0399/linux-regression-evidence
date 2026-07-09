@@ -1,0 +1,2 @@
+candidate_commit,title,scope,status,why_candidate,missing_proof
+cac1db8c3aad,mm: optimize mprotect() by PTE batching,mm/mprotect.c change_pte_range present-PTE hot path,strong candidate not exact culprit,release-window v6.16->v6.17 plus v6.17 single-PTE hot-path probe restores v6.16 timing,no full git bisect or exact revert A/B yet

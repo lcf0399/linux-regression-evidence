@@ -24,7 +24,7 @@ PTE batching 形状：
 - loop 从固定 `pte++` / `addr += PAGE_SIZE` 变成
   `pte += nr_ptes` / `addr += nr_ptes * PAGE_SIZE`。
 
-对我们的 workload 来说，映射是 4 KiB shared-dirty base-page，不是大 folio。也就是说，
+对该 workload 来说，映射是 4 KiB shared-dirty base-page，不是大 folio。也就是说，
 有效 batch 在当前场景里不会带来“大批量摊销”的收益；如果新 generic batching shape
 让单页 hot path 多走 helper/branch，就可能表现为每页成本升高。
 

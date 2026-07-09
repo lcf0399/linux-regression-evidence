@@ -1,0 +1,7 @@
+item,status,detail
+direct_git_revert,conflict,"git revert --no-commit cac1db8c3aad conflicts in mm/mprotect.c on v6.17"
+followup_commits,observed,"cf1b80dc31a1 and 8b2914162aa3 touch mm/mprotect.c after cac1db8c3aad before v6.17"
+mprotect_only_minus_cac_candidate,created,"0001-v6.17-minus-cac1db8c3aad-mprotect-only-candidate.patch"
+object_build,passed,"make -C linux-kernel-trees/sources/linux-v6.17-minus-cac-build -j$(nproc) mm/mprotect.o"
+bzImage_build,passed,"make -C linux-kernel-trees/sources/linux-v6.17-minus-cac-build -j$(nproc) bzImage; kernelrelease 6.17.0-dirty"
+baremetal_timing,not_done,"required before claiming v6.17 minus-cac restores v6.16 timing"

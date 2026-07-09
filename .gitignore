@@ -2,7 +2,8 @@
 */email/
 
 # Local-only raw archives
-*/local-archive/
+local-archive/
+raw/
 
 # Common scratch/build outputs
 out/

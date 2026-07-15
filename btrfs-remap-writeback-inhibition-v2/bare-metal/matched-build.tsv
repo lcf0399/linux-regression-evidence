@@ -1,0 +1,14 @@
+field	status	control	upstream_v2
+source_version	PASS	7.1.0	7.1.0
+commit	PASS	f9a48549a15aa369d42cebc08a6a72b71a53d547	f9a48549a15aa369d42cebc08a6a72b71a53d547
+canonical_config_sha256	PASS	1eba80a1aa19024bd74dfe6bdd491925a75b1826fe32ae85cd21a0ee0cb8f34d	1eba80a1aa19024bd74dfe6bdd491925a75b1826fe32ae85cd21a0ee0cb8f34d
+compiler	PASS	gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0	gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0
+compiler_launcher	PASS	ccache version 4.12.3	ccache version 4.12.3
+preemption_contract	PASS	dynamic-preempt-boot-none	dynamic-preempt-boot-none
+required_kernel_cmdline	PASS	preempt=none	preempt=none
+kbuild_timestamp	PASS	2026-07-15 00:00:00 UTC	2026-07-15 00:00:00 UTC
+kbuild_user	PASS	kernel-study	kernel-study
+kbuild_host	PASS	linux-perf-bm	linux-perf-bm
+kbuild_version	PASS	1	1
+kernelrelease_length	PASS	25	25
+patch_identity	PASS	control=none	5ec741be5a89d6dae0c0608cc036512770b55d6a49e9b576b4aa3115ebfdffd3

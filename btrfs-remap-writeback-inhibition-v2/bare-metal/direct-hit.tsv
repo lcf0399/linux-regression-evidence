@@ -1,0 +1,5 @@
+function	available	filtered	calls	required
+btrfs_remap_file_range	1	1	2000	1
+btrfs_inhibit_eb_writeback	1	1	7473	1
+btrfs_uninhibit_all_eb_writeback	1	1	2033	1
+btrfs_inhibit_claim_slot	0	0	0	0

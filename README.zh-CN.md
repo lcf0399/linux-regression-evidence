@@ -25,9 +25,19 @@
   当前口径：这是 tmpfs small-list `flistxattr(fd)` 回归，不是 generic xattr 或
   generic tmpfs regression claim。
 
+- `btrfs-remap-writeback-inhibition-v2/`
+
+  对上游 v2 补丁的独立裸机验证；该补丁将 transaction 内的 writeback-inhibition
+  xarray 替换为 fixed inline buffer。在 matched control/patch/control 夹心实验中，
+  本目录所含 4 KiB Btrfs micro-workload 的 `FICLONERANGE` 均值下降约 `27.0%`，
+  `FIDEDUPERANGE` 均值下降约 `22.0%`。
+
+  当前口径：这是 brd-backed Btrfs 上的窄 4 KiB clone/dedupe micro-workload，
+  不是 generic remap-range 或真实应用性能 claim。
+
 ## 证据取舍
 
-- 只保留整理后的 README、standalone reproducer、紧凑 CSV/JSON summary，以及理解
+- 只保留整理后的 README、standalone reproducer、紧凑 CSV/TSV/JSON summary，以及理解
   claim 所需的小型 attribution probe。
 - 不上传私有邮件草稿、失败 scratch logs、庞大的 raw runner workspace 或 local-only
   archive。

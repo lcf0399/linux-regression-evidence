@@ -1,0 +1,7 @@
+target_id	kernel	scenario	rounds	all_mean_ns_per_op	skip_first_rounds	skip_first_mean_ns_per_op	min_ns_per_op	max_ns_per_op
+control_a	7.1.0-bm-rdev-f9a-control	ficlonerange_4k_pages	15	2943.790	14	2947.164	2865.825	3031.682
+control_a	7.1.0-bm-rdev-f9a-control	fidedupe_4k_pages	15	3535.456	14	3545.192	3397.389	3781.283
+upstream_v2	7.1.0-bm-rdev-f9a-upstrv2	ficlonerange_4k_pages	15	2159.123	14	2156.813	2137.770	2191.465
+upstream_v2	7.1.0-bm-rdev-f9a-upstrv2	fidedupe_4k_pages	15	2762.835	14	2764.666	2732.012	2790.676
+control_b	7.1.0-bm-rdev-f9a-control	ficlonerange_4k_pages	15	2970.446	14	2976.346	2877.237	3058.440
+control_b	7.1.0-bm-rdev-f9a-control	fidedupe_4k_pages	15	3546.942	14	3555.363	3418.975	3651.005

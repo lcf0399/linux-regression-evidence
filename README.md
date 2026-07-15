@@ -28,9 +28,21 @@ regressions that still look actionable after follow-up validation.
   Scope: tmpfs `flistxattr(fd)` with small xattr lists, not a generic xattr or
   tmpfs regression claim.
 
+- `btrfs-remap-writeback-inhibition-v2/`
+
+  Independent bare-metal validation of the upstream v2 patch that replaces
+  the per-transaction writeback-inhibition xarray with a fixed inline buffer.
+  In a matched control/patch/control sandwich, the patch reduced the mean cost
+  of 4 KiB Btrfs `FICLONERANGE` by about `27.0%` and `FIDEDUPERANGE` by about
+  `22.0%` for the included micro-workload.
+
+  Scope: Btrfs on a brd-backed filesystem with a narrow 4 KiB clone/dedupe
+  micro-workload, not a generic remap-range or application-level performance
+  claim.
+
 ## Evidence Policy
 
-- Keep only curated summaries, standalone reproducers, compact CSV/JSON
+- Keep only curated summaries, standalone reproducers, compact CSV/TSV/JSON
   summaries, and small attribution probes needed to understand the claim.
 - Do not upload private mail drafts, failed scratch logs, bulky raw runner
   workspaces, or local-only archives.

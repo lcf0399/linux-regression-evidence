@@ -1,0 +1,4 @@
+step	target_id	role	kernel	run_timestamp_utc	observed_rows	min_expected_match_ratio	unexpected_results	direct_hit
+0	control_a	control	7.1.0-bm-rdev-f9a-control	2026-07-15T13:30:42Z	30	100	0	not-run
+1	upstream_v2	upstream-v2	7.1.0-bm-rdev-f9a-upstrv2	2026-07-15T13:35:25Z	30	100	0	PASS
+2	control_b	control	7.1.0-bm-rdev-f9a-control	2026-07-15T13:41:25Z	30	100	0	not-run

@@ -1,0 +1,11 @@
+field	value
+source_version	7.1.0
+source_commit	f9a48549a15aa369d42cebc08a6a72b71a53d547
+upstream_v2_subject	[PATCH v2] btrfs: replace writeback inhibition xarray with a fixed inline buffer
+upstream_v2_message_id	<12d3c3f07b8610ca13b0f3f792d420541afb7b33.1782949130.git.loemra.dev@gmail.com>
+upstream_v2_declared_base	12cdfd13afd5e929f359f0f9c0443e0cbd7f43fa
+upstream_v2_patch_sha256	5ec741be5a89d6dae0c0608cc036512770b55d6a49e9b576b4aa3115ebfdffd3
+canonical_config_sha256	1eba80a1aa19024bd74dfe6bdd491925a75b1826fe32ae85cd21a0ee0cb8f34d
+control_kernelrelease	7.1.0-bm-rdev-f9a-control
+upstream_v2_kernelrelease	7.1.0-bm-rdev-f9a-upstrv2
+preemption_contract	CONFIG_PREEMPT_DYNAMIC=y; preempt=none

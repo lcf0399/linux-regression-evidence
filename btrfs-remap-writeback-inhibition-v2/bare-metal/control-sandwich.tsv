@@ -1,0 +1,5 @@
+scope	scenario	control_a_ns_per_op	control_b_ns_per_op	control_midpoint_ns_per_op	upstream_v2_ns_per_op	control_drift_pct	v2_vs_control_midpoint_pct
+all_rounds	ficlonerange_4k_pages	2943.790	2970.446	2957.118	2159.123	0.905	-26.986
+all_rounds	fidedupe_4k_pages	3535.456	3546.942	3541.199	2762.835	0.325	-21.980
+skip_first	ficlonerange_4k_pages	2947.164	2976.346	2961.755	2156.813	0.990	-27.178
+skip_first	fidedupe_4k_pages	3545.192	3555.363	3550.278	2764.666	0.287	-22.128

@@ -67,4 +67,3 @@ ns/op；负值表示 v2 更快。
 
 - `reproducer/`：standalone C workload 和带 guard 的 brd/Btrfs runner；
 - `bare-metal/`：matched 裸机实验的紧凑 timing、构建身份、语义和 direct-hit 证据；
-- `email/`：本地 reply 草稿和发送清单，已被 git 忽略，不属于公开证据包。

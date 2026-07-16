@@ -1,6 +1,8 @@
 field	value
 source_version	7.1.0
-source_commit	f9a48549a15aa369d42cebc08a6a72b71a53d547
+base_source_archive_sha256	c483e869c8a39c1c135e1d3c0769b47e3a1830b837a813ed9877707e0c322b14
+target_change_commit	f9a48549a15aa369d42cebc08a6a72b71a53d547
+target_change_subject	btrfs: inhibit extent buffer writeback to prevent COW amplification
 upstream_v2_subject	[PATCH v2] btrfs: replace writeback inhibition xarray with a fixed inline buffer
 upstream_v2_message_id	<12d3c3f07b8610ca13b0f3f792d420541afb7b33.1782949130.git.loemra.dev@gmail.com>
 upstream_v2_declared_base	12cdfd13afd5e929f359f0f9c0443e0cbd7f43fa

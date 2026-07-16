@@ -13,8 +13,14 @@ Message-ID: <12d3c3f07b8610ca13b0f3f792d420541afb7b33.1782949130.git.loemra.dev@
 https://lore.kernel.org/linux-btrfs/12d3c3f07b8610ca13b0f3f792d420541afb7b33.1782949130.git.loemra.dev%40gmail.com/
 ```
 
-保存的 v2 patch clean apply 到冻结的 Linux 7.1.0
-`f9a48549a15aa369d42cebc08a6a72b71a53d547`，SHA-256 为：
+v2 code diff clean apply 到冻结的 Linux 7.1.0 源码快照；该快照包含下列提交引入的
+Btrfs 状态：
+
+```text
+f9a48549a15aa369d42cebc08a6a72b71a53d547 btrfs: inhibit extent buffer writeback to prevent COW amplification
+```
+
+构建时使用的精确保存 diff 的 SHA-256 为：
 
 ```text
 5ec741be5a89d6dae0c0608cc036512770b55d6a49e9b576b4aa3115ebfdffd3
@@ -50,8 +56,8 @@ ns/op；负值表示 v2 更快。
 - `CONFIG_PREEMPT_DYNAMIC=y`，启动参数为 `preempt=none`；
 - 每个内核点 15 个外部轮次；
 - 每轮 10,000 次 4 KiB clone 和 10,000 次 4 KiB dedupe；
-- control 与 v2 使用相同源码 commit、normalized config、GCC 15.2.0 工具链和
-  可复现 Kbuild 身份。
+- control 与 v2 使用相同的冻结 Linux 7.1.0 基础源码快照、normalized config、GCC
+  15.2.0 工具链和可复现 Kbuild 身份。
 
 ## 口径和限制
 

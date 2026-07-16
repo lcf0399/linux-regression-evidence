@@ -8,8 +8,9 @@ control A -> upstream v2 -> control B
 
 Each point used a fresh Btrfs filesystem on `/dev/ram0`, 15 rounds, 10,000
 operations per scenario, 4 KiB ranges, CPU 2, and the `performance` governor.
-The control and v2 builds used the same Linux 7.1.0 source commit, normalized
-config, compiler, preemption contract, and reproducible Kbuild metadata.
+The control and v2 builds used the same frozen Linux 7.1.0 base source
+snapshot, normalized config, compiler, preemption contract, and reproducible
+Kbuild metadata.
 
 ## Timing
 

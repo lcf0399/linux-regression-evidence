@@ -1,6 +1,7 @@
 field	status	control	upstream_v2
 source_version	PASS	7.1.0	7.1.0
-commit	PASS	f9a48549a15aa369d42cebc08a6a72b71a53d547	f9a48549a15aa369d42cebc08a6a72b71a53d547
+base_source_archive_sha256	PASS	c483e869c8a39c1c135e1d3c0769b47e3a1830b837a813ed9877707e0c322b14	c483e869c8a39c1c135e1d3c0769b47e3a1830b837a813ed9877707e0c322b14
+target_change_commit	PASS	f9a48549a15aa369d42cebc08a6a72b71a53d547	f9a48549a15aa369d42cebc08a6a72b71a53d547
 canonical_config_sha256	PASS	1eba80a1aa19024bd74dfe6bdd491925a75b1826fe32ae85cd21a0ee0cb8f34d	1eba80a1aa19024bd74dfe6bdd491925a75b1826fe32ae85cd21a0ee0cb8f34d
 compiler	PASS	gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0	gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0
 compiler_launcher	PASS	ccache version 4.12.3	ccache version 4.12.3

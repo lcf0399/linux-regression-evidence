@@ -13,8 +13,14 @@ Message-ID: <12d3c3f07b8610ca13b0f3f792d420541afb7b33.1782949130.git.loemra.dev@
 https://lore.kernel.org/linux-btrfs/12d3c3f07b8610ca13b0f3f792d420541afb7b33.1782949130.git.loemra.dev%40gmail.com/
 ```
 
-The saved v2 patch was applied cleanly to a frozen Linux 7.1.0 tree at
-`f9a48549a15aa369d42cebc08a6a72b71a53d547`.  Its SHA-256 is:
+The v2 code diff was applied cleanly to a frozen Linux 7.1.0 source snapshot
+containing the Btrfs state introduced by:
+
+```text
+f9a48549a15aa369d42cebc08a6a72b71a53d547 btrfs: inhibit extent buffer writeback to prevent COW amplification
+```
+
+The exact saved diff used for the build has SHA-256:
 
 ```text
 5ec741be5a89d6dae0c0608cc036512770b55d6a49e9b576b4aa3115ebfdffd3
@@ -52,8 +58,8 @@ run also observed all required functions:
 - `CONFIG_PREEMPT_DYNAMIC=y` with boot argument `preempt=none`;
 - 15 external rounds per kernel point;
 - 10,000 4 KiB clone operations and 10,000 4 KiB dedupe operations per round;
-- identical Linux source commit, normalized config, GCC 15.2.0 toolchain, and
-  reproducible Kbuild identity for control and v2.
+- the same frozen Linux 7.1.0 base source snapshot, normalized config, GCC
+  15.2.0 toolchain, and reproducible Kbuild identity for control and v2.
 
 ## Scope and Caveats
 
@@ -72,5 +78,3 @@ does not publish a competing local implementation.
 - `reproducer/`: standalone C workload and a guarded brd/Btrfs runner;
 - `bare-metal/`: compact timing, build-identity, semantic, and direct-hit
   evidence from the matched bare-metal run;
-- `email/`: local reply drafts and send checklist, intentionally ignored by
-  git and not part of the public evidence bundle.

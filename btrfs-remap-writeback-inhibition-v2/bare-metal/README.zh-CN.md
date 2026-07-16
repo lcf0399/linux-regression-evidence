@@ -7,8 +7,8 @@ control A -> upstream v2 -> control B
 ```
 
 每个点都在 `/dev/ram0` 上重建 Btrfs，运行 15 轮；每场景 10,000 次 4 KiB 操作，
-固定 CPU 2 和 `performance` governor。control 与 v2 使用相同 Linux 7.1.0 源码
-commit、normalized config、编译器、抢占合同和可复现 Kbuild metadata。
+固定 CPU 2 和 `performance` governor。control 与 v2 使用同一份冻结的 Linux 7.1.0
+基础源码快照、normalized config、编译器、抢占合同和可复现 Kbuild metadata。
 
 ## Timing
 

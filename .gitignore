@@ -1,6 +1,9 @@
 # Private/mail drafting history
 */email/
 
+# Private discovery/model/Codex provenance; not part of the public evidence.
+*/private-provenance/
+
 # Local-only raw archives
 local-archive/
 raw/

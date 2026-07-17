@@ -43,6 +43,20 @@ lists and is amortized as the list grows:
 | 16 | +20.3% |
 | 64 | +6.4% |
 
+## Upstream Fix Follow-up
+
+An exact bare-metal parent/child validation shows that
+`1e7cd8a53b72 ("simpe_xattr: use per-sb cache")` fully removes the measured
+slowdown in this workload.  The child was `35.93%` faster than the midpoint of
+its direct-parent controls and `4.21%` faster than the Linux 7.0.14 control
+midpoint.  The updated Linux 7.1.3 stable point, which does not contain the
+commit, remained `54.47%` slower than the Linux 7.0.14 midpoint.
+
+The released-kernel point in the original report was Linux 7.1.0
+(`7.1.0-bm-7.1`).  The Linux 7.1.3 point is an updated stable-line check, not
+the original report point or the patched kernel.  See `fix-validation/` for
+the compact six-boot validation evidence.
+
 ## Scope
 
 This is a small-list tmpfs `flistxattr(fd)` report.  It is not a claim that all
@@ -60,7 +74,7 @@ patches or reverts.
   experiments.
 - `bare-metal/`: citable bare-metal release-window, exact A/B,
   production-like A/B, and count-gradient summaries.
+- `fix-validation/`: exact parent/child validation of the upstream per-sb
+  cache fix, including the updated Linux 7.1 stable check.
 - `attribution/`: compact attribution summaries, including bpftrace layering
   and diagnostic source-probe outcomes.
-- `email/`: local upstream email drafts and checklist.  This directory is
-  intentionally ignored by git in this repository.

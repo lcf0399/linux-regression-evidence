@@ -1,7 +1,7 @@
 # Linux Regression Evidence
 
 This repository is a curated public evidence bundle for Linux performance
-regressions that still look actionable after follow-up validation.
+regressions and upstream follow-up or patch validation.
 
 ## Current Evidence
 
@@ -24,6 +24,11 @@ regressions that still look actionable after follow-up validation.
   `52b364fed6e1 shmem: adapt to rhashtable-based simple_xattrs with lazy
   allocation` shows that the tmpfs switch from the old rbtree path to lazy
   rhashtable-based `simple_xattrs` increases the small-list fixed cost.
+
+  Follow-up exact parent/child testing shows that
+  `1e7cd8a53b72 ("simpe_xattr: use per-sb cache")` removes the measured
+  slowdown: the child was about `35.9%` faster than its direct parent and
+  about `4.2%` faster than the Linux 7.0.14 control midpoint.
 
   Scope: tmpfs `flistxattr(fd)` with small xattr lists, not a generic xattr or
   tmpfs regression claim.

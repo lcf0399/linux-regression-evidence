@@ -1,0 +1,15 @@
+metric_set,comparison,reference_ns_per_op,candidate_ns_per_op,delta_or_recovery_pct
+mean,v71_vs_v70_midpoint,217.604567,336.140000,54.472861
+mean,parent_vs_v70_midpoint,217.604567,325.338833,49.509194
+mean,child_vs_parent_midpoint,325.338833,208.446667,-35.929362
+mean,child_vs_v70_midpoint,217.604567,208.446667,-4.208505
+mean,v70_control_drift_b_vs_a,218.201800,217.007333,-0.547414
+mean,parent_control_drift_b_vs_a,327.037200,323.640467,-1.038638
+mean,regression_recovery_pct,217.604567,325.338833,108.500452
+drop_first_mean,v71_vs_v70_midpoint,217.558107,335.378500,54.155827
+drop_first_mean,parent_vs_v70_midpoint,217.558107,325.127714,49.444081
+drop_first_mean,child_vs_parent_midpoint,325.127714,208.488500,-35.874891
+drop_first_mean,child_vs_v70_midpoint,217.558107,208.488500,-4.168821
+drop_first_mean,v70_control_drift_b_vs_a,218.099429,217.016786,-0.496399
+drop_first_mean,parent_control_drift_b_vs_a,326.736071,323.519357,-0.984499
+drop_first_mean,regression_recovery_pct,217.558107,325.127714,108.431384

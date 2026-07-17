@@ -1,6 +1,6 @@
 # Linux 回归证据仓库
 
-这个仓库只保存经过后续复核后，仍然看起来值得上游讨论的 Linux 性能回归证据。
+这个仓库保存经过整理的 Linux 性能回归证据，以及对应的上游 follow-up 或 patch 验证。
 
 ## 当前证据
 
@@ -21,6 +21,10 @@
   xattr。围绕 `52b364fed6e1 shmem: adapt to rhashtable-based simple_xattrs
   with lazy allocation` 的 bare-metal parent/child A/B 显示，tmpfs 从旧 rbtree
   path 切到 lazy rhashtable-based `simple_xattrs` 后，小列表固定成本明显增加。
+
+  后续精确 parent/child 验证表明，`1e7cd8a53b72 ("simpe_xattr: use per-sb
+  cache")` 已消除测得的 slowdown：child 相对直接 parent 快约 `35.9%`，相对
+  Linux 7.0.14 控制中值快约 `4.2%`。
 
   当前口径：这是 tmpfs small-list `flistxattr(fd)` 回归，不是 generic xattr 或
   generic tmpfs regression claim。

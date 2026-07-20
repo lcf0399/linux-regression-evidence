@@ -1,0 +1,3 @@
+metric	lockonly_recovery_pct	nolist_recovery_pct	nolist_minus_lockonly_pct_points	preregistered_gap_pct_points	decision
+p8_absolute	14.269782	21.429710	7.159927	5.000000	MIXED_LOCK_AND_LIST_COST
+p8_paired	12.700908	20.463116	7.762208	5.000000	MIXED_LOCK_AND_LIST_COST

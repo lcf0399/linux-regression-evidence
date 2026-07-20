@@ -29,6 +29,24 @@
   当前口径：这是 tmpfs small-list `flistxattr(fd)` 回归，不是 generic xattr 或
   generic tmpfs regression claim。
 
+- `fsnotify-concurrent-inotify-watch-setup/`
+
+  精确三启动 parent/child/parent A/B 将 P8 distinct-inode inotify watch 增删
+  slowdown 归因到 `94bd01253c3d fsnotify: Track inode connectors for a
+  superblock`；child 在 absolute 与 matched paired 指标上慢约 `15.1%` 至
+  `21.6%`。第二组精确 scaling 夹心把首个已测稳定材料性点放在 P6（`9.0%` 至
+  `10.9%`），同窗口 P8 信号增强到 `16.8%` 至 `19.6%`，而 P1/P4 仍低于 signal gate。
+  同 commit probe 将成本收窄为 per-superblock list mutation 或其额外持锁时间，以及
+  lock handoff。独立的 stock `inotifywait` trace 又表明，8 个递归 watcher 监控真实 Linux
+  源码树时会形成相同的多进程、distinct-inode connector 拓扑。
+
+  2026-07-20 的源码与 prior-art 审计覆盖 `v7.1.4`、`v7.2-rc4`、Linus tip、
+  linux-next 和 linux-fs 维护者分支；目标锁/链表操作仍在，未找到等效修复或既有回归报告。
+  该审计不表示已在最新 tip 上重新测得完全相同的 A/B 百分比。
+
+  当前口径：性能 claim 只限精确 commit 前后的并发 distinct-inode watch 增删；真实
+  软件 trace 只是拓扑 gate，不是应用 timing，也不建议回退 sparse-unmount 优化。
+
 - `btrfs-remap-writeback-inhibition-v2/`
 
   对上游 v2 补丁的独立裸机验证；该补丁将 transaction 内的 writeback-inhibition

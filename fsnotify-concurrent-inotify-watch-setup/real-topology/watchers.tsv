@@ -1,0 +1,9 @@
+slot	target	pid	fd	watch_count	source_dir_count	sdev	sdev_count	ready	event_seen
+w01	arch	3814	3	937	937	10300002	1	1	1
+w02	drivers	3816	3	2448	2448	10300002	1	1	1
+w03	fs	3818	3	99	99	10300002	1	1	1
+w04	include	3820	3	350	350	10300002	1	1	1
+w05	kernel	3822	3	45	45	10300002	1	1	1
+w06	net	3824	3	88	88	10300002	1	1	1
+w07	security	3826	3	24	24	10300002	1	1	1
+w08	sound	3828	3	186	186	10300002	1	1	1

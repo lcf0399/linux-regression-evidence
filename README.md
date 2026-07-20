@@ -33,6 +33,30 @@ regressions and upstream follow-up or patch validation.
   Scope: tmpfs `flistxattr(fd)` with small xattr lists, not a generic xattr or
   tmpfs regression claim.
 
+- `fsnotify-concurrent-inotify-watch-setup/`
+
+  An exact three-boot parent/child/parent A/B attributes a repeatable P8
+  distinct-inode inotify watch add/remove slowdown to
+  `94bd01253c3d fsnotify: Track inode connectors for a superblock`. The child
+  was about `15.1%` to `21.6%` slower across the absolute and matched paired
+  metrics. A second exact scaling sandwich found the first tested stable material
+  point at P6 (`9.0%` to `10.9%`) and a stronger same-window P8 signal
+  (`16.8%` to `19.6%`); P1/P4 remained below the signal gate. Same-commit
+  probes narrow the cost to per-superblock list mutation or its added lock
+  hold time, plus lock handoff. A separate stock-`inotifywait` trace shows that
+  eight recursive watchers on a real Linux source tree create the same
+  multi-process, distinct-inode connector topology.
+
+  A 2026-07-20 source and prior-art audit checked `v7.1.4`, `v7.2-rc4`,
+  Linus' tip, linux-next, and the linux-fs maintainer branches. The introduced
+  lock/list operations remain present, and no equivalent fix or existing
+  regression report was found. This is not a claim that the exact A/B
+  percentage was remeasured on the latest tip.
+
+  Scope: concurrent distinct-inode watch setup/teardown around the exact
+  commit. The real-software trace is a topology gate, not application timing,
+  and the evidence does not suggest reverting the sparse-unmount optimization.
+
 - `btrfs-remap-writeback-inhibition-v2/`
 
   Independent bare-metal validation of the upstream v2 patch that replaces

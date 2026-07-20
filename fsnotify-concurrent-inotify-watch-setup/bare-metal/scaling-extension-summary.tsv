@@ -1,0 +1,12 @@
+kind	point	workers	cpu_scope	metric	parent_a	child	parent_b	child_vs_parent_a_pct	child_vs_parent_b_pct	parent_drift_pct	cv_parent_a_pct	cv_child_pct	cv_parent_b_pct	classification
+absolute	p6_distinct	6	6_distinct_pcores	worker_ns_per_watch	3501.458000	3817.636000	3484.479000	9.029896	9.561171	0.486091	7.604111	3.413689	4.146735	EXACT_CHILD_SLOWER
+absolute	p6_shared	6	6_distinct_pcores	worker_ns_per_watch	12654.292000	12448.865000	12520.531000	-1.623378	-0.572388	1.062657	3.896225	4.072359	3.801197	NO_MATERIAL_SIGNAL
+paired	p6	6	6_distinct_pcores	distinct_over_shared	0.277574524	0.307422650	0.277328194	10.753194	10.851567	0.088783	8.361888	5.337542	5.336945	EXACT_RELATIVE_SLOWDOWN
+absolute	p8_distinct	8	8_distinct_pcores	worker_ns_per_watch	4155.208000	4968.791000	4171.635000	19.579838	19.108958	0.394555	4.625790	4.131598	6.743523	EXACT_CHILD_SLOWER
+absolute	p8_shared	8	8_distinct_pcores	worker_ns_per_watch	17828.136000	17932.959000	17598.094000	0.587964	1.902848	1.298710	8.549132	3.260058	3.642416	NO_MATERIAL_SIGNAL
+paired	p8	8	8_distinct_pcores	distinct_over_shared	0.237426273	0.279258959	0.239101405	17.619232	16.795198	0.703058	12.784132	5.547697	7.094481	EXACT_RELATIVE_SLOWDOWN
+absolute	w16_smt_distinct	16	8_pcores_16_smt_threads	worker_ns_per_watch	7460.719000	8774.021000	7361.396000	17.602888	19.189635	1.340200	7.736388	10.268668	6.631573	AUXILIARY_CHILD_SLOWER
+absolute	w16_smt_shared	16	8_pcores_16_smt_threads	worker_ns_per_watch	34169.771000	32861.250000	34022.437000	-3.829470	-3.413004	0.432114	5.625240	8.997049	8.602999	NO_MATERIAL_SIGNAL
+paired	w16_smt	16	8_pcores_16_smt_threads	distinct_over_shared	0.221750648	0.264366322	0.221213550	19.217835	19.507291	0.242502	10.408813	15.006954	10.638504	AUXILIARY_CV_GATE_FAIL
+control	mask_update	1	one_pcore	update_ns_per_call	391.887000	391.279000	393.634000	-0.155147	-0.598271	0.444800	0.870467	0.469132	0.442465	NO_MATERIAL_SIGNAL
+control	path_lookup	1	one_pcore	lookup_ns_per_call	595.696000	594.208000	594.386000	-0.249792	-0.029947	0.220153	2.273899	3.098139	3.548173	NO_MATERIAL_SIGNAL

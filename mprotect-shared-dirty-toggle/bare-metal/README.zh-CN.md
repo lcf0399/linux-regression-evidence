@@ -2,9 +2,8 @@
 
 更新时间：2026-06-30 UTC
 
-这个目录保存新 i7-14700 bare-metal 节点上的 `mprotect()` standalone 复跑结果。它用于
-检查早期 QEMU/lab shared-dirty PTE toggle 信号是否能在真机上保留方向，以及 Pedro v3
-patch-only kernel 是否改善该 standalone workload。
+这个目录保存 i7-14700 bare-metal 节点上的 `mprotect()` standalone 结果，包括
+release-window narrowing 和源码归因 probe。
 
 ## 平台
 
@@ -34,7 +33,7 @@ rounds: 9 external rounds
 
 解读：
 
-- 当前真机预跑中，`6.19.9` 比 `6.12.77` 慢，方向和早期 QEMU/lab 候选信号一致。
+- 当前真机结果中，`6.19.9` 比 `6.12.77` 慢。
 - `6.19.9 + Pedro v3 patch-only` 没有把该 standalone workload 拉回 `6.12.77` 水平，
   也没有比 `6.19.9` 原版改善。
 - `mm-unstable-pedro-444fc9435e57` 不是严格 patch-only 对照；它只作为后续基线 context。

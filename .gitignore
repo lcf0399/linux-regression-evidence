@@ -8,6 +8,15 @@
 local-archive/
 raw/
 
+# Historical mprotect screening outside bare metal. Keep these files locally,
+# but exclude them from the public evidence repository.
+/mprotect-shared-dirty-toggle/9-archive/
+/mprotect-shared-dirty-toggle/experiments/
+/mprotect-shared-dirty-toggle/formal-lab-summary/
+/mprotect-shared-dirty-toggle/mm-unstable-followup-summary/
+/mprotect-shared-dirty-toggle/reproducer-validation/
+/mprotect-shared-dirty-toggle/state-audit-summary/
+
 # Common scratch/build outputs
 out/
 *.o

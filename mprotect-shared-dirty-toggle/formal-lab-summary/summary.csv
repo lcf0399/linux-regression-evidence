@@ -1,7 +1,0 @@
-run,cpu,version,metric,value,median_value,stdev_value,cv,run_count,ok_runs,failed_runs,reliability,note
-perf_1cpu,1,v6.12.77,cycle_ns_per_page,346.777778,351.000000,19.904634,0.057399,9,9,0,clean reliable,
-perf_1cpu,1,v6.19.9,cycle_ns_per_page,578.111111,585.000000,16.518508,0.028573,9,9,0,clean reliable,
-perf_2cpu,2,v6.12.77,cycle_ns_per_page,394.666667,374.000000,72.481032,0.183651,9,9,0,robust-only,
-perf_2cpu,2,v6.19.9,cycle_ns_per_page,641.666667,626.000000,66.824397,0.104142,9,9,0,robust-only,
-perf_4cpu,4,v6.12.77,cycle_ns_per_page,381.125000,376.000000,36.872125,0.096745,9,8,1,partial same direction,qemu_failure in one v6.12.77 run
-perf_4cpu,4,v6.19.9,cycle_ns_per_page,624.777778,631.000000,42.748619,0.068422,9,9,0,partial same direction,

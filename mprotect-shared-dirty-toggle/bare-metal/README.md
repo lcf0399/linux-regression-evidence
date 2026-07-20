@@ -2,10 +2,9 @@
 
 Updated: 2026-06-30 UTC
 
-This directory contains the i7-14700 bare-metal reruns for the standalone
-`mprotect()` shared-dirty toggle reproducer.  It checks whether the earlier
-QEMU/lab signal also appears on physical hardware, and whether the Pedro v3
-patch-only kernel improves this standalone workload.
+This directory contains the i7-14700 bare-metal runs for the standalone
+`mprotect()` shared-dirty toggle reproducer, including release-window narrowing
+and source-attribution probes.
 
 ## Platform
 
@@ -39,8 +38,7 @@ Result directory:
 
 Interpretation:
 
-- On this bare-metal node, `6.19.9` is slower than `6.12.77`, matching the
-  direction of the earlier QEMU/lab candidate signal.
+- On this bare-metal node, `6.19.9` is slower than `6.12.77`.
 - `6.19.9 + Pedro v3 patch-only` does not bring this standalone workload back
   to the `6.12.77` range, and does not improve over the `6.19.9` original.
 - `mm-unstable-pedro-444fc9435e57` is not a strict patch-only comparison; it is

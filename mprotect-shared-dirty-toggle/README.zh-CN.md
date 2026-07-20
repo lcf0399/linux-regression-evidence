@@ -133,87 +133,15 @@ bare-metal batch 结果为 `6.16=25.720`、`6.17=33.544`、
 mprotect-only 机制候选，不是 clean exact revert，但它也能把 userfaultfd bulk-WP
 结果拉回接近 `6.16` 的区间。
 
-另外，探索性的 `mmap_lock` 和 `mmu_notifier` 路线也观察到 timing signal，但
-split/no-KVM/KVM attribution 显示主差异仍回到 `mprotect()` permission-change /
-restore 路径。它们只保留为 supporting attribution，不作为独立上游 claim。
+## 早期非真机背景
 
-## 早期 Lab/QEMU 背景
-
-早期 formal lab timing 显示 `v6.19.9` 慢于 `v6.12.77`。这部分现在保留为历史候选证据
-和背景，不再作为当前面向上游的主结论。
-
-`cycle_ns_per_page`：
-
-| CPU | v6.12.77 | v6.19.9 | delta | reliability |
-| --- | ---: | ---: | ---: | --- |
-| 1 | 346.8 | 578.1 | -40.0% | clean reliable |
-| 2 | 394.7 | 641.7 | -38.5% | robust-only |
-| 4 | 381.1 | 624.8 | -39.0% | partial same direction |
-
-单独做过的 release-level sanity check 显示 `v6.18.19` 已经进入慢区间，但这些 raw run
-没有放入当前精简公开证据包。
-
-## 早期 mm-unstable Lab Follow-up
-
-David Hildenbrand 指向了 Pedro Falcato 最近的 small-folio mprotect optimization。
-针对 `akpm/mm mm-unstable 444fc9435e57` 的 lab sanity matrix 显示，这个 workload
-里出现了部分缓解，但没有回到 `v6.12.77` 的 timing：
-
-这一节是早期 QEMU/lab follow-up context，不应和上面的后续真机 standalone 结果混在一起。
-
-| CPU | v6.12.77 | v6.19.9 | mm-unstable | mm-unstable vs v6.19 | gap closed |
-|---:|---:|---:|---:|---:|---:|
-| 1 | 336.1 | 532.0 | 497.0 | 6.6% faster | 17.9% |
-| 2 | 369.2 | 581.9 | 503.3 | 13.5% faster | 36.9% |
-| 4 | 355.7 | 587.2 | 524.2 | 10.7% faster | 27.2% |
-| 8 | 369.7 | 583.6 | 534.2 | 8.5% faster | 23.1% |
-| 16 | 374.8 | 607.1 | 547.8 | 9.8% faster | 25.5% |
-
-该 sanity matrix 中 16 CPU 行有一次 `v6.12.77` QEMU failure，因此它只是辅助趋势证据。
-
-单独的 state-shape audit 检查了这个 mprotect 对比是否存在类似 `MADV_PAGEOUT` 的 caveat，
-即不同内核是否在 materially different page/VMA state 上运行。state audit 发现成功的
-`v6.12.77`、`v6.19.9` 和 `mm-unstable` run 都使用同一种 4 KiB shared-dirty PTE
-mapping 形态：protect 前后都是 16384 个 present pages、无 THP backing、最终一个 VMA、
-没有 semantic mismatch。这支持把剩余 timing gap 视为 same-state implementation-path
-cost，而不是 workload-state mismatch comparison。
+早期 QEMU/lab 结果只用于筛选这个 workload，并指导后续真机实验。其详细结果、profile、
+state audit 和实验框架文件继续保留在本地，但不属于当前公开证据包。上面的公开结论只依赖
+`bare-metal/` 中的真机证据。
 
 ## 目录
 
-- `workload/`：框架使用的 generated workload source。
+- `bare-metal/`：真机结果和源码归因证据。
 - `reproducer/`：给维护者快速检查用的 standalone C reproducer 和辅助脚本，不依赖
   experiment framework。
-- `reproducer-validation/`：standalone reproducer 的 lab 验证总结。
-- `experiments/`：formal experiment profile。
-- `formal-lab-summary/`：最早 formal lab timing 和 direct-hit coverage 证据的公开
-  精简摘要。原始 runner output 已移到本地忽略的 `local-archive/`。
-- `mm-unstable-followup-summary/`：small-folio optimization 讨论使用的轻量 follow-up
-  summary。原始 lab/local raw 已移到本地忽略的 `local-archive/`。
-- `state-audit-summary/`：支持 same-state comparison assumption 的 lab
-  state-shape audit 公开精简摘要。原始 lab output 已移到本地忽略的
-  `local-archive/`。
-- `bare-metal/`：新 i7-14700 节点上的真机复跑结果。当前 standalone A/B 中，
-  `6.19.9` 相对 `6.12.77` 仍较慢；`6.19.9 + Pedro v3 patch-only` 未改善该
-  standalone 结果。后续的 base-page attribution probe 能追回一部分 `6.19.9`
-  原版成本，但没有完全回到 `6.12.77` 水平。后续 release-window narrowing 显示
-  slowdown 出现在 `v6.16 -> v6.17` 窗口；`v6.17` single-PTE attribution probe
-  能把该 standalone metric 拉回 `v6.16` 快区间，支持把主要成本聚焦到
-  `mm/mprotect.c::change_pte_range()` 的 v6.17 PTE-batching hot-path shape。
-  该 probe 不是 exact commit revert；细节见
-  `bare-metal/20260624-6.17-singlepte-probe/source-attribution-note.zh-CN.md`。
-  `bare-metal/20260702-culprit-candidate-review/` 单独记录当前最强候选
-  `cac1db8c3aad ("mm: optimize mprotect() by PTE batching")`，并明确保留
-  no-full-bisect / no-exact-revert caveat。
-  `bare-metal/20260702-cac1db8c3aad-revert-attempt/` 记录第一次后续 exact-revert
-  尝试：直接 git revert 在 `v6.17` 上冲突；合成的 mprotect-only minus-cac candidate
-  能 build 出 `bzImage`，并在真机 interleaved timing 中把 `v6.17` 慢区间基本拉回
-  `v6.16` 快区间。该结果是强机制归因证据，但仍不是 clean exact-revert A/B。
-  后续 `bare-metal/20260630-single-protect-followup/` 说明单次 protect 操作本身也能
-  复现同一个 release-window slowdown。`bare-metal/20260706-folio-order-check/` 记录
-  no-compound/no-THP state-shape check；`bare-metal/20260709-userfaultfd-bulk-wp-bridge/`
-  记录相关 userfaultfd bulk-WP cross-entry check，并显示同一个 mprotect-only
-  minus-cac 机制候选也能把该入口拉回旧版本区间。
-
-formal lab 和 follow-up matrix 的 public bundle 只保留精简指标汇总。完整 runner
-目录、raw CSV/JSON、pipeline metadata 和冗长 launch logs 保留在本地
-`local-archive/`，默认不上传，除非后续 debug 需要。
+- `workload/`：为语义审计保留的用户态 workload source。

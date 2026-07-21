@@ -8,11 +8,11 @@ regressions and upstream follow-up or patch validation.
 - `mprotect-shared-dirty-toggle/`
 
   A narrow Linux MM `mprotect()` workload on a shared-dirty 4 KiB base-page
-  mapping.  Bare-metal runs narrow the slowdown to the `v6.16 -> v6.17`
-  release window.  A focused v6.17 single-PTE source probe brings the result
-  back to the v6.16 range for this workload, and a later single-protect
-  follow-up shows that one `mprotect(PROT_READ)` on a prepared shared-dirty
-  range already reproduces the slowdown.
+  mapping. Bare-metal runs first narrowed the slowdown to the
+  `v6.16 -> v6.17` release window. A later exact direct-parent/child sandwich
+  identifies `cac1db8c3aad ("mm: optimize mprotect() by PTE batching")` as the
+  source of the measured signal: the child was `39.77%` slower than the parent
+  midpoint, with only `0.87%` parent drift.
 
   Scope: source-calibrated shared-dirty PTE workload, not a generic
   `mprotect()` regression claim.

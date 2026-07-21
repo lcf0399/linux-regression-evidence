@@ -1,0 +1,24 @@
+timestamp_utc=2026-07-21T09:52:15Z
+expected_release=6.16.0-rc5-mprotect-cac-c-cac1db8c3aad
+running_release=6.16.0-rc5-mprotect-cac-c-cac1db8c3aad
+manifest_id_key=role
+manifest_id_value=child
+manifest_commit=cac1db8c3aad97d6ffb56ced8868d6cbbbd2bfbe
+preemption_contract=dynamic-preempt-boot-none
+required_kernel_cmdline=preempt=none
+kernel_cmdline=root=UUID=52424323-db73-425d-92e4-6c7426f3026d ro rootfstype=ext4 preempt=none crashkernel=2G-4G:320M,4G-32G:512M,32G-64G:1024M,64G-128G:2048M,128G-:4096M initrd=\EFI\kernel-study\initrd.img
+boot_id=56a24dd9-509b-49a4-9579-6c590fe99be9
+uptime_seconds=95.65
+root_source=/dev/nvme0n1p2
+root_fstype=ext4
+root_options=rw,relatime
+network_interface=enp5s0
+network_ipv4=192.168.3.10/24
+failed_units=0
+efi_boot_current=0000
+efi_boot_next=none
+config_sha256=1d5a0b4a7c7f59f9dca71f872f4ef1c1dd72fc8459845422fed71bad8e336965
+vmlinuz_sha256=4139f2481c9781ef3a22461d046887c7acb5d69ac7a7f51a17deb38d9be2e81e
+initrd_sha256=ec39ad14f99bdf8fa025cad6e9bbdca1d8de1571518418f04fea786b73c78a7c
+boot_smoke=pass
+run_dir=/home/lcf/kernel-study/linux-baremetal/mprotect-cac1-exact-20260721/boot-smoke/20260721T095215Z_6.16.0-rc5-mprotect-cac-c-cac1db8c3aad

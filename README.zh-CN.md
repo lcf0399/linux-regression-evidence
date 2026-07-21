@@ -7,10 +7,10 @@
 - `mprotect-shared-dirty-toggle/`
 
   一条很窄的 Linux MM `mprotect()` workload：在 shared-dirty 4 KiB base-page
-  mapping 上做权限修改。bare-metal 结果把 slowdown 缩小到 `v6.16 -> v6.17`
-  release window；一个聚焦的 v6.17 single-PTE source probe 能把该 workload 拉回
-  v6.16 的快区间；后续 single-protect follow-up 还说明，在准备好的 shared-dirty
-  range 上，单次 `mprotect(PROT_READ)` 本身也能复现 slowdown。
+  mapping 上做权限修改。bare-metal 结果先把 slowdown 缩小到 `v6.16 -> v6.17`
+  release window；后续精确 direct-parent/child 夹心把测得信号归因到
+  `cac1db8c3aad ("mm: optimize mprotect() by PTE batching")`：child 相对 parent
+  中点慢 `39.77%`，而 parent 漂移只有 `0.87%`。
 
   当前口径：这是 source-calibrated shared-dirty PTE workload，不是 generic
   `mprotect()` regression claim。

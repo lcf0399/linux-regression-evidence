@@ -1,12 +1,43 @@
 # mprotect shared-dirty toggle bare-metal results
 
-Updated: 2026-06-30 UTC
+Updated: 2026-07-21 UTC
 
-This directory contains the i7-14700 bare-metal runs for the standalone
-`mprotect()` shared-dirty toggle reproducer, including release-window narrowing
-and source-attribution probes.
+This directory contains physical-machine runs for the standalone `mprotect()`
+shared-dirty toggle reproducer, including release-window narrowing,
+source-attribution probes, and an exact direct-parent/child test.
 
-## Platform
+## 2026-07-21 exact A/B for `cac1db8c3aad`
+
+Result directory:
+
+```text
+20260721-cac1db8c3aad-exact-ab/
+```
+
+On an i7-12700KF system, three fresh boots ran the exact direct parent, child,
+and parent again:
+
+```text
+45199f715b74 parent A -> cac1db8c3aad child -> 45199f715b74 parent B
+```
+
+| Point | n | mean `iteration_ns_per_page` | SD | CV |
+| --- | ---: | ---: | ---: | ---: |
+| parent A | 15 | 38.133 | 0.743 | 1.95% |
+| child | 15 | 53.533 | 0.516 | 0.96% |
+| parent B | 15 | 38.467 | 0.640 | 1.66% |
+
+The child is `39.77%` slower than the parent midpoint; parent drift is
+`0.87%`. The drop-first-round sensitivity result is `+39.53%`. All 45 rows
+passed semantic and 4 KiB/no-THP state checks. The exact commit changes only
+`mm/mprotect.c`, and the two kernels used the same normalized config,
+toolchain, Kbuild metadata, runtime `preempt=none`, and CPU profile.
+
+This confirms `cac1db8c3aad` as the source of this narrow workload's measured
+slowdown. It does not turn the result into a generic `mprotect()` or
+application-level claim.
+
+## Earlier release-window platform
 
 ```text
 CPU: Intel Core i7-14700, 28 logical CPUs, 1 NUMA node
@@ -187,11 +218,9 @@ This is based on the `v6.16 -> v6.17` release-window narrowing, the
 `change_pte_range()` hot-path change, and the v6.17 single-PTE attribution
 probe returning this workload to the v6.16 timing range.
 
-It is not a full `git bisect` result and not a clean exact-revert A/B.  The
-recommended upstream wording is therefore that the slowdown appears aligned
-with the v6.17 PTE batching change, especially `cac1db8c3aad`, and that the
-targeted v6.17 single-PTE hot-path probe brings this workload back to the v6.16
-range.
+At that stage it was not a full `git bisect` result or a clean exact-revert
+A/B. The 2026-07-21 exact direct-parent/child test above has now closed that
+attribution gap for this workload.
 
 ## 2026-07-02 cac1db8c3aad revert attempt
 
@@ -228,11 +257,10 @@ kernel                                      n  iteration_mean  values
 All steps reported `expected_match_ratio=100`, `unexpected_results=0`, and
 the same 4 KiB/no THP state shape.
 
-This synthesized mprotect-only minus-cac candidate brings the workload from
-the slow `v6.17` range back near the `v6.16` fast range.  It is the strongest
-mechanism-attribution evidence so far for `cac1db8c3aad`, but it is still not
-a clean exact-revert A/B because the tested tree is a hand-synthesized
-`mm/mprotect.c`-only candidate.
+This synthesized mprotect-only minus-cac candidate brought the workload from
+the slow `v6.17` range back near the `v6.16` fast range. It remains useful
+historical mechanism evidence, but the later direct-parent/child result is now
+the authoritative commit-level attribution.
 
 ## 2026-06-30 single-protect follow-up
 

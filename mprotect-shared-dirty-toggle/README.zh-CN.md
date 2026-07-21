@@ -20,8 +20,29 @@
 
 ## 当前真机结论
 
-当前最适合给维护者看的证据，是 i7-14700 真机上的 standalone rerun。它把 slowdown
-缩小到 `v6.16 -> v6.17` release window。
+当前最强证据是在 i7-12700KF 真机上围绕
+`cac1db8c3aad ("mm: optimize mprotect() by PTE batching")` 完成的精确
+direct-parent/child 夹心：
+
+| 点位 | 提交 | n | `iteration_ns_per_page` 均值 |
+| --- | --- | ---: | ---: |
+| parent A | `45199f715b74` | 15 | 38.133 |
+| child | `cac1db8c3aad` | 15 | 53.533 |
+| parent B | `45199f715b74` | 15 | 38.467 |
+
+child 相对两个 parent 的均值中点慢 `39.77%`，而 parent 漂移只有 `0.87%`；每点
+去掉第一轮后仍慢 `39.53%`。45 个 measured process 的语义与 4 KiB/no-THP 状态
+检查全部通过。
+
+因此，这已经是该限定 workload 的 exact commit-level culprit evidence；它仍不代表
+generic `mprotect()` 或真实应用整体回归。完整源码/构建身份和原始测量在：
+
+```text
+bare-metal/20260721-cac1db8c3aad-exact-ab/
+```
+
+更早的 i7-14700 standalone rerun 把 slowdown 缩小到 `v6.16 -> v6.17`
+release window，并提供下面的版本背景。
 
 主指标：`iteration_ns_per_page`，越低越好。
 
@@ -54,9 +75,10 @@ hot-path shape。
 bare-metal/20260702-culprit-candidate-review/
 ```
 
-目前最强的候选是 `cac1db8c3aad ("mm: optimize mprotect() by PTE batching")`。
-这是一条很强的 candidate commit / series 方向，但还不是 exact culprit proof：目前
-还没有完成完整 `git bisect`，也没有做 clean exact-revert A/B。
+这份复盘当时把 `cac1db8c3aad ("mm: optimize mprotect() by PTE batching")`
+列为最强候选。上面的后续精确 direct-parent/child 实验现已确认：对这条 workload，
+测得的 slowdown 就由该提交引入；commit 归因不再需要完整 bisect，也不再依赖有冲突的
+v6.17 revert。
 
 后续 revert 尝试记录在：
 

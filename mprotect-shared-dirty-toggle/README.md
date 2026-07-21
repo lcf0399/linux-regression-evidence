@@ -20,8 +20,31 @@ It does not claim a generic `mprotect()` regression, and does not claim `anon_fu
 
 ## Current Bare-metal Result
 
-The current maintainer-facing evidence is the i7-14700 bare-metal standalone
-rerun.  It narrows the slowdown to the `v6.16 -> v6.17` release window.
+The strongest current evidence is an exact direct-parent/child sandwich around
+`cac1db8c3aad ("mm: optimize mprotect() by PTE batching")` on an i7-12700KF
+bare-metal system:
+
+| Point | Commit | n | mean `iteration_ns_per_page` |
+| --- | --- | ---: | ---: |
+| parent A | `45199f715b74` | 15 | 38.133 |
+| child | `cac1db8c3aad` | 15 | 53.533 |
+| parent B | `45199f715b74` | 15 | 38.467 |
+
+The child is `39.77%` slower than the midpoint of the two parent controls,
+while the parent drift is only `0.87%`. Dropping the first measured process
+from every point leaves a `39.53%` delta. All 45 measured processes passed the
+semantic and 4 KiB/no-THP state checks.
+
+This is exact commit-level culprit evidence for this narrow workload, not a
+generic `mprotect()` or application-level regression claim. The complete
+source/build identity and raw measurements are in:
+
+```text
+bare-metal/20260721-cac1db8c3aad-exact-ab/
+```
+
+The earlier i7-14700 standalone rerun narrowed the slowdown to the
+`v6.16 -> v6.17` release window and supplied the following release context.
 
 Main metric: `iteration_ns_per_page`, lower is better.
 
@@ -56,10 +79,11 @@ hypothesis:
 bare-metal/20260702-culprit-candidate-review/
 ```
 
-The strongest current candidate is `cac1db8c3aad ("mm: optimize mprotect() by
-PTE batching")`.  This is a strong candidate/series direction, not an exact
-culprit proof: no full `git bisect` or clean exact-revert A/B has been completed
-yet.
+That review identified `cac1db8c3aad ("mm: optimize mprotect() by PTE
+batching")` as the strongest candidate. The later exact direct-parent/child
+test above now confirms it as the source of the measured slowdown in this
+workload; a full bisect or a conflicted v6.17 revert is no longer needed for
+commit attribution.
 
 A follow-up revert attempt is recorded in:
 

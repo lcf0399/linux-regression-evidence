@@ -1,0 +1,5 @@
+NAME        PATH             SIZE FSTYPE MOUNTPOINTS MODEL               SERIAL
+nvme0n1     /dev/nvme0n1   931.5G                    KINGSTON SNV3S1000G 50026B738405A2BC
+├─nvme0n1p1 /dev/nvme0n1p1     1G vfat   /boot/efi                       
+└─nvme0n1p2 /dev/nvme0n1p2 930.5G ext4   /                               
+nvme1n1     /dev/nvme1n1   931.5G xfs                KINGSTON SNV3S1000G 50026B738405A22D

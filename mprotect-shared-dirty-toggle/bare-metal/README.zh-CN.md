@@ -1,11 +1,39 @@
 # mprotect shared-dirty toggle bare-metal 结果
 
-更新时间：2026-06-30 UTC
+更新时间：2026-07-21 UTC
 
-这个目录保存 i7-14700 bare-metal 节点上的 `mprotect()` standalone 结果，包括
-release-window narrowing 和源码归因 probe。
+这个目录保存 `mprotect()` standalone reproducer 的真机结果，包括 release-window
+narrowing、源码归因 probe 和精确 direct-parent/child 实验。
 
-## 平台
+## 2026-07-21 `cac1db8c3aad` 精确 A/B
+
+结果目录：
+
+```text
+20260721-cac1db8c3aad-exact-ab/
+```
+
+在 i7-12700KF 真机上，三个 fresh boot 依次运行精确 direct parent、child、parent：
+
+```text
+45199f715b74 parent A -> cac1db8c3aad child -> 45199f715b74 parent B
+```
+
+| 点位 | n | `iteration_ns_per_page` 均值 | SD | CV |
+| --- | ---: | ---: | ---: | ---: |
+| parent A | 15 | 38.133 | 0.743 | 1.95% |
+| child | 15 | 53.533 | 0.516 | 0.96% |
+| parent B | 15 | 38.467 | 0.640 | 1.66% |
+
+child 相对 parent 中点慢 `39.77%`，parent 漂移为 `0.87%`；drop-first-round
+敏感性结果仍为 `+39.53%`。45 行测量全部通过语义和 4 KiB/no-THP 状态检查。
+该提交只修改 `mm/mprotect.c`；两个内核使用相同归一化配置、工具链、Kbuild 元数据、
+运行时 `preempt=none` 和 CPU profile。
+
+因此，`cac1db8c3aad` 已被确认为这条限定 workload 中测得 slowdown 的来源，但这不把
+结论扩大成 generic `mprotect()` 或真实应用整体回归。
+
+## 早期 release-window 实验平台
 
 ```text
 CPU: Intel Core i7-14700, 28 logical CPUs, 1 NUMA node
@@ -180,10 +208,8 @@ cac1db8c3aad ("mm: optimize mprotect() by PTE batching")
 该提交修改 `change_pte_range()` hot path；而 v6.17 single-PTE attribution probe
 能把该 workload 拉回 v6.16 timing 区间。
 
-它不是完整 `git bisect` 结果，也不是 clean exact-revert A/B。因此更适合对上游说：
-slowdown appears aligned with the v6.17 PTE batching change, especially
-`cac1db8c3aad`；同时说明 targeted v6.17 single-PTE hot-path probe 能把该 workload
-带回 v6.16 range。
+在当时，它还不是完整 `git bisect` 或 clean exact-revert A/B。上面的 2026-07-21
+精确 direct-parent/child 实验现已补上这块归因缺口。
 
 ## 2026-07-02 cac1db8c3aad revert 尝试
 
@@ -218,9 +244,9 @@ kernel                                      n  iteration_mean  values
 所有 step 都是 `expected_match_ratio=100`、`unexpected_results=0`，并保持同一种
 4 KiB/no THP state shape。
 
-这个合成的 mprotect-only minus-cac candidate 把 workload 从 `v6.17` 慢区间基本拉回
-`v6.16` 快区间，是目前最强的 `cac1db8c3aad` 机制归因证据。不过它仍然不是 clean
-exact-revert A/B，因为测试内核是手工合成的 `mm/mprotect.c`-only candidate。
+这个合成的 mprotect-only minus-cac candidate 当时把 workload 从 `v6.17` 慢区间基本
+拉回 `v6.16` 快区间，仍可作为历史机制证据；但后续 direct-parent/child 结果现已成为
+权威的 commit-level 归因。
 
 ## 2026-06-30 single-protect follow-up
 

@@ -17,13 +17,30 @@ This is not a generic `mprotect()` or application-level regression claim.
 | Evidence | Result |
 | --- | --- |
 | Exact `cac1db8c3aad` direct-parent/child A/B | child was `39.77%` slower than the parent midpoint; parent drift was `0.87%` |
-| Nine-point mechanism decomposition | parent-style single-PTE update/flush recovered `43.06%` of the gap; skipping normal-path batch discovery had no measurable effect; additionally skipping the folio lookup recovered `44.47%`; combined recovery was `87.29%` |
+| Nine-point mechanism decomposition | in the exact child, parent-style single-PTE update/flush recovered `43.06%` of the gap; skipping normal-path batch discovery had no measurable effect; additionally skipping `vm_normal_folio()` recovered `44.47%`; combined recovery was `87.29%` |
 | Matched Pedro v3 on/off | full v3 was `6.20%` slower than the no-v3 midpoint and did not improve this workload |
-| Shared-PTE hint diagnostic | `17.36%` faster for the 4 KiB workload, but `65.80%` slower for a verified PTE-mapped 2 MiB folio; the candidate was rejected |
+| v7.1.3 shared-PTE hint diagnostic | `17.36%` faster for the 4 KiB workload, but `65.80%` slower for a verified PTE-mapped 2 MiB folio; the current-code candidate was rejected |
 
 The point tables retain every measured per-process value used in these
 calculations. The comparison tables retain the midpoint, drift, drop-first,
 and recovery calculations.
+
+## Source-point boundary
+
+The exact A/B and nine-point decomposition use the direct
+`45199f715b74 -> cac1db8c3aad` source transition. The child calls
+`vm_normal_folio()` in `change_pte_range()`. All exact-gap and recovery
+percentages belong to that transition.
+
+The Pedro v3 and shared-PTE hint comparisons use the later v7.1.3 code stage,
+where the corresponding lookup calls `vm_normal_page()` and then
+`page_folio()`. The hint diagnostic also skips batch discovery, so its
+`17.36%` result is not a standalone timing of `vm_normal_page()`. At the
+earlier exact-child source point, the nested sequence separately isolated a
+measurable `vm_normal_folio()` cost and found no measurable batch-discovery
+cost. The v7.1.3 result is current-code corroboration, not an isolated lookup
+measurement, and its positive and reverse-gate percentages are not folded
+into the exact-commit gap decomposition.
 
 ## Measurement contract
 
@@ -44,10 +61,10 @@ distinct boot IDs and zero failed systemd units.
 | Files | Role |
 | --- | --- |
 | `exact-cac1-{points,components,comparison}.tsv` | exact direct-parent/child result |
-| `mechanism-{points,components,comparison}.tsv` | nine-point attribution sequence |
+| `mechanism-{points,components,comparison}.tsv` | nine-point exact-child attribution sequence |
 | `pedro-v3-{points,components,comparison}.tsv` | matched no-v3/full-v3 result |
-| `lookup-base-page-{points,comparison}.tsv` | 4 KiB lookup positive gate |
-| `lookup-large-folio-{points,comparison,shape}.tsv` | PTE-mapped large-folio reverse gate |
+| `lookup-base-page-{points,comparison}.tsv` | v7.1.3 4 KiB page/folio-lookup positive gate |
+| `lookup-large-folio-{points,comparison,shape}.tsv` | v7.1.3 PTE-mapped large-folio reverse gate |
 | `lookup-trace.tsv` | paired function-entry counts |
 | `source-identity.tsv` | source, code-state, patch, config, compiler, and release identities |
 | `run-audit.tsv` | boot identity, sample count, semantic failures, and failed units |
@@ -68,4 +85,4 @@ The patches are attribution probes, not proposed fixes:
 | `0000-diagnostic-single-pte-parent-style-commit-fastpath.patch` | keep child lookup/discovery, restore parent-style single-PTE update/flush |
 | `0001-diagnostic-keep-folio-skip-batch-direct-single-pte.patch` | retain folio lookup while bypassing normal batch discovery |
 | `0002-diagnostic-skip-folio-and-batch-direct-single-pte.patch` | bypass both normal folio lookup and batch discovery |
-| `0001-RFC-mm-mprotect-avoid-shared-folio-lookup-without-batch-hint.patch` | v7.1.3 lookup diagnostic used for the positive and reverse gates |
+| `0001-RFC-mm-mprotect-avoid-shared-folio-lookup-without-batch-hint.patch` | v7.1.3 `vm_normal_page()` plus `page_folio()` diagnostic used for the positive and reverse gates |

@@ -25,13 +25,31 @@ generic `mprotect()` or application-level regression claim.
 | Evidence | Result | Status |
 | --- | --- | --- |
 | [exact `cac1db8c3aad` parent/child A/B](bare-metal/exact-cac1-comparison.tsv) | the child was `39.77%` slower than the parent midpoint; parent drift was `0.87%` | current commit-level culprit |
-| [nine-point mechanism decomposition](bare-metal/mechanism-comparison.tsv) | the generic single-PTE commit path and folio lookup explain `43.06%` and `44.47%` of the gap, or `87.29%` together | attribution evidence |
+| [nine-point mechanism decomposition](bare-metal/mechanism-comparison.tsv) | parent-style single-PTE update/flush handling and the child `vm_normal_folio()` lookup recover `43.06%` and `44.47%` of the gap, or `87.29%` together | exact-child attribution evidence |
 | [matched Pedro v3 on/off](bare-metal/pedro-v3-comparison.tsv) | full v3 was `6.20%` slower than the no-v3 midpoint | did not improve this workload |
-| [shared-PTE hint reverse gate](bare-metal/lookup-large-folio-comparison.tsv) | `17.36%` faster for the 4 KiB workload but `65.80%` slower for a PTE-mapped 2 MiB folio | candidate rejected |
+| [v7.1.3 shared-PTE hint safety gate](bare-metal/lookup-large-folio-comparison.tsv) | `17.36%` faster for the 4 KiB workload but `65.80%` slower for a PTE-mapped 2 MiB folio | current-code candidate rejected |
 
-The exact attribution ran on an i7-12700KF physical machine. Every point used
-a fresh boot, P-core CPU 2, matched configurations, toolchain and Kbuild
-metadata, `performance` governor/EPP, Turbo disabled, and runtime
+## Source-point boundary
+
+The results above intentionally contain two separate source stages:
+
+- The exact A/B and nine-point decomposition use `cac1db8c3aad` and its direct
+  parent. In that child, `change_pte_range()` calls `vm_normal_folio()`. The
+  `39.77%` exact A/B result and the `43.06%`, `44.47%`, and `87.29%` recovery
+  values belong to this source stage.
+- The Pedro v3 on/off test and shared-PTE hint gate use the later v7.1.3 code
+  stage. Its corresponding lookup calls `vm_normal_page()` and then
+  `page_folio()`. The `17.36%` base-page result and `65.80%` large-folio
+  reverse result measure the combined current-code bypass and reject the
+  simple bypass; they do not isolate `vm_normal_page()` and are not part of
+  the exact-commit gap decomposition.
+
+The two result sets are therefore not combined arithmetically.
+
+The current results ran on an i7-12700KF physical machine. Every point used a
+fresh boot and P-core CPU 2. Within each comparison, the builds used matched
+configurations, toolchain, and Kbuild metadata. Both the scaling governor and
+EPP were set to `performance`; Turbo was disabled and runtime
 `preempt=none`. Every measured process used for the conclusions passed the
 return-value and page-state checks.
 

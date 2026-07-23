@@ -25,13 +25,28 @@ write-touch
 | 证据 | 结果 | 结论强度 |
 | --- | --- | --- |
 | [`cac1db8c3aad` 精确 parent/child A/B](bare-metal/exact-cac1-comparison.tsv) | child 相对 parent 中点慢 `39.77%`，parent 漂移 `0.87%` | 当前 commit-level culprit |
-| [九点机制分解](bare-metal/mechanism-comparison.tsv) | generic single-PTE commit path 与 folio lookup 分别解释缺口的 `43.06%` 和 `44.47%`，合计 `87.29%` | attribution evidence |
+| [九点机制分解](bare-metal/mechanism-comparison.tsv) | parent-style single-PTE update/flush 处理与 child 的 `vm_normal_folio()` lookup 分别回收缺口的 `43.06%` 和 `44.47%`，合计 `87.29%` | exact-child attribution evidence |
 | [Pedro v3 matched on/off](bare-metal/pedro-v3-comparison.tsv) | full v3 相对 no-v3 中点慢 `6.20%` | 没有改善该 workload |
-| [shared-PTE hint 双门禁](bare-metal/lookup-large-folio-comparison.tsv) | 4 KiB workload 快 `17.36%`，PTE-mapped 2 MiB folio 慢 `65.80%` | 候选已否决 |
+| [v7.1.3 shared-PTE hint 安全门禁](bare-metal/lookup-large-folio-comparison.tsv) | 4 KiB workload 快 `17.36%`，PTE-mapped 2 MiB folio 慢 `65.80%` | 当前代码候选已否决 |
 
-精确归因运行在 i7-12700KF 真机上；每个点 fresh boot，固定 P-core CPU 2，匹配配置、
-工具链和 Kbuild 元数据，governor/EPP 为 `performance`，Turbo 关闭，运行时
-`preempt=none`。所有用于结论的 measured process 都通过返回值和页状态检查。
+## 源码测点边界
+
+上表有意包含两个彼此分开的源码阶段：
+
+- 精确 A/B 与九点分解使用 `cac1db8c3aad` 及其 direct parent。该 child 的
+  `change_pte_range()` 调用 `vm_normal_folio()`；`39.77%` 精确 A/B，以及
+  `43.06%`、`44.47%`、`87.29%` 的缺口回收值均属于该源码阶段。
+- Pedro v3 on/off 与 shared-PTE hint 门禁使用后来的 v7.1.3 代码阶段；其对应 lookup
+  先调用 `vm_normal_page()`，再调用 `page_folio()`。base-page 快 `17.36%` 和
+  large-folio 反向慢 `65.80%` 测量的是当前代码上的合并绕过，并用于否决简单绕过
+  方案；它们没有单独隔离 `vm_normal_page()`，也不参与精确 commit 缺口分解。
+
+因此，两组结果不会互相做加减或合并计算。
+
+当前结果均运行在 i7-12700KF 真机上；每个点 fresh boot 并固定 P-core CPU 2。每组
+比较内部使用匹配的配置、工具链和 Kbuild 元数据，scaling governor 和 EPP 均设为
+`performance`，Turbo 关闭，运行时 `preempt=none`。所有用于结论的 measured
+process 都通过返回值和页状态检查。
 
 ## 支持证据
 

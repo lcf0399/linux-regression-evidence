@@ -8,7 +8,7 @@
 
 | 证据 | 上游线程状态 | 当前技术状态 |
 | --- | --- | --- |
-| `mprotect-shared-dirty-toggle/` | 上游讨论仍在进行；维护者询问 Pedro v3 是否有效，并讨论了 `vm_normal_folio()` 的成本。当前公开线程尚未包含后续精确机制分解。 | matched 测试表明 Pedro v3 没有改善这条 workload；精确诊断将 `cac1db8c3aad` 缺口的大部分归因到 generic single-PTE update/flush 路径和 normal-path folio lookup，目前没有提出修复。 |
+| `mprotect-shared-dirty-toggle/` | 上游讨论仍在进行；维护者询问 Pedro v3 是否有效，并讨论了 `vm_normal_folio()` 的成本。当前公开线程尚未包含后续精确机制分解。 | matched 测试表明 Pedro v3 没有改善这条 workload。对精确 `cac1db8c3aad` child 的诊断将大部分缺口归因到 generic single-PTE update/flush 处理和 `vm_normal_folio()` lookup。独立的 v7.1.3 安全门禁测试后来的 `vm_normal_page()` 加 `page_folio()` 路径，其百分比不计入精确提交缺口分解。目前没有提出修复。 |
 | `tmpfs-flistxattr-small-list/` | Jan Kara 已回复并指出 `1e7cd8a53b72`；我们已按要求把精确裸机验证回复到原线程，之后尚无新回复。 | per-superblock cache commit 已消除这条窄 workload 中测得的 slowdown；除非出现新的 post-fix 场景，这条线在技术上已经收口。 |
 | `fsnotify-concurrent-inotify-watch-setup/` | 报告已经发送并被公开 regression tracker 跟踪，目前尚无回复。 | exact A/B 与诊断证据仍有效；目前没有上游修复，也没有维护者对该 trade-off 的明确结论。 |
 | `btrfs-remap-writeback-inhibition-v2/` | David Sterba 已确认收到测试报告，将证据链接加入 patch 记录，并把修正后的补丁加入 Btrfs `for-next`。 | 独立结果支持 v2 在所测 4 KiB clone/dedupe workload 上的改进；这是 patch 验证，不是 broad Btrfs 性能结论。 |
@@ -22,6 +22,11 @@
   release window；后续精确 direct-parent/child 夹心把测得信号归因到
   `cac1db8c3aad ("mm: optimize mprotect() by PTE batching")`：child 相对 parent
   中点慢 `39.77%`，而 parent 漂移只有 `0.87%`。
+
+  精确机制分解使用该 direct child，其中 `change_pte_range()` 调用
+  `vm_normal_folio()`。独立的 v7.1.3 诊断检查后来的 `vm_normal_page()` 再
+  `page_folio()` 路径；其中 base-page 快 `17.36%` 和 large-folio 反向慢
+  `65.80%` 只作为当前代码佐证与安全门禁，不参与精确提交百分比计算。
 
   当前口径：这是 source-calibrated shared-dirty PTE workload，不是 generic
   `mprotect()` regression claim。

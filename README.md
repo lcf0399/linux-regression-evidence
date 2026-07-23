@@ -3,6 +3,18 @@
 This repository is a curated public evidence bundle for Linux performance
 regressions and upstream follow-up or patch validation.
 
+## Upstream Status
+
+Status checked on 2026-07-23. Mail delivery, maintainer response, and the
+technical conclusion are recorded separately.
+
+| Evidence | Upstream thread | Current technical state |
+| --- | --- | --- |
+| `mprotect-shared-dirty-toggle/` | Discussion is active. Upstream asked whether Pedro v3 helped and discussed the cost of `vm_normal_folio()`. The public thread does not yet include the later exact mechanism decomposition. | Matched testing says Pedro v3 did not improve this workload. Exact diagnostics attribute most of the `cac1db8c3aad` gap to the generic single-PTE update/flush path and the normal-path folio lookup; no fix is proposed. |
+| `tmpfs-flistxattr-small-list/` | Jan Kara replied and pointed to `1e7cd8a53b72`; the requested exact bare-metal validation was sent back to the thread. No later reply is recorded. | The per-superblock cache commit removes the measured slowdown for this narrow workload, so this case is technically closed unless a different post-fix case appears. |
+| `fsnotify-concurrent-inotify-watch-setup/` | The report was sent and is publicly tracked as a regression. No reply is recorded yet. | Exact A/B and diagnostic evidence remain current; no upstream fix or accepted trade-off decision is recorded. |
+| `btrfs-remap-writeback-inhibition-v2/` | David Sterba acknowledged the testing report, linked it from the patch record, and added the corrected patch to the Btrfs `for-next` branch. | The independent result supports v2 for the included 4 KiB clone/dedupe workload; this is patch validation, not a broad Btrfs performance claim. |
+
 ## Current Evidence
 
 - `mprotect-shared-dirty-toggle/`

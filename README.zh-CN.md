@@ -2,6 +2,17 @@
 
 这个仓库保存经过整理的 Linux 性能回归证据，以及对应的上游 follow-up 或 patch 验证。
 
+## 上游状态
+
+状态核对时间为 2026-07-23。表中将邮件是否送达、维护者是否回复和技术结论分开记录。
+
+| 证据 | 上游线程状态 | 当前技术状态 |
+| --- | --- | --- |
+| `mprotect-shared-dirty-toggle/` | 上游讨论仍在进行；维护者询问 Pedro v3 是否有效，并讨论了 `vm_normal_folio()` 的成本。当前公开线程尚未包含后续精确机制分解。 | matched 测试表明 Pedro v3 没有改善这条 workload；精确诊断将 `cac1db8c3aad` 缺口的大部分归因到 generic single-PTE update/flush 路径和 normal-path folio lookup，目前没有提出修复。 |
+| `tmpfs-flistxattr-small-list/` | Jan Kara 已回复并指出 `1e7cd8a53b72`；我们已按要求把精确裸机验证回复到原线程，之后尚无新回复。 | per-superblock cache commit 已消除这条窄 workload 中测得的 slowdown；除非出现新的 post-fix 场景，这条线在技术上已经收口。 |
+| `fsnotify-concurrent-inotify-watch-setup/` | 报告已经发送并被公开 regression tracker 跟踪，目前尚无回复。 | exact A/B 与诊断证据仍有效；目前没有上游修复，也没有维护者对该 trade-off 的明确结论。 |
+| `btrfs-remap-writeback-inhibition-v2/` | David Sterba 已确认收到测试报告，将证据链接加入 patch 记录，并把修正后的补丁加入 Btrfs `for-next`。 | 独立结果支持 v2 在所测 4 KiB clone/dedupe workload 上的改进；这是 patch 验证，不是 broad Btrfs 性能结论。 |
+
 ## 当前证据
 
 - `mprotect-shared-dirty-toggle/`

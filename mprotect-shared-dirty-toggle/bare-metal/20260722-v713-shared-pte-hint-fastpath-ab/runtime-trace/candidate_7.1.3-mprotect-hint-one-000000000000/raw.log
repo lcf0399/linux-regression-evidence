@@ -1,6 +1,0 @@
-workload=mprotect_shared_dirty_reproducer source=linux/mm/mprotect.c scenarios=1 rounds=1
-reproducer=mprotect_shared_dirty scenario=shared_dirty_full_toggle_64m pattern=shared_dirty_full_toggle mapping_mb=4 page_size=4096 pages=1024 external_rounds=1 iterations_per_round=1 total_iterations=1 warmup=0 prefault_ns=1394195 protect_ns_per_page=15 restore_ns_per_page=14 post_touch_ns_per_page=11 iteration_ns_per_page=40 smaps_available=1 smaps_before_found=1 smaps_before_kernel_page_kb=4 smaps_before_mmu_page_kb=4 smaps_before_anon_huge_kb=0 smaps_before_thpeligible=0 smaps_after_found=1 smaps_after_kernel_page_kb=4 smaps_after_mmu_page_kb=4 smaps_after_anon_huge_kb=0 smaps_after_thpeligible=0 expected_match_ratio=100 unexpected_results=0 checksum=3072
-result scenario=shared_dirty_full_toggle_64m pattern=shared_dirty_full_toggle internal_rounds=1 mapping_mb=4 pages=1024 protect_ns_per_page=15 restore_ns_per_page=14 post_touch_ns_per_page=11 iteration_ns_per_page=40 expected_match_ratio=100 unexpected_results=0 smaps_available=1 smaps_before_kernel_page_kb=4 smaps_before_mmu_page_kb=4 smaps_before_anon_huge_kb=0 smaps_before_thpeligible=0 smaps_after_kernel_page_kb=4 smaps_after_mmu_page_kb=4 smaps_after_anon_huge_kb=0 smaps_after_thpeligible=0 checksum=3072
-trace_result change_pte_range=12 vm_normal_page=8948 mprotect_folio_pte_batch=16
-
-

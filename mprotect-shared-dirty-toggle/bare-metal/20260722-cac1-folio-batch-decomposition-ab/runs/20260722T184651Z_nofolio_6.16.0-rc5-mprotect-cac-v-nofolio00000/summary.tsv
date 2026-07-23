@@ -1,2 +1,0 @@
-role	point_label	kernel	n	mean_iteration_ns_per_page	sd	cv_pct	values	semantic_failures
-nofolio	nofolio	6.16.0-rc5-mprotect-cac-v-nofolio00000	15	40.600000	0.632456	1.557772	40 40 42 41 40 41 40 41 41 41 40 41 40 41 40	0

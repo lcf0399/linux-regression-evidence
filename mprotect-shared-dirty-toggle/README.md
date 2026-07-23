@@ -24,10 +24,10 @@ generic `mprotect()` or application-level regression claim.
 
 | Evidence | Result | Status |
 | --- | --- | --- |
-| [exact `cac1db8c3aad` parent/child A/B](bare-metal/20260721-cac1db8c3aad-exact-ab/) | the child was `39.77%` slower than the parent midpoint; parent drift was `0.87%` | current commit-level culprit |
-| [nine-point mechanism decomposition](bare-metal/20260722-cac1-folio-batch-decomposition-ab/) | the generic single-PTE commit path and folio lookup explain `43.06%` and `44.47%` of the gap, or `87.29%` together | attribution evidence |
-| [matched Pedro v3 on/off](bare-metal/20260722-pedro-v3-exact-ab/) | full v3 was `6.20%` slower than the no-v3 midpoint | did not improve this workload |
-| [shared-PTE hint reverse gate](bare-metal/20260722-v713-shared-pte-hint-fastpath-ab/) | `17.36%` faster for the 4 KiB workload but `65.80%` slower for a PTE-mapped 2 MiB folio | candidate rejected |
+| [exact `cac1db8c3aad` parent/child A/B](bare-metal/exact-cac1-comparison.tsv) | the child was `39.77%` slower than the parent midpoint; parent drift was `0.87%` | current commit-level culprit |
+| [nine-point mechanism decomposition](bare-metal/mechanism-comparison.tsv) | the generic single-PTE commit path and folio lookup explain `43.06%` and `44.47%` of the gap, or `87.29%` together | attribution evidence |
+| [matched Pedro v3 on/off](bare-metal/pedro-v3-comparison.tsv) | full v3 was `6.20%` slower than the no-v3 midpoint | did not improve this workload |
+| [shared-PTE hint reverse gate](bare-metal/lookup-large-folio-comparison.tsv) | `17.36%` faster for the 4 KiB workload but `65.80%` slower for a PTE-mapped 2 MiB folio | candidate rejected |
 
 The exact attribution ran on an i7-12700KF physical machine. Every point used
 a fresh boot, P-core CPU 2, matched configurations, toolchain and Kbuild
@@ -63,9 +63,8 @@ archive and is intentionally excluded from this public evidence bundle.
 
 - [`bare-metal/`](bare-metal/): current physical-machine conclusions and
   supporting evidence.
-- [`reproducer/`](reproducer/): standalone C reproducer and helper script.
-- [`workload/`](workload/): userspace workload source retained for semantic
-  auditing.
+- [`reproducer/`](reproducer/): standalone base-page and large-folio
+  reproducers.
 
 Superseded physical-machine diagnostics with unique historical information
 are retained locally and are intentionally excluded from this public evidence

@@ -1,52 +1,66 @@
-# mprotect shared-dirty toggle 真机证据
+# mprotect shared-dirty 真机证据
 
-更新时间：2026-07-23 UTC
+更新日期：2026-07-23 UTC
 
-这里保存限定 workload 的真机证据：
+这里保存一条窄范围 workload 的紧凑真机证据：
 
 - 64 MiB `MAP_SHARED | MAP_ANONYMOUS` mapping；
-- 已写脏的 4 KiB base pages，无 THP；
-- 整段 `PROT_READ -> PROT_READ | PROT_WRITE -> write-touch`；
-- 主指标为 `iteration_ns_per_page`，越低越好。
+- 提前写脏、无 THP backing 的 4 KiB base pages；
+- 完整 range 的 `PROT_READ -> PROT_READ | PROT_WRITE -> write-touch`；
+- 以越低越好的 `iteration_ns_per_page` 为主指标。
 
-该证据只支持 shared-dirty base-page PTE permission-change 场景，不代表 generic
-`mprotect()` 或应用级回归。
+该结论不扩大为 generic `mprotect()` 或应用级回归。
 
-## 当前核心证据
+## 结果
 
-| 目录 | 证据角色 | 结论 |
-| --- | --- | --- |
-| [`20260721-cac1db8c3aad-exact-ab/`](20260721-cac1db8c3aad-exact-ab/) | exact direct-parent/child culprit A/B | `cac1db8c3aad` 相对 parent 中点慢 `39.77%`，parent 漂移 `0.87%` |
-| [`20260722-cac1-folio-batch-decomposition-ab/`](20260722-cac1-folio-batch-decomposition-ab/) | 同提交机制分解 | generic single-PTE commit path 与 folio lookup 分别解释原始缺口的 `43.06%` 和 `44.47%`，合计 `87.29%` |
-| [`20260722-pedro-v3-exact-ab/`](20260722-pedro-v3-exact-ab/) | matched fix validation | Pedro v3 相对 no-v3 中点慢 `6.20%`，没有改善该 workload |
-| [`20260722-v713-shared-pte-hint-fastpath-ab/`](20260722-v713-shared-pte-hint-fastpath-ab/) | 候选路径与反向门禁 | 4 KiB workload 快 `17.36%`，但 PTE-mapped 2 MiB folio 慢 `65.80%`，候选被否决 |
+| 证据 | 结果 |
+| --- | --- |
+| `cac1db8c3aad` 精确 direct-parent/child A/B | child 相对 parent 中点慢 `39.77%`，parent 漂移 `0.87%` |
+| 九点机制分解 | parent-style 单 PTE update/flush 回收 `43.06%` 缺口；跳过 normal-path batch discovery 无可测影响；随后跳过 folio lookup 再回收 `44.47%`；合计回收 `87.29%` |
+| Pedro v3 matched on/off | full v3 相对 no-v3 中点慢 `6.20%`，没有改善该 workload |
+| shared-PTE hint 诊断 | 4 KiB workload 快 `17.36%`，但经过验证的 PTE-mapped 2 MiB folio 慢 `65.80%`，因此候选被否决 |
 
-精确 culprit A/B 与机制分解运行在 i7-12700KF 真机上。每个点 fresh boot，固定
-P-core CPU 2，使用匹配的归一化配置、工具链和 Kbuild 元数据；governor/EPP 为
-`performance`、Turbo 关闭，运行时 `preempt=none`。具体运行顺序、样本数、源码身份、
-语义检查和原始测量以各目录内文件为准。
+各 points 表保留计算所用的全部 per-process 测量值；comparison 表保留中点、
+漂移、drop-first 和 recovery 计算。
 
-## 支持证据
+## 测量契约
 
-[`supporting/`](supporting/) 保留三项仍有独立作用的早期真机结果：
+当前归因结果运行在 32 GiB 内存的 Intel Core i7-12700KF 真机上。每个点 fresh
+boot，固定 P-core CPU 2，使用匹配的归一化配置、GCC 15.2.0 和 Kbuild 元数据，
+governor/EPP 为 `performance`，关闭 Turbo，运行时 `preempt=none`。
 
-| 目录 | 作用 | 主要结果 |
-| --- | --- | --- |
-| `supporting/20260623-narrow-6.16-6.19-3rounds/` | release-window narrowing | `v6.16=25.000`、`v6.17=37.000 ns/page` |
-| `supporting/20260630-single-protect-followup/` | 排除 repeated-toggle 特有现象 | 单次 protect 为 `v6.16=8.000`、`v6.17=14.000 ns/page` |
-| `supporting/20260706-folio-order-check/` | 页状态门禁 | 9 轮均为 4 KiB order-0 pages，无 compound/THP |
+base-page 点位使用 3 个外部 warm-up process 和 15 个 measured process；每个
+measured process 在 10 次内部 warm-up 后执行 1,000 轮。large-folio 反向门禁使用
+2 个外部 warm-up、15 个 measured process、200 轮和 5 次内部 warm-up。所有测量
+都通过返回值与页形状门禁；`run-audit.tsv` 保留不同 boot ID 和 failed systemd
+unit 为零的记录。
 
-这三项来自较早的 i7-14700 平台，只作为 release window、调用形状和 state-shape
-支持证据，不能与 i7-12700KF 上的绝对计时混合平均。
+## 紧凑证据文件
 
-## 归档边界
+| 文件 | 作用 |
+| --- | --- |
+| `exact-cac1-{points,components,comparison}.tsv` | 精确 direct-parent/child 结果 |
+| `mechanism-{points,components,comparison}.tsv` | 九点机制归因序列 |
+| `pedro-v3-{points,components,comparison}.tsv` | matched no-v3/full-v3 结果 |
+| `lookup-base-page-{points,comparison}.tsv` | 4 KiB lookup 正向门禁 |
+| `lookup-large-folio-{points,comparison,shape}.tsv` | PTE-mapped large-folio 反向门禁 |
+| `lookup-trace.tsv` | 配对 function-entry 计数 |
+| `source-identity.tsv` | source、代码状态、patch、config、compiler 和 release 身份 |
+| `run-audit.tsv` | boot 身份、样本数、语义失败和 failed units |
+| `patches/` | 归因实验实际使用的 4 份诊断 diff |
+| `supporting/` | 紧凑的版本窗口、single-protect 和 base-page 状态检查 |
 
-早期 probe、候选复盘、冲突 revert、userfaultfd bridge 和被九点分解取代的中间消融
-已经移出当前 evidence 入口。它们保留调查历史，但不再承担当前结论。
+build log、objdump、安装日志、warm-up 输出、重复的逐点环境快照和 workload 副本
+都是可重建中间产物，公开包不再保留。base-page 与 large-folio standalone
+reproducer 位于 `../reproducer/`。
 
-当前引用优先级为：
+## 诊断 patch
 
-1. exact direct-parent/child A/B；
-2. 九点机制分解；
-3. matched fix/candidate validation；
-4. `supporting/` 中的 release/state-shape 证据。
+这些 patch 是归因 probe，不是拟提交的修复：
+
+| Patch | 诊断作用 |
+| --- | --- |
+| `0000-diagnostic-single-pte-parent-style-commit-fastpath.patch` | 保持 child 的 lookup/discovery，只恢复 parent-style 单 PTE update/flush |
+| `0001-diagnostic-keep-folio-skip-batch-direct-single-pte.patch` | 保留 folio lookup，绕过 normal batch discovery |
+| `0002-diagnostic-skip-folio-and-batch-direct-single-pte.patch` | 同时绕过 normal folio lookup 与 batch discovery |
+| `0001-RFC-mm-mprotect-avoid-shared-folio-lookup-without-batch-hint.patch` | v7.1.3 正向与反向门禁使用的 lookup 诊断 |

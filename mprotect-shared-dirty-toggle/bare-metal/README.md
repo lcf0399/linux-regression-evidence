@@ -1,57 +1,71 @@
-# mprotect shared-dirty toggle bare-metal evidence
+# mprotect shared-dirty bare-metal evidence
 
 Updated: 2026-07-23 UTC
 
-This directory contains physical-machine evidence for a narrow workload:
+This directory contains the compact physical-machine evidence for a narrow
+workload:
 
 - a 64 MiB `MAP_SHARED | MAP_ANONYMOUS` mapping;
 - dirty 4 KiB base pages with no THP backing;
 - full-range `PROT_READ -> PROT_READ | PROT_WRITE -> write-touch` cycles;
 - `iteration_ns_per_page` as the primary lower-is-better metric.
 
-The evidence is scoped to the shared-dirty base-page PTE permission-change
-path. It is not a generic `mprotect()` or application-level regression claim.
+This is not a generic `mprotect()` or application-level regression claim.
 
-## Current core evidence
+## Results
 
-| Directory | Evidence role | Result |
-| --- | --- | --- |
-| [`20260721-cac1db8c3aad-exact-ab/`](20260721-cac1db8c3aad-exact-ab/) | exact direct-parent/child culprit A/B | `cac1db8c3aad` was `39.77%` slower than the parent midpoint; parent drift was `0.87%` |
-| [`20260722-cac1-folio-batch-decomposition-ab/`](20260722-cac1-folio-batch-decomposition-ab/) | same-commit mechanism decomposition | the generic single-PTE commit path and folio lookup explain `43.06%` and `44.47%` of the original gap, or `87.29%` together |
-| [`20260722-pedro-v3-exact-ab/`](20260722-pedro-v3-exact-ab/) | matched fix validation | Pedro v3 was `6.20%` slower than the no-v3 midpoint and did not improve this workload |
-| [`20260722-v713-shared-pte-hint-fastpath-ab/`](20260722-v713-shared-pte-hint-fastpath-ab/) | candidate path and reverse gate | it was `17.36%` faster for the 4 KiB workload but `65.80%` slower for a PTE-mapped 2 MiB folio, so the candidate was rejected |
+| Evidence | Result |
+| --- | --- |
+| Exact `cac1db8c3aad` direct-parent/child A/B | child was `39.77%` slower than the parent midpoint; parent drift was `0.87%` |
+| Nine-point mechanism decomposition | parent-style single-PTE update/flush recovered `43.06%` of the gap; skipping normal-path batch discovery had no measurable effect; additionally skipping the folio lookup recovered `44.47%`; combined recovery was `87.29%` |
+| Matched Pedro v3 on/off | full v3 was `6.20%` slower than the no-v3 midpoint and did not improve this workload |
+| Shared-PTE hint diagnostic | `17.36%` faster for the 4 KiB workload, but `65.80%` slower for a verified PTE-mapped 2 MiB folio; the candidate was rejected |
 
-The exact culprit A/B and mechanism decomposition ran on an i7-12700KF
-physical machine. Every point used a fresh boot, P-core CPU 2, matched
-normalized configurations, toolchain and Kbuild metadata, `performance`
-governor/EPP, Turbo disabled, and runtime `preempt=none`. Each result
-directory records its exact order, sample count, source identity, semantic
-checks, and measurements.
+The point tables retain every measured per-process value used in these
+calculations. The comparison tables retain the midpoint, drift, drop-first,
+and recovery calculations.
 
-## Supporting evidence
+## Measurement contract
 
-[`supporting/`](supporting/) retains three earlier physical-machine results
-with independent supporting value:
+The current attribution results ran on an Intel Core i7-12700KF system with
+32 GiB RAM. Each point used a fresh boot, P-core CPU 2, matched normalized
+configurations, GCC 15.2.0 and Kbuild metadata, `performance` governor/EPP,
+Turbo disabled, and runtime `preempt=none`.
 
-| Directory | Role | Primary result |
-| --- | --- | --- |
-| `supporting/20260623-narrow-6.16-6.19-3rounds/` | release-window narrowing | `v6.16=25.000` and `v6.17=37.000 ns/page` |
-| `supporting/20260630-single-protect-followup/` | checks that the signal is not specific to repeated toggling | one protect measured `v6.16=8.000` and `v6.17=14.000 ns/page` |
-| `supporting/20260706-folio-order-check/` | page-state gate | all nine runs used 4 KiB order-0 pages with no compound/THP backing |
+The base-page points used three external warm-up processes and 15 measured
+processes. Each measured process ran 1,000 cycles after 10 internal warm-ups.
+The large-folio reverse gate used two external warm-ups, 15 measured
+processes, 200 cycles, and five internal warm-ups. All measured processes
+passed the return-value and page-shape gates; `run-audit.tsv` records the
+distinct boot IDs and zero failed systemd units.
 
-These runs used the earlier i7-14700 platform. They support the release
-window, call shape, and page-state interpretation; their absolute timings are
-not averaged with the i7-12700KF results.
+## Compact evidence files
 
-## Evidence boundary
+| Files | Role |
+| --- | --- |
+| `exact-cac1-{points,components,comparison}.tsv` | exact direct-parent/child result |
+| `mechanism-{points,components,comparison}.tsv` | nine-point attribution sequence |
+| `pedro-v3-{points,components,comparison}.tsv` | matched no-v3/full-v3 result |
+| `lookup-base-page-{points,comparison}.tsv` | 4 KiB lookup positive gate |
+| `lookup-large-folio-{points,comparison,shape}.tsv` | PTE-mapped large-folio reverse gate |
+| `lookup-trace.tsv` | paired function-entry counts |
+| `source-identity.tsv` | source, code-state, patch, config, compiler, and release identities |
+| `run-audit.tsv` | boot identity, sample count, semantic failures, and failed units |
+| `patches/` | the four exact diagnostic diffs used by the attribution tests |
+| `supporting/` | compact release-window, single-protect, and base-page state checks |
 
-Early probes, candidate reviews, a conflicted revert, the userfaultfd bridge,
-and intermediate ablations superseded by the nine-point decomposition are no
-longer current evidence entries.
+Build logs, objdump output, installation logs, warm-up output, repeated
+per-point environment snapshots, and duplicate workload copies are
+rebuildable intermediates and are intentionally excluded. The standalone
+base-page and large-folio reproducers are in `../reproducer/`.
 
-The preferred citation order is:
+## Diagnostic patches
 
-1. exact direct-parent/child A/B;
-2. nine-point mechanism decomposition;
-3. matched fix or candidate validation;
-4. release and state-shape evidence under `supporting/`.
+The patches are attribution probes, not proposed fixes:
+
+| Patch | Diagnostic role |
+| --- | --- |
+| `0000-diagnostic-single-pte-parent-style-commit-fastpath.patch` | keep child lookup/discovery, restore parent-style single-PTE update/flush |
+| `0001-diagnostic-keep-folio-skip-batch-direct-single-pte.patch` | retain folio lookup while bypassing normal batch discovery |
+| `0002-diagnostic-skip-folio-and-batch-direct-single-pte.patch` | bypass both normal folio lookup and batch discovery |
+| `0001-RFC-mm-mprotect-avoid-shared-folio-lookup-without-batch-hint.patch` | v7.1.3 lookup diagnostic used for the positive and reverse gates |

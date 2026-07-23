@@ -1,2 +1,0 @@
-role	point_label	kernel	n	mean_mprotect_ns_per_page	mean_protect_ns_per_page	mean_restore_ns_per_page	mean_touch_ns_per_page	mean_iteration_ns_per_page	sd_mprotect	cv_mprotect_pct	values_mprotect	semantic_failures
-baseline	large-baseline-a	7.1.3-mprotect-pv3-full-89e613bc0b2d	15	23.000000	12.000000	11.000000	11.533333	36.000000	0.000000	0.000000	23 23 23 23 23 23 23 23 23 23 23 23 23 23 23	0

@@ -1,2 +1,0 @@
-role	point_label	kernel	n	mean_iteration_ns_per_page	sd	cv_pct	values	semantic_failures
-child	child	6.16.0-rc5-mprotect-cac-c-cac1db8c3aad	15	53.533333	0.516398	0.964628	53 53 54 53 53 54 54 54 53 54 53 53 54 54 54	0

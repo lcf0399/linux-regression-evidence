@@ -1,9 +1,13 @@
-# standalone mprotect shared-dirty reproducer
+# standalone mprotect shared-dirty reproducers
 
-这个目录包含 shared-dirty `mprotect()` toggle workload 的小型 standalone
-复现程序。
+这个目录包含两个 standalone reproducer：
 
-它比 formal experiment framework 使用的 generated workload 更窄：
+- `mprotect_shared_dirty_reproducer.c`：主要的 64 MiB、4 KiB base-page
+  workload；
+- `mprotect_shared_pte_mapped_thp_reproducer.c`：2 MiB PTE-mapped
+  large-folio 反向门禁。
+
+主要 workload 是：
 
 - `MAP_SHARED | MAP_ANONYMOUS` mapping
 - 先 write-prefault 整个 range
@@ -20,7 +24,7 @@ taskset -c 2 ./run_mprotect_shared_dirty_reproducer.sh
 ```
 
 这等价于 `MAPPING_MB=64`、`ITERATIONS=1000`、`WARMUP=10`、
-`EXTERNAL_ROUNDS=9`。
+`EXTERNAL_ROUNDS=15`。
 
 等价的手动运行方式是：
 
@@ -29,7 +33,7 @@ gcc -O2 -Wall -Wextra -o mprotect_shared_dirty_reproducer \
   mprotect_shared_dirty_reproducer.c
 
 ./mprotect_shared_dirty_reproducer \
-  shared_dirty_full_toggle_64m 9 \
+  shared_dirty_full_toggle_64m 15 \
   --mapping-mb 64 \
   --iterations 1000 \
   --warmup 10
@@ -54,3 +58,21 @@ shared mapping，而不是 anonymous THP 路径：
 
 这个 reproducer 不依赖 experiment framework。父目录中的 bare-metal evidence 是通过
 在同一台物理机上启动不同目标内核，然后运行这个 standalone reproducer 收集的。
+
+## large-folio 反向门禁
+
+第二个程序创建一个 2 MiB shared folio，只把 PMD mapping 拆成 512 个 PTE mapping，
+在计时区外重新 fault-in PTE，并通过 `/proc/self/pagemap` 与
+`/proc/kpageflags` 检查页形状：
+
+```sh
+gcc -O2 -Wall -Wextra -Werror \
+  -o /tmp/mprotect_shared_pte_mapped_thp_reproducer \
+  mprotect_shared_pte_mapped_thp_reproducer.c
+
+sudo env ITERATIONS=200 WARMUP=5 taskset -c 2 \
+  /tmp/mprotect_shared_pte_mapped_thp_reproducer
+```
+
+它需要 root 才能读取 PFN，需要内核支持 `MADV_COLLAPSE`，并要求 shmem THP 模式允许
+collapse。如果没有建立 one-head/511-tail 的 PTE-mapped folio 形状，程序会返回非零。

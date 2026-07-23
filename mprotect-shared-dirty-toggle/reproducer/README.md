@@ -1,10 +1,13 @@
-# Standalone mprotect Shared-dirty Reproducer
+# Standalone mprotect shared-dirty reproducers
 
-This directory contains a small standalone reproducer for the shared-dirty
-`mprotect()` toggle workload.
+This directory contains two standalone reproducers:
 
-It is intentionally narrower than the generated workload used by the formal
-experiment framework:
+- `mprotect_shared_dirty_reproducer.c`: the primary 64 MiB, 4 KiB base-page
+  workload;
+- `mprotect_shared_pte_mapped_thp_reproducer.c`: the 2 MiB PTE-mapped
+  large-folio reverse gate.
+
+The primary workload is:
 
 - `MAP_SHARED | MAP_ANONYMOUS` mapping
 - write-prefault the whole range
@@ -21,7 +24,7 @@ taskset -c 2 ./run_mprotect_shared_dirty_reproducer.sh
 ```
 
 That expands to `MAPPING_MB=64`, `ITERATIONS=1000`, `WARMUP=10`, and
-`EXTERNAL_ROUNDS=9`.
+`EXTERNAL_ROUNDS=15`.
 
 Equivalent manual invocation:
 
@@ -30,7 +33,7 @@ gcc -O2 -Wall -Wextra -o mprotect_shared_dirty_reproducer \
   mprotect_shared_dirty_reproducer.c
 
 ./mprotect_shared_dirty_reproducer \
-  shared_dirty_full_toggle_64m 9 \
+  shared_dirty_full_toggle_64m 15 \
   --mapping-mb 64 \
   --iterations 1000 \
   --warmup 10
@@ -58,3 +61,22 @@ expected shape is a base-page shared mapping, not an anonymous THP path:
 This reproducer does not require the experiment framework. The bare-metal
 evidence in the parent directory was collected by booting each target kernel
 on the same physical machine and running this standalone reproducer.
+
+## Large-folio reverse gate
+
+The second program creates a 2 MiB shared folio, splits only its PMD mapping
+into 512 PTE mappings, faults those PTEs back in outside the timed region, and
+checks `/proc/self/pagemap` and `/proc/kpageflags` before reporting timing:
+
+```sh
+gcc -O2 -Wall -Wextra -Werror \
+  -o /tmp/mprotect_shared_pte_mapped_thp_reproducer \
+  mprotect_shared_pte_mapped_thp_reproducer.c
+
+sudo env ITERATIONS=200 WARMUP=5 taskset -c 2 \
+  /tmp/mprotect_shared_pte_mapped_thp_reproducer
+```
+
+It requires root for PFN visibility, a kernel with `MADV_COLLAPSE`, and a
+shmem THP mode that permits collapse. It exits nonzero if the expected
+one-head/511-tail PTE-mapped folio shape is not established.

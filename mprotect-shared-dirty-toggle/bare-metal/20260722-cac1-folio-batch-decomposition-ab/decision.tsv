@@ -1,2 +1,0 @@
-validity	classification	max_cv_pct	all_original_regression_pct	all_nofolio_vs_parent_pct	all_commit_recovery_pct	all_batch_recovery_pct	all_folio_recovery_pct	all_combined_recovery_pct	all_residual_gap_pct	drop_original_regression_pct	drop_nofolio_vs_parent_pct	drop_commit_recovery_pct	drop_batch_recovery_pct	drop_folio_recovery_pct	drop_combined_recovery_pct	drop_residual_gap_pct
-pass	combined-major-explanation	1.557772	36.512027	4.639175	43.058824	-0.235294	44.470588	87.294118	12.705882	36.238532	4.403670	43.291139	-0.253165	44.810127	87.848101	12.151899

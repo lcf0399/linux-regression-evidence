@@ -1,2 +1,0 @@
-role	point_label	kernel	n	mean_iteration_ns_per_page	sd	cv_pct	values	semantic_failures
-folioonly	folioonly-b	6.16.0-rc5-mprotect-cac-v-folioonly000	15	46.866667	0.351866	0.750780	46 47 47 47 47 47 47 47 47 47 47 47 47 47 46	0

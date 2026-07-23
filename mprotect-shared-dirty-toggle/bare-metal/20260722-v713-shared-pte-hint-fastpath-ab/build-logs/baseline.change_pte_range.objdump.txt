@@ -1,0 +1,1012 @@
+
+/home/lcf/kernel-study/linux-baremetal/mprotect-pedro-v3-exact-20260722/sources/linux-child/vmlinux:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+ffffffff817dfca0 <change_pte_range>:
+ffffffff817dfca0:	e8 bb 15 c1 ff       	call   ffffffff813f1260 <__fentry__>
+ffffffff817dfca5:	55                   	push   %rbp
+ffffffff817dfca6:	48 89 e5             	mov    %rsp,%rbp
+ffffffff817dfca9:	41 57                	push   %r15
+ffffffff817dfcab:	41 56                	push   %r14
+ffffffff817dfcad:	49 89 f6             	mov    %rsi,%r14
+ffffffff817dfcb0:	41 55                	push   %r13
+ffffffff817dfcb2:	41 54                	push   %r12
+ffffffff817dfcb4:	53                   	push   %rbx
+ffffffff817dfcb5:	48 89 cb             	mov    %rcx,%rbx
+ffffffff817dfcb8:	48 8d 4d c8          	lea    -0x38(%rbp),%rcx
+ffffffff817dfcbc:	48 81 ec b0 00 00 00 	sub    $0xb0,%rsp
+ffffffff817dfcc3:	48 89 bd 78 ff ff ff 	mov    %rdi,-0x88(%rbp)
+ffffffff817dfcca:	49 8b 7e 10          	mov    0x10(%r14),%rdi
+ffffffff817dfcce:	48 89 75 c0          	mov    %rsi,-0x40(%rbp)
+ffffffff817dfcd2:	48 89 d6             	mov    %rdx,%rsi
+ffffffff817dfcd5:	48 89 da             	mov    %rbx,%rdx
+ffffffff817dfcd8:	4c 89 45 b8          	mov    %r8,-0x48(%rbp)
+ffffffff817dfcdc:	4c 89 4d 90          	mov    %r9,-0x70(%rbp)
+ffffffff817dfce0:	65 48 8b 05 20 f3 41 	mov    %gs:0x241f320(%rip),%rax        # ffffffff83bff008 <__stack_chk_guard>
+ffffffff817dfce7:	02 
+ffffffff817dfce8:	48 89 45 d0          	mov    %rax,-0x30(%rbp)
+ffffffff817dfcec:	31 c0                	xor    %eax,%eax
+ffffffff817dfcee:	48 c7 45 c8 00 00 00 	movq   $0x0,-0x38(%rbp)
+ffffffff817dfcf5:	00 
+ffffffff817dfcf6:	e8 75 93 00 00       	call   ffffffff817e9070 <pte_offset_map_lock>
+ffffffff817dfcfb:	48 85 c0             	test   %rax,%rax
+ffffffff817dfcfe:	0f 84 50 0f 00 00    	je     ffffffff817e0c54 <change_pte_range+0xfb4>
+ffffffff817dfd04:	49 89 c7             	mov    %rax,%r15
+ffffffff817dfd07:	48 8b 45 10          	mov    0x10(%rbp),%rax
+ffffffff817dfd0b:	c6 85 77 ff ff ff 00 	movb   $0x0,-0x89(%rbp)
+ffffffff817dfd12:	49 8b 7e 10          	mov    0x10(%r14),%rdi
+ffffffff817dfd16:	83 e0 02             	and    $0x2,%eax
+ffffffff817dfd19:	48 89 45 98          	mov    %rax,-0x68(%rbp)
+ffffffff817dfd1d:	74 1a                	je     ffffffff817dfd39 <change_pte_range+0x99>
+ffffffff817dfd1f:	48 8b 45 c0          	mov    -0x40(%rbp),%rax
+ffffffff817dfd23:	f6 40 20 08          	testb  $0x8,0x20(%rax)
+ffffffff817dfd27:	75 10                	jne    ffffffff817dfd39 <change_pte_range+0x99>
+ffffffff817dfd29:	8b 87 84 00 00 00    	mov    0x84(%rdi),%eax
+ffffffff817dfd2f:	83 f8 01             	cmp    $0x1,%eax
+ffffffff817dfd32:	0f 94 85 77 ff ff ff 	sete   -0x89(%rbp)
+ffffffff817dfd39:	e8 92 bc 00 00       	call   ffffffff817eb9d0 <flush_tlb_batched_pending>
+ffffffff817dfd3e:	65 66 f7 05 e9 f2 41 	testw  $0xffff,%gs:0x241f2e9(%rip)        # ffffffff83bff031 <__preempt_count+0x1>
+ffffffff817dfd45:	02 ff ff 
+ffffffff817dfd48:	75 29                	jne    ffffffff817dfd73 <change_pte_range+0xd3>
+ffffffff817dfd4a:	65 48 8b 05 c6 f2 41 	mov    %gs:0x241f2c6(%rip),%rax        # ffffffff83bff018 <current_task>
+ffffffff817dfd51:	02 
+ffffffff817dfd52:	80 b8 61 14 00 00 00 	cmpb   $0x0,0x1461(%rax)
+ffffffff817dfd59:	75 18                	jne    ffffffff817dfd73 <change_pte_range+0xd3>
+ffffffff817dfd5b:	0f b6 90 60 14 00 00 	movzbl 0x1460(%rax),%edx
+ffffffff817dfd62:	8d 4a 01             	lea    0x1(%rdx),%ecx
+ffffffff817dfd65:	88 88 60 14 00 00    	mov    %cl,0x1460(%rax)
+ffffffff817dfd6b:	84 d2                	test   %dl,%dl
+ffffffff817dfd6d:	0f 84 ca 0a 00 00    	je     ffffffff817e083d <change_pte_range+0xb9d>
+ffffffff817dfd73:	48 c7 45 a0 00 00 00 	movq   $0x0,-0x60(%rbp)
+ffffffff817dfd7a:	00 
+ffffffff817dfd7b:	49 89 de             	mov    %rbx,%r14
+ffffffff817dfd7e:	48 8b 05 ab 2b 87 01 	mov    0x1872bab(%rip),%rax        # ffffffff83052930 <__pi_physical_mask>
+ffffffff817dfd85:	4d 8b 27             	mov    (%r15),%r12
+ffffffff817dfd88:	48 25 00 f0 ff ff    	and    $0xfffffffffffff000,%rax
+ffffffff817dfd8e:	48 f7 d0             	not    %rax
+ffffffff817dfd91:	48 89 c2             	mov    %rax,%rdx
+ffffffff817dfd94:	4c 21 e2             	and    %r12,%rdx
+ffffffff817dfd97:	f7 c2 01 01 00 00    	test   $0x101,%edx
+ffffffff817dfd9d:	0f 84 c5 02 00 00    	je     ffffffff817e0068 <change_pte_range+0x3c8>
+ffffffff817dfda3:	48 8b 5d b8          	mov    -0x48(%rbp),%rbx
+ffffffff817dfda7:	4c 29 f3             	sub    %r14,%rbx
+ffffffff817dfdaa:	48 c1 eb 0c          	shr    $0xc,%rbx
+ffffffff817dfdae:	48 83 7d 98 00       	cmpq   $0x0,-0x68(%rbp)
+ffffffff817dfdb3:	0f 84 62 04 00 00    	je     ffffffff817e021b <change_pte_range+0x57b>
+ffffffff817dfdb9:	81 e2 01 01 00 00    	and    $0x101,%edx
+ffffffff817dfdbf:	48 81 fa 00 01 00 00 	cmp    $0x100,%rdx
+ffffffff817dfdc6:	0f 84 b3 02 00 00    	je     ffffffff817e007f <change_pte_range+0x3df>
+ffffffff817dfdcc:	48 8b 7d c0          	mov    -0x40(%rbp),%rdi
+ffffffff817dfdd0:	4c 89 e2             	mov    %r12,%rdx
+ffffffff817dfdd3:	4c 89 f6             	mov    %r14,%rsi
+ffffffff817dfdd6:	e8 b5 86 fe ff       	call   ffffffff817c8490 <vm_normal_page>
+ffffffff817dfddb:	48 89 45 b0          	mov    %rax,-0x50(%rbp)
+ffffffff817dfddf:	48 85 c0             	test   %rax,%rax
+ffffffff817dfde2:	0f 84 59 05 00 00    	je     ffffffff817e0341 <change_pte_range+0x6a1>
+ffffffff817dfde8:	48 8b 75 b0          	mov    -0x50(%rbp),%rsi
+ffffffff817dfdec:	48 8b 56 08          	mov    0x8(%rsi),%rdx
+ffffffff817dfdf0:	48 89 d0             	mov    %rdx,%rax
+ffffffff817dfdf3:	83 e0 01             	and    $0x1,%eax
+ffffffff817dfdf6:	48 83 e8 01          	sub    $0x1,%rax
+ffffffff817dfdfa:	48 09 d0             	or     %rdx,%rax
+ffffffff817dfdfd:	48 21 f0             	and    %rsi,%rax
+ffffffff817dfe00:	48 89 45 80          	mov    %rax,-0x80(%rbp)
+ffffffff817dfe04:	48 89 45 a8          	mov    %rax,-0x58(%rbp)
+ffffffff817dfe08:	0f b6 95 77 ff ff ff 	movzbl -0x89(%rbp),%edx
+ffffffff817dfe0f:	48 8b 75 c0          	mov    -0x40(%rbp),%rsi
+ffffffff817dfe13:	48 8b 7d a8          	mov    -0x58(%rbp),%rdi
+ffffffff817dfe17:	e8 b4 33 07 00       	call   ffffffff818531d0 <folio_can_map_prot_numa>
+ffffffff817dfe1c:	84 c0                	test   %al,%al
+ffffffff817dfe1e:	0f 84 20 06 00 00    	je     ffffffff817e0444 <change_pte_range+0x7a4>
+ffffffff817dfe24:	48 8b 7d a8          	mov    -0x58(%rbp),%rdi
+ffffffff817dfe28:	4c 89 e2             	mov    %r12,%rdx
+ffffffff817dfe2b:	4c 89 fe             	mov    %r15,%rsi
+ffffffff817dfe2e:	41 b8 06 00 00 00    	mov    $0x6,%r8d
+ffffffff817dfe34:	89 d9                	mov    %ebx,%ecx
+ffffffff817dfe36:	e8 35 fc ff ff       	call   ffffffff817dfa70 <mprotect_folio_pte_batch>
+ffffffff817dfe3b:	48 8b 7d c0          	mov    -0x40(%rbp),%rdi
+ffffffff817dfe3f:	4c 89 f6             	mov    %r14,%rsi
+ffffffff817dfe42:	4c 89 fa             	mov    %r15,%rdx
+ffffffff817dfe45:	89 45 88             	mov    %eax,-0x78(%rbp)
+ffffffff817dfe48:	83 f8 01             	cmp    $0x1,%eax
+ffffffff817dfe4b:	0f 85 1d 06 00 00    	jne    ffffffff817e046e <change_pte_range+0x7ce>
+ffffffff817dfe51:	ff 15 a9 56 a8 01    	call   *0x1a856a9(%rip)        # ffffffff83265500 <pv_ops+0x1c0>
+ffffffff817dfe57:	48 89 c3             	mov    %rax,%rbx
+ffffffff817dfe5a:	48 89 c7             	mov    %rax,%rdi
+ffffffff817dfe5d:	ff 15 ad 56 a8 01    	call   *0x1a856ad(%rip)        # ffffffff83265510 <pv_ops+0x1d0>
+ffffffff817dfe63:	48 8b 35 c6 2a 87 01 	mov    0x1872ac6(%rip),%rsi        # ffffffff83052930 <__pi_physical_mask>
+ffffffff817dfe6a:	49 89 c0             	mov    %rax,%r8
+ffffffff817dfe6d:	48 8b 4d 90          	mov    -0x70(%rbp),%rcx
+ffffffff817dfe71:	48 ba 00 f0 ff ff ff 	movabs $0xfbfffffffffff000,%rdx
+ffffffff817dfe78:	ff ff fb 
+ffffffff817dfe7b:	48 b8 f8 0e 00 00 00 	movabs $0x400000000000ef8,%rax
+ffffffff817dfe82:	00 00 04 
+ffffffff817dfe85:	48 21 f2             	and    %rsi,%rdx
+ffffffff817dfe88:	48 0b 15 e1 bd 84 01 	or     0x184bde1(%rip),%rdx        # ffffffff8302bc70 <__pi_cc_mask>
+ffffffff817dfe8f:	48 09 c2             	or     %rax,%rdx
+ffffffff817dfe92:	48 8b 05 7f 80 ed 01 	mov    0x1ed807f(%rip),%rax        # ffffffff836b7f18 <__supported_pte_mask>
+ffffffff817dfe99:	48 21 c8             	and    %rcx,%rax
+ffffffff817dfe9c:	f6 c1 01             	test   $0x1,%cl
+ffffffff817dfe9f:	48 0f 44 c1          	cmove  %rcx,%rax
+ffffffff817dfea3:	48 89 c1             	mov    %rax,%rcx
+ffffffff817dfea6:	48 89 c7             	mov    %rax,%rdi
+ffffffff817dfea9:	4c 31 c1             	xor    %r8,%rcx
+ffffffff817dfeac:	48 21 ca             	and    %rcx,%rdx
+ffffffff817dfeaf:	48 31 d7             	xor    %rdx,%rdi
+ffffffff817dfeb2:	4d 85 c0             	test   %r8,%r8
+ffffffff817dfeb5:	0f 84 d4 01 00 00    	je     ffffffff817e008f <change_pte_range+0x3ef>
+ffffffff817dfebb:	41 f6 c0 01          	test   $0x1,%r8b
+ffffffff817dfebf:	0f 85 ca 01 00 00    	jne    ffffffff817e008f <change_pte_range+0x3ef>
+ffffffff817dfec5:	48 39 d0             	cmp    %rdx,%rax
+ffffffff817dfec8:	0f 85 aa 04 00 00    	jne    ffffffff817e0378 <change_pte_range+0x6d8>
+ffffffff817dfece:	48 81 e6 00 f0 ff ff 	and    $0xfffffffffffff000,%rsi
+ffffffff817dfed5:	48 31 f7             	xor    %rsi,%rdi
+ffffffff817dfed8:	ff 15 3a 56 a8 01    	call   *0x1a8563a(%rip)        # ffffffff83265518 <pv_ops+0x1d8>
+ffffffff817dfede:	41 83 e0 02          	and    $0x2,%r8d
+ffffffff817dfee2:	49 89 c5             	mov    %rax,%r13
+ffffffff817dfee5:	0f 84 09 03 00 00    	je     ffffffff817e01f4 <change_pte_range+0x554>
+ffffffff817dfeeb:	49 f7 d5             	not    %r13
+ffffffff817dfeee:	48 89 c2             	mov    %rax,%rdx
+ffffffff817dfef1:	49 d1 ed             	shr    $1,%r13
+ffffffff817dfef4:	48 c1 ea 06          	shr    $0x6,%rdx
+ffffffff817dfef8:	41 83 e5 01          	and    $0x1,%r13d
+ffffffff817dfefc:	4c 21 ea             	and    %r13,%rdx
+ffffffff817dfeff:	49 c1 e5 06          	shl    $0x6,%r13
+ffffffff817dff03:	48 c1 e2 3a          	shl    $0x3a,%rdx
+ffffffff817dff07:	49 f7 d5             	not    %r13
+ffffffff817dff0a:	48 09 c2             	or     %rax,%rdx
+ffffffff817dff0d:	49 21 d5             	and    %rdx,%r13
+ffffffff817dff10:	f6 45 10 04          	testb  $0x4,0x10(%rbp)
+ffffffff817dff14:	0f 84 8d 01 00 00    	je     ffffffff817e00a7 <change_pte_range+0x407>
+ffffffff817dff1a:	48 bf 00 00 00 00 00 	movabs $0x400000000000000,%rdi
+ffffffff817dff21:	00 00 04 
+ffffffff817dff24:	49 83 e5 fd          	and    $0xfffffffffffffffd,%r13
+ffffffff817dff28:	4c 89 e8             	mov    %r13,%rax
+ffffffff817dff2b:	80 cc 04             	or     $0x4,%ah
+ffffffff817dff2e:	49 89 c5             	mov    %rax,%r13
+ffffffff817dff31:	49 c1 e5 34          	shl    $0x34,%r13
+ffffffff817dff35:	49 21 fd             	and    %rdi,%r13
+ffffffff817dff38:	49 09 c5             	or     %rax,%r13
+ffffffff817dff3b:	49 83 e5 bf          	and    $0xffffffffffffffbf,%r13
+ffffffff817dff3f:	f6 45 10 01          	testb  $0x1,0x10(%rbp)
+ffffffff817dff43:	0f 85 0d 04 00 00    	jne    ffffffff817e0356 <change_pte_range+0x6b6>
+ffffffff817dff49:	31 f6                	xor    %esi,%esi
+ffffffff817dff4b:	48 89 df             	mov    %rbx,%rdi
+ffffffff817dff4e:	e8 9d fa ff ff       	call   ffffffff817df9f0 <pte_advance_pfn>
+ffffffff817dff53:	31 f6                	xor    %esi,%esi
+ffffffff817dff55:	4c 89 ef             	mov    %r13,%rdi
+ffffffff817dff58:	48 89 c3             	mov    %rax,%rbx
+ffffffff817dff5b:	e8 90 fa ff ff       	call   ffffffff817df9f0 <pte_advance_pfn>
+ffffffff817dff60:	48 8b 7d c0          	mov    -0x40(%rbp),%rdi
+ffffffff817dff64:	4c 89 f6             	mov    %r14,%rsi
+ffffffff817dff67:	48 89 d9             	mov    %rbx,%rcx
+ffffffff817dff6a:	49 89 c4             	mov    %rax,%r12
+ffffffff817dff6d:	41 b9 01 00 00 00    	mov    $0x1,%r9d
+ffffffff817dff73:	49 89 c0             	mov    %rax,%r8
+ffffffff817dff76:	4c 89 fa             	mov    %r15,%rdx
+ffffffff817dff79:	e8 52 f8 ff ff       	call   ffffffff817df7d0 <modify_prot_commit_ptes>
+ffffffff817dff7e:	4c 89 e6             	mov    %r12,%rsi
+ffffffff817dff81:	48 89 df             	mov    %rbx,%rdi
+ffffffff817dff84:	e8 87 f9 ff ff       	call   ffffffff817df910 <pte_needs_flush>
+ffffffff817dff89:	84 c0                	test   %al,%al
+ffffffff817dff8b:	74 30                	je     ffffffff817dffbd <change_pte_range+0x31d>
+ffffffff817dff8d:	48 8b 9d 78 ff ff ff 	mov    -0x88(%rbp),%rbx
+ffffffff817dff94:	48 8b 43 10          	mov    0x10(%rbx),%rax
+ffffffff817dff98:	48 8b 53 18          	mov    0x18(%rbx),%rdx
+ffffffff817dff9c:	4c 39 f0             	cmp    %r14,%rax
+ffffffff817dff9f:	49 0f 47 c6          	cmova  %r14,%rax
+ffffffff817dffa3:	48 89 43 10          	mov    %rax,0x10(%rbx)
+ffffffff817dffa7:	49 8d 86 00 10 00 00 	lea    0x1000(%r14),%rax
+ffffffff817dffae:	48 39 d0             	cmp    %rdx,%rax
+ffffffff817dffb1:	48 0f 42 c2          	cmovb  %rdx,%rax
+ffffffff817dffb5:	80 4b 20 10          	orb    $0x10,0x20(%rbx)
+ffffffff817dffb9:	48 89 43 18          	mov    %rax,0x18(%rbx)
+ffffffff817dffbd:	41 ba 00 10 00 00    	mov    $0x1000,%r10d
+ffffffff817dffc3:	bb 01 00 00 00       	mov    $0x1,%ebx
+ffffffff817dffc8:	41 bd 01 00 00 00    	mov    $0x1,%r13d
+ffffffff817dffce:	4c 01 6d a0          	add    %r13,-0x60(%rbp)
+ffffffff817dffd2:	48 8d 14 dd 00 00 00 	lea    0x0(,%rbx,8),%rdx
+ffffffff817dffd9:	00 
+ffffffff817dffda:	49 01 d7             	add    %rdx,%r15
+ffffffff817dffdd:	4d 01 d6             	add    %r10,%r14
+ffffffff817dffe0:	4c 39 75 b8          	cmp    %r14,-0x48(%rbp)
+ffffffff817dffe4:	0f 85 94 fd ff ff    	jne    ffffffff817dfd7e <change_pte_range+0xde>
+ffffffff817dffea:	65 66 f7 05 3d f0 41 	testw  $0xffff,%gs:0x241f03d(%rip)        # ffffffff83bff031 <__preempt_count+0x1>
+ffffffff817dfff1:	02 ff ff 
+ffffffff817dfff4:	75 24                	jne    ffffffff817e001a <change_pte_range+0x37a>
+ffffffff817dfff6:	65 48 8b 05 1a f0 41 	mov    %gs:0x241f01a(%rip),%rax        # ffffffff83bff018 <current_task>
+ffffffff817dfffd:	02 
+ffffffff817dfffe:	80 b8 61 14 00 00 00 	cmpb   $0x0,0x1461(%rax)
+ffffffff817e0005:	75 13                	jne    ffffffff817e001a <change_pte_range+0x37a>
+ffffffff817e0007:	80 a8 60 14 00 00 01 	subb   $0x1,0x1460(%rax)
+ffffffff817e000e:	0f 85 40 07 00 00    	jne    ffffffff817e0754 <change_pte_range+0xab4>
+ffffffff817e0014:	ff 15 66 55 a8 01    	call   *0x1a85566(%rip)        # ffffffff83265580 <pv_ops+0x240>
+ffffffff817e001a:	48 8b 7d c8          	mov    -0x38(%rbp),%rdi
+ffffffff817e001e:	e8 1d ef ec 00       	call   ffffffff826aef40 <_raw_spin_unlock>
+ffffffff817e0023:	e8 c8 fe d3 ff       	call   ffffffff8151fef0 <__rcu_read_unlock>
+ffffffff817e0028:	48 8b 45 d0          	mov    -0x30(%rbp),%rax
+ffffffff817e002c:	65 48 2b 05 d4 ef 41 	sub    %gs:0x241efd4(%rip),%rax        # ffffffff83bff008 <__stack_chk_guard>
+ffffffff817e0033:	02 
+ffffffff817e0034:	0f 85 27 0c 00 00    	jne    ffffffff817e0c61 <change_pte_range+0xfc1>
+ffffffff817e003a:	48 8b 45 a0          	mov    -0x60(%rbp),%rax
+ffffffff817e003e:	48 81 c4 b0 00 00 00 	add    $0xb0,%rsp
+ffffffff817e0045:	5b                   	pop    %rbx
+ffffffff817e0046:	41 5c                	pop    %r12
+ffffffff817e0048:	41 5d                	pop    %r13
+ffffffff817e004a:	41 5e                	pop    %r14
+ffffffff817e004c:	41 5f                	pop    %r15
+ffffffff817e004e:	5d                   	pop    %rbp
+ffffffff817e004f:	31 d2                	xor    %edx,%edx
+ffffffff817e0051:	31 c9                	xor    %ecx,%ecx
+ffffffff817e0053:	31 f6                	xor    %esi,%esi
+ffffffff817e0055:	31 ff                	xor    %edi,%edi
+ffffffff817e0057:	45 31 c0             	xor    %r8d,%r8d
+ffffffff817e005a:	45 31 c9             	xor    %r9d,%r9d
+ffffffff817e005d:	45 31 d2             	xor    %r10d,%r10d
+ffffffff817e0060:	45 31 db             	xor    %r11d,%r11d
+ffffffff817e0063:	e9 08 0f ed 00       	jmp    ffffffff826b0f70 <__pi___x86_return_thunk>
+ffffffff817e0068:	49 f7 c4 9f ff ff ff 	test   $0xffffffffffffff9f,%r12
+ffffffff817e006f:	0f 85 e7 01 00 00    	jne    ffffffff817e025c <change_pte_range+0x5bc>
+ffffffff817e0075:	f6 45 10 04          	testb  $0x4,0x10(%rbp)
+ffffffff817e0079:	0f 85 08 03 00 00    	jne    ffffffff817e0387 <change_pte_range+0x6e7>
+ffffffff817e007f:	41 ba 00 10 00 00    	mov    $0x1000,%r10d
+ffffffff817e0085:	ba 08 00 00 00       	mov    $0x8,%edx
+ffffffff817e008a:	e9 4b ff ff ff       	jmp    ffffffff817dffda <change_pte_range+0x33a>
+ffffffff817e008f:	48 39 d0             	cmp    %rdx,%rax
+ffffffff817e0092:	0f 84 40 fe ff ff    	je     ffffffff817dfed8 <change_pte_range+0x238>
+ffffffff817e0098:	40 f6 c7 01          	test   $0x1,%dil
+ffffffff817e009c:	0f 85 36 fe ff ff    	jne    ffffffff817dfed8 <change_pte_range+0x238>
+ffffffff817e00a2:	e9 27 fe ff ff       	jmp    ffffffff817dfece <change_pte_range+0x22e>
+ffffffff817e00a7:	4c 89 e8             	mov    %r13,%rax
+ffffffff817e00aa:	80 e4 fb             	and    $0xfb,%ah
+ffffffff817e00ad:	f6 45 10 08          	testb  $0x8,0x10(%rbp)
+ffffffff817e00b1:	4c 0f 45 e8          	cmovne %rax,%r13
+ffffffff817e00b5:	f6 45 10 01          	testb  $0x1,0x10(%rbp)
+ffffffff817e00b9:	0f 84 8a fe ff ff    	je     ffffffff817dff49 <change_pte_range+0x2a9>
+ffffffff817e00bf:	4c 8b 25 6a 28 87 01 	mov    0x187286a(%rip),%r12        # ffffffff83052930 <__pi_physical_mask>
+ffffffff817e00c6:	49 81 e4 00 f0 ff ff 	and    $0xfffffffffffff000,%r12
+ffffffff817e00cd:	49 f7 d4             	not    %r12
+ffffffff817e00d0:	4d 21 ec             	and    %r13,%r12
+ffffffff817e00d3:	41 f6 c4 02          	test   $0x2,%r12b
+ffffffff817e00d7:	0f 85 6c fe ff ff    	jne    ffffffff817dff49 <change_pte_range+0x2a9>
+ffffffff817e00dd:	e9 cf 0a fe 01       	jmp    ffffffff837c0bb1 <_einittext+0x2bbc>
+ffffffff817e00e2:	4c 89 e0             	mov    %r12,%rax
+ffffffff817e00e5:	83 e0 42             	and    $0x42,%eax
+ffffffff817e00e8:	48 83 f8 40          	cmp    $0x40,%rax
+ffffffff817e00ec:	0f 84 57 fe ff ff    	je     ffffffff817dff49 <change_pte_range+0x2a9>
+ffffffff817e00f2:	48 8b 45 c0          	mov    -0x40(%rbp),%rax
+ffffffff817e00f6:	4c 89 ee             	mov    %r13,%rsi
+ffffffff817e00f9:	48 8b 78 20          	mov    0x20(%rax),%rdi
+ffffffff817e00fd:	40 f6 c7 08          	test   $0x8,%dil
+ffffffff817e0101:	0f 85 d5 05 00 00    	jne    ffffffff817e06dc <change_pte_range+0xa3c>
+ffffffff817e0107:	e8 f4 ef ff ff       	call   ffffffff817df100 <maybe_change_pte_writable.isra.0>
+ffffffff817e010c:	48 83 7d 80 00       	cmpq   $0x0,-0x80(%rbp)
+ffffffff817e0111:	0f 84 32 fe ff ff    	je     ffffffff817dff49 <change_pte_range+0x2a9>
+ffffffff817e0117:	84 c0                	test   %al,%al
+ffffffff817e0119:	0f 84 2a fe ff ff    	je     ffffffff817dff49 <change_pte_range+0x2a9>
+ffffffff817e011f:	48 8b 45 a8          	mov    -0x58(%rbp),%rax
+ffffffff817e0123:	f6 40 18 01          	testb  $0x1,0x18(%rax)
+ffffffff817e0127:	0f 84 1c fe ff ff    	je     ffffffff817dff49 <change_pte_range+0x2a9>
+ffffffff817e012d:	48 8b 75 b0          	mov    -0x50(%rbp),%rsi
+ffffffff817e0131:	48 8b 46 08          	mov    0x8(%rsi),%rax
+ffffffff817e0135:	48 89 c2             	mov    %rax,%rdx
+ffffffff817e0138:	83 e2 01             	and    $0x1,%edx
+ffffffff817e013b:	48 83 ea 01          	sub    $0x1,%rdx
+ffffffff817e013f:	48 09 d0             	or     %rdx,%rax
+ffffffff817e0142:	48 21 f0             	and    %rsi,%rax
+ffffffff817e0145:	80 78 33 f4          	cmpb   $0xf4,0x33(%rax)
+ffffffff817e0149:	75 18                	jne    ffffffff817e0163 <change_pte_range+0x4c3>
+ffffffff817e014b:	48 8b 46 08          	mov    0x8(%rsi),%rax
+ffffffff817e014f:	48 89 c2             	mov    %rax,%rdx
+ffffffff817e0152:	83 e2 01             	and    $0x1,%edx
+ffffffff817e0155:	48 83 ea 01          	sub    $0x1,%rdx
+ffffffff817e0159:	48 09 d0             	or     %rdx,%rax
+ffffffff817e015c:	48 21 c6             	and    %rax,%rsi
+ffffffff817e015f:	48 89 75 b0          	mov    %rsi,-0x50(%rbp)
+ffffffff817e0163:	48 8b 45 b0          	mov    -0x50(%rbp),%rax
+ffffffff817e0167:	48 89 df             	mov    %rbx,%rdi
+ffffffff817e016a:	31 f6                	xor    %esi,%esi
+ffffffff817e016c:	4c 8b 20             	mov    (%rax),%r12
+ffffffff817e016f:	e8 7c f8 ff ff       	call   ffffffff817df9f0 <pte_advance_pfn>
+ffffffff817e0174:	4c 89 ef             	mov    %r13,%rdi
+ffffffff817e0177:	31 f6                	xor    %esi,%esi
+ffffffff817e0179:	48 89 c3             	mov    %rax,%rbx
+ffffffff817e017c:	e8 6f f8 ff ff       	call   ffffffff817df9f0 <pte_advance_pfn>
+ffffffff817e0181:	49 89 c5             	mov    %rax,%r13
+ffffffff817e0184:	41 f7 c4 00 08 00 00 	test   $0x800,%r12d
+ffffffff817e018b:	0f 85 8a 02 00 00    	jne    ffffffff817e041b <change_pte_range+0x77b>
+ffffffff817e0191:	48 8b 7d c0          	mov    -0x40(%rbp),%rdi
+ffffffff817e0195:	4c 89 f6             	mov    %r14,%rsi
+ffffffff817e0198:	41 b9 01 00 00 00    	mov    $0x1,%r9d
+ffffffff817e019e:	4d 89 e8             	mov    %r13,%r8
+ffffffff817e01a1:	48 89 d9             	mov    %rbx,%rcx
+ffffffff817e01a4:	4c 89 fa             	mov    %r15,%rdx
+ffffffff817e01a7:	e8 24 f6 ff ff       	call   ffffffff817df7d0 <modify_prot_commit_ptes>
+ffffffff817e01ac:	4c 89 ee             	mov    %r13,%rsi
+ffffffff817e01af:	48 89 df             	mov    %rbx,%rdi
+ffffffff817e01b2:	e8 59 f7 ff ff       	call   ffffffff817df910 <pte_needs_flush>
+ffffffff817e01b7:	84 c0                	test   %al,%al
+ffffffff817e01b9:	0f 84 fe fd ff ff    	je     ffffffff817dffbd <change_pte_range+0x31d>
+ffffffff817e01bf:	48 8b 8d 78 ff ff ff 	mov    -0x88(%rbp),%rcx
+ffffffff817e01c6:	48 8b 41 10          	mov    0x10(%rcx),%rax
+ffffffff817e01ca:	48 8b 51 18          	mov    0x18(%rcx),%rdx
+ffffffff817e01ce:	4c 39 f0             	cmp    %r14,%rax
+ffffffff817e01d1:	49 0f 47 c6          	cmova  %r14,%rax
+ffffffff817e01d5:	48 89 41 10          	mov    %rax,0x10(%rcx)
+ffffffff817e01d9:	49 8d 86 00 10 00 00 	lea    0x1000(%r14),%rax
+ffffffff817e01e0:	48 39 d0             	cmp    %rdx,%rax
+ffffffff817e01e3:	48 0f 42 c2          	cmovb  %rdx,%rax
+ffffffff817e01e7:	80 49 20 10          	orb    $0x10,0x20(%rcx)
+ffffffff817e01eb:	48 89 41 18          	mov    %rax,0x18(%rcx)
+ffffffff817e01ef:	e9 c9 fd ff ff       	jmp    ffffffff817dffbd <change_pte_range+0x31d>
+ffffffff817e01f4:	49 d1 ed             	shr    $1,%r13
+ffffffff817e01f7:	48 89 c2             	mov    %rax,%rdx
+ffffffff817e01fa:	41 83 e5 01          	and    $0x1,%r13d
+ffffffff817e01fe:	48 c1 ea 3a          	shr    $0x3a,%rdx
+ffffffff817e0202:	4c 21 ea             	and    %r13,%rdx
+ffffffff817e0205:	49 c1 e5 3a          	shl    $0x3a,%r13
+ffffffff817e0209:	48 c1 e2 06          	shl    $0x6,%rdx
+ffffffff817e020d:	49 f7 d5             	not    %r13
+ffffffff817e0210:	48 09 c2             	or     %rax,%rdx
+ffffffff817e0213:	49 21 d5             	and    %rdx,%r13
+ffffffff817e0216:	e9 f5 fc ff ff       	jmp    ffffffff817dff10 <change_pte_range+0x270>
+ffffffff817e021b:	48 8b 7d c0          	mov    -0x40(%rbp),%rdi
+ffffffff817e021f:	4c 89 e2             	mov    %r12,%rdx
+ffffffff817e0222:	4c 89 f6             	mov    %r14,%rsi
+ffffffff817e0225:	e8 66 82 fe ff       	call   ffffffff817c8490 <vm_normal_page>
+ffffffff817e022a:	48 89 45 b0          	mov    %rax,-0x50(%rbp)
+ffffffff817e022e:	48 85 c0             	test   %rax,%rax
+ffffffff817e0231:	0f 84 f8 01 00 00    	je     ffffffff817e042f <change_pte_range+0x78f>
+ffffffff817e0237:	48 8b 7d b0          	mov    -0x50(%rbp),%rdi
+ffffffff817e023b:	48 8b 57 08          	mov    0x8(%rdi),%rdx
+ffffffff817e023f:	48 89 d0             	mov    %rdx,%rax
+ffffffff817e0242:	83 e0 01             	and    $0x1,%eax
+ffffffff817e0245:	48 83 e8 01          	sub    $0x1,%rax
+ffffffff817e0249:	48 09 d0             	or     %rdx,%rax
+ffffffff817e024c:	48 21 f8             	and    %rdi,%rax
+ffffffff817e024f:	48 89 45 80          	mov    %rax,-0x80(%rbp)
+ffffffff817e0253:	48 89 45 a8          	mov    %rax,-0x58(%rbp)
+ffffffff817e0257:	e9 c8 fb ff ff       	jmp    ffffffff817dfe24 <change_pte_range+0x184>
+ffffffff817e025c:	4c 89 e7             	mov    %r12,%rdi
+ffffffff817e025f:	48 89 d6             	mov    %rdx,%rsi
+ffffffff817e0262:	48 89 c1             	mov    %rax,%rcx
+ffffffff817e0265:	48 83 e7 f7          	and    $0xfffffffffffffff7,%rdi
+ffffffff817e0269:	83 e6 08             	and    $0x8,%esi
+ffffffff817e026c:	49 0f 44 fc          	cmove  %r12,%rdi
+ffffffff817e0270:	48 21 f9             	and    %rdi,%rcx
+ffffffff817e0273:	48 85 f6             	test   %rsi,%rsi
+ffffffff817e0276:	48 89 fe             	mov    %rdi,%rsi
+ffffffff817e0279:	0f 45 d1             	cmovne %ecx,%edx
+ffffffff817e027c:	48 83 e6 fd          	and    $0xfffffffffffffffd,%rsi
+ffffffff817e0280:	89 d1                	mov    %edx,%ecx
+ffffffff817e0282:	83 e1 02             	and    $0x2,%ecx
+ffffffff817e0285:	48 0f 45 fe          	cmovne %rsi,%rdi
+ffffffff817e0289:	48 21 f8             	and    %rdi,%rax
+ffffffff817e028c:	85 c9                	test   %ecx,%ecx
+ffffffff817e028e:	0f 45 d0             	cmovne %eax,%edx
+ffffffff817e0291:	48 89 f8             	mov    %rdi,%rax
+ffffffff817e0294:	48 83 e0 fb          	and    $0xfffffffffffffffb,%rax
+ffffffff817e0298:	83 e2 04             	and    $0x4,%edx
+ffffffff817e029b:	48 0f 45 f8          	cmovne %rax,%rdi
+ffffffff817e029f:	ff 15 6b 52 a8 01    	call   *0x1a8526b(%rip)        # ffffffff83265510 <pv_ops+0x1d0>
+ffffffff817e02a5:	48 89 c6             	mov    %rax,%rsi
+ffffffff817e02a8:	48 c1 e8 3b          	shr    $0x3b,%rax
+ffffffff817e02ac:	48 f7 d6             	not    %rsi
+ffffffff817e02af:	48 c1 e0 3a          	shl    $0x3a,%rax
+ffffffff817e02b3:	48 c1 e6 05          	shl    $0x5,%rsi
+ffffffff817e02b7:	48 c1 ee 0e          	shr    $0xe,%rsi
+ffffffff817e02bb:	48 09 c6             	or     %rax,%rsi
+ffffffff817e02be:	74 43                	je     ffffffff817e0303 <change_pte_range+0x663>
+ffffffff817e02c0:	48 89 f0             	mov    %rsi,%rax
+ffffffff817e02c3:	48 c1 e8 3a          	shr    $0x3a,%rax
+ffffffff817e02c7:	48 83 f8 17          	cmp    $0x17,%rax
+ffffffff817e02cb:	76 36                	jbe    ffffffff817e0303 <change_pte_range+0x663>
+ffffffff817e02cd:	83 e8 18             	sub    $0x18,%eax
+ffffffff817e02d0:	8b 04 85 40 d1 84 82 	mov    -0x7d7b2ec0(,%rax,4),%eax
+ffffffff817e02d7:	83 f8 04             	cmp    $0x4,%eax
+ffffffff817e02da:	0f 84 e8 03 00 00    	je     ffffffff817e06c8 <change_pte_range+0xa28>
+ffffffff817e02e0:	83 f8 06             	cmp    $0x6,%eax
+ffffffff817e02e3:	0f 84 e5 00 00 00    	je     ffffffff817e03ce <change_pte_range+0x72e>
+ffffffff817e02e9:	83 f8 09             	cmp    $0x9,%eax
+ffffffff817e02ec:	75 15                	jne    ffffffff817e0303 <change_pte_range+0x663>
+ffffffff817e02ee:	83 e6 06             	and    $0x6,%esi
+ffffffff817e02f1:	0f 85 88 fd ff ff    	jne    ffffffff817e007f <change_pte_range+0x3df>
+ffffffff817e02f7:	f6 45 10 08          	testb  $0x8,0x10(%rbp)
+ffffffff817e02fb:	0f 84 7e fd ff ff    	je     ffffffff817e007f <change_pte_range+0x3df>
+ffffffff817e0301:	eb 20                	jmp    ffffffff817e0323 <change_pte_range+0x683>
+ffffffff817e0303:	f6 45 10 04          	testb  $0x4,0x10(%rbp)
+ffffffff817e0307:	75 66                	jne    ffffffff817e036f <change_pte_range+0x6cf>
+ffffffff817e0309:	f6 45 10 08          	testb  $0x8,0x10(%rbp)
+ffffffff817e030d:	0f 84 6c fd ff ff    	je     ffffffff817e007f <change_pte_range+0x3df>
+ffffffff817e0313:	4c 89 e6             	mov    %r12,%rsi
+ffffffff817e0316:	48 83 e6 fb          	and    $0xfffffffffffffffb,%rsi
+ffffffff817e031a:	49 39 f4             	cmp    %rsi,%r12
+ffffffff817e031d:	0f 84 5c fd ff ff    	je     ffffffff817e007f <change_pte_range+0x3df>
+ffffffff817e0323:	4c 89 ff             	mov    %r15,%rdi
+ffffffff817e0326:	ff 15 c4 51 a8 01    	call   *0x1a851c4(%rip)        # ffffffff832654f0 <pv_ops+0x1b0>
+ffffffff817e032c:	41 ba 00 10 00 00    	mov    $0x1000,%r10d
+ffffffff817e0332:	48 83 45 a0 01       	addq   $0x1,-0x60(%rbp)
+ffffffff817e0337:	ba 08 00 00 00       	mov    $0x8,%edx
+ffffffff817e033c:	e9 99 fc ff ff       	jmp    ffffffff817dffda <change_pte_range+0x33a>
+ffffffff817e0341:	48 c7 45 a8 00 00 00 	movq   $0x0,-0x58(%rbp)
+ffffffff817e0348:	00 
+ffffffff817e0349:	48 c7 45 80 00 00 00 	movq   $0x0,-0x80(%rbp)
+ffffffff817e0350:	00 
+ffffffff817e0351:	e9 b2 fa ff ff       	jmp    ffffffff817dfe08 <change_pte_range+0x168>
+ffffffff817e0356:	4c 8b 25 d3 25 87 01 	mov    0x18725d3(%rip),%r12        # ffffffff83052930 <__pi_physical_mask>
+ffffffff817e035d:	49 81 e4 00 f0 ff ff 	and    $0xfffffffffffff000,%r12
+ffffffff817e0364:	49 f7 d4             	not    %r12
+ffffffff817e0367:	4d 21 ec             	and    %r13,%r12
+ffffffff817e036a:	e9 6e fd ff ff       	jmp    ffffffff817e00dd <change_pte_range+0x43d>
+ffffffff817e036f:	4c 89 e6             	mov    %r12,%rsi
+ffffffff817e0372:	48 83 ce 04          	or     $0x4,%rsi
+ffffffff817e0376:	eb a2                	jmp    ffffffff817e031a <change_pte_range+0x67a>
+ffffffff817e0378:	40 f6 c7 01          	test   $0x1,%dil
+ffffffff817e037c:	0f 84 56 fb ff ff    	je     ffffffff817dfed8 <change_pte_range+0x238>
+ffffffff817e0382:	e9 47 fb ff ff       	jmp    ffffffff817dfece <change_pte_range+0x22e>
+ffffffff817e0387:	48 8b 45 c0          	mov    -0x40(%rbp),%rax
+ffffffff817e038b:	f6 40 21 10          	testb  $0x10,0x21(%rax)
+ffffffff817e038f:	0f 84 ea fc ff ff    	je     ffffffff817e007f <change_pte_range+0x3df>
+ffffffff817e0395:	48 83 78 48 00       	cmpq   $0x0,0x48(%rax)
+ffffffff817e039a:	0f 84 c2 04 00 00    	je     ffffffff817e0862 <change_pte_range+0xbc2>
+ffffffff817e03a0:	48 c7 c7 00 fc ff ff 	mov    $0xfffffffffffffc00,%rdi
+ffffffff817e03a7:	ff 15 6b 51 a8 01    	call   *0x1a8516b(%rip)        # ffffffff83265518 <pv_ops+0x1d8>
+ffffffff817e03ad:	4c 89 ff             	mov    %r15,%rdi
+ffffffff817e03b0:	48 89 c6             	mov    %rax,%rsi
+ffffffff817e03b3:	ff 15 37 51 a8 01    	call   *0x1a85137(%rip)        # ffffffff832654f0 <pv_ops+0x1b0>
+ffffffff817e03b9:	41 ba 00 10 00 00    	mov    $0x1000,%r10d
+ffffffff817e03bf:	48 83 45 a0 01       	addq   $0x1,-0x60(%rbp)
+ffffffff817e03c4:	ba 08 00 00 00       	mov    $0x8,%edx
+ffffffff817e03c9:	e9 0c fc ff ff       	jmp    ffffffff817dffda <change_pte_range+0x33a>
+ffffffff817e03ce:	48 b8 00 00 00 00 00 	movabs $0xe800000000000000,%rax
+ffffffff817e03d5:	00 00 e8 
+ffffffff817e03d8:	48 c1 e6 0e          	shl    $0xe,%rsi
+ffffffff817e03dc:	48 81 f6 00 c0 ff ff 	xor    $0xffffffffffffc000,%rsi
+ffffffff817e03e3:	48 89 f7             	mov    %rsi,%rdi
+ffffffff817e03e6:	48 c1 ef 05          	shr    $0x5,%rdi
+ffffffff817e03ea:	48 09 c7             	or     %rax,%rdi
+ffffffff817e03ed:	ff 15 25 51 a8 01    	call   *0x1a85125(%rip)        # ffffffff83265518 <pv_ops+0x1d8>
+ffffffff817e03f3:	48 89 c6             	mov    %rax,%rsi
+ffffffff817e03f6:	48 83 ce 04          	or     $0x4,%rsi
+ffffffff817e03fa:	41 f6 c4 04          	test   $0x4,%r12b
+ffffffff817e03fe:	48 0f 44 f0          	cmove  %rax,%rsi
+ffffffff817e0402:	f6 45 10 04          	testb  $0x4,0x10(%rbp)
+ffffffff817e0406:	0f 85 66 ff ff ff    	jne    ffffffff817e0372 <change_pte_range+0x6d2>
+ffffffff817e040c:	f6 45 10 08          	testb  $0x8,0x10(%rbp)
+ffffffff817e0410:	0f 84 04 ff ff ff    	je     ffffffff817e031a <change_pte_range+0x67a>
+ffffffff817e0416:	e9 fb fe ff ff       	jmp    ffffffff817e0316 <change_pte_range+0x676>
+ffffffff817e041b:	48 8b 75 c0          	mov    -0x40(%rbp),%rsi
+ffffffff817e041f:	48 89 c7             	mov    %rax,%rdi
+ffffffff817e0422:	e8 19 ec c2 ff       	call   ffffffff8140f040 <pte_mkwrite>
+ffffffff817e0427:	49 89 c5             	mov    %rax,%r13
+ffffffff817e042a:	e9 62 fd ff ff       	jmp    ffffffff817e0191 <change_pte_range+0x4f1>
+ffffffff817e042f:	48 c7 45 80 00 00 00 	movq   $0x0,-0x80(%rbp)
+ffffffff817e0436:	00 
+ffffffff817e0437:	48 c7 45 a8 00 00 00 	movq   $0x0,-0x58(%rbp)
+ffffffff817e043e:	00 
+ffffffff817e043f:	e9 e0 f9 ff ff       	jmp    ffffffff817dfe24 <change_pte_range+0x184>
+ffffffff817e0444:	48 8b 7d a8          	mov    -0x58(%rbp),%rdi
+ffffffff817e0448:	4c 89 e2             	mov    %r12,%rdx
+ffffffff817e044b:	45 31 c0             	xor    %r8d,%r8d
+ffffffff817e044e:	89 d9                	mov    %ebx,%ecx
+ffffffff817e0450:	4c 89 fe             	mov    %r15,%rsi
+ffffffff817e0453:	e8 18 f6 ff ff       	call   ffffffff817dfa70 <mprotect_folio_pte_batch>
+ffffffff817e0458:	48 98                	cltq
+ffffffff817e045a:	48 8d 14 c5 00 00 00 	lea    0x0(,%rax,8),%rdx
+ffffffff817e0461:	00 
+ffffffff817e0462:	48 c1 e0 0c          	shl    $0xc,%rax
+ffffffff817e0466:	49 89 c2             	mov    %rax,%r10
+ffffffff817e0469:	e9 6c fb ff ff       	jmp    ffffffff817dffda <change_pte_range+0x33a>
+ffffffff817e046e:	ff 15 8c 50 a8 01    	call   *0x1a8508c(%rip)        # ffffffff83265500 <pv_ops+0x1c0>
+ffffffff817e0474:	49 89 c4             	mov    %rax,%r12
+ffffffff817e0477:	8b 45 88             	mov    -0x78(%rbp),%eax
+ffffffff817e047a:	4c 89 bd 68 ff ff ff 	mov    %r15,-0x98(%rbp)
+ffffffff817e0481:	4d 89 fd             	mov    %r15,%r13
+ffffffff817e0484:	4c 8b 7d c0          	mov    -0x40(%rbp),%r15
+ffffffff817e0488:	4c 89 b5 60 ff ff ff 	mov    %r14,-0xa0(%rbp)
+ffffffff817e048f:	4c 89 f3             	mov    %r14,%rbx
+ffffffff817e0492:	83 e8 02             	sub    $0x2,%eax
+ffffffff817e0495:	48 c1 e0 0c          	shl    $0xc,%rax
+ffffffff817e0499:	4d 8d b4 06 00 10 00 	lea    0x1000(%r14,%rax,1),%r14
+ffffffff817e04a0:	00 
+ffffffff817e04a1:	49 83 c5 08          	add    $0x8,%r13
+ffffffff817e04a5:	48 81 c3 00 10 00 00 	add    $0x1000,%rbx
+ffffffff817e04ac:	4c 89 ff             	mov    %r15,%rdi
+ffffffff817e04af:	48 89 de             	mov    %rbx,%rsi
+ffffffff817e04b2:	4c 89 ea             	mov    %r13,%rdx
+ffffffff817e04b5:	ff 15 45 50 a8 01    	call   *0x1a85045(%rip)        # ffffffff83265500 <pv_ops+0x1c0>
+ffffffff817e04bb:	48 8b 15 6e 24 87 01 	mov    0x187246e(%rip),%rdx        # ffffffff83052930 <__pi_physical_mask>
+ffffffff817e04c2:	48 b9 40 00 00 00 00 	movabs $0x400000000000040,%rcx
+ffffffff817e04c9:	00 00 04 
+ffffffff817e04cc:	48 81 e2 00 f0 ff ff 	and    $0xfffffffffffff000,%rdx
+ffffffff817e04d3:	48 f7 d2             	not    %rdx
+ffffffff817e04d6:	48 21 d0             	and    %rdx,%rax
+ffffffff817e04d9:	48 85 c8             	test   %rcx,%rax
+ffffffff817e04dc:	74 31                	je     ffffffff817e050f <change_pte_range+0x86f>
+ffffffff817e04de:	4c 89 e1             	mov    %r12,%rcx
+ffffffff817e04e1:	48 81 c9 40 08 00 00 	or     $0x840,%rcx
+ffffffff817e04e8:	48 89 ca             	mov    %rcx,%rdx
+ffffffff817e04eb:	49 89 cc             	mov    %rcx,%r12
+ffffffff817e04ee:	48 f7 d2             	not    %rdx
+ffffffff817e04f1:	49 c1 ec 06          	shr    $0x6,%r12
+ffffffff817e04f5:	48 d1 ea             	shr    $1,%rdx
+ffffffff817e04f8:	83 e2 01             	and    $0x1,%edx
+ffffffff817e04fb:	49 21 d4             	and    %rdx,%r12
+ffffffff817e04fe:	48 c1 e2 06          	shl    $0x6,%rdx
+ffffffff817e0502:	49 c1 e4 3a          	shl    $0x3a,%r12
+ffffffff817e0506:	48 f7 d2             	not    %rdx
+ffffffff817e0509:	49 09 cc             	or     %rcx,%r12
+ffffffff817e050c:	49 21 d4             	and    %rdx,%r12
+ffffffff817e050f:	4c 89 e2             	mov    %r12,%rdx
+ffffffff817e0512:	48 83 ca 20          	or     $0x20,%rdx
+ffffffff817e0516:	a8 20                	test   $0x20,%al
+ffffffff817e0518:	4c 0f 45 e2          	cmovne %rdx,%r12
+ffffffff817e051c:	4c 39 f3             	cmp    %r14,%rbx
+ffffffff817e051f:	75 80                	jne    ffffffff817e04a1 <change_pte_range+0x801>
+ffffffff817e0521:	4c 8b bd 68 ff ff ff 	mov    -0x98(%rbp),%r15
+ffffffff817e0528:	4c 8b b5 60 ff ff ff 	mov    -0xa0(%rbp),%r14
+ffffffff817e052f:	4c 89 e7             	mov    %r12,%rdi
+ffffffff817e0532:	ff 15 d8 4f a8 01    	call   *0x1a84fd8(%rip)        # ffffffff83265510 <pv_ops+0x1d0>
+ffffffff817e0538:	48 8b 0d f1 23 87 01 	mov    0x18723f1(%rip),%rcx        # ffffffff83052930 <__pi_physical_mask>
+ffffffff817e053f:	49 89 c0             	mov    %rax,%r8
+ffffffff817e0542:	48 8b 5d 90          	mov    -0x70(%rbp),%rbx
+ffffffff817e0546:	48 ba 00 f0 ff ff ff 	movabs $0xfbfffffffffff000,%rdx
+ffffffff817e054d:	ff ff fb 
+ffffffff817e0550:	48 b8 f8 0e 00 00 00 	movabs $0x400000000000ef8,%rax
+ffffffff817e0557:	00 00 04 
+ffffffff817e055a:	48 21 ca             	and    %rcx,%rdx
+ffffffff817e055d:	48 0b 15 0c b7 84 01 	or     0x184b70c(%rip),%rdx        # ffffffff8302bc70 <__pi_cc_mask>
+ffffffff817e0564:	48 09 c2             	or     %rax,%rdx
+ffffffff817e0567:	48 8b 05 aa 79 ed 01 	mov    0x1ed79aa(%rip),%rax        # ffffffff836b7f18 <__supported_pte_mask>
+ffffffff817e056e:	48 21 d8             	and    %rbx,%rax
+ffffffff817e0571:	f6 c3 01             	test   $0x1,%bl
+ffffffff817e0574:	48 0f 44 c3          	cmove  %rbx,%rax
+ffffffff817e0578:	48 89 c6             	mov    %rax,%rsi
+ffffffff817e057b:	48 89 c7             	mov    %rax,%rdi
+ffffffff817e057e:	4c 31 c6             	xor    %r8,%rsi
+ffffffff817e0581:	48 21 f2             	and    %rsi,%rdx
+ffffffff817e0584:	48 31 d7             	xor    %rdx,%rdi
+ffffffff817e0587:	4d 85 c0             	test   %r8,%r8
+ffffffff817e058a:	0f 84 16 01 00 00    	je     ffffffff817e06a6 <change_pte_range+0xa06>
+ffffffff817e0590:	41 f6 c0 01          	test   $0x1,%r8b
+ffffffff817e0594:	0f 85 0c 01 00 00    	jne    ffffffff817e06a6 <change_pte_range+0xa06>
+ffffffff817e059a:	48 39 d0             	cmp    %rdx,%rax
+ffffffff817e059d:	0f 84 16 01 00 00    	je     ffffffff817e06b9 <change_pte_range+0xa19>
+ffffffff817e05a3:	40 f6 c7 01          	test   $0x1,%dil
+ffffffff817e05a7:	0f 85 0c 01 00 00    	jne    ffffffff817e06b9 <change_pte_range+0xa19>
+ffffffff817e05ad:	ff 15 65 4f a8 01    	call   *0x1a84f65(%rip)        # ffffffff83265518 <pv_ops+0x1d8>
+ffffffff817e05b3:	41 83 e0 02          	and    $0x2,%r8d
+ffffffff817e05b7:	48 89 c2             	mov    %rax,%rdx
+ffffffff817e05ba:	0f 85 9f 01 00 00    	jne    ffffffff817e075f <change_pte_range+0xabf>
+ffffffff817e05c0:	48 d1 ea             	shr    $1,%rdx
+ffffffff817e05c3:	48 89 c1             	mov    %rax,%rcx
+ffffffff817e05c6:	83 e2 01             	and    $0x1,%edx
+ffffffff817e05c9:	48 c1 e9 3a          	shr    $0x3a,%rcx
+ffffffff817e05cd:	48 21 d1             	and    %rdx,%rcx
+ffffffff817e05d0:	48 c1 e2 3a          	shl    $0x3a,%rdx
+ffffffff817e05d4:	48 c1 e1 06          	shl    $0x6,%rcx
+ffffffff817e05d8:	48 f7 d2             	not    %rdx
+ffffffff817e05db:	48 09 c1             	or     %rax,%rcx
+ffffffff817e05de:	48 21 ca             	and    %rcx,%rdx
+ffffffff817e05e1:	f6 45 10 04          	testb  $0x4,0x10(%rbp)
+ffffffff817e05e5:	0f 84 a2 01 00 00    	je     ffffffff817e078d <change_pte_range+0xaed>
+ffffffff817e05eb:	48 b9 00 00 00 00 00 	movabs $0x400000000000000,%rcx
+ffffffff817e05f2:	00 00 04 
+ffffffff817e05f5:	48 83 e2 fd          	and    $0xfffffffffffffffd,%rdx
+ffffffff817e05f9:	80 ce 04             	or     $0x4,%dh
+ffffffff817e05fc:	48 89 d0             	mov    %rdx,%rax
+ffffffff817e05ff:	48 c1 e0 34          	shl    $0x34,%rax
+ffffffff817e0603:	48 21 c8             	and    %rcx,%rax
+ffffffff817e0606:	48 09 d0             	or     %rdx,%rax
+ffffffff817e0609:	48 83 e0 bf          	and    $0xffffffffffffffbf,%rax
+ffffffff817e060d:	48 89 c2             	mov    %rax,%rdx
+ffffffff817e0610:	f6 45 10 01          	testb  $0x1,0x10(%rbp)
+ffffffff817e0614:	0f 85 6d 02 00 00    	jne    ffffffff817e0887 <change_pte_range+0xbe7>
+ffffffff817e061a:	4c 89 e7             	mov    %r12,%rdi
+ffffffff817e061d:	31 f6                	xor    %esi,%esi
+ffffffff817e061f:	48 89 55 b0          	mov    %rdx,-0x50(%rbp)
+ffffffff817e0623:	e8 c8 f3 ff ff       	call   ffffffff817df9f0 <pte_advance_pfn>
+ffffffff817e0628:	48 8b 7d b0          	mov    -0x50(%rbp),%rdi
+ffffffff817e062c:	31 f6                	xor    %esi,%esi
+ffffffff817e062e:	48 89 c3             	mov    %rax,%rbx
+ffffffff817e0631:	e8 ba f3 ff ff       	call   ffffffff817df9f0 <pte_advance_pfn>
+ffffffff817e0636:	4c 63 6d 88          	movslq -0x78(%rbp),%r13
+ffffffff817e063a:	48 8b 7d c0          	mov    -0x40(%rbp),%rdi
+ffffffff817e063e:	48 89 d9             	mov    %rbx,%rcx
+ffffffff817e0641:	49 89 c4             	mov    %rax,%r12
+ffffffff817e0644:	49 89 c0             	mov    %rax,%r8
+ffffffff817e0647:	4c 89 fa             	mov    %r15,%rdx
+ffffffff817e064a:	4c 89 f6             	mov    %r14,%rsi
+ffffffff817e064d:	45 89 e9             	mov    %r13d,%r9d
+ffffffff817e0650:	e8 7b f1 ff ff       	call   ffffffff817df7d0 <modify_prot_commit_ptes>
+ffffffff817e0655:	48 89 df             	mov    %rbx,%rdi
+ffffffff817e0658:	4c 89 e6             	mov    %r12,%rsi
+ffffffff817e065b:	4c 89 eb             	mov    %r13,%rbx
+ffffffff817e065e:	e8 ad f2 ff ff       	call   ffffffff817df910 <pte_needs_flush>
+ffffffff817e0663:	4d 89 ea             	mov    %r13,%r10
+ffffffff817e0666:	49 c1 e2 0c          	shl    $0xc,%r10
+ffffffff817e066a:	84 c0                	test   %al,%al
+ffffffff817e066c:	0f 84 5c f9 ff ff    	je     ffffffff817dffce <change_pte_range+0x32e>
+ffffffff817e0672:	48 8b bd 78 ff ff ff 	mov    -0x88(%rbp),%rdi
+ffffffff817e0679:	48 8b 47 10          	mov    0x10(%rdi),%rax
+ffffffff817e067d:	48 8b 57 18          	mov    0x18(%rdi),%rdx
+ffffffff817e0681:	4c 39 f0             	cmp    %r14,%rax
+ffffffff817e0684:	49 0f 47 c6          	cmova  %r14,%rax
+ffffffff817e0688:	48 89 47 10          	mov    %rax,0x10(%rdi)
+ffffffff817e068c:	44 89 d0             	mov    %r10d,%eax
+ffffffff817e068f:	4c 01 f0             	add    %r14,%rax
+ffffffff817e0692:	48 39 d0             	cmp    %rdx,%rax
+ffffffff817e0695:	48 0f 42 c2          	cmovb  %rdx,%rax
+ffffffff817e0699:	80 4f 20 10          	orb    $0x10,0x20(%rdi)
+ffffffff817e069d:	48 89 47 18          	mov    %rax,0x18(%rdi)
+ffffffff817e06a1:	e9 28 f9 ff ff       	jmp    ffffffff817dffce <change_pte_range+0x32e>
+ffffffff817e06a6:	48 39 d0             	cmp    %rdx,%rax
+ffffffff817e06a9:	0f 84 fe fe ff ff    	je     ffffffff817e05ad <change_pte_range+0x90d>
+ffffffff817e06af:	40 f6 c7 01          	test   $0x1,%dil
+ffffffff817e06b3:	0f 85 f4 fe ff ff    	jne    ffffffff817e05ad <change_pte_range+0x90d>
+ffffffff817e06b9:	48 81 e1 00 f0 ff ff 	and    $0xfffffffffffff000,%rcx
+ffffffff817e06c0:	48 31 cf             	xor    %rcx,%rdi
+ffffffff817e06c3:	e9 e5 fe ff ff       	jmp    ffffffff817e05ad <change_pte_range+0x90d>
+ffffffff817e06c8:	e9 f6 04 fe 01       	jmp    ffffffff837c0bc3 <_einittext+0x2bce>
+ffffffff817e06cd:	48 b8 ff ff ff ff ff 	movabs $0xffffffffff,%rax
+ffffffff817e06d4:	00 00 00 
+ffffffff817e06d7:	e9 f5 00 00 00       	jmp    ffffffff817e07d1 <change_pte_range+0xb31>
+ffffffff817e06dc:	e8 1f ea ff ff       	call   ffffffff817df100 <maybe_change_pte_writable.isra.0>
+ffffffff817e06e1:	31 f6                	xor    %esi,%esi
+ffffffff817e06e3:	48 89 df             	mov    %rbx,%rdi
+ffffffff817e06e6:	84 c0                	test   %al,%al
+ffffffff817e06e8:	0f 84 5a 01 00 00    	je     ffffffff817e0848 <change_pte_range+0xba8>
+ffffffff817e06ee:	e8 fd f2 ff ff       	call   ffffffff817df9f0 <pte_advance_pfn>
+ffffffff817e06f3:	4c 89 ef             	mov    %r13,%rdi
+ffffffff817e06f6:	31 f6                	xor    %esi,%esi
+ffffffff817e06f8:	48 89 c3             	mov    %rax,%rbx
+ffffffff817e06fb:	e8 f0 f2 ff ff       	call   ffffffff817df9f0 <pte_advance_pfn>
+ffffffff817e0700:	49 89 c5             	mov    %rax,%r13
+ffffffff817e0703:	48 b8 40 00 00 00 00 	movabs $0x400000000000040,%rax
+ffffffff817e070a:	00 00 04 
+ffffffff817e070d:	49 85 c4             	test   %rax,%r12
+ffffffff817e0710:	74 0f                	je     ffffffff817e0721 <change_pte_range+0xa81>
+ffffffff817e0712:	48 8b 75 c0          	mov    -0x40(%rbp),%rsi
+ffffffff817e0716:	4c 89 ef             	mov    %r13,%rdi
+ffffffff817e0719:	e8 22 e9 c2 ff       	call   ffffffff8140f040 <pte_mkwrite>
+ffffffff817e071e:	49 89 c5             	mov    %rax,%r13
+ffffffff817e0721:	48 8b 7d c0          	mov    -0x40(%rbp),%rdi
+ffffffff817e0725:	4c 89 f6             	mov    %r14,%rsi
+ffffffff817e0728:	41 b9 01 00 00 00    	mov    $0x1,%r9d
+ffffffff817e072e:	4d 89 e8             	mov    %r13,%r8
+ffffffff817e0731:	48 89 d9             	mov    %rbx,%rcx
+ffffffff817e0734:	4c 89 fa             	mov    %r15,%rdx
+ffffffff817e0737:	e8 94 f0 ff ff       	call   ffffffff817df7d0 <modify_prot_commit_ptes>
+ffffffff817e073c:	4c 89 ee             	mov    %r13,%rsi
+ffffffff817e073f:	48 89 df             	mov    %rbx,%rdi
+ffffffff817e0742:	e8 c9 f1 ff ff       	call   ffffffff817df910 <pte_needs_flush>
+ffffffff817e0747:	84 c0                	test   %al,%al
+ffffffff817e0749:	0f 84 6e f8 ff ff    	je     ffffffff817dffbd <change_pte_range+0x31d>
+ffffffff817e074f:	e9 39 f8 ff ff       	jmp    ffffffff817dff8d <change_pte_range+0x2ed>
+ffffffff817e0754:	ff 15 2e 4e a8 01    	call   *0x1a84e2e(%rip)        # ffffffff83265588 <pv_ops+0x248>
+ffffffff817e075a:	e9 bb f8 ff ff       	jmp    ffffffff817e001a <change_pte_range+0x37a>
+ffffffff817e075f:	48 f7 d2             	not    %rdx
+ffffffff817e0762:	48 89 c1             	mov    %rax,%rcx
+ffffffff817e0765:	48 d1 ea             	shr    $1,%rdx
+ffffffff817e0768:	48 c1 e9 06          	shr    $0x6,%rcx
+ffffffff817e076c:	83 e2 01             	and    $0x1,%edx
+ffffffff817e076f:	48 21 d1             	and    %rdx,%rcx
+ffffffff817e0772:	48 c1 e2 06          	shl    $0x6,%rdx
+ffffffff817e0776:	48 c1 e1 3a          	shl    $0x3a,%rcx
+ffffffff817e077a:	48 f7 d2             	not    %rdx
+ffffffff817e077d:	48 09 c1             	or     %rax,%rcx
+ffffffff817e0780:	48 21 ca             	and    %rcx,%rdx
+ffffffff817e0783:	f6 45 10 04          	testb  $0x4,0x10(%rbp)
+ffffffff817e0787:	0f 85 5e fe ff ff    	jne    ffffffff817e05eb <change_pte_range+0x94b>
+ffffffff817e078d:	48 89 d0             	mov    %rdx,%rax
+ffffffff817e0790:	80 e4 fb             	and    $0xfb,%ah
+ffffffff817e0793:	f6 45 10 08          	testb  $0x8,0x10(%rbp)
+ffffffff817e0797:	48 0f 45 d0          	cmovne %rax,%rdx
+ffffffff817e079b:	f6 45 10 01          	testb  $0x1,0x10(%rbp)
+ffffffff817e079f:	0f 84 75 fe ff ff    	je     ffffffff817e061a <change_pte_range+0x97a>
+ffffffff817e07a5:	48 8b 0d 84 21 87 01 	mov    0x1872184(%rip),%rcx        # ffffffff83052930 <__pi_physical_mask>
+ffffffff817e07ac:	48 81 e1 00 f0 ff ff 	and    $0xfffffffffffff000,%rcx
+ffffffff817e07b3:	48 f7 d1             	not    %rcx
+ffffffff817e07b6:	48 21 d1             	and    %rdx,%rcx
+ffffffff817e07b9:	f6 c1 02             	test   $0x2,%cl
+ffffffff817e07bc:	0f 85 58 fe ff ff    	jne    ffffffff817e061a <change_pte_range+0x97a>
+ffffffff817e07c2:	e9 d4 00 00 00       	jmp    ffffffff817e089b <change_pte_range+0xbfb>
+ffffffff817e07c7:	48 b8 ff ff ff ff 03 	movabs $0x3ffffffff,%rax
+ffffffff817e07ce:	00 00 00 
+ffffffff817e07d1:	48 ba ff ff ff ff ff 	movabs $0x3ffffffffffffff,%rdx
+ffffffff817e07d8:	ff ff 03 
+ffffffff817e07db:	48 21 d6             	and    %rdx,%rsi
+ffffffff817e07de:	48 21 f0             	and    %rsi,%rax
+ffffffff817e07e1:	48 c1 e0 06          	shl    $0x6,%rax
+ffffffff817e07e5:	48 03 05 ac 0e 85 01 	add    0x1850eac(%rip),%rax        # ffffffff83031698 <vmemmap_base>
+ffffffff817e07ec:	48 8b 50 08          	mov    0x8(%rax),%rdx
+ffffffff817e07f0:	48 89 d1             	mov    %rdx,%rcx
+ffffffff817e07f3:	83 e1 01             	and    $0x1,%ecx
+ffffffff817e07f6:	48 83 e9 01          	sub    $0x1,%rcx
+ffffffff817e07fa:	48 09 ca             	or     %rcx,%rdx
+ffffffff817e07fd:	48 21 c2             	and    %rax,%rdx
+ffffffff817e0800:	f6 42 18 01          	testb  $0x1,0x18(%rdx)
+ffffffff817e0804:	74 72                	je     ffffffff817e0878 <change_pte_range+0xbd8>
+ffffffff817e0806:	48 bf 00 00 00 00 00 	movabs $0x6800000000000000,%rdi
+ffffffff817e080d:	00 00 68 
+ffffffff817e0810:	48 09 f7             	or     %rsi,%rdi
+ffffffff817e0813:	48 f7 d6             	not    %rsi
+ffffffff817e0816:	48 c1 ef 3a          	shr    $0x3a,%rdi
+ffffffff817e081a:	48 c1 e6 0e          	shl    $0xe,%rsi
+ffffffff817e081e:	48 0f a4 f7 3b       	shld   $0x3b,%rsi,%rdi
+ffffffff817e0823:	ff 15 ef 4c a8 01    	call   *0x1a84cef(%rip)        # ffffffff83265518 <pv_ops+0x1d8>
+ffffffff817e0829:	48 89 c6             	mov    %rax,%rsi
+ffffffff817e082c:	48 83 ce 02          	or     $0x2,%rsi
+ffffffff817e0830:	41 f6 c4 02          	test   $0x2,%r12b
+ffffffff817e0834:	48 0f 44 f0          	cmove  %rax,%rsi
+ffffffff817e0838:	e9 c5 fb ff ff       	jmp    ffffffff817e0402 <change_pte_range+0x762>
+ffffffff817e083d:	ff 15 35 4d a8 01    	call   *0x1a84d35(%rip)        # ffffffff83265578 <pv_ops+0x238>
+ffffffff817e0843:	e9 2b f5 ff ff       	jmp    ffffffff817dfd73 <change_pte_range+0xd3>
+ffffffff817e0848:	e8 a3 f1 ff ff       	call   ffffffff817df9f0 <pte_advance_pfn>
+ffffffff817e084d:	4c 89 ef             	mov    %r13,%rdi
+ffffffff817e0850:	31 f6                	xor    %esi,%esi
+ffffffff817e0852:	48 89 c3             	mov    %rax,%rbx
+ffffffff817e0855:	e8 96 f1 ff ff       	call   ffffffff817df9f0 <pte_advance_pfn>
+ffffffff817e085a:	49 89 c5             	mov    %rax,%r13
+ffffffff817e085d:	e9 bf fe ff ff       	jmp    ffffffff817e0721 <change_pte_range+0xa81>
+ffffffff817e0862:	48 8b 7d c0          	mov    -0x40(%rbp),%rdi
+ffffffff817e0866:	e8 45 5c 16 00       	call   ffffffff819464b0 <userfaultfd_wp_unpopulated>
+ffffffff817e086b:	84 c0                	test   %al,%al
+ffffffff817e086d:	0f 84 0c f8 ff ff    	je     ffffffff817e007f <change_pte_range+0x3df>
+ffffffff817e0873:	e9 28 fb ff ff       	jmp    ffffffff817e03a0 <change_pte_range+0x700>
+ffffffff817e0878:	48 bf 00 00 00 00 00 	movabs $0x6400000000000000,%rdi
+ffffffff817e087f:	00 00 64 
+ffffffff817e0882:	48 09 f7             	or     %rsi,%rdi
+ffffffff817e0885:	eb 8c                	jmp    ffffffff817e0813 <change_pte_range+0xb73>
+ffffffff817e0887:	48 8b 0d a2 20 87 01 	mov    0x18720a2(%rip),%rcx        # ffffffff83052930 <__pi_physical_mask>
+ffffffff817e088e:	48 81 e1 00 f0 ff ff 	and    $0xfffffffffffff000,%rcx
+ffffffff817e0895:	48 f7 d1             	not    %rcx
+ffffffff817e0898:	48 21 c1             	and    %rax,%rcx
+ffffffff817e089b:	e9 35 03 fe 01       	jmp    ffffffff837c0bd5 <_einittext+0x2be0>
+ffffffff817e08a0:	48 89 c8             	mov    %rcx,%rax
+ffffffff817e08a3:	83 e0 42             	and    $0x42,%eax
+ffffffff817e08a6:	48 83 f8 40          	cmp    $0x40,%rax
+ffffffff817e08aa:	0f 84 6a fd ff ff    	je     ffffffff817e061a <change_pte_range+0x97a>
+ffffffff817e08b0:	48 8b 45 c0          	mov    -0x40(%rbp),%rax
+ffffffff817e08b4:	4c 63 6d 88          	movslq -0x78(%rbp),%r13
+ffffffff817e08b8:	48 8b 78 20          	mov    0x20(%rax),%rdi
+ffffffff817e08bc:	4d 89 ea             	mov    %r13,%r10
+ffffffff817e08bf:	4c 89 eb             	mov    %r13,%rbx
+ffffffff817e08c2:	49 c1 e2 0c          	shl    $0xc,%r10
+ffffffff817e08c6:	40 f6 c7 08          	test   $0x8,%dil
+ffffffff817e08ca:	0f 85 d7 02 00 00    	jne    ffffffff817e0ba7 <change_pte_range+0xf07>
+ffffffff817e08d0:	48 89 d6             	mov    %rdx,%rsi
+ffffffff817e08d3:	4c 89 95 60 ff ff ff 	mov    %r10,-0xa0(%rbp)
+ffffffff817e08da:	48 89 95 68 ff ff ff 	mov    %rdx,-0x98(%rbp)
+ffffffff817e08e1:	e8 1a e8 ff ff       	call   ffffffff817df100 <maybe_change_pte_writable.isra.0>
+ffffffff817e08e6:	48 83 7d 80 00       	cmpq   $0x0,-0x80(%rbp)
+ffffffff817e08eb:	48 8b 95 68 ff ff ff 	mov    -0x98(%rbp),%rdx
+ffffffff817e08f2:	4c 8b 95 60 ff ff ff 	mov    -0xa0(%rbp),%r10
+ffffffff817e08f9:	0f 84 0e 02 00 00    	je     ffffffff817e0b0d <change_pte_range+0xe6d>
+ffffffff817e08ff:	84 c0                	test   %al,%al
+ffffffff817e0901:	0f 84 06 02 00 00    	je     ffffffff817e0b0d <change_pte_range+0xe6d>
+ffffffff817e0907:	48 8b 45 a8          	mov    -0x58(%rbp),%rax
+ffffffff817e090b:	f6 40 18 01          	testb  $0x1,0x18(%rax)
+ffffffff817e090f:	0f 84 f8 01 00 00    	je     ffffffff817e0b0d <change_pte_range+0xe6d>
+ffffffff817e0915:	44 8b 5d 88          	mov    -0x78(%rbp),%r11d
+ffffffff817e0919:	45 85 db             	test   %r11d,%r11d
+ffffffff817e091c:	0f 84 ac f6 ff ff    	je     ffffffff817dffce <change_pte_range+0x32e>
+ffffffff817e0922:	48 89 95 48 ff ff ff 	mov    %rdx,-0xb8(%rbp)
+ffffffff817e0929:	4c 89 a5 40 ff ff ff 	mov    %r12,-0xc0(%rbp)
+ffffffff817e0930:	4c 89 ad 38 ff ff ff 	mov    %r13,-0xc8(%rbp)
+ffffffff817e0937:	4c 89 b5 50 ff ff ff 	mov    %r14,-0xb0(%rbp)
+ffffffff817e093e:	4c 89 ad 28 ff ff ff 	mov    %r13,-0xd8(%rbp)
+ffffffff817e0945:	4c 89 bd 58 ff ff ff 	mov    %r15,-0xa8(%rbp)
+ffffffff817e094c:	45 31 ff             	xor    %r15d,%r15d
+ffffffff817e094f:	4c 89 95 30 ff ff ff 	mov    %r10,-0xd0(%rbp)
+ffffffff817e0956:	45 89 da             	mov    %r11d,%r10d
+ffffffff817e0959:	49 63 f7             	movslq %r15d,%rsi
+ffffffff817e095c:	48 89 f0             	mov    %rsi,%rax
+ffffffff817e095f:	48 c1 e0 06          	shl    $0x6,%rax
+ffffffff817e0963:	48 03 45 b0          	add    -0x50(%rbp),%rax
+ffffffff817e0967:	48 8b 50 08          	mov    0x8(%rax),%rdx
+ffffffff817e096b:	48 89 d1             	mov    %rdx,%rcx
+ffffffff817e096e:	83 e1 01             	and    $0x1,%ecx
+ffffffff817e0971:	48 83 e9 01          	sub    $0x1,%rcx
+ffffffff817e0975:	48 09 ca             	or     %rcx,%rdx
+ffffffff817e0978:	48 21 c2             	and    %rax,%rdx
+ffffffff817e097b:	80 7a 33 f4          	cmpb   $0xf4,0x33(%rdx)
+ffffffff817e097f:	75 14                	jne    ffffffff817e0995 <change_pte_range+0xcf5>
+ffffffff817e0981:	48 8b 50 08          	mov    0x8(%rax),%rdx
+ffffffff817e0985:	48 89 d1             	mov    %rdx,%rcx
+ffffffff817e0988:	83 e1 01             	and    $0x1,%ecx
+ffffffff817e098b:	48 83 e9 01          	sub    $0x1,%rcx
+ffffffff817e098f:	48 09 ca             	or     %rcx,%rdx
+ffffffff817e0992:	48 21 d0             	and    %rdx,%rax
+ffffffff817e0995:	48 8b 10             	mov    (%rax),%rdx
+ffffffff817e0998:	41 8d 5f 01          	lea    0x1(%r15),%ebx
+ffffffff817e099c:	47 8d 34 3a          	lea    (%r10,%r15,1),%r14d
+ffffffff817e09a0:	48 c1 ea 0b          	shr    $0xb,%rdx
+ffffffff817e09a4:	83 e2 01             	and    $0x1,%edx
+ffffffff817e09a7:	44 39 f3             	cmp    %r14d,%ebx
+ffffffff817e09aa:	0f 8d 6a 02 00 00    	jge    ffffffff817e0c1a <change_pte_range+0xf7a>
+ffffffff817e09b0:	48 63 cb             	movslq %ebx,%rcx
+ffffffff817e09b3:	48 c1 e1 06          	shl    $0x6,%rcx
+ffffffff817e09b7:	48 03 4d b0          	add    -0x50(%rbp),%rcx
+ffffffff817e09bb:	eb 0c                	jmp    ffffffff817e09c9 <change_pte_range+0xd29>
+ffffffff817e09bd:	83 c3 01             	add    $0x1,%ebx
+ffffffff817e09c0:	48 83 c1 40          	add    $0x40,%rcx
+ffffffff817e09c4:	44 39 f3             	cmp    %r14d,%ebx
+ffffffff817e09c7:	7d 40                	jge    ffffffff817e0a09 <change_pte_range+0xd69>
+ffffffff817e09c9:	48 8b 41 08          	mov    0x8(%rcx),%rax
+ffffffff817e09cd:	48 89 cf             	mov    %rcx,%rdi
+ffffffff817e09d0:	49 89 c0             	mov    %rax,%r8
+ffffffff817e09d3:	41 83 e0 01          	and    $0x1,%r8d
+ffffffff817e09d7:	49 83 e8 01          	sub    $0x1,%r8
+ffffffff817e09db:	4c 09 c0             	or     %r8,%rax
+ffffffff817e09de:	48 21 c8             	and    %rcx,%rax
+ffffffff817e09e1:	80 78 33 f4          	cmpb   $0xf4,0x33(%rax)
+ffffffff817e09e5:	75 14                	jne    ffffffff817e09fb <change_pte_range+0xd5b>
+ffffffff817e09e7:	48 8b 79 08          	mov    0x8(%rcx),%rdi
+ffffffff817e09eb:	48 89 f8             	mov    %rdi,%rax
+ffffffff817e09ee:	83 e0 01             	and    $0x1,%eax
+ffffffff817e09f1:	48 83 e8 01          	sub    $0x1,%rax
+ffffffff817e09f5:	48 09 c7             	or     %rax,%rdi
+ffffffff817e09f8:	48 21 cf             	and    %rcx,%rdi
+ffffffff817e09fb:	48 8b 07             	mov    (%rdi),%rax
+ffffffff817e09fe:	48 c1 e8 0b          	shr    $0xb,%rax
+ffffffff817e0a02:	83 e0 01             	and    $0x1,%eax
+ffffffff817e0a05:	38 c2                	cmp    %al,%dl
+ffffffff817e0a07:	74 b4                	je     ffffffff817e09bd <change_pte_range+0xd1d>
+ffffffff817e0a09:	41 89 dd             	mov    %ebx,%r13d
+ffffffff817e0a0c:	45 29 fd             	sub    %r15d,%r13d
+ffffffff817e0a0f:	41 89 df             	mov    %ebx,%r15d
+ffffffff817e0a12:	44 89 6d 80          	mov    %r13d,-0x80(%rbp)
+ffffffff817e0a16:	48 8b 85 58 ff ff ff 	mov    -0xa8(%rbp),%rax
+ffffffff817e0a1d:	49 89 f4             	mov    %rsi,%r12
+ffffffff817e0a20:	48 8b bd 40 ff ff ff 	mov    -0xc0(%rbp),%rdi
+ffffffff817e0a27:	48 89 b5 68 ff ff ff 	mov    %rsi,-0x98(%rbp)
+ffffffff817e0a2e:	49 c1 e4 0c          	shl    $0xc,%r12
+ffffffff817e0a32:	88 95 60 ff ff ff    	mov    %dl,-0xa0(%rbp)
+ffffffff817e0a38:	4c 03 a5 50 ff ff ff 	add    -0xb0(%rbp),%r12
+ffffffff817e0a3f:	48 8d 04 f0          	lea    (%rax,%rsi,8),%rax
+ffffffff817e0a43:	48 89 45 88          	mov    %rax,-0x78(%rbp)
+ffffffff817e0a47:	e8 a4 ef ff ff       	call   ffffffff817df9f0 <pte_advance_pfn>
+ffffffff817e0a4c:	48 8b b5 68 ff ff ff 	mov    -0x98(%rbp),%rsi
+ffffffff817e0a53:	48 8b bd 48 ff ff ff 	mov    -0xb8(%rbp),%rdi
+ffffffff817e0a5a:	48 89 45 a8          	mov    %rax,-0x58(%rbp)
+ffffffff817e0a5e:	e8 8d ef ff ff       	call   ffffffff817df9f0 <pte_advance_pfn>
+ffffffff817e0a63:	80 bd 60 ff ff ff 00 	cmpb   $0x0,-0xa0(%rbp)
+ffffffff817e0a6a:	0f 85 26 01 00 00    	jne    ffffffff817e0b96 <change_pte_range+0xef6>
+ffffffff817e0a70:	44 8b 4d 80          	mov    -0x80(%rbp),%r9d
+ffffffff817e0a74:	48 8b 7d c0          	mov    -0x40(%rbp),%rdi
+ffffffff817e0a78:	4c 89 e6             	mov    %r12,%rsi
+ffffffff817e0a7b:	49 89 c0             	mov    %rax,%r8
+ffffffff817e0a7e:	48 8b 4d a8          	mov    -0x58(%rbp),%rcx
+ffffffff817e0a82:	48 8b 55 88          	mov    -0x78(%rbp),%rdx
+ffffffff817e0a86:	48 89 45 80          	mov    %rax,-0x80(%rbp)
+ffffffff817e0a8a:	e8 41 ed ff ff       	call   ffffffff817df7d0 <modify_prot_commit_ptes>
+ffffffff817e0a8f:	48 8b 75 80          	mov    -0x80(%rbp),%rsi
+ffffffff817e0a93:	48 8b 7d a8          	mov    -0x58(%rbp),%rdi
+ffffffff817e0a97:	e8 74 ee ff ff       	call   ffffffff817df910 <pte_needs_flush>
+ffffffff817e0a9c:	84 c0                	test   %al,%al
+ffffffff817e0a9e:	74 39                	je     ffffffff817e0ad9 <change_pte_range+0xe39>
+ffffffff817e0aa0:	48 8b bd 78 ff ff ff 	mov    -0x88(%rbp),%rdi
+ffffffff817e0aa7:	48 8b 47 10          	mov    0x10(%rdi),%rax
+ffffffff817e0aab:	48 8b 57 18          	mov    0x18(%rdi),%rdx
+ffffffff817e0aaf:	4c 39 e0             	cmp    %r12,%rax
+ffffffff817e0ab2:	49 0f 47 c4          	cmova  %r12,%rax
+ffffffff817e0ab6:	49 c1 e5 0c          	shl    $0xc,%r13
+ffffffff817e0aba:	41 81 e5 00 f0 ff ff 	and    $0xfffff000,%r13d
+ffffffff817e0ac1:	48 89 47 10          	mov    %rax,0x10(%rdi)
+ffffffff817e0ac5:	4b 8d 44 25 00       	lea    0x0(%r13,%r12,1),%rax
+ffffffff817e0aca:	48 39 d0             	cmp    %rdx,%rax
+ffffffff817e0acd:	48 0f 42 c2          	cmovb  %rdx,%rax
+ffffffff817e0ad1:	80 4f 20 10          	orb    $0x10,0x20(%rdi)
+ffffffff817e0ad5:	48 89 47 18          	mov    %rax,0x18(%rdi)
+ffffffff817e0ad9:	45 89 f2             	mov    %r14d,%r10d
+ffffffff817e0adc:	41 29 da             	sub    %ebx,%r10d
+ffffffff817e0adf:	0f 85 74 fe ff ff    	jne    ffffffff817e0959 <change_pte_range+0xcb9>
+ffffffff817e0ae5:	4c 8b bd 58 ff ff ff 	mov    -0xa8(%rbp),%r15
+ffffffff817e0aec:	48 8b 9d 38 ff ff ff 	mov    -0xc8(%rbp),%rbx
+ffffffff817e0af3:	4c 8b 95 30 ff ff ff 	mov    -0xd0(%rbp),%r10
+ffffffff817e0afa:	4c 8b b5 50 ff ff ff 	mov    -0xb0(%rbp),%r14
+ffffffff817e0b01:	4c 8b ad 28 ff ff ff 	mov    -0xd8(%rbp),%r13
+ffffffff817e0b08:	e9 c1 f4 ff ff       	jmp    ffffffff817dffce <change_pte_range+0x32e>
+ffffffff817e0b0d:	4c 89 e7             	mov    %r12,%rdi
+ffffffff817e0b10:	31 f6                	xor    %esi,%esi
+ffffffff817e0b12:	4c 89 55 a8          	mov    %r10,-0x58(%rbp)
+ffffffff817e0b16:	48 89 55 b0          	mov    %rdx,-0x50(%rbp)
+ffffffff817e0b1a:	e8 d1 ee ff ff       	call   ffffffff817df9f0 <pte_advance_pfn>
+ffffffff817e0b1f:	48 8b 7d b0          	mov    -0x50(%rbp),%rdi
+ffffffff817e0b23:	31 f6                	xor    %esi,%esi
+ffffffff817e0b25:	49 89 c4             	mov    %rax,%r12
+ffffffff817e0b28:	e8 c3 ee ff ff       	call   ffffffff817df9f0 <pte_advance_pfn>
+ffffffff817e0b2d:	44 8b 4d 88          	mov    -0x78(%rbp),%r9d
+ffffffff817e0b31:	48 89 45 b0          	mov    %rax,-0x50(%rbp)
+ffffffff817e0b35:	49 89 c0             	mov    %rax,%r8
+ffffffff817e0b38:	48 8b 7d c0          	mov    -0x40(%rbp),%rdi
+ffffffff817e0b3c:	4c 89 e1             	mov    %r12,%rcx
+ffffffff817e0b3f:	4c 89 fa             	mov    %r15,%rdx
+ffffffff817e0b42:	4c 89 f6             	mov    %r14,%rsi
+ffffffff817e0b45:	e8 86 ec ff ff       	call   ffffffff817df7d0 <modify_prot_commit_ptes>
+ffffffff817e0b4a:	48 8b 75 b0          	mov    -0x50(%rbp),%rsi
+ffffffff817e0b4e:	4c 89 e7             	mov    %r12,%rdi
+ffffffff817e0b51:	e8 ba ed ff ff       	call   ffffffff817df910 <pte_needs_flush>
+ffffffff817e0b56:	4c 8b 55 a8          	mov    -0x58(%rbp),%r10
+ffffffff817e0b5a:	84 c0                	test   %al,%al
+ffffffff817e0b5c:	0f 84 6c f4 ff ff    	je     ffffffff817dffce <change_pte_range+0x32e>
+ffffffff817e0b62:	48 8b b5 78 ff ff ff 	mov    -0x88(%rbp),%rsi
+ffffffff817e0b69:	48 8b 46 10          	mov    0x10(%rsi),%rax
+ffffffff817e0b6d:	48 8b 56 18          	mov    0x18(%rsi),%rdx
+ffffffff817e0b71:	4c 39 f0             	cmp    %r14,%rax
+ffffffff817e0b74:	49 0f 47 c6          	cmova  %r14,%rax
+ffffffff817e0b78:	48 89 46 10          	mov    %rax,0x10(%rsi)
+ffffffff817e0b7c:	44 89 d0             	mov    %r10d,%eax
+ffffffff817e0b7f:	4c 01 f0             	add    %r14,%rax
+ffffffff817e0b82:	48 39 d0             	cmp    %rdx,%rax
+ffffffff817e0b85:	48 0f 42 c2          	cmovb  %rdx,%rax
+ffffffff817e0b89:	80 4e 20 10          	orb    $0x10,0x20(%rsi)
+ffffffff817e0b8d:	48 89 46 18          	mov    %rax,0x18(%rsi)
+ffffffff817e0b91:	e9 38 f4 ff ff       	jmp    ffffffff817dffce <change_pte_range+0x32e>
+ffffffff817e0b96:	48 8b 75 c0          	mov    -0x40(%rbp),%rsi
+ffffffff817e0b9a:	48 89 c7             	mov    %rax,%rdi
+ffffffff817e0b9d:	e8 9e e4 c2 ff       	call   ffffffff8140f040 <pte_mkwrite>
+ffffffff817e0ba2:	e9 c9 fe ff ff       	jmp    ffffffff817e0a70 <change_pte_range+0xdd0>
+ffffffff817e0ba7:	48 89 d6             	mov    %rdx,%rsi
+ffffffff817e0baa:	48 89 55 b0          	mov    %rdx,-0x50(%rbp)
+ffffffff817e0bae:	4c 89 55 a8          	mov    %r10,-0x58(%rbp)
+ffffffff817e0bb2:	48 89 4d 80          	mov    %rcx,-0x80(%rbp)
+ffffffff817e0bb6:	e8 45 e5 ff ff       	call   ffffffff817df100 <maybe_change_pte_writable.isra.0>
+ffffffff817e0bbb:	48 8b 55 b0          	mov    -0x50(%rbp),%rdx
+ffffffff817e0bbf:	84 c0                	test   %al,%al
+ffffffff817e0bc1:	74 6c                	je     ffffffff817e0c2f <change_pte_range+0xf8f>
+ffffffff817e0bc3:	31 f6                	xor    %esi,%esi
+ffffffff817e0bc5:	4c 89 e7             	mov    %r12,%rdi
+ffffffff817e0bc8:	e8 23 ee ff ff       	call   ffffffff817df9f0 <pte_advance_pfn>
+ffffffff817e0bcd:	48 8b 7d b0          	mov    -0x50(%rbp),%rdi
+ffffffff817e0bd1:	31 f6                	xor    %esi,%esi
+ffffffff817e0bd3:	49 89 c4             	mov    %rax,%r12
+ffffffff817e0bd6:	e8 15 ee ff ff       	call   ffffffff817df9f0 <pte_advance_pfn>
+ffffffff817e0bdb:	4c 8b 55 a8          	mov    -0x58(%rbp),%r10
+ffffffff817e0bdf:	49 89 c0             	mov    %rax,%r8
+ffffffff817e0be2:	48 b8 40 00 00 00 00 	movabs $0x400000000000040,%rax
+ffffffff817e0be9:	00 00 04 
+ffffffff817e0bec:	48 85 45 80          	test   %rax,-0x80(%rbp)
+ffffffff817e0bf0:	74 17                	je     ffffffff817e0c09 <change_pte_range+0xf69>
+ffffffff817e0bf2:	48 8b 75 c0          	mov    -0x40(%rbp),%rsi
+ffffffff817e0bf6:	4c 89 c7             	mov    %r8,%rdi
+ffffffff817e0bf9:	4c 89 55 b0          	mov    %r10,-0x50(%rbp)
+ffffffff817e0bfd:	e8 3e e4 c2 ff       	call   ffffffff8140f040 <pte_mkwrite>
+ffffffff817e0c02:	4c 8b 55 b0          	mov    -0x50(%rbp),%r10
+ffffffff817e0c06:	49 89 c0             	mov    %rax,%r8
+ffffffff817e0c09:	4c 89 55 a8          	mov    %r10,-0x58(%rbp)
+ffffffff817e0c0d:	44 8b 4d 88          	mov    -0x78(%rbp),%r9d
+ffffffff817e0c11:	4c 89 45 b0          	mov    %r8,-0x50(%rbp)
+ffffffff817e0c15:	e9 1e ff ff ff       	jmp    ffffffff817e0b38 <change_pte_range+0xe98>
+ffffffff817e0c1a:	c7 45 80 01 00 00 00 	movl   $0x1,-0x80(%rbp)
+ffffffff817e0c21:	41 89 df             	mov    %ebx,%r15d
+ffffffff817e0c24:	41 bd 01 00 00 00    	mov    $0x1,%r13d
+ffffffff817e0c2a:	e9 e7 fd ff ff       	jmp    ffffffff817e0a16 <change_pte_range+0xd76>
+ffffffff817e0c2f:	4c 89 e7             	mov    %r12,%rdi
+ffffffff817e0c32:	31 f6                	xor    %esi,%esi
+ffffffff817e0c34:	48 89 55 b0          	mov    %rdx,-0x50(%rbp)
+ffffffff817e0c38:	e8 b3 ed ff ff       	call   ffffffff817df9f0 <pte_advance_pfn>
+ffffffff817e0c3d:	48 8b 7d b0          	mov    -0x50(%rbp),%rdi
+ffffffff817e0c41:	31 f6                	xor    %esi,%esi
+ffffffff817e0c43:	49 89 c4             	mov    %rax,%r12
+ffffffff817e0c46:	e8 a5 ed ff ff       	call   ffffffff817df9f0 <pte_advance_pfn>
+ffffffff817e0c4b:	4c 8b 55 a8          	mov    -0x58(%rbp),%r10
+ffffffff817e0c4f:	49 89 c0             	mov    %rax,%r8
+ffffffff817e0c52:	eb b5                	jmp    ffffffff817e0c09 <change_pte_range+0xf69>
+ffffffff817e0c54:	48 c7 45 a0 f5 ff ff 	movq   $0xfffffffffffffff5,-0x60(%rbp)
+ffffffff817e0c5b:	ff 
+ffffffff817e0c5c:	e9 c7 f3 ff ff       	jmp    ffffffff817e0028 <change_pte_range+0x388>
+ffffffff817e0c61:	e8 0a 9f eb 00       	call   ffffffff8269ab70 <__stack_chk_fail>
+
+Disassembly of section .data:
+
+Disassembly of section .init.text:
+
+Disassembly of section .altinstr_aux:
+
+Disassembly of section .altinstr_replacement:
+
+Disassembly of section .exit.text:

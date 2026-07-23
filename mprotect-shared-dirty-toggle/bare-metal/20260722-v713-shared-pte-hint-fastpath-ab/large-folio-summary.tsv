@@ -1,0 +1,4 @@
+order	point	role	commit	n	mean_mprotect_ns_per_page	mean_protect_ns_per_page	mean_restore_ns_per_page	mean_touch_ns_per_page	mean_iteration_ns_per_page	sd_mprotect	cv_mprotect_pct	values_mprotect	semantic_failures
+1	large-baseline-a	baseline	89e613bc0b2d6d4a18a09b161131ce4ca5c70f2a	15	23.000000	12.000000	11.000000	11.533333	36.000000	0.000000	0.000000	23 23 23 23 23 23 23 23 23 23 23 23 23 23 23	0
+2	large-candidate	candidate	199c9959d3a9b53f346c221757fc7ac507fbac50	15	38.133333	19.133333	19.000000	11.466667	50.600000	0.351866	0.922725	38 39 38 38 39 38 38 38 38 38 38 38 38 38 38	0
+3	large-baseline-b	baseline	89e613bc0b2d6d4a18a09b161131ce4ca5c70f2a	15	23.000000	12.000000	11.000000	11.200000	35.733333	0.000000	0.000000	23 23 23 23 23 23 23 23 23 23 23 23 23 23 23	0

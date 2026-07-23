@@ -1,0 +1,5 @@
+BEGIN { @change = 0; @normal = 0; @batch = 0; }
+kprobe:change_pte_range /pid == cpid/ { @change = @change + 1; }
+kprobe:vm_normal_page /pid == cpid/ { @normal = @normal + 1; }
+kprobe:mprotect_folio_pte_batch /pid == cpid/ { @batch = @batch + 1; }
+END { printf("trace_result change_pte_range=%llu vm_normal_page=%llu mprotect_folio_pte_batch=%llu\n", @change, @normal, @batch); clear(@change); clear(@normal); clear(@batch); }

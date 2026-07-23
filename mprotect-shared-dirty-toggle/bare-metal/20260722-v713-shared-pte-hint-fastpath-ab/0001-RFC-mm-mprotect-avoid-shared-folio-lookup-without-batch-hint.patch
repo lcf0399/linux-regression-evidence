@@ -1,0 +1,89 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chengfeng Lin <lin2530632123@gmail.com>
+Date: Wed, 22 Jul 2026 00:00:00 +0000
+Subject: [RFC CANDIDATE] mm/mprotect: avoid shared folio lookup without a
+ batch hint
+
+The PTE path currently calls vm_normal_page() before it knows whether
+folio-based PTE batching can help.  On architectures whose
+pte_batch_hint() returns one, this adds a vmemmap lookup to every ordinary
+PTE even though a shared mapping does not need struct page information for
+the writable decision.
+
+Avoid the lookup for non-NUMA shared mappings when the architecture cannot
+offer a batch larger than one from the PTE alone.  Private writable mappings
+still perform the lookup for anonymous exclusivity, NUMA protection still
+performs it for folio eligibility, and architectures with a larger PTE batch
+hint retain folio batching.
+
+This is an experimental performance candidate, not a proposed upstream fix.
+In particular, pte_batch_hint() returns one on x86 even for a PTE-mapped
+large folio, so this trades away folio batching for that shared mapping shape.
+The accompanying experiment therefore includes a mandatory PTE-mapped large
+folio reverse check.
+
+Signed-off-by: Chengfeng Lin <lin2530632123@gmail.com>
+---
+ mm/mprotect.c | 38 ++++++++++++++++++++++----------------
+ 1 file changed, 22 insertions(+), 16 deletions(-)
+
+diff --git a/mm/mprotect.c b/mm/mprotect.c
+index b581c4c02f01..7ee2a5bdd9ee 100644
+--- a/mm/mprotect.c
++++ b/mm/mprotect.c
+@@ -344,6 +344,6 @@ static long change_pte_range(struct mmu_gather *tlb,
+ 			int max_nr_ptes = (end - addr) >> PAGE_SHIFT;
+ 			struct folio *folio = NULL;
+-			struct page *page;
++			struct page *page = NULL;
+ 
+ 			/* Already in the desired state. */
+ 			if (prot_numa && pte_protnone(oldpte))
+@@ -352,23 +352,29 @@ static long change_pte_range(struct mmu_gather *tlb,
+ 
+-			page = vm_normal_page(vma, addr, oldpte);
+-			if (page)
+-				folio = page_folio(page);
++			if (likely(!prot_numa && (vma->vm_flags & VM_SHARED) &&
++				   pte_batch_hint(pte, oldpte) == 1)) {
++				nr_ptes = 1;
++			} else {
++				page = vm_normal_page(vma, addr, oldpte);
++				if (page)
++					folio = page_folio(page);
+ 
+-			/*
+-			 * Avoid trapping faults against the zero or KSM
+-			 * pages. See similar comment in change_huge_pmd.
+-			 */
+-			if (prot_numa &&
+-			    !folio_can_map_prot_numa(folio, vma,
+-						is_private_single_threaded)) {
++				/*
++				 * Avoid trapping faults against the zero or KSM
++				 * pages. See similar comment in change_huge_pmd.
++				 */
++				if (prot_numa &&
++				    !folio_can_map_prot_numa(folio, vma,
++							is_private_single_threaded)) {
+ 
+-				/* determine batch to skip */
+-				nr_ptes = mprotect_folio_pte_batch(folio,
+-					  pte, oldpte, max_nr_ptes, /* flags = */ 0);
+-				continue;
+-			}
++					/* determine batch to skip */
++					nr_ptes = mprotect_folio_pte_batch(folio,
++						  pte, oldpte, max_nr_ptes, /* flags = */ 0);
++					continue;
++				}
+ 
+-			nr_ptes = mprotect_folio_pte_batch(folio, pte, oldpte, max_nr_ptes, flags);
++				nr_ptes = mprotect_folio_pte_batch(folio, pte,
++						oldpte, max_nr_ptes, flags);
++			}
+ 
+ 			/*
+ 			 * Optimize for the small-folio common case by
+-- 
+2.43.0

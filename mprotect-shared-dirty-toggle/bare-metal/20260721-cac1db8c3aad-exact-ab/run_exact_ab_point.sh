@@ -3,20 +3,20 @@
 set -euo pipefail
 
 if [[ $# -ne 2 ]]; then
-	echo "usage: $0 <parent|child> <point-label>" >&2
+	echo "usage: $0 <manifest-role> <point-label>" >&2
 	exit 2
 fi
 
 ROLE=$1
 POINT_LABEL=$2
-case "$ROLE" in
-	parent|child) ;;
-	*) echo "invalid role: $ROLE" >&2; exit 2 ;;
-esac
+[[ "$ROLE" =~ ^[a-z][a-z0-9-]*$ ]] || {
+	echo "invalid manifest role: $ROLE" >&2
+	exit 2
+}
 
 ROOT=${ROOT:-/home/lcf/kernel-study}
 BASE=${BASE:-$ROOT/linux-baremetal/mprotect-cac1-exact-20260721}
-HELPERS=${HELPERS:-$ROOT/linux-mm-regression-evidence/scripts/baremetal/kernel}
+HELPERS=${HELPERS:-$ROOT/scripts/baremetal/kernel}
 REPRODUCER_SOURCE=${REPRODUCER_SOURCE:-$BASE/workload/mprotect_shared_dirty_reproducer.c}
 MANIFEST="$BASE/build-logs/$ROLE.artifacts.tsv"
 WARMUP_RUNS=${WARMUP_RUNS:-3}

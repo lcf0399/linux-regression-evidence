@@ -1,2 +1,0 @@
-kernel,n,iteration_mean,iteration_cv_pct,protect_mean,restore_mean,post_touch_mean,semantic_bad_steps
-6.19.9-bm-6.19.9-basepage-probe,3,30.333,1.554,10.667,10.000,9.000,0

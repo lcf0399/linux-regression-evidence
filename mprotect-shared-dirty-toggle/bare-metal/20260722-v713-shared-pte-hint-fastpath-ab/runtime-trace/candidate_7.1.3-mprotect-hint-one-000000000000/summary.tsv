@@ -1,0 +1,2 @@
+role	point_label	kernel_release	change_pte_range	vm_normal_page	mprotect_folio_pte_batch
+candidate	candidate	7.1.3-mprotect-hint-one-000000000000	12	8948	16

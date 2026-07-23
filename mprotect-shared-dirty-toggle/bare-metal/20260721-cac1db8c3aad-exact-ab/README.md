@@ -92,7 +92,6 @@ its distribution rescue kernel after the sandwich.
 - `component-summary.tsv`: protect, restore, and post-touch means.
 - `runs/`: measured rows, raw reproducer output, CPU profiles, and run
   environment for the three points.
-- `boot-smoke/`: accepted-boot identity and smoke-test records.
 - `source-manifests/`, `build-metadata/`, `install-metadata/`: exact source,
   config, artifact, and installation hashes.
 - `prepare_build_install_exact_pair.sh`: guarded exact-pair build/install

@@ -1,0 +1,62 @@
+From: Chengfeng Lin <lin2530632123@gmail.com>
+Subject: [DIAGNOSTIC ONLY] mm/mprotect: skip normal-path folio and batch lookup
+
+For non-NUMA protection changes, skip both the vm_normal_folio() lookup and
+PTE-batch discovery added by cac1db8c3aad, then use the parent-style direct
+single-PTE commit path.  NUMA protection changes retain the unmodified child
+folio, batch, and generic commit paths.
+
+This isolates the folio lookup relative to the matching keep-folio probe.  It
+is an attribution probe for a fixed base-page workload, not a proposed fix.
+---
+ mm/mprotect.c | 27 +++++++++++++++++++++------
+ 1 file changed, 21 insertions(+), 6 deletions(-)
+
+diff --git a/mm/mprotect.c b/mm/mprotect.c
+--- a/mm/mprotect.c
++++ b/mm/mprotect.c
+@@ -323,10 +323,15 @@ static long change_pte_range(struct mmu_gather *tlb,
+ 				}
+ 			}
+ 
+-			if (!folio)
+-				folio = vm_normal_folio(vma, addr, oldpte);
+-
+-			nr_ptes = mprotect_folio_pte_batch(folio, pte, oldpte, max_nr_ptes, flags);
++			/* Diagnostic: skip normal-path folio lookup and batching. */
++			if (likely(!prot_numa)) {
++				nr_ptes = 1;
++			} else {
++				if (!folio)
++					folio = vm_normal_folio(vma, addr, oldpte);
++				nr_ptes = mprotect_folio_pte_batch(folio, pte,
++						oldpte, max_nr_ptes, flags);
++			}
+ 
+ 			oldpte = modify_prot_start_ptes(vma, addr, pte, nr_ptes);
+ 			ptent = pte_modify(oldpte, newprot);
+@@ -349,10 +354,20 @@ static long change_pte_range(struct mmu_gather *tlb,
+ 			 * example, if a PTE is already dirty and no other
+ 			 * COW or special handling is required.
+ 			 */
+-			if ((cp_flags & MM_CP_TRY_CHANGE_WRITABLE) &&
++			if (likely(nr_ptes == 1)) {
++				if ((cp_flags & MM_CP_TRY_CHANGE_WRITABLE) &&
++				    !pte_write(ptent) &&
++				    can_change_pte_writable(vma, addr, ptent))
++					ptent = pte_mkwrite(ptent, vma);
++
++				modify_prot_commit_ptes(vma, addr, pte, oldpte,
++							ptent, 1);
++				if (pte_needs_flush(oldpte, ptent))
++					tlb_flush_pte_range(tlb, addr, PAGE_SIZE);
++			} else if ((cp_flags & MM_CP_TRY_CHANGE_WRITABLE) &&
+ 			     !pte_write(ptent))
+ 				set_write_prot_commit_flush_ptes(vma, folio,
+-				addr, pte, oldpte, ptent, nr_ptes, tlb);
++					addr, pte, oldpte, ptent, nr_ptes, tlb);
+ 			else
+ 				prot_commit_flush_ptes(vma, addr, pte, oldpte, ptent,
+ 					nr_ptes, /* idx = */ 0, /* set_write = */ false, tlb);
+-- 
+2.51.0

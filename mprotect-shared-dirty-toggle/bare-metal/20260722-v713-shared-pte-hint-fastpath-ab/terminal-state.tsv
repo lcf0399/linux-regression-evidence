@@ -1,0 +1,11 @@
+key	value
+audited_utc	2026-07-22T23:43:52Z
+boot_id	95876cb6-bf0d-469f-988f-d78aa7a5bd68
+kernel_release	7.0.0-27-generic
+bootnext	none
+temporary_kernelstudy_uefi_entries	0
+failed_systemd_units	0
+shmem_enabled	always within_size advise [never] deny force
+cpu2_scaling_governor	powersave
+cpu2_energy_performance_preference	balance_performance
+intel_pstate_no_turbo	0

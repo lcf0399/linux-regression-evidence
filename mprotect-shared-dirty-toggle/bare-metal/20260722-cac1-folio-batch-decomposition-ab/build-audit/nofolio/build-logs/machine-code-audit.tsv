@@ -1,0 +1,4 @@
+role	change_pte_range_size_hex	prot_commit_flush_ptes_size_hex	change_pte_range_calls_to_helper	change_pte_range_calls_to_can_change_pte_writable	change_pte_range_calls_to_vm_normal_folio
+parent	00000000000008c7	absent	0	1	1
+child	0000000000000d13	00000000000002fb	2	0	2
+probe	0000000000000cf1	00000000000002fb	2	1	1

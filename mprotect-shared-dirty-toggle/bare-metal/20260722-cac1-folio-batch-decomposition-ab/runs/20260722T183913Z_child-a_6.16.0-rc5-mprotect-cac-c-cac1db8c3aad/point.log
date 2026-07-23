@@ -1,0 +1,49 @@
+waiting 60s after boot
+timestamp_utc=2026-07-22T18:40:13Z
+expected_release=6.16.0-rc5-mprotect-cac-c-cac1db8c3aad
+running_release=6.16.0-rc5-mprotect-cac-c-cac1db8c3aad
+manifest_id_key=role
+manifest_id_value=child
+manifest_commit=cac1db8c3aad97d6ffb56ced8868d6cbbbd2bfbe
+preemption_contract=dynamic-preempt-boot-none
+required_kernel_cmdline=preempt=none
+kernel_cmdline=root=UUID=52424323-db73-425d-92e4-6c7426f3026d ro rootfstype=ext4 preempt=none crashkernel=2G-4G:320M,4G-32G:512M,32G-64G:1024M,64G-128G:2048M,128G-:4096M initrd=\EFI\kernel-study\initrd.img
+boot_id=8e79cfce-3853-430c-8106-c79203e5ff89
+uptime_seconds=71.52
+root_source=/dev/nvme1n1p2
+root_fstype=ext4
+root_options=rw,relatime
+network_interface=enp5s0
+network_ipv4=192.168.3.10/24
+failed_units=0
+efi_boot_current=0000
+efi_boot_next=none
+config_sha256=1d5a0b4a7c7f59f9dca71f872f4ef1c1dd72fc8459845422fed71bad8e336965
+vmlinuz_sha256=4139f2481c9781ef3a22461d046887c7acb5d69ac7a7f51a17deb38d9be2e81e
+initrd_sha256=ec39ad14f99bdf8fa025cad6e9bbdca1d8de1571518418f04fea786b73c78a7c
+boot_smoke=pass
+run_dir=/home/lcf/kernel-study/linux-baremetal/mprotect-cac1-folio-decomp-20260722/boot-smoke/20260722T184013Z_6.16.0-rc5-mprotect-cac-c-cac1db8c3aad
+efi_bootnext_pending=no
+temporary_entries=0
+staged_files=0
+warmup=1/3
+warmup=2/3
+warmup=3/3
+measured_round=1/15
+measured_round=2/15
+measured_round=3/15
+measured_round=4/15
+measured_round=5/15
+measured_round=6/15
+measured_round=7/15
+measured_round=8/15
+measured_round=9/15
+measured_round=10/15
+measured_round=11/15
+measured_round=12/15
+measured_round=13/15
+measured_round=14/15
+measured_round=15/15
+role	point_label	kernel	n	mean_iteration_ns_per_page	sd	cv_pct	values	semantic_failures
+child	child-a	6.16.0-rc5-mprotect-cac-c-cac1db8c3aad	15	52.933333	0.593617	1.121442	52 52 53 53 53 52 53 54 53 53 53 53 53 53 54	0
+run_dir=/home/lcf/kernel-study/linux-baremetal/mprotect-cac1-folio-decomp-20260722/runs/20260722T183913Z_child-a_6.16.0-rc5-mprotect-cac-c-cac1db8c3aad

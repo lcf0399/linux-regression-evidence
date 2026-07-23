@@ -1,0 +1,49 @@
+waiting 60s after boot
+timestamp_utc=2026-07-22T18:50:19Z
+expected_release=6.16.0-rc5-mprotect-cac-v-folioonly000
+running_release=6.16.0-rc5-mprotect-cac-v-folioonly000
+manifest_id_key=role
+manifest_id_value=folioonly
+manifest_commit=cac1db8c3aad97d6ffb56ced8868d6cbbbd2bfbe
+preemption_contract=dynamic-preempt-boot-none
+required_kernel_cmdline=preempt=none
+kernel_cmdline=root=UUID=52424323-db73-425d-92e4-6c7426f3026d ro rootfstype=ext4 preempt=none crashkernel=2G-4G:320M,4G-32G:512M,32G-64G:1024M,64G-128G:2048M,128G-:4096M initrd=\EFI\kernel-study\initrd.img
+boot_id=03411f3c-b654-41c0-a58d-40d54501e479
+uptime_seconds=70.43
+root_source=/dev/nvme0n1p2
+root_fstype=ext4
+root_options=rw,relatime
+network_interface=enp5s0
+network_ipv4=192.168.3.10/24
+failed_units=0
+efi_boot_current=0000
+efi_boot_next=none
+config_sha256=b3ea0815314e6493e2ac21c1b876d336586b3631b19515b586e35f8bf316752c
+vmlinuz_sha256=028a12a806afbb0b73f4b32537573abb71e53a90e57f2ae7f7ab4e967ef0cf32
+initrd_sha256=67e75ba95af2ca0080a1f13282845baa5c7b51bef2c89725e54d1d09d2d471c7
+boot_smoke=pass
+run_dir=/home/lcf/kernel-study/linux-baremetal/mprotect-cac1-folio-decomp-20260722/boot-smoke/20260722T185019Z_6.16.0-rc5-mprotect-cac-v-folioonly000
+efi_bootnext_pending=no
+temporary_entries=0
+staged_files=0
+warmup=1/3
+warmup=2/3
+warmup=3/3
+measured_round=1/15
+measured_round=2/15
+measured_round=3/15
+measured_round=4/15
+measured_round=5/15
+measured_round=6/15
+measured_round=7/15
+measured_round=8/15
+measured_round=9/15
+measured_round=10/15
+measured_round=11/15
+measured_round=12/15
+measured_round=13/15
+measured_round=14/15
+measured_round=15/15
+role	point_label	kernel	n	mean_iteration_ns_per_page	sd	cv_pct	values	semantic_failures
+folioonly	folioonly-b	6.16.0-rc5-mprotect-cac-v-folioonly000	15	46.866667	0.351866	0.750780	46 47 47 47 47 47 47 47 47 47 47 47 47 47 46	0
+run_dir=/home/lcf/kernel-study/linux-baremetal/mprotect-cac1-folio-decomp-20260722/runs/20260722T184919Z_folioonly-b_6.16.0-rc5-mprotect-cac-v-folioonly000

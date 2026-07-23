@@ -1,6 +1,0 @@
-Jul 21 09:48:04 linux-perf-bm-12700kf kernel: nouveau 0000:01:00.0: drm: DDC responded, but no EDID for DVI-D-1
-Jul 21 09:48:04 linux-perf-bm-12700kf kernel: nouveau 0000:01:00.0: drm: DDC responded, but no EDID for DP-3
-Jul 21 09:48:05 linux-perf-bm-12700kf kernel: nouveau 0000:01:00.0: drm: DDC responded, but no EDID for DVI-D-1
-Jul 21 09:48:05 linux-perf-bm-12700kf kernel: nouveau 0000:01:00.0: drm: DDC responded, but no EDID for DP-3
-Jul 21 09:48:05 linux-perf-bm-12700kf kernel: nouveau 0000:01:00.0: drm: DDC responded, but no EDID for DVI-D-1
-Jul 21 09:48:05 linux-perf-bm-12700kf kernel: nouveau 0000:01:00.0: drm: DDC responded, but no EDID for DP-3

@@ -1,0 +1,10 @@
+point	kernel_release	boot_id	failed_units	measured_rows	semantic_failures
+parent-a	6.16.0-rc5-mprotect-cac-p-45199f715b74	8dbc304d-8659-4df4-b5a7-fbb58d9579da	0	15	0
+child-a	6.16.0-rc5-mprotect-cac-c-cac1db8c3aad	8e79cfce-3853-430c-8106-c79203e5ff89	0	15	0
+fastpath-a	6.16.0-rc5-mprotect-cac-v-ptefastpath0	82693702-ebe4-49b1-8581-165ce39c31f1	0	15	0
+folioonly-a	6.16.0-rc5-mprotect-cac-v-folioonly000	b42c4ebd-3944-4aae-9118-c8eba974e4b1	0	15	0
+nofolio	6.16.0-rc5-mprotect-cac-v-nofolio00000	a4b57604-e87a-422b-8eaf-8fdee5020c05	0	15	0
+folioonly-b	6.16.0-rc5-mprotect-cac-v-folioonly000	03411f3c-b654-41c0-a58d-40d54501e479	0	15	0
+fastpath-b	6.16.0-rc5-mprotect-cac-v-ptefastpath0	864ce613-f37b-4d6e-abba-5db7c2ca131c	0	15	0
+child-b	6.16.0-rc5-mprotect-cac-c-cac1db8c3aad	59a8aa8a-d418-4693-9aac-08495045ae73	0	15	0
+parent-b	6.16.0-rc5-mprotect-cac-p-45199f715b74	e4508428-3b5e-4508-aabd-c350546c0909	0	15	0

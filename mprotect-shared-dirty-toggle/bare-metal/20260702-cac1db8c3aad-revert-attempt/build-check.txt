@@ -1,6 +1,0 @@
-make -C linux-kernel-trees/sources/linux-v6.17-minus-cac-build olddefconfig
-make -C linux-kernel-trees/sources/linux-v6.17-minus-cac-build -j$(nproc) mm/mprotect.o
-make -C linux-kernel-trees/sources/linux-v6.17-minus-cac-build -j$(nproc) bzImage
-
-Result: mm/mprotect.o build passed; arch/x86/boot/bzImage build passed.
-kernelrelease: 6.17.0-dirty

@@ -1,0 +1,6 @@
+role	kernelrelease	canonical_config_sha256	diagnostic
+parent	6.16.0-rc5-mprotect-cac-p-45199f715b74	66064617009cb0b8d49edd1cd2fd1c7876965a3c1d0ec7304f0d54e0ce40c171	
+child	6.16.0-rc5-mprotect-cac-c-cac1db8c3aad	66064617009cb0b8d49edd1cd2fd1c7876965a3c1d0ec7304f0d54e0ce40c171	
+fastpath	6.16.0-rc5-mprotect-cac-v-ptefastpath0	66064617009cb0b8d49edd1cd2fd1c7876965a3c1d0ec7304f0d54e0ce40c171	single-pte-parent-style-commit-fastpath
+folioonly	6.16.0-rc5-mprotect-cac-v-folioonly000	66064617009cb0b8d49edd1cd2fd1c7876965a3c1d0ec7304f0d54e0ce40c171	keep-folio-skip-normal-batch-direct-single-pte
+nofolio	6.16.0-rc5-mprotect-cac-v-nofolio00000	66064617009cb0b8d49edd1cd2fd1c7876965a3c1d0ec7304f0d54e0ce40c171	skip-folio-and-normal-batch-direct-single-pte

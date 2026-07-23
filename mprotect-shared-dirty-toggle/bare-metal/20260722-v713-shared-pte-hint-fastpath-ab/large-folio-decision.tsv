@@ -1,0 +1,2 @@
+validity	classification	max_cv_pct	all_candidate_vs_midpoint_pct	all_baseline_drift_pct	drop_candidate_vs_midpoint_pct	drop_baseline_drift_pct	reverse_gate
+pass	large-folio-regression	0.922725	65.797101	0.000000	65.838509	0.000000	fail

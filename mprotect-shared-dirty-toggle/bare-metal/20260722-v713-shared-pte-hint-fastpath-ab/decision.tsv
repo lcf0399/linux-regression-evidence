@@ -1,0 +1,2 @@
+validity	classification	max_cv_pct	all_candidate_vs_midpoint_pct	all_baseline_drift_pct	drop_candidate_vs_midpoint_pct	drop_baseline_drift_pct	runtime_direct_hit
+pass	base-page-fastpath-useful	1.095611	-17.358270	0.351288	-17.323327	0.375940	pass

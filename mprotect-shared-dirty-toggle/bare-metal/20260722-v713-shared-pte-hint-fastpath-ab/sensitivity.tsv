@@ -1,0 +1,3 @@
+analysis	baseline_a	candidate	baseline_b	baseline_midpoint	candidate_vs_midpoint_pct	baseline_drift_pct
+all_15_rounds	56.933333	47.133333	57.133333	57.033333	-17.358270	0.351288
+drop_first_round	57.000000	47.214286	57.214286	57.107143	-17.323327	0.375940

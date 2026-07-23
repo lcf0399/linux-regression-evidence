@@ -1,0 +1,3 @@
+analysis	parent_a_mean	child_mean	parent_b_mean	parent_midpoint	child_vs_parent_midpoint_pct	parent_b_vs_parent_a_pct
+all_15_rounds	55.333333	58.200000	54.266667	54.800000	6.204380	-1.927711
+drop_first_round	55.428571	58.285714	54.357143	54.892857	6.180872	-1.932990

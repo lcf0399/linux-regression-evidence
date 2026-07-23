@@ -1,0 +1,42 @@
+From: Chengfeng Lin <lin2530632123@gmail.com>
+Subject: [DIAGNOSTIC ONLY] mm/mprotect: add a direct single-PTE commit path
+
+Keep the folio lookup and PTE-batch discovery introduced by cac1db8c3aad,
+but use the pre-commit parent-style writable check, commit, and TLB flush when
+the discovered batch contains exactly one PTE.  Larger batches retain the
+unmodified child implementation.
+
+This is an attribution probe, not a proposed fix.
+---
+ mm/mprotect.c | 17 ++++++++++++++---
+ 1 file changed, 14 insertions(+), 3 deletions(-)
+
+diff --git a/mm/mprotect.c b/mm/mprotect.c
+--- a/mm/mprotect.c
++++ b/mm/mprotect.c
+@@ -349,10 +349,21 @@ static long change_pte_range(struct mmu_gather *tlb,
+ 			 * example, if a PTE is already dirty and no other
+ 			 * COW or special handling is required.
+ 			 */
+-			if ((cp_flags & MM_CP_TRY_CHANGE_WRITABLE) &&
++			/* Diagnostic single-PTE fast path. */
++			if (likely(nr_ptes == 1)) {
++				if ((cp_flags & MM_CP_TRY_CHANGE_WRITABLE) &&
++				    !pte_write(ptent) &&
++				    can_change_pte_writable(vma, addr, ptent))
++					ptent = pte_mkwrite(ptent, vma);
++
++				modify_prot_commit_ptes(vma, addr, pte, oldpte,
++							ptent, 1);
++				if (pte_needs_flush(oldpte, ptent))
++					tlb_flush_pte_range(tlb, addr, PAGE_SIZE);
++			} else if ((cp_flags & MM_CP_TRY_CHANGE_WRITABLE) &&
+ 			     !pte_write(ptent))
+ 				set_write_prot_commit_flush_ptes(vma, folio,
+-				addr, pte, oldpte, ptent, nr_ptes, tlb);
++					addr, pte, oldpte, ptent, nr_ptes, tlb);
+ 			else
+ 				prot_commit_flush_ptes(vma, addr, pte, oldpte, ptent,
+ 					nr_ptes, /* idx = */ 0, /* set_write = */ false, tlb);
+-- 
+2.51.0

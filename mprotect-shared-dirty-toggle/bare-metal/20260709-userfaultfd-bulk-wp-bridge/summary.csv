@@ -1,4 +1,0 @@
-kernel,runs,mean_ns_per_page,min_ns_per_page,max_ns_per_page,precise_samples_ns_per_page,integer_samples_ns_per_page,expected_match_ratio,unexpected_results
-6.16.0-bm-6.16,5,25.720,23.196,26.622,"26.361;23.196;26.622;26.142;26.277","26;23;26;26;26",100,0
-6.17.0-bm-6.17,5,33.544,32.688,34.139,"32.688;32.703;34.102;34.139;34.087","32;32;34;34;34",100,0
-6.17.0-bm-6.17-minus-cac1db8c3aad,5,26.040,23.996,27.410,"27.410;27.368;24.161;27.265;23.996","27;27;24;27;23",100,0

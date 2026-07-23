@@ -1,0 +1,4 @@
+point	mean_protect_ns_per_page	mean_restore_ns_per_page	mean_post_touch_ns_per_page	mean_iteration_ns_per_page
+parent-a	21.000000	21.000000	11.533333	55.333333
+child	23.000000	23.000000	11.533333	58.200000
+parent-b	21.000000	21.000000	11.733333	54.266667

@@ -4,7 +4,8 @@
 
 ## 上游状态
 
-状态核对时间为 2026-07-23。表中将邮件是否送达、维护者是否回复和技术结论分开记录。
+索引更新于 2026-07-30。各条目的审计日期分别记录；既有线程状态并未全部重新审计。
+表中将邮件是否送达、维护者是否回复和技术结论分开记录。
 
 | 证据 | 上游线程状态 | 当前技术状态 |
 | --- | --- | --- |
@@ -12,6 +13,7 @@
 | `tmpfs-flistxattr-small-list/` | Jan Kara 已回复并指出 `1e7cd8a53b72`；我们已按要求把精确裸机验证回复到原线程，之后尚无新回复。 | per-superblock cache commit 已消除这条窄 workload 中测得的 slowdown；除非出现新的 post-fix 场景，这条线在技术上已经收口。 |
 | `fsnotify-concurrent-inotify-watch-setup/` | 报告已经发送并被公开 regression tracker 跟踪，目前尚无回复。 | exact A/B 与诊断证据仍有效；目前没有上游修复，也没有维护者对该 trade-off 的明确结论。 |
 | `btrfs-remap-writeback-inhibition-v2/` | David Sterba 已确认收到测试报告，将证据链接加入 patch 记录，并把修正后的补丁加入 Btrfs `for-next`。 | 独立结果支持 v2 在所测 4 KiB clone/dedupe workload 上的改进；这是 patch 验证，不是 broad Btrfs 性能结论。 |
+| `io-uring-futex-inflight-wait-wake/` | 尚未发送报告。已确定原 UAF 报告与 `[PATCH 2/2]` 线程；2026-07-29 核对当前 Linus master、io_uring `for-next` 和公开归档，未找到相同性能报告或等效优化。 | 精确 direct-parent A/B 表明 `079afb081c42` 后标量 wait/wake 慢 `9.268%`，338 行 standalone 为 `10.020%`；各点实际均为 `preempt=full`。报告保留生命周期修复，只询问逐请求 tracking 能否更便宜。 |
 
 ## 当前证据
 
@@ -72,6 +74,20 @@
 
   当前口径：这是 brd-backed Btrfs 上的窄 4 KiB clone/dedupe micro-workload，
   不是 generic remap-range 或真实应用性能 claim。
+
+- `io-uring-futex-inflight-wait-wake/`
+
+  一条很窄的标量 io_uring futex workload：每个计时 cycle 先提交 32 个 private 标量
+  wait，再提交 32 个标量 wake，并验证恰好 64 个 CQE、wait 返回 0、wake 返回 1。
+
+  围绕 `079afb081c42` 的 fresh-boot direct-parent 夹心中，未改动正式源码相对 parent
+  中点慢 `9.268%`，drop-first `9.269%`、parent 漂移 `-0.124%`、最大 CV
+  `0.169%`；另一份 338 行 standalone 复现为 `10.020%`。90 行标量计时数据全部通过
+  语义检查，各点实际运行模式均为 `preempt=full`。匹配的 `WAITV -> WAKE` profile 只变化
+  `1.385%`，未过信号门。
+
+  当前口径：引入提交修复退出时 private-futex 生命周期/UAF 问题，证据不建议 revert，
+  也不作 generic futex/io_uring claim；只询问是否能以更低逐请求成本保留同样保证。
 
 ## 证据取舍
 

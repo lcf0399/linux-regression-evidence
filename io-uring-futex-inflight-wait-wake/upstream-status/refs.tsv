@@ -1,0 +1,8 @@
+kind	identity	url	note
+introducing_commit	079afb081c4288e94d5e4223d3eb6306d853c68b	https://github.com/torvalds/linux/commit/079afb081c4288e94d5e4223d3eb6306d853c68b	io_uring/futex: mark wait requests as inflight
+direct_parent	6a8118a77eec5fc4dfec69cc6bdc52229943f6ef	https://github.com/torvalds/linux/commit/6a8118a77eec5fc4dfec69cc6bdc52229943f6ef	exact direct parent
+patch_thread	20250604165647.293646-3-axboe@kernel.dk	https://www.spinics.net/lists/io-uring/msg29895.html	original PATCH 2/2; intended reply target
+correctness_report	38053.1749045482@localhost	https://lore.kernel.org/io-uring/38053.1749045482@localhost/	private-futex wait exit use-after-free report
+correctness_discussion	use-after-free if killed while in IORING_OP_FUTEX_WAIT	https://www.spinics.net/lists/io-uring/msg29892.html	Jens explains the intended least-intrusive fix
+linus_master	fc02acf6ac0ccde0c805c2daa9148683cdd01ba8	https://raw.githubusercontent.com/torvalds/linux/fc02acf6ac0ccde0c805c2daa9148683cdd01ba8/io_uring/futex.c	checked 2026-07-29; both tracking calls remain
+io_uring_for_next	e5f87b066744	https://git.kernel.dk/cgit/linux/	refreshed 2026-07-29; source topology only

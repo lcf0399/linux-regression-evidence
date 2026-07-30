@@ -5,8 +5,9 @@ regressions and upstream follow-up or patch validation.
 
 ## Upstream Status
 
-Status checked on 2026-07-23. Mail delivery, maintainer response, and the
-technical conclusion are recorded separately.
+Index updated on 2026-07-30. Audit dates are recorded per entry; previously
+recorded statuses were not all re-audited. Mail delivery, maintainer response,
+and the technical conclusion are recorded separately.
 
 | Evidence | Upstream thread | Current technical state |
 | --- | --- | --- |
@@ -14,6 +15,7 @@ technical conclusion are recorded separately.
 | `tmpfs-flistxattr-small-list/` | Jan Kara replied and pointed to `1e7cd8a53b72`; the requested exact bare-metal validation was sent back to the thread. No later reply is recorded. | The per-superblock cache commit removes the measured slowdown for this narrow workload, so this case is technically closed unless a different post-fix case appears. |
 | `fsnotify-concurrent-inotify-watch-setup/` | The report was sent and is publicly tracked as a regression. No reply is recorded yet. | Exact A/B and diagnostic evidence remain current; no upstream fix or accepted trade-off decision is recorded. |
 | `btrfs-remap-writeback-inhibition-v2/` | David Sterba acknowledged the testing report, linked it from the patch record, and added the corrected patch to the Btrfs `for-next` branch. | The independent result supports v2 for the included 4 KiB clone/dedupe workload; this is patch validation, not a broad Btrfs performance claim. |
+| `io-uring-futex-inflight-wait-wake/` | No report has been sent. The original UAF report and `[PATCH 2/2]` thread were identified; current Linus master and io_uring `for-next` were checked on 2026-07-29, and no matching performance report or equivalent optimization was found. | An exact direct-parent A/B found scalar wait/wake `9.268%` slower after `079afb081c42`; a 338-line standalone found `10.020%`. All points actually ran with `preempt=full`. The report preserves the lifetime fix and asks only whether its per-request tracking can be cheaper. |
 
 ## Current Evidence
 
@@ -86,6 +88,25 @@ technical conclusion are recorded separately.
   Scope: Btrfs on a brd-backed filesystem with a narrow 4 KiB clone/dedupe
   micro-workload, not a generic remap-range or application-level performance
   claim.
+
+- `io-uring-futex-inflight-wait-wake/`
+
+  A narrow scalar io_uring futex workload. Each timed cycle submits 32 private
+  scalar waits, then 32 scalar wakes, and verifies exactly 64 CQEs with wait
+  result 0 and wake result 1.
+
+  In a fresh-boot direct-parent sandwich around `079afb081c42`, the unchanged
+  formal source was `9.268%` slower than the parent midpoint; drop-first was
+  `9.269%`, parent drift `-0.124%`, and maximum CV `0.169%`. A separate
+  338-line standalone reproduced `10.020%`. All 90 scalar timing rows passed
+  semantic checks and all compared kernels actually ran with `preempt=full`.
+  A matched `WAITV -> WAKE` profile changed only `1.385%` and did not pass the
+  signal gate.
+
+  Scope: the introducing commit fixes exit-time private-futex lifetime/UAF
+  handling. The evidence does not recommend a revert and makes no broad futex
+  or io_uring claim; it asks whether the same guarantee can use cheaper
+  per-request tracking.
 
 ## Evidence Policy
 

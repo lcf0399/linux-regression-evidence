@@ -19,6 +19,7 @@ raw/
 
 # Common scratch/build outputs
 out/
+*/reproducer/build/
 *.o
 *.tmp
 *.log.tmp

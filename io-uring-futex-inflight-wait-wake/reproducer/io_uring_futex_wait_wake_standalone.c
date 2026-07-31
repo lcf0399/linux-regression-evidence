@@ -2,9 +2,13 @@
 /*
  * Standalone scalar io_uring futex WAIT -> WAKE microbenchmark.
  *
- * One cycle queues 32 private FUTEX_WAIT requests, submits them, then queues
- * one FUTEX_WAKE for each word.  Timing covers SQE preparation, both submits,
+ * One cycle queues 32 FUTEX_WAIT requests, submits them, then queues one
+ * FUTEX_WAKE for each word.  Timing covers SQE preparation, both submits,
  * and collection of all 64 CQEs.  Every wait must return 0 and every wake 1.
+ *
+ * The default remains the original private-futex workload.  --shared keeps
+ * the operation shape unchanged but places the words in a shared mapping and
+ * omits FUTEX2_PRIVATE, so patch 2's shared-wait branch can be tested.
  *
  * The exact parent/child result obtained with the longer retained workload was:
  *   6a8118a77eec parent midpoint: 180.027 ns/pair
@@ -37,7 +41,8 @@
 #define WARMUPS 3U
 #define ROUNDS 15U
 #define TEST_CPU 2U
-#define FUTEX_FLAGS (FUTEX2_SIZE_U32 | FUTEX2_PRIVATE)
+#define PRIVATE_FUTEX_FLAGS (FUTEX2_SIZE_U32 | FUTEX2_PRIVATE)
+#define SHARED_FUTEX_FLAGS FUTEX2_SIZE_U32
 #define WAKE_TAG (UINT64_C(1) << 63)
 
 _Static_assert(SLOTS <= 64U, "completion masks use 64 bits");
@@ -211,24 +216,26 @@ static void submit(struct ring *ring, unsigned int min_complete)
 		bad("short submission");
 }
 
-static void queue_wait(struct ring *ring, uint32_t *word, unsigned int index)
+static void queue_wait(struct ring *ring, uint32_t *word, unsigned int index,
+		       unsigned int futex_flags)
 {
 	struct io_uring_sqe *sqe = get_sqe(ring);
 
 	sqe->opcode = IORING_OP_FUTEX_WAIT;
-	sqe->fd = FUTEX_FLAGS;
+	sqe->fd = futex_flags;
 	sqe->addr = (uintptr_t)word;
 	sqe->addr2 = 0;
 	sqe->addr3 = FUTEX_BITSET_MATCH_ANY;
 	sqe->user_data = index;
 }
 
-static void queue_wake(struct ring *ring, uint32_t *word, unsigned int index)
+static void queue_wake(struct ring *ring, uint32_t *word, unsigned int index,
+		       unsigned int futex_flags)
 {
 	struct io_uring_sqe *sqe = get_sqe(ring);
 
 	sqe->opcode = IORING_OP_FUTEX_WAKE;
-	sqe->fd = FUTEX_FLAGS;
+	sqe->fd = futex_flags;
 	sqe->addr = (uintptr_t)word;
 	sqe->addr2 = 1;
 	sqe->addr3 = FUTEX_BITSET_MATCH_ANY;
@@ -270,7 +277,7 @@ static void collect_and_check(struct ring *ring)
 }
 
 static uint64_t run_cycle(struct ring *ring, struct futex_cell cells[SLOTS],
-			  bool measure)
+			  unsigned int futex_flags, bool measure)
 {
 	uint64_t start = 0;
 	unsigned int i;
@@ -280,10 +287,10 @@ static uint64_t run_cycle(struct ring *ring, struct futex_cell cells[SLOTS],
 	if (measure)
 		start = now_ns();
 	for (i = 0; i < SLOTS; i++)
-		queue_wait(ring, &cells[i].value, i);
+		queue_wait(ring, &cells[i].value, i, futex_flags);
 	submit(ring, 0);
 	for (i = 0; i < SLOTS; i++)
-		queue_wake(ring, &cells[i].value, i);
+		queue_wake(ring, &cells[i].value, i, futex_flags);
 	submit(ring, SLOTS * 2U);
 	collect_and_check(ring);
 	return measure ? now_ns() - start : 0;
@@ -291,19 +298,37 @@ static uint64_t run_cycle(struct ring *ring, struct futex_cell cells[SLOTS],
 
 int main(int argc, char **argv)
 {
-	_Alignas(64) struct futex_cell cells[SLOTS] = { 0 };
+	_Alignas(64) struct futex_cell private_cells[SLOTS] = { 0 };
+	struct futex_cell *cells = private_cells;
 	struct ring ring;
 	unsigned int cycles = POINT_CYCLES, rounds = ROUNDS, warmups = WARMUPS;
+	unsigned int futex_flags = PRIVATE_FUTEX_FLAGS;
 	uint64_t total_ns = 0;
-	unsigned int round, cycle;
+	unsigned int round, cycle, i;
+	bool shared = false, smoke = false;
 
-	if (argc == 2 && !strcmp(argv[1], "--smoke")) {
+	for (i = 1; i < (unsigned int)argc; i++) {
+		if (!strcmp(argv[i], "--smoke"))
+			smoke = true;
+		else if (!strcmp(argv[i], "--shared"))
+			shared = true;
+		else {
+			fprintf(stderr, "Usage: %s [--smoke] [--shared]\n",
+				argv[0]);
+			return EXIT_FAILURE;
+		}
+	}
+	if (smoke) {
 		cycles = 2;
 		rounds = 1;
 		warmups = 0;
-	} else if (argc != 1) {
-		fprintf(stderr, "Usage: %s [--smoke]\n", argv[0]);
-		return EXIT_FAILURE;
+	}
+	if (shared) {
+		cells = mmap(NULL, sizeof(private_cells), PROT_READ | PROT_WRITE,
+			     MAP_SHARED | MAP_ANONYMOUS, -1, 0);
+		if (cells == MAP_FAILED)
+			die("mmap shared futex cells");
+		futex_flags = SHARED_FUTEX_FLAGS;
 	}
 	if (signal(SIGALRM, timeout_handler) == SIG_ERR)
 		die("signal");
@@ -313,14 +338,14 @@ int main(int argc, char **argv)
 
 	for (round = 0; round < warmups; round++)
 		for (cycle = 0; cycle < cycles; cycle++)
-			(void)run_cycle(&ring, cells, false);
+			(void)run_cycle(&ring, cells, futex_flags, false);
 
 	puts("round\tpairs\tns_per_pair\tsemantic_pass");
 	for (round = 0; round < rounds; round++) {
 		uint64_t elapsed = 0;
 
 		for (cycle = 0; cycle < cycles; cycle++)
-			elapsed += run_cycle(&ring, cells, true);
+			elapsed += run_cycle(&ring, cells, futex_flags, true);
 		total_ns += elapsed;
 		printf("%u\t%u\t%.6f\t1\n", round, cycles * SLOTS,
 		       (double)elapsed / (cycles * SLOTS));
@@ -334,5 +359,7 @@ int main(int argc, char **argv)
 		bad("ring not empty at exit");
 	alarm(0);
 	ring_destroy(&ring);
+	if (shared)
+		munmap(cells, sizeof(private_cells));
 	return 0;
 }

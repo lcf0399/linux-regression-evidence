@@ -32,8 +32,40 @@ fix；上游问题只应是：能否用更低的逐请求成本保留同样的�
 这是 focused synthetic microbenchmark，不是应用 benchmark，也不声称 generic futex、
 generic io_uring 或 wait-vector 路径都发生回归。
 
+## 上游回复与候选补丁验证
+
+Jens Axboe 认可同步完成的 WAKE 不需要采用这套 inflight tracking，并给出两枚补丁：
+补丁 1 把 tracking 移到 WAIT 专用 prep，补丁 2 只对包含 private wait 的请求保留
+tracking。
+
+我以冻结的 2026-07-23 Linus master `48a5a7ab8d6a` 为基线，对原始两枚附件执行了
+如下五点 fresh-boot 验证：
+
+```text
+baseline A -> patch 1 A -> 完整两补丁 -> patch 1 B -> baseline B
+```
+
+baseline 中点为 `196.616 ns/pair`，patch 1 中点为 `189.948 ns/pair`，完整系列为
+`189.900 ns/pair`。patch 1 相对 baseline 中点快 `3.392%`，完整系列快 `3.416%`；
+完整系列相对 patch 1 中点只变化 `-0.025%`，符合本轮 private-futex 参数的预期。
+75 行正式计时全部通过，五点实际抢占模式均为 `preempt=full`。
+
+这轮补丁验证使用的源码基线晚于上面的 direct-parent 实验，两组百分比不能相减，也不能
+视为使用同一个分母。
+
+随后又增加严格配对的 shared-futex 模式，比较 patch 1 A、完整系列和 patch 1 B。
+完整系列相对 patch 1 中点快 `1.578%`，drop-first 同为 `1.578%`；patch 1 控制漂移
+`0.319%`，最大 CV `0.200%`，45 行计时全部通过。这直接命中 patch 2 取消 inflight
+tracking 的标量 shared-WAIT 路径；shared WAITV 未测试。
+
 ## 目录
 
 - [`bare-metal/`](bare-metal/)：紧凑的精确 A/B 结果和构建身份；
 - [`reproducer/`](reproducer/)：正式实验源码和较短、带注释的标量 standalone；
 - [`upstream-status/`](upstream-status/)：正确性原线程以及发送前排重/修复审计。
+- [`bare-metal/jens-patch-validation.tsv`](bare-metal/jens-patch-validation.tsv)：紧凑的
+  五点补丁验证结果。
+- [`bare-metal/jens-patch2-shared-validation.tsv`](bare-metal/jens-patch2-shared-validation.tsv)：
+  patch 2 的配对 shared-futex 结果。
+- [`bare-metal/jens-patch-identity.tsv`](bare-metal/jens-patch-identity.tsv)：两枚附件的
+  精确哈希以及应用后的 commit/tree 身份。

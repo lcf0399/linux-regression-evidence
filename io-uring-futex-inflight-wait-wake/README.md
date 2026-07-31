@@ -38,6 +38,38 @@ be retained at lower per-request cost.
 This is a focused synthetic microbenchmark, not an application benchmark or
 a claim about futex, io_uring, or wait-vector performance in general.
 
+## Upstream response and patch test
+
+Jens Axboe agreed that inflight tracking was unnecessarily applied to the
+synchronous WAKE side and sent two patches. Patch 1 moves tracking to the WAIT
+prep path, while patch 2 retains it only for requests that contain a private
+wait.
+
+I tested the exact two attachments on a frozen 2026-07-23 Linus master base
+(`48a5a7ab8d6a`) in this order, with a fresh boot for every measured point:
+
+```text
+baseline A -> patch 1 A -> full series -> patch 1 B -> baseline B
+```
+
+The baseline midpoint was `196.616 ns/pair`, the patch-1 midpoint was
+`189.948 ns/pair`, and the full series was `189.900 ns/pair`. Patch 1 was
+`3.392%` faster than the baseline midpoint; the full series was `3.416%`
+faster. The full series differed from the patch-1 midpoint by only `-0.025%`,
+as expected for this private-futex workload. All 75 measured rows passed and
+all five kernels actually ran with `preempt=full`.
+
+This patch test uses a later source baseline than the direct-parent result
+above. The two percentages must not be subtracted or treated as having the
+same denominator.
+
+A matched shared-futex extension then compared patch 1 A, the full series,
+and patch 1 B. The full series was `1.578%` faster than the patch-1 midpoint;
+the drop-first result was also `1.578%`. Patch-1 control drift was `0.319%`
+and the maximum CV was `0.200%`. All 45 rows passed. This directly exercises
+the scalar shared-WAIT path where patch 2 removes inflight tracking; shared
+WAITV was not tested.
+
 ## Layout
 
 - [`bare-metal/`](bare-metal/) contains compact exact A/B results and build
@@ -46,3 +78,9 @@ a claim about futex, io_uring, or wait-vector performance in general.
   commented scalar standalone;
 - [`upstream-status/`](upstream-status/) records the correctness thread and
   the dated duplicate/fix audit.
+- [`bare-metal/jens-patch-validation.tsv`](bare-metal/jens-patch-validation.tsv)
+  records the compact five-point patch result.
+- [`bare-metal/jens-patch2-shared-validation.tsv`](bare-metal/jens-patch2-shared-validation.tsv)
+  records the matched shared-futex result for patch 2.
+- [`bare-metal/jens-patch-identity.tsv`](bare-metal/jens-patch-identity.tsv)
+  records the exact attachment hashes and applied commit/tree identities.

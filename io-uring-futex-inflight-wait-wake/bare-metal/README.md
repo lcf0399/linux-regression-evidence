@@ -32,3 +32,20 @@ as a separately required trace symbol because it may be inlined.
 
 The matched formal `WAITV -> WAKE` profile changed by `+1.385%`, below the 5%
 signal gate, and is not part of the regression claim.
+
+## Jens patch validation
+
+The supplied two-patch series was tested separately on frozen Linus master
+`48a5a7ab8d6a`; those percentages are not subtracted from the direct-parent
+result above. In a five-point private-futex sandwich, patch 1 was `3.392%`
+faster than the baseline midpoint, while the complete series differed from
+the patch-1 midpoint by only `-0.025%`. In a matched scalar shared-futex
+`patch 1 A -> full series -> patch 1 B` sandwich, the full series was
+`1.578%` faster, with `0.319%` control drift. All 120 private/shared measured
+rows passed and every measured boot actually used `preempt=full`.
+
+Compact values are in [`jens-patch-validation.tsv`](jens-patch-validation.tsv)
+and
+[`jens-patch2-shared-validation.tsv`](jens-patch2-shared-validation.tsv).
+Exact attachment hashes and applied commit/tree identities are in
+[`jens-patch-identity.tsv`](jens-patch-identity.tsv).

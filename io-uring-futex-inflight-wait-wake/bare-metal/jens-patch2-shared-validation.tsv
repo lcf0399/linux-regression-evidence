@@ -1,0 +1,7 @@
+metric	all_rounds	drop_first_round
+patch1_a_ns_per_pair	271.106808	271.101340
+full_series_ns_per_pair	267.254301	267.255554
+patch1_b_ns_per_pair	271.971379	271.979667
+patch1_midpoint_ns_per_pair	271.539093	271.540503
+full_vs_patch1_midpoint_pct	-1.578	-1.578
+patch1_control_drift_pct	0.319	0.324

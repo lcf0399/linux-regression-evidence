@@ -29,3 +29,17 @@ trace symbol。
 
 匹配的正式 `WAITV -> WAKE` profile 只变化 `+1.385%`，未过 5% 信号门，不属于当前
 回归 claim。
+
+## Jens 补丁验证
+
+两枚上游候选补丁另在冻结 Linus master `48a5a7ab8d6a` 上验证；这些百分比不能与上面
+direct-parent 结果相减。在 private-futex 五点夹心中，补丁 1 相对 baseline 中点快
+`3.392%`，完整系列相对 patch-1 中点只变化 `-0.025%`。在严格配对的标量
+shared-futex `patch 1 A -> 完整系列 -> patch 1 B` 夹心中，完整系列快 `1.578%`，
+控制漂移 `0.319%`。private/shared 合计 120 行正式计时全部通过，每个 measured boot
+实际均为 `preempt=full`。
+
+紧凑数字见 [`jens-patch-validation.tsv`](jens-patch-validation.tsv) 和
+[`jens-patch2-shared-validation.tsv`](jens-patch2-shared-validation.tsv)。
+两枚附件的精确哈希及应用后的 commit/tree 身份见
+[`jens-patch-identity.tsv`](jens-patch-identity.tsv)。

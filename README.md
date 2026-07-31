@@ -5,7 +5,7 @@ regressions and upstream follow-up or patch validation.
 
 ## Upstream Status
 
-Index updated on 2026-07-30. Audit dates are recorded per entry; previously
+Index updated on 2026-07-31. Audit dates are recorded per entry; previously
 recorded statuses were not all re-audited. Mail delivery, maintainer response,
 and the technical conclusion are recorded separately.
 
@@ -15,7 +15,7 @@ and the technical conclusion are recorded separately.
 | `tmpfs-flistxattr-small-list/` | Jan Kara replied and pointed to `1e7cd8a53b72`; the requested exact bare-metal validation was sent back to the thread. No later reply is recorded. | The per-superblock cache commit removes the measured slowdown for this narrow workload, so this case is technically closed unless a different post-fix case appears. |
 | `fsnotify-concurrent-inotify-watch-setup/` | The report was sent and is publicly tracked as a regression. No reply is recorded yet. | Exact A/B and diagnostic evidence remain current; no upstream fix or accepted trade-off decision is recorded. |
 | `btrfs-remap-writeback-inhibition-v2/` | David Sterba acknowledged the testing report, linked it from the patch record, and added the corrected patch to the Btrfs `for-next` branch. | The independent result supports v2 for the included 4 KiB clone/dedupe workload; this is patch validation, not a broad Btrfs performance claim. |
-| `io-uring-futex-inflight-wait-wake/` | No report has been sent. The original UAF report and `[PATCH 2/2]` thread were identified; current Linus master and io_uring `for-next` were checked on 2026-07-29, and no matching performance report or equivalent optimization was found. | An exact direct-parent A/B found scalar wait/wake `9.268%` slower after `079afb081c42`; a 338-line standalone found `10.020%`. All points actually ran with `preempt=full`. The report preserves the lifetime fix and asks only whether its per-request tracking can be cheaper. |
+| `io-uring-futex-inflight-wait-wake/` | The original report was sent. Jens Axboe replied that the tracking was heavy for this operation, noted that synchronous WAKE did not need it, and supplied two patches. Local patch validation is complete; the result reply is not yet sent. | The direct-parent result remains `+9.268%`. On a newer frozen master, patch 1 improved the private workload by `3.392%`; patch 2 was private-neutral and improved the matched shared workload by `1.578%`. Results from the two source baselines are not subtracted. |
 
 ## Current Evidence
 
@@ -102,6 +102,15 @@ and the technical conclusion are recorded separately.
   semantic checks and all compared kernels actually ran with `preempt=full`.
   A matched `WAITV -> WAKE` profile changed only `1.385%` and did not pass the
   signal gate.
+
+  Jens Axboe then supplied two patches. On frozen master `48a5a7ab8d6a`,
+  patch 1 made the original private workload `3.392%` faster than its baseline
+  controls. Patch 2 was neutral for that private shape and made a matched
+  scalar shared-futex workload another `1.578%` faster than patch-1 controls.
+  All 120 measured rows across those private and shared patch tests passed;
+  every measured boot actually used `preempt=full`. Shared WAITV was not
+  tested. These percentages use a newer source baseline and are not subtracted
+  from the direct-parent `9.268%`.
 
   Scope: the introducing commit fixes exit-time private-futex lifetime/UAF
   handling. The evidence does not recommend a revert and makes no broad futex

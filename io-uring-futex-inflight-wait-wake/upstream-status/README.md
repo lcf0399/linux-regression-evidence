@@ -1,6 +1,6 @@
 # Upstream status audit
 
-Audit date: 2026-07-29.
+Audit date: 2026-07-31.
 
 Robert Morris reported a use-after-free when a task was killed with a private
 `IORING_OP_FUTEX_WAIT` still pending. Jens Axboe fixed it by marking scalar and
@@ -21,5 +21,27 @@ source was checked directly; the branches were not benchmarked.
 Searches of the public io-uring archive for the exact commit and for futex
 wait/inflight performance reports found the correctness report and patch
 thread, but no matching performance report or later equivalent optimization.
-The intended mail route is therefore a reply to the original `[PATCH 2/2]`
+The report was therefore sent as a reply to the original `[PATCH 2/2]`
 thread. Exact references are in [`refs.tsv`](refs.tsv).
+
+Jens Axboe replied that inflight tracking was a heavy mechanism for this
+operation and was not needed on the synchronous WAKE side. He then sent two
+patches in the report thread:
+
+1. move inflight tracking from the shared scalar prep function to WAIT-only
+   prep, so WAKE is not tracked;
+2. retain tracking only for requests that contain a private scalar or vector
+   wait, since shared waits do not depend on the per-`mm` private futex hash
+   lifetime.
+
+The exact attachments were tested on frozen master commit `48a5a7ab8d6a`.
+Patch 1 improved the original private WAIT/WAKE workload by `3.392%`; the full
+series improved it by `3.416%`. Full versus patch 1 changed by only `-0.025%`,
+which is consistent with patch 2 targeting the shared-wait branch rather than
+this private workload.
+
+A matched scalar shared-futex run then compared patch 1 A, the full series,
+and patch 1 B. The full series was `1.578%` faster than the patch-1 midpoint,
+with `0.319%` control drift and a matching `1.578%` drop-first result. This
+directly confirms a small improvement on patch 2's scalar shared-WAIT target
+path. Shared WAITV remains untested.

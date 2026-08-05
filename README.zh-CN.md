@@ -4,7 +4,7 @@
 
 ## 上游状态
 
-索引更新于 2026-07-31。各条目的审计日期分别记录；既有线程状态并未全部重新审计。
+索引更新于 2026-08-05。各条目的审计日期分别记录；既有线程状态并未全部重新审计。
 表中将邮件是否送达、维护者是否回复和技术结论分开记录。
 
 | 证据 | 上游线程状态 | 当前技术状态 |
@@ -13,6 +13,7 @@
 | `tmpfs-flistxattr-small-list/` | Jan Kara 已回复并指出 `1e7cd8a53b72`；我们已按要求把精确裸机验证回复到原线程，之后尚无新回复。 | per-superblock cache commit 已消除这条窄 workload 中测得的 slowdown；除非出现新的 post-fix 场景，这条线在技术上已经收口。 |
 | `fsnotify-concurrent-inotify-watch-setup/` | 报告已经发送并被公开 regression tracker 跟踪，目前尚无回复。 | exact A/B 与诊断证据仍有效；目前没有上游修复，也没有维护者对该 trade-off 的明确结论。 |
 | `btrfs-remap-writeback-inhibition-v2/` | David Sterba 已确认收到测试报告，将证据链接加入 patch 记录，并把修正后的补丁加入 Btrfs `for-next`。 | 独立结果支持 v2 在所测 4 KiB clone/dedupe workload 上的改进；这是 patch 验证，不是 broad Btrfs 性能结论。 |
+| `apparmor-af-unix-send-old-abi-6456cc/` | 尚未发送报告。2026-08-05 已核对精确提交、后续路径历史和公开归档；没有找到相同性能报告或明显的等效修复。 | standalone 精确源码差分夹心中，AF_UNIX datagram `sendmmsg()` 慢 `15.295%`；独立大 runner 又复现 direct `sendmmsg()` `+14.841%` 和 io_uring SEND `+17.953%`。报告只询问能否在保留旧 AppArmor policy ABI correctness 修复的同时降低 unconfined send-path 成本，不要求回退。 |
 | `io-uring-futex-inflight-wait-wake/` | 原始报告已发送。Jens Axboe 回复说这项 tracking 对该操作偏重、同步 WAKE 不需要它，并给出两枚补丁。本地补丁验证已完成，结果回复尚未发送。 | direct-parent 结果仍为 `+9.268%`。在较新冻结 master 上，补丁 1 让 private workload 快 `3.392%`；补丁 2 对 private 基本中性，并让配对 shared workload 再快 `1.578%`。两组源码基线的百分比不相减。 |
 
 ## 当前证据
@@ -74,6 +75,24 @@
 
   当前口径：这是 brd-backed Btrfs 上的窄 4 KiB clone/dedupe micro-workload，
   不是 generic remap-range 或真实应用性能 claim。
+
+- `apparmor-af-unix-send-old-abi-6456cc/`
+
+  一份不依赖 liburing 的 AF_UNIX datagram standalone 通过 socketpair 调用
+  `sendmmsg()`，peer drain 与 payload 校验均放在计时区外。围绕
+  `6456ccbd2ff7` 精确源码差分的 fresh-boot parent/child/parent 夹心中，child
+  相对 parent 中点慢 `15.295%`；drop-first 为 `15.289%`、parent 漂移
+  `-0.036%`，45 行 measured 数据全部通过。该主实验各点实际均为
+  `preempt=none`。
+
+  独立的大 runner 在各点实际均为 `preempt=full` 时复现同方向：direct
+  `sendmmsg()` 慢 `14.841%`，io_uring SEND 慢 `17.953%`。两组结果分别分析。
+  普通系统调用也复现信号，因此当前 claim 是 AppArmor AF_UNIX send path，
+  不是 `io_uring/net.c`。
+
+  当前口径：结论限于精确源码差分前后的 unconfined AF_UNIX datagram send。
+  引入提交修复真实的旧 AppArmor policy ABI correctness 问题，所以只询问能否降低
+  成本，不建议回退。
 
 - `io-uring-futex-inflight-wait-wake/`
 

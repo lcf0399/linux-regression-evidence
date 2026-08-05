@@ -5,7 +5,7 @@ regressions and upstream follow-up or patch validation.
 
 ## Upstream Status
 
-Index updated on 2026-07-31. Audit dates are recorded per entry; previously
+Index updated on 2026-08-05. Audit dates are recorded per entry; previously
 recorded statuses were not all re-audited. Mail delivery, maintainer response,
 and the technical conclusion are recorded separately.
 
@@ -15,6 +15,7 @@ and the technical conclusion are recorded separately.
 | `tmpfs-flistxattr-small-list/` | Jan Kara replied and pointed to `1e7cd8a53b72`; the requested exact bare-metal validation was sent back to the thread. No later reply is recorded. | The per-superblock cache commit removes the measured slowdown for this narrow workload, so this case is technically closed unless a different post-fix case appears. |
 | `fsnotify-concurrent-inotify-watch-setup/` | The report was sent and is publicly tracked as a regression. No reply is recorded yet. | Exact A/B and diagnostic evidence remain current; no upstream fix or accepted trade-off decision is recorded. |
 | `btrfs-remap-writeback-inhibition-v2/` | David Sterba acknowledged the testing report, linked it from the patch record, and added the corrected patch to the Btrfs `for-next` branch. | The independent result supports v2 for the included 4 KiB clone/dedupe workload; this is patch validation, not a broad Btrfs performance claim. |
+| `apparmor-af-unix-send-old-abi-6456cc/` | No report has been sent. The exact commit, later path history, and public archives were checked on 2026-08-05; no matching performance report or obvious equivalent fix was found. | A standalone exact-source-delta sandwich found direct AF_UNIX datagram `sendmmsg()` `15.295%` slower. An independent larger runner reproduced `+14.841%` with `sendmmsg()` and `+17.953%` with io_uring SEND. The report asks how to retain the commit's old AppArmor policy ABI correctness fix without this unconfined send-path cost; it does not request a revert. |
 | `io-uring-futex-inflight-wait-wake/` | The original report was sent. Jens Axboe replied that the tracking was heavy for this operation, noted that synchronous WAKE did not need it, and supplied two patches. Local patch validation is complete; the result reply is not yet sent. | The direct-parent result remains `+9.268%`. On a newer frozen master, patch 1 improved the private workload by `3.392%`; patch 2 was private-neutral and improved the matched shared workload by `1.578%`. Results from the two source baselines are not subtracted. |
 
 ## Current Evidence
@@ -88,6 +89,26 @@ and the technical conclusion are recorded separately.
   Scope: Btrfs on a brd-backed filesystem with a narrow 4 KiB clone/dedupe
   micro-workload, not a generic remap-range or application-level performance
   claim.
+
+- `apparmor-af-unix-send-old-abi-6456cc/`
+
+  A dependency-free AF_UNIX datagram reproducer uses `sendmmsg()` on a socket
+  pair, with peer draining and payload validation outside the timed region. A
+  fresh-boot exact-source-delta parent/child/parent sandwich around
+  `6456ccbd2ff7` found the child `15.295%` slower than the parent midpoint;
+  drop-first was `15.289%`, parent drift `-0.036%`, and all 45 measured rows
+  passed. Every point in this primary run actually used `preempt=none`.
+
+  A separate larger runner reproduced the direction with matched actual
+  `preempt=full`: direct `sendmmsg()` was `14.841%` slower and io_uring SEND
+  was `17.953%` slower. These results are analyzed separately. Because the
+  ordinary system call reproduces the signal, the claim is about the AppArmor
+  AF_UNIX send path, not `io_uring/net.c`.
+
+  Scope: unconfined AF_UNIX datagram sending across the exact source delta.
+  The introducing commit fixes a real old AppArmor policy ABI correctness
+  issue, so the evidence asks whether its cost can be reduced and does not
+  recommend a revert.
 
 - `io-uring-futex-inflight-wait-wake/`
 

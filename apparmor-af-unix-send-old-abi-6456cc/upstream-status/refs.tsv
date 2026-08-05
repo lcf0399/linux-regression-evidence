@@ -1,0 +1,4 @@
+kind	url	note
+introducing_commit	https://github.com/torvalds/linux/commit/6456ccbd2ff72814b3c1b2e2a3a2145a2ced858d	exact upstream commit
+linus_master	https://github.com/torvalds/linux	current source-history audit anchor
+lore	https://lore.kernel.org/	exact-hash subject and topic searches returned no matching performance report on 2026-08-05

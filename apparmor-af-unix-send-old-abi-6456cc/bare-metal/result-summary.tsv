@@ -1,0 +1,4 @@
+source	profile	actual_preempt	parent_a_mean_ns_per_op	child_mean_ns_per_op	parent_b_mean_ns_per_op	parent_midpoint_ns_per_op	child_vs_parent_midpoint_percent	drop_first_percent	parent_drift_percent	parent_a_cv_percent	child_cv_percent	parent_b_cv_percent
+standalone	sendmmsg	none	343.381603	395.831325	343.259129	343.320366	15.295032	15.289381	-0.035667	0.136948	0.073646	0.072108
+formal	sendmmsg	full	341.915304	393.803410	343.910385	342.912844	14.840671	14.863499	0.583502	0.081837	0.100469	0.154488
+formal	io_uring_send	full	314.069949	373.613833	319.424235	316.747092	17.953358	17.938592	1.704807	0.058122	0.045508	0.110166

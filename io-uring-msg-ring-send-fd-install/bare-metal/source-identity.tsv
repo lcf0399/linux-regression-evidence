@@ -1,0 +1,6 @@
+role	commit	subject	notes
+exact-parent	e410ffca588691e36d5449a5bf521a1a7b712911	io_uring/rsrc: kill io_charge_rsrc_node()	direct parent of 7029acd8a950
+exact-child	7029acd8a950393ee3a3d8e1a7ee1a9b77808a3b	io_uring/rsrc: get rid of per-ring io_rsrc_node list	exact introducing commit
+mainline-v6.12	adc218676eef25575469234709c2d87185ca223a	Linux 6.12	matched endpoint control
+mainline-v6.13	ffd294d346d185b70e28b1a28abe367bbfe53c04	Linux 6.13	matched endpoint child
+later-node-cache	ed9f3112a8a8f6e6919d3b9da2651fa302df7be3	io_uring: cache nodes and mapped buffers	already contained in v7.1 and v7.1.3

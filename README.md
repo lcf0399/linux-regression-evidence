@@ -5,7 +5,7 @@ regressions and upstream follow-up or patch validation.
 
 ## Upstream Status
 
-Index updated on 2026-08-05. Audit dates are recorded per entry; previously
+Index updated on 2026-08-06. Audit dates are recorded per entry; previously
 recorded statuses were not all re-audited. Mail delivery, maintainer response,
 and the technical conclusion are recorded separately.
 
@@ -15,6 +15,7 @@ and the technical conclusion are recorded separately.
 | `tmpfs-flistxattr-small-list/` | Jan Kara replied and pointed to `1e7cd8a53b72`; the requested exact bare-metal validation was sent back to the thread. No later reply is recorded. | The per-superblock cache commit removes the measured slowdown for this narrow workload, so this case is technically closed unless a different post-fix case appears. |
 | `fsnotify-concurrent-inotify-watch-setup/` | The report was sent and is publicly tracked as a regression. No reply is recorded yet. | Exact A/B and diagnostic evidence remain current; no upstream fix or accepted trade-off decision is recorded. |
 | `btrfs-remap-writeback-inhibition-v2/` | David Sterba acknowledged the testing report, linked it from the patch record, and added the corrected patch to the Btrfs `for-next` branch. | The independent result supports v2 for the included 4 KiB clone/dedupe workload; this is patch validation, not a broad Btrfs performance claim. |
+| `io-uring-msg-ring-send-fd-install/` | No report has been sent. The original introducing patch thread and current maintainers have been identified; the reply draft remains local and Git-ignored. | An exact direct-parent A/B attributes an `11.621%` fixed-file installation slowdown to `7029acd8a950`, with `0.097%` parent drift and matched actual `preempt=full`. A 64-to-4,096-slot scope check found the same direction at every size. The evidence describes a narrow registration-time trade-off, not ordinary io_uring read/write performance. |
 | `apparmor-af-unix-send-old-abi-6456cc/` | No report has been sent. The exact commit, later path history, and public archives were checked on 2026-08-05; no matching performance report or obvious equivalent fix was found. | A standalone exact-source-delta sandwich found direct AF_UNIX datagram `sendmmsg()` `15.295%` slower. An independent larger runner reproduced `+14.841%` with `sendmmsg()` and `+17.953%` with io_uring SEND. The report asks how to retain the commit's old AppArmor policy ABI correctness fix without this unconfined send-path cost; it does not request a revert. |
 | `io-uring-futex-inflight-wait-wake/` | The original report was sent. Jens Axboe replied that the tracking was heavy for this operation, noted that synchronous WAKE did not need it, and supplied two patches. Local patch validation is complete; the result reply is not yet sent. | The direct-parent result remains `+9.268%`. On a newer frozen master, patch 1 improved the private workload by `3.392%`; patch 2 was private-neutral and improved the matched shared workload by `1.578%`. Results from the two source baselines are not subtracted. |
 
@@ -109,6 +110,33 @@ and the technical conclusion are recorded separately.
   The introducing commit fixes a real old AppArmor policy ABI correctness
   issue, so the evidence asks whether its cost can be reduced and does not
   recommend a revert.
+
+- `io-uring-msg-ring-send-fd-install/`
+
+  A narrow io_uring fixed-file registration/update workload. It uses
+  `IORING_MSG_SEND_FD` to fill 4,096 empty target-table slots in batches of 64.
+  In a fresh-boot exact parent/child/parent sandwich around
+  `7029acd8a950 ("io_uring/rsrc: get rid of per-ring io_rsrc_node list")`, the
+  child was `11.621%` slower than the parent midpoint. Dropping the first
+  measured round gave `11.649%`; parent drift was `0.097%`, and all compared
+  kernels actually ran with `preempt=full`.
+
+  An untimed trace confirms that per-install calls to `io_rsrc_node_alloc()`
+  nested under fixed-file installation change from 0 to 128 at the exact
+  commit. This is a direct-hit check, not proof that one allocator function
+  explains the full delta. The later node cache is already present in Linux
+  7.1.3, where a separate matched release comparison still showed the same
+  direction.
+
+  An exact-kernel scope check at 64, 256, 1,024, and 4,096 target slots found
+  the child `8.399%` to `11.889%` slower at every size. The smaller points were
+  noisier, so this is supporting scope evidence rather than a replacement for
+  the primary 4,096-slot result.
+
+  Scope: synthetic MSG_RING SEND_FD registration/update, not an application
+  benchmark or a claim about the normal io_uring read/write fast path. The
+  introducing patch also removes serialization and reclamation stalls; the
+  evidence does not recommend reverting it.
 
 - `io-uring-futex-inflight-wait-wake/`
 

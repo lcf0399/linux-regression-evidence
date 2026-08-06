@@ -1,0 +1,7 @@
+metric	parent	child	interpretation
+F0 trace operations	128	128	matched workload shape
+io_msg_ring	128	128	matched SEND_FD dispatch
+io_msg_install_complete	128	128	matched target-side completion
+__io_fixed_fd_install	128	128	matched fixed-file installation
+io_rsrc_node_alloc total	4	129	includes setup or teardown calls
+io_rsrc_node_alloc nested under __io_fixed_fd_install	0	128	new per-install path in child

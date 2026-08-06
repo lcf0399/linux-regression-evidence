@@ -4,7 +4,7 @@
 
 ## 上游状态
 
-索引更新于 2026-08-05。各条目的审计日期分别记录；既有线程状态并未全部重新审计。
+索引更新于 2026-08-06。各条目的审计日期分别记录；既有线程状态并未全部重新审计。
 表中将邮件是否送达、维护者是否回复和技术结论分开记录。
 
 | 证据 | 上游线程状态 | 当前技术状态 |
@@ -13,6 +13,7 @@
 | `tmpfs-flistxattr-small-list/` | Jan Kara 已回复并指出 `1e7cd8a53b72`；我们已按要求把精确裸机验证回复到原线程，之后尚无新回复。 | per-superblock cache commit 已消除这条窄 workload 中测得的 slowdown；除非出现新的 post-fix 场景，这条线在技术上已经收口。 |
 | `fsnotify-concurrent-inotify-watch-setup/` | 报告已经发送并被公开 regression tracker 跟踪，目前尚无回复。 | exact A/B 与诊断证据仍有效；目前没有上游修复，也没有维护者对该 trade-off 的明确结论。 |
 | `btrfs-remap-writeback-inhibition-v2/` | David Sterba 已确认收到测试报告，将证据链接加入 patch 记录，并把修正后的补丁加入 Btrfs `for-next`。 | 独立结果支持 v2 在所测 4 KiB clone/dedupe workload 上的改进；这是 patch 验证，不是 broad Btrfs 性能结论。 |
+| `io-uring-msg-ring-send-fd-install/` | 尚未发送报告。已经确定原始引入补丁线程和当前维护者；回复草稿仅保留本地并被 Git 忽略。 | 精确 direct-parent A/B 将 `11.621%` fixed-file 安装 slowdown 归因到 `7029acd8a950`；parent 漂移为 `0.097%`，各点实际抢占模式均为 `full`。64 至 4,096 槽位的适用范围检查在每个规模都得到同方向信号。这是很窄的 registration-time trade-off，不是普通 io_uring read/write 性能结论。 |
 | `apparmor-af-unix-send-old-abi-6456cc/` | 尚未发送报告。2026-08-05 已核对精确提交、后续路径历史和公开归档；没有找到相同性能报告或明显的等效修复。 | standalone 精确源码差分夹心中，AF_UNIX datagram `sendmmsg()` 慢 `15.295%`；独立大 runner 又复现 direct `sendmmsg()` `+14.841%` 和 io_uring SEND `+17.953%`。报告只询问能否在保留旧 AppArmor policy ABI correctness 修复的同时降低 unconfined send-path 成本，不要求回退。 |
 | `io-uring-futex-inflight-wait-wake/` | 原始报告已发送。Jens Axboe 回复说这项 tracking 对该操作偏重、同步 WAKE 不需要它，并给出两枚补丁。本地补丁验证已完成，结果回复尚未发送。 | direct-parent 结果仍为 `+9.268%`。在较新冻结 master 上，补丁 1 让 private workload 快 `3.392%`；补丁 2 对 private 基本中性，并让配对 shared workload 再快 `1.578%`。两组源码基线的百分比不相减。 |
 
@@ -93,6 +94,28 @@
   当前口径：结论限于精确源码差分前后的 unconfined AF_UNIX datagram send。
   引入提交修复真实的旧 AppArmor policy ABI correctness 问题，所以只询问能否降低
   成本，不建议回退。
+
+- `io-uring-msg-ring-send-fd-install/`
+
+  一条很窄的 io_uring fixed-file registration/update workload：通过
+  `IORING_MSG_SEND_FD`，以每批 64 个操作填满 4,096 个 target-table 空槽。围绕
+  `7029acd8a950 ("io_uring/rsrc: get rid of per-ring io_rsrc_node list")` 的
+  fresh-boot 精确 parent/child/parent 夹心中，child 相对 parent 中点慢 `11.621%`；
+  删除首个 measured round 后为 `11.649%`，parent 漂移仅 `0.097%`，所有比较点
+  实际运行模式均为 `preempt=full`。
+
+  非计时 trace 确认，在精确提交处，固定文件安装内部嵌套的
+  `io_rsrc_node_alloc()` 逐安装调用由 0 次变为 128 次。这是 direct-hit 证明，不表示
+  一个 allocator 函数解释了全部 delta。后续 node cache 已包含在 Linux 7.1.3 中；
+  独立 matched release 对照仍得到同方向信号。
+
+  同一组精确内核上的 64、256、1,024 和 4,096 target-slot 检查中，child 在每个规模
+  都慢 `8.399%` 至 `11.889%`。较小点噪声更高，因此它只作为适用范围补证，不替代
+  正式的 4,096 槽位主结果。
+
+  当前口径：这是 synthetic MSG_RING SEND_FD registration/update，不是应用
+  benchmark，也不声称普通 io_uring read/write fast path 存在回归。引入补丁还解决了
+  serialization 与资源回收停滞，因此不建议回退它。
 
 - `io-uring-futex-inflight-wait-wake/`
 

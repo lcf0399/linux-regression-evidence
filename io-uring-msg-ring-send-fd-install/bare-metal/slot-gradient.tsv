@@ -1,0 +1,5 @@
+slots	parent_a_mean_ns_per_install	child_mean_ns_per_install	parent_b_mean_ns_per_install	child_vs_parent_midpoint_pct	drop_first_pct	parent_drift_pct	parent_a_cv_pct	child_cv_pct	parent_b_cv_pct
+64	109.246	122.555	109.890	11.853	11.888	0.589	1.161	4.511	1.817
+256	105.974	115.926	107.289	8.717	8.493	1.241	3.812	2.261	4.063
+1024	104.227	112.641	103.601	8.399	8.297	-0.601	1.687	0.366	0.939
+4096	102.504	114.707	102.532	11.889	11.879	0.027	1.071	0.478	0.907

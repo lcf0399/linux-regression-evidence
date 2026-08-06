@@ -18,4 +18,5 @@ registration/update trade-off，不建议回退该修复。
 这只是一条源码拓扑结论。以引入提交、opcode 和分配路径定向检索公开 io-uring
 邮件归档，未检索到相同 MSG_RING SEND_FD 批量空槽安装 workload 的既有报告。
 
-建议回复原 patch 06 线程。精确 Message-ID 和源码引用见 [`refs.tsv`](refs.tsv)。
+建议发送一封窄 scope 的新回归报告，并在正文中链接原 patch 06 线程。精确 Message-ID
+和源码引用见 [`refs.tsv`](refs.tsv)。

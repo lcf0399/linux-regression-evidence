@@ -23,5 +23,6 @@ of the public io-uring archive by the introducing commit, opcode, and allocation
 path did not surface an existing report for the same MSG_RING SEND_FD bulk
 empty-slot installation workload.
 
-The intended upstream route is a reply to the original patch 06 thread. Exact
-message IDs and source references are in [`refs.tsv`](refs.tsv).
+The intended upstream route is a new narrow regression report that links the
+original patch 06 thread. Exact message IDs and source references are in
+[`refs.tsv`](refs.tsv).

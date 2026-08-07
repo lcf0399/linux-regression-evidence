@@ -48,4 +48,4 @@ io_uring read/write fast path 存在相同回归。
 - [`reproducer/`](reproducer/)：正式实验源码、F0 精简 standalone、validator 与单点
   runner；
 - [`upstream-status/`](upstream-status/)：引入线程、后续 cache 变更和有日期的源码审计；
-- `email/`：本地上游回复草稿与发送说明；被 Git 忽略，不属于公开证据包。
+- `email/`：本地邮件材料与发送说明；被 Git 忽略，不属于公开证据包。

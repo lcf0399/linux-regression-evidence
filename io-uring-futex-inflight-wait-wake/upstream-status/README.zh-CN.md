@@ -1,6 +1,6 @@
 # 上游状态审计
 
-审计日期：2026-07-31。
+源码与线程审计日期：2026-08-03；邮箱状态于 2026-08-07 再次核对。
 
 Robert Morris 曾报告：进程仍有 private `IORING_OP_FUTEX_WAIT` pending 时被杀死，
 可能触发 use-after-free。Jens Axboe 的修复把标量和向量 futex wait 标为 inflight，
@@ -33,3 +33,12 @@ WAIT/WAKE workload 快 `3.392%`，完整系列快 `3.416%`，完整系列相对�
 随后用配对的标量 shared-futex 场景比较 patch 1 A、完整系列和 patch 1 B。完整系列
 相对 patch 1 中点快 `1.578%`，控制漂移 `0.319%`，drop-first 仍为 `1.578%`。
 这直接确认 patch 2 在标量 shared-WAIT 目标路径上的小幅改善；shared WAITV 仍未测试。
+
+补丁验证结果回复已于 2026-07-31 从 Gmail 发送，Message-ID 为
+`<CANGjgdkhQZWntcnpa2zBshGn_E7yaKDnPcSbH-HBBfXGWAw1+g@mail.gmail.com>`。
+原始报告的 Message-ID 为
+`<CANGjgdn=R_qyUdE=j9za+vkmqcxacbP-84OHXF4nZ4ho9qRyVg@mail.gmail.com>`。
+原始报告与验证回复均在 Gmail `SENT` 中；验证回复具有正确的 `In-Reply-To` 和
+`References`，实际 To/Cc 与原报告一致。截至 2026-08-03，Gmail 中没有更晚回复。
+公开归档尚未独立确认：lore 直查返回 403，精确网页检索没有命中；这两项都不能证明邮件
+未归档。2026-08-07 再次核对 Gmail 时仍没有更晚的维护者回复。

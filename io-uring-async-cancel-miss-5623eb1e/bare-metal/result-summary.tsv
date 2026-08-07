@@ -1,0 +1,3 @@
+profile	parent_a_mean_ns_per_attempt	child_mean_ns_per_attempt	parent_b_mean_ns_per_attempt	parent_midpoint_ns_per_attempt	child_vs_parent_midpoint_percent	drop_first_percent	parent_drift_percent	parent_a_cv_percent	child_cv_percent	parent_b_cv_percent
+a0_miss	143.659929	156.136914	143.270736	143.465332	8.832505	8.807102	-0.270913	0.291362	0.249374	0.421928
+a0_hit	131.640690	130.324088	130.480013	131.060352	-0.561774	-0.532877	-0.881701	0.404951	0.415193	0.490268

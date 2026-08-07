@@ -12,7 +12,9 @@ Three independent boots formed this sandwich:
 ```
 
 Each point used two warm-up rounds and 25 measured rounds. Values in
-[`exact-ab-summary.tsv`](exact-ab-summary.tsv) are medians. The P8 absolute
+[`exact-ab-summary.tsv`](exact-ab-summary.tsv) are medians and include the P1
+and P4 distinct-inode checks used to answer the maintainer's single-threaded
+question. The P8 absolute
 metric is aggregate worker add plus remove time per watch, not wall-clock
 latency. The paired metric is the per-round distinct/shared ratio.
 

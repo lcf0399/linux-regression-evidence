@@ -70,6 +70,18 @@ and the maximum CV was `0.200%`. All 45 rows passed. This directly exercises
 the scalar shared-WAIT path where patch 2 removes inflight tracking; shared
 WAITV was not tested.
 
+The original report was sent from Gmail on 2026-07-30 with Message-ID
+`<CANGjgdn=R_qyUdE=j9za+vkmqcxacbP-84OHXF4nZ4ho9qRyVg@mail.gmail.com>`.
+The patch-validation reply was sent on 2026-07-31 with Message-ID
+`<CANGjgdkhQZWntcnpa2zBshGn_E7yaKDnPcSbH-HBBfXGWAw1+g@mail.gmail.com>`.
+Its `In-Reply-To` and `References` headers correctly continue Jens' patch
+reply thread, and its actual recipients match the original report. As of
+2026-08-03, Gmail contains no later response. Direct lore requests returned
+403 and exact web searches found no result, so public archival remains
+independently unconfirmed; this is not evidence that the message was not sent
+or archived. The Gmail mailbox was checked again on 2026-08-07 and still had
+no later maintainer reply.
+
 ## Layout
 
 - [`bare-metal/`](bare-metal/) contains compact exact A/B results and build

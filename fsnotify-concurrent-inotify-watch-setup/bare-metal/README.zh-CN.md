@@ -11,7 +11,8 @@ preference 均设为 `performance`，关闭 Turbo，运行时 `preempt=none`。
 ```
 
 每个点先运行 2 个 warm-up round，再运行 25 个正式 round。
-[`exact-ab-summary.tsv`](exact-ab-summary.tsv) 中是中值。P8 absolute 指标是所有 worker
+[`exact-ab-summary.tsv`](exact-ab-summary.tsv) 中是中值，并包含用于回答维护者单线程核验
+问题的 P1、P4 distinct-inode 结果。P8 absolute 指标是所有 worker
 增删 watch 的时间总和除以 watch 数，不是 wall-clock latency；paired 指标是逐 round 的
 distinct/shared 比值。
 

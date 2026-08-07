@@ -1,0 +1,2 @@
+profile	source_lines	source_sha256	execution_order	actual_preempt	parent_a_ns_per_attempt	child_ns_per_attempt	parent_b_ns_per_attempt	parent_midpoint_ns_per_attempt	child_vs_midpoint_percent	drop_first_percent	parent_drift_percent	max_cv_percent	measured_rows	semantic_pass
+A0_MISS	373	f82859c3d71caebd6b439b68308782d5761c9ee103703254f2a90ea70f26220b	parent-a,child,parent-b	full	141.660742	154.101790	140.837565	141.249154	9.099266	9.107768	-0.581090	0.374081	45	1

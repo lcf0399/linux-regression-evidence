@@ -1,6 +1,7 @@
 # Upstream status audit
 
-Audit date: 2026-07-31.
+Source and thread audit date: 2026-08-03. Mailbox status checked again:
+2026-08-07.
 
 Robert Morris reported a use-after-free when a task was killed with a private
 `IORING_OP_FUTEX_WAIT` still pending. Jens Axboe fixed it by marking scalar and
@@ -45,3 +46,15 @@ and patch 1 B. The full series was `1.578%` faster than the patch-1 midpoint,
 with `0.319%` control drift and a matching `1.578%` drop-first result. This
 directly confirms a small improvement on patch 2's scalar shared-WAIT target
 path. Shared WAITV remains untested.
+
+The patch-validation reply was sent from Gmail on 2026-07-31 with Message-ID
+`<CANGjgdkhQZWntcnpa2zBshGn_E7yaKDnPcSbH-HBBfXGWAw1+g@mail.gmail.com>`.
+The original report has Message-ID
+`<CANGjgdn=R_qyUdE=j9za+vkmqcxacbP-84OHXF4nZ4ho9qRyVg@mail.gmail.com>`.
+Both are present in Gmail `SENT`; the validation reply has the expected
+`In-Reply-To` and `References`, and its actual To/Cc match the original
+report. As of 2026-08-03, Gmail contains no later response. Public archival
+has not been independently confirmed: direct lore requests returned 403 and
+exact web searches returned no hit. Neither result proves that the mail was
+not archived. A second Gmail check on 2026-08-07 still found no later
+maintainer reply.

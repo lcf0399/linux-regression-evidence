@@ -1,178 +1,46 @@
 # Linux Regression Evidence
 
-This repository is a curated public evidence bundle for Linux performance
-regressions and upstream follow-up or patch validation.
+This repository contains curated public evidence for focused Linux performance
+regressions, upstream follow-up, and patch validation.
 
-## Upstream Status
+## Upstream status
 
-Index updated on 2026-08-06. Audit dates are recorded per entry; previously
-recorded statuses were not all re-audited. Mail delivery, maintainer response,
-and the technical conclusion are recorded separately.
+Index updated on 2026-08-07. Gmail-backed threads were checked live on that
+date. The mprotect entry is based on the saved raw header from the student
+mailbox and the local evidence record. Delivery, maintainer response, and the
+technical conclusion are kept separate.
 
-| Evidence | Upstream thread | Current technical state |
+| Evidence | Upstream state | Current technical state |
 | --- | --- | --- |
-| `mprotect-shared-dirty-toggle/` | Discussion is active. Upstream asked whether Pedro v3 helped and discussed the cost of `vm_normal_folio()`. The public thread does not yet include the later exact mechanism decomposition. | Matched testing says Pedro v3 did not improve this workload. In the exact `cac1db8c3aad` child, diagnostics attribute most of the gap to generic single-PTE update/flush handling and the `vm_normal_folio()` lookup. A separate v7.1.3 safety gate tests the later `vm_normal_page()` plus `page_folio()` path; its percentages are not part of the exact-commit gap decomposition. No fix is proposed. |
-| `tmpfs-flistxattr-small-list/` | Jan Kara replied and pointed to `1e7cd8a53b72`; the requested exact bare-metal validation was sent back to the thread. No later reply is recorded. | The per-superblock cache commit removes the measured slowdown for this narrow workload, so this case is technically closed unless a different post-fix case appears. |
-| `fsnotify-concurrent-inotify-watch-setup/` | The report was sent and is publicly tracked as a regression. No reply is recorded yet. | Exact A/B and diagnostic evidence remain current; no upstream fix or accepted trade-off decision is recorded. |
-| `btrfs-remap-writeback-inhibition-v2/` | David Sterba acknowledged the testing report, linked it from the patch record, and added the corrected patch to the Btrfs `for-next` branch. | The independent result supports v2 for the included 4 KiB clone/dedupe workload; this is patch validation, not a broad Btrfs performance claim. |
-| `io-uring-msg-ring-send-fd-install/` | No report has been sent. The original introducing patch thread and current maintainers have been identified; the reply draft remains local and Git-ignored. | An exact direct-parent A/B attributes an `11.621%` fixed-file installation slowdown to `7029acd8a950`, with `0.097%` parent drift and matched actual `preempt=full`. A 64-to-4,096-slot scope check found the same direction at every size. The evidence describes a narrow registration-time trade-off, not ordinary io_uring read/write performance. |
-| `apparmor-af-unix-send-old-abi-6456cc/` | No report has been sent. The exact commit, later path history, and public archives were checked on 2026-08-05; no matching performance report or obvious equivalent fix was found. | A standalone exact-source-delta sandwich found direct AF_UNIX datagram `sendmmsg()` `15.295%` slower. An independent larger runner reproduced `+14.841%` with `sendmmsg()` and `+17.953%` with io_uring SEND. The report asks how to retain the commit's old AppArmor policy ABI correctness fix without this unconfined send-path cost; it does not request a revert. |
-| `io-uring-futex-inflight-wait-wake/` | The original report was sent. Jens Axboe replied that the tracking was heavy for this operation, noted that synchronous WAKE did not need it, and supplied two patches. Local patch validation is complete; the result reply is not yet sent. | The direct-parent result remains `+9.268%`. On a newer frozen master, patch 1 improved the private workload by `3.392%`; patch 2 was private-neutral and improved the matched shared workload by `1.578%`. Results from the two source baselines are not subtracted. |
+| [`mprotect-shared-dirty-toggle/`](mprotect-shared-dirty-toggle/) | The latest mechanism-decomposition reply was sent on 2026-07-24 with intact `In-Reply-To` and `References`; no later response is recorded locally. | Exact A/B attributes a `39.77%` slowdown to `cac1db8c3aad`. Nested diagnostics recover `87.29%` of the gap from generic single-PTE update/flush handling and the normal page/folio lookup. Pedro v3 did not improve this workload; no safe fix is proposed. |
+| [`tmpfs-flistxattr-small-list/`](tmpfs-flistxattr-small-list/) | Jan Kara pointed to `1e7cd8a53b72`; the requested exact bare-metal validation was sent to the thread. | The per-superblock cache commit removes the measured small-list tmpfs slowdown. Technically closed unless a different post-fix case appears. |
+| [`fsnotify-concurrent-inotify-watch-setup/`](fsnotify-concurrent-inotify-watch-setup/) | Jan Kara accepted the P6/P8 contention interpretation and asked about one worker. The P1/P4 answer was sent on 2026-07-29; no later reply was present in Gmail on 2026-08-07. | P1/P4 are below the signal gate; P6/P8 show a parallel scalability loss on the superblock connector list. Upstream considers the current trade-off acceptable and mentioned unfinished rhashtable work that may improve it. |
+| [`btrfs-remap-writeback-inhibition-v2/`](btrfs-remap-writeback-inhibition-v2/) | David Sterba acknowledged the validation, linked it from the patch record, and added the corrected patch to Btrfs `for-next`. | Independent patch validation found about `27%` lower clone cost and `22%` lower dedupe cost for the included 4 KiB micro-workload. This is patch validation, not a broad Btrfs claim. |
+| [`apparmor-af-unix-send-old-abi-6456cc/`](apparmor-af-unix-send-old-abi-6456cc/) | Report sent on 2026-08-05. John Johansen replied that upstream will investigate and expects the regression can be improved, without promising full recovery. | The exact source delta makes unconfined AF_UNIX datagram `sendmmsg()` `15.295%` slower; an independent larger runner reproduces the direction. The report asks to retain the ABI correctness fix while reducing the added send-path cost. |
+| [`io-uring-msg-ring-send-fd-install/`](io-uring-msg-ring-send-fd-install/) | Report sent on 2026-08-07 and publicly archived by the io-uring lore archive; no reply was present in Gmail at the 2026-08-07 audit. | Exact A/B attributes an `11.621%` fixed-file installation slowdown to `7029acd8a950`. A 64-to-4,096-slot check keeps the same direction. This is a narrow registration/update trade-off. |
+| [`io-uring-async-cancel-miss-5623eb1e/`](io-uring-async-cancel-miss-5623eb1e/) | Not sent. The dated duplicate/fix audit found no matching report or equivalent fix. | Exact A/B finds guaranteed-miss async cancel `8.833%` slower while the matched hit control changes by `-0.562%`. Attribution is limited to the whole commit. |
+| [`io-uring-futex-inflight-wait-wake/`](io-uring-futex-inflight-wait-wake/) | Report and patch-validation reply sent on 2026-07-30 and 2026-07-31. Jens Axboe supplied two patches; Gmail had no later reply on 2026-08-07. | Direct-parent A/B remains `+9.268%`. On a newer frozen master, patch 1 improves the private workload by `3.392%`; patch 2 is private-neutral and improves the matched shared workload by `1.578%`. The two baselines are not subtracted. |
+| [`io-uring-futex-waitv-accounted-allocation/`](io-uring-futex-waitv-accounted-allocation/) | Not sent. The dated duplicate/fix audit found no matching report or equivalent optimization. | Exact A/B finds WAITV/wake `8.091%` slower after `6e0d71c288fd`; the scalar control changes by `-0.555%`. The accounting requirement is preserved and no revert is requested. |
 
-## Current Evidence
+## Reading a bundle
 
-- `mprotect-shared-dirty-toggle/`
+Each directory is the authoritative source for its claim. A typical bundle
+contains:
 
-  A narrow Linux MM `mprotect()` workload on a shared-dirty 4 KiB base-page
-  mapping. Bare-metal runs first narrowed the slowdown to the
-  `v6.16 -> v6.17` release window. A later exact direct-parent/child sandwich
-  identifies `cac1db8c3aad ("mm: optimize mprotect() by PTE batching")` as the
-  source of the measured signal: the child was `39.77%` slower than the parent
-  midpoint, with only `0.87%` parent drift.
+- `README.md` / `README.zh-CN.md`: scope, result, and caveats;
+- `bare-metal/`: compact selected measurements and source/run identity;
+- `reproducer/`: standalone or exact formal workload source;
+- `upstream-status/`: dated duplicate/fix audit and thread status, when present.
 
-  The exact mechanism decomposition uses that direct child, where
-  `change_pte_range()` calls `vm_normal_folio()`. A separate v7.1.3 diagnostic
-  checks the later `vm_normal_page()` followed by `page_folio()` path. Its
-  `17.36%` base-page result and `65.80%` large-folio reverse result are
-  corroboration and a safety gate, not inputs to the exact-commit percentages.
+The root index intentionally does not repeat the full experiment narrative.
+Use the target README and its compact tables for exact methodology and numbers.
 
-  Scope: source-calibrated shared-dirty PTE workload, not a generic
-  `mprotect()` regression claim.
+## Evidence policy
 
-- `tmpfs-flistxattr-small-list/`
-
-  A narrow Linux FS `flistxattr(fd)` workload on tmpfs files with small
-  `user.*` xattr lists.  Bare-metal parent/child A/B around
-  `52b364fed6e1 shmem: adapt to rhashtable-based simple_xattrs with lazy
-  allocation` shows that the tmpfs switch from the old rbtree path to lazy
-  rhashtable-based `simple_xattrs` increases the small-list fixed cost.
-
-  Follow-up exact parent/child testing shows that
-  `1e7cd8a53b72 ("simpe_xattr: use per-sb cache")` removes the measured
-  slowdown: the child was about `35.9%` faster than its direct parent and
-  about `4.2%` faster than the Linux 7.0.14 control midpoint.
-
-  Scope: tmpfs `flistxattr(fd)` with small xattr lists, not a generic xattr or
-  tmpfs regression claim.
-
-- `fsnotify-concurrent-inotify-watch-setup/`
-
-  An exact three-boot parent/child/parent A/B attributes a repeatable P8
-  distinct-inode inotify watch add/remove slowdown to
-  `94bd01253c3d fsnotify: Track inode connectors for a superblock`. The child
-  was about `15.1%` to `21.6%` slower across the absolute and matched paired
-  metrics. A second exact scaling sandwich found the first tested stable material
-  point at P6 (`9.0%` to `10.9%`) and a stronger same-window P8 signal
-  (`16.8%` to `19.6%`); P1/P4 remained below the signal gate. Same-commit
-  probes narrow the cost to per-superblock list mutation or its added lock
-  hold time, plus lock handoff. A separate stock-`inotifywait` trace shows that
-  eight recursive watchers on a real Linux source tree create the same
-  multi-process, distinct-inode connector topology.
-
-  A 2026-07-20 source and prior-art audit checked `v7.1.4`, `v7.2-rc4`,
-  Linus' tip, linux-next, and the linux-fs maintainer branches. The introduced
-  lock/list operations remain present, and no equivalent fix or existing
-  regression report was found. This is not a claim that the exact A/B
-  percentage was remeasured on the latest tip.
-
-  Scope: concurrent distinct-inode watch setup/teardown around the exact
-  commit. The real-software trace is a topology gate, not application timing,
-  and the evidence does not suggest reverting the sparse-unmount optimization.
-
-- `btrfs-remap-writeback-inhibition-v2/`
-
-  Independent bare-metal validation of the upstream v2 patch that replaces
-  the per-transaction writeback-inhibition xarray with a fixed inline buffer.
-  In a matched control/patch/control sandwich, the patch reduced the mean cost
-  of 4 KiB Btrfs `FICLONERANGE` by about `27.0%` and `FIDEDUPERANGE` by about
-  `22.0%` for the included micro-workload.
-
-  Scope: Btrfs on a brd-backed filesystem with a narrow 4 KiB clone/dedupe
-  micro-workload, not a generic remap-range or application-level performance
-  claim.
-
-- `apparmor-af-unix-send-old-abi-6456cc/`
-
-  A dependency-free AF_UNIX datagram reproducer uses `sendmmsg()` on a socket
-  pair, with peer draining and payload validation outside the timed region. A
-  fresh-boot exact-source-delta parent/child/parent sandwich around
-  `6456ccbd2ff7` found the child `15.295%` slower than the parent midpoint;
-  drop-first was `15.289%`, parent drift `-0.036%`, and all 45 measured rows
-  passed. Every point in this primary run actually used `preempt=none`.
-
-  A separate larger runner reproduced the direction with matched actual
-  `preempt=full`: direct `sendmmsg()` was `14.841%` slower and io_uring SEND
-  was `17.953%` slower. These results are analyzed separately. Because the
-  ordinary system call reproduces the signal, the claim is about the AppArmor
-  AF_UNIX send path, not `io_uring/net.c`.
-
-  Scope: unconfined AF_UNIX datagram sending across the exact source delta.
-  The introducing commit fixes a real old AppArmor policy ABI correctness
-  issue, so the evidence asks whether its cost can be reduced and does not
-  recommend a revert.
-
-- `io-uring-msg-ring-send-fd-install/`
-
-  A narrow io_uring fixed-file registration/update workload. It uses
-  `IORING_MSG_SEND_FD` to fill 4,096 empty target-table slots in batches of 64.
-  In a fresh-boot exact parent/child/parent sandwich around
-  `7029acd8a950 ("io_uring/rsrc: get rid of per-ring io_rsrc_node list")`, the
-  child was `11.621%` slower than the parent midpoint. Dropping the first
-  measured round gave `11.649%`; parent drift was `0.097%`, and all compared
-  kernels actually ran with `preempt=full`.
-
-  An untimed trace confirms that per-install calls to `io_rsrc_node_alloc()`
-  nested under fixed-file installation change from 0 to 128 at the exact
-  commit. This is a direct-hit check, not proof that one allocator function
-  explains the full delta. The later node cache is already present in Linux
-  7.1.3, where a separate matched release comparison still showed the same
-  direction.
-
-  An exact-kernel scope check at 64, 256, 1,024, and 4,096 target slots found
-  the child `8.399%` to `11.889%` slower at every size. The smaller points were
-  noisier, so this is supporting scope evidence rather than a replacement for
-  the primary 4,096-slot result.
-
-  Scope: synthetic MSG_RING SEND_FD registration/update, not an application
-  benchmark or a claim about the normal io_uring read/write fast path. The
-  introducing patch also removes serialization and reclamation stalls; the
-  evidence does not recommend reverting it.
-
-- `io-uring-futex-inflight-wait-wake/`
-
-  A narrow scalar io_uring futex workload. Each timed cycle submits 32 private
-  scalar waits, then 32 scalar wakes, and verifies exactly 64 CQEs with wait
-  result 0 and wake result 1.
-
-  In a fresh-boot direct-parent sandwich around `079afb081c42`, the unchanged
-  formal source was `9.268%` slower than the parent midpoint; drop-first was
-  `9.269%`, parent drift `-0.124%`, and maximum CV `0.169%`. A separate
-  338-line standalone reproduced `10.020%`. All 90 scalar timing rows passed
-  semantic checks and all compared kernels actually ran with `preempt=full`.
-  A matched `WAITV -> WAKE` profile changed only `1.385%` and did not pass the
-  signal gate.
-
-  Jens Axboe then supplied two patches. On frozen master `48a5a7ab8d6a`,
-  patch 1 made the original private workload `3.392%` faster than its baseline
-  controls. Patch 2 was neutral for that private shape and made a matched
-  scalar shared-futex workload another `1.578%` faster than patch-1 controls.
-  All 120 measured rows across those private and shared patch tests passed;
-  every measured boot actually used `preempt=full`. Shared WAITV was not
-  tested. These percentages use a newer source baseline and are not subtracted
-  from the direct-parent `9.268%`.
-
-  Scope: the introducing commit fixes exit-time private-futex lifetime/UAF
-  handling. The evidence does not recommend a revert and makes no broad futex
-  or io_uring claim; it asks whether the same guarantee can use cheaper
-  per-request tracking.
-
-## Evidence Policy
-
-- Keep only curated summaries, standalone reproducers, compact CSV/TSV/JSON
-  summaries, and small attribution probes needed to understand the claim.
-- Do not upload private mail drafts, failed scratch logs, bulky raw runner
-  workspaces, or local-only archives.
-- Prefer immutable commit links when referencing this repository from upstream
-  email.
-- State workload scope and caveats directly; do not present a narrow
-  source-calibrated workload as a generic subsystem regression.
+- Keep curated summaries, standalone reproducers, compact CSV/TSV/JSON data,
+  and small attribution probes needed to understand a claim.
+- Exclude private drafts, failed scratch logs, bulky raw runner workspaces,
+  rebuildable build products, and local-only archives.
+- Use immutable repository commit links in upstream email.
+- State workload scope and caveats directly; do not turn a narrow
+  source-calibrated result into a generic subsystem claim.

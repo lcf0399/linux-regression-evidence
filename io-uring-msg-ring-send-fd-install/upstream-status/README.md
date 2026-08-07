@@ -23,6 +23,8 @@ of the public io-uring archive by the introducing commit, opcode, and allocation
 path did not surface an existing report for the same MSG_RING SEND_FD bulk
 empty-slot installation workload.
 
-The intended upstream route is a new narrow regression report that links the
-original patch 06 thread. Exact message IDs and source references are in
-[`refs.tsv`](refs.tsv).
+A new narrow regression report linking the original patch 06 thread was sent
+on 2026-08-07 at 16:16 UTC. Gmail confirms the exact sender and recipients,
+and the message is publicly archived by the io-uring lore archive. No bounce,
+list hold, or maintainer reply had been observed at the time of this update.
+Exact message IDs and source references are in [`refs.tsv`](refs.tsv).

@@ -1,0 +1,4 @@
+implementation	profile	parent_a_mean_ns_per_pair	child_mean_ns_per_pair	parent_b_mean_ns_per_pair	parent_midpoint_ns_per_pair	child_vs_parent_midpoint_percent	drop_first_percent	parent_drift_percent	parent_a_cv_percent	child_cv_percent	parent_b_cv_percent	confirmed
+formal	v0_waitv_wake	1045.686979	1128.703988	1042.755273	1044.221126	8.090514	8.079899	-0.280362	0.068408	0.151485	0.079102	yes
+standalone	v0_waitv_wake	1040.270166	1110.915804	1046.197640	1043.233903	6.487701	6.511294	0.569801	0.071717	0.141786	0.127553	yes
+formal	s0_wait_wake_control	196.441081	196.097066	197.940316	197.190698	-0.554606	-0.549482	0.763198	0.112877	0.150588	0.184952	no

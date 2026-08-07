@@ -1,6 +1,9 @@
 # fsnotify concurrent inotify watch add/remove regression
 
-Status: upstream report candidate; not yet sent.
+Status: reported upstream; maintainer response received; single-worker
+follow-up sent on 2026-07-29. The exact P1 result shows no material
+single-worker regression. Upstream currently treats the observed P6/P8
+slowdown as a low-priority parallel-scalability trade-off.
 
 This bundle documents a narrow, repeatable slowdown in concurrent inotify
 watch setup and teardown introduced by Linux commit
@@ -23,8 +26,10 @@ only `2.18%`. A matched distinct/shared ratio worsened by `17.67%` and
 `21.64%`, with `3.32%` parent drift.
 
 The timed case creates 96 independent inotify instances and 96 distinct file
-inodes outside the timed region. Eight pinned worker threads then add one watch
-per inode and remove it. The matched shared-inode control keeps the same 96
+inodes outside the timed region. The synthetic benchmark always uses one
+process: P1 uses one worker thread, while P8 uses eight pinned worker threads
+in that same process. The workers add one watch per inode and remove it. The
+matched shared-inode control keeps the same 96
 inotify instances and pathnames, but all pathnames are hard links to one inode;
 a keeper watch ensures that connector creation and destruction do not enter the
 timed region. Each boot used two warm-up rounds followed by 25 measured rounds.
@@ -52,6 +57,32 @@ threshold. The 16-worker SMT-packed point had the same absolute direction,
 but its child paired CV was `15.006954%`, just above the preregistered `15%`
 gate, so it is auxiliary rather than primary evidence. See
 [`bare-metal/scaling-extension-summary.tsv`](bare-metal/scaling-extension-summary.tsv).
+
+## Maintainer response
+
+The maintainer summarized the result as contention on the superblock
+`inode_conn_list` and its lock during heavily parallel inode-mark addition,
+and asked whether the single-threaded case was measurably affected. The
+existing exact P1 result answers that question without another experiment:
+
+```text
+workers   parent A    child     parent B   child vs A/B       parent drift
+P1        1426.416   1445.261   1439.104   +1.32% / +0.43%    0.89%
+P4        2568.770   2622.229   2612.885   +2.08% / +0.36%    1.70%
+```
+
+These are aggregate worker add-plus-remove times per watch. Both points are
+below the preregistered `5%` threshold. The evidence therefore supports a
+parallel-scalability issue rather than a measurable single-worker regression.
+
+The maintainer considers intensive inode-mark addition uncommon enough that
+the scalability loss is an acceptable trade-off for now if the single-threaded
+case is unaffected. He also has unfinished experimental work that replaces the
+list with an rhashtable and avoids inode pinning by inode marks; it may improve
+this scalability as a side effect. No completion schedule or proposed patch
+was provided. We replied with the existing exact P1/P4 results on 2026-07-29.
+The current project decision is to wait for that work or further upstream
+interest rather than enlarge the synthetic workload.
 
 ## Focused mechanism evidence
 
@@ -134,7 +165,7 @@ found in the reviewed series discussion.
 
 References: [v3 cover](https://lore.kernel.org/linux-fsdevel/20260121135513.12008-1-jack@suse.cz/),
 [v2 locking discussion](https://lore.kernel.org/linux-fsdevel/20260123-mengenlehre-wildhasen-46e47a6e7558@brauner/),
-[maintainer response](https://lore.kernel.org/linux-fsdevel/m5a3dyhvpnjhyjmxae2o2sd2azhynbrupmhzsy2fbgomhdcyow@imnv6ytjaxfi/).
+[v2 maintainer reply about contention expectations](https://lore.kernel.org/linux-fsdevel/m5a3dyhvpnjhyjmxae2o2sd2azhynbrupmhzsy2fbgomhdcyow@imnv6ytjaxfi/).
 
 ## Bundle layout
 

@@ -53,5 +53,5 @@ claim remains bound to the unchanged 1,165-line source and table above.
   standalone, validator and one-point runner;
 - [`upstream-status/`](upstream-status/): introducing thread, later cache
   change and dated source audit;
-- `email/`: local upstream reply drafts and sending notes; intentionally
-  ignored by Git and not part of the public evidence bundle.
+- `email/`: local mail material and sending notes; intentionally ignored by
+  Git and not part of the public evidence bundle.

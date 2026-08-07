@@ -58,6 +58,15 @@ baseline 中点为 `196.616 ns/pair`，patch 1 中点为 `189.948 ns/pair`，完
 `0.319%`，最大 CV `0.200%`，45 行计时全部通过。这直接命中 patch 2 取消 inflight
 tracking 的标量 shared-WAIT 路径；shared WAITV 未测试。
 
+原始报告于 2026-07-30 从 Gmail 发送，Message-ID 为
+`<CANGjgdn=R_qyUdE=j9za+vkmqcxacbP-84OHXF4nZ4ho9qRyVg@mail.gmail.com>`。
+补丁验证回复于 2026-07-31 发送，Message-ID 为
+`<CANGjgdkhQZWntcnpa2zBshGn_E7yaKDnPcSbH-HBBfXGWAw1+g@mail.gmail.com>`；
+其 `In-Reply-To` 和 `References` 正确指向 Jens 的补丁回复线程，实际收件人与抄送也与
+原报告一致。截至 2026-08-03，Gmail 中没有更晚回复。lore 直查返回 403，精确网页检索
+也未命中，因此公开归档状态仍标为“尚未独立确认”；这不等同于邮件未发送或未归档。
+2026-08-07 再次核对 Gmail 时，仍没有更晚的维护者回复。
+
 ## 目录
 
 - [`bare-metal/`](bare-metal/)：紧凑的精确 A/B 结果和构建身份；

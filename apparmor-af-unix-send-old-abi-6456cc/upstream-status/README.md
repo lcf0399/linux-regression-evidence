@@ -1,6 +1,13 @@
 # Upstream status audit
 
-Audit date: 2026-08-05.
+Source/fix audit date: 2026-08-05. Mail status updated: 2026-08-07.
+
+The regression report was sent on 2026-08-05. John Johansen replied that the
+AppArmor maintainers will investigate where the unconfined-path overhead is
+coming from. He noted that the referenced commit already appears to contain
+an early bailout and said that the current regression should be improvable,
+without promising full recovery. No further response is required while that
+analysis is pending.
 
 - The exact introducing commit and the AppArmor 6.17 merge history were
   checked.
@@ -11,7 +18,7 @@ Audit date: 2026-08-05.
 - Searches for the exact commit, subject, and AF_UNIX/AppArmor send-performance
   terms found no matching performance report.
 - No standalone public patch thread for the exact commit was identified, so
-  the prepared message is a new narrow regression report rather than a reply.
+  the report was sent as a new narrow regression report rather than a reply.
 
 Current Linus master `0d8395707651` `scripts/get_maintainer.pl` routing for the
 two changed files:

@@ -1,6 +1,7 @@
 kind	identity	subject	url	status
 series-cover	20241029152249.667290-1-axboe@kernel.dk	[PATCHSET v3 0/14] Rewrite rsrc node handling	https://lore.kernel.org/io-uring/20241029152249.667290-1-axboe@kernel.dk/	original series
 introducing-patch	20241029152249.667290-7-axboe@kernel.dk	[PATCH 06/14] io_uring/rsrc: get rid of per-ring io_rsrc_node list	https://lore.kernel.org/io-uring/20241029152249.667290-7-axboe@kernel.dk/	linked from new regression report
+regression-report	CANGjgdmt0FQ=offsdfn+wEaDxbOFoAa6bi92X_vEo4S6aCZ56A@mail.gmail.com	[REGRESSION] io_uring/rsrc: MSG_RING SEND_FD fixed-file installation slowdown after 7029acd8a950	https://lore.kernel.org/io-uring/CANGjgdmt0FQ%3Doffsdfn%2BwEaDxbOFoAa6bi92X_vEo4S6aCZ56A%40mail.gmail.com/	sent 2026-08-07 16:16 UTC; publicly archived; awaiting reply
 introducing-commit	7029acd8a950393ee3a3d8e1a7ee1a9b77808a3b	io_uring/rsrc: get rid of per-ring io_rsrc_node list	https://github.com/torvalds/linux/commit/7029acd8a950393ee3a3d8e1a7ee1a9b77808a3b	merged
 node-cache-patch	20250227223916.143006-7-kbusch@meta.com	[PATCHv8 6/6] io_uring: cache nodes and mapped buffers	https://lore.kernel.org/io-uring/20250227223916.143006-7-kbusch@meta.com/	merged as ed9f3112a8a8
 node-cache-commit	ed9f3112a8a8f6e6919d3b9da2651fa302df7be3	io_uring: cache nodes and mapped buffers	https://github.com/torvalds/linux/commit/ed9f3112a8a8f6e6919d3b9da2651fa302df7be3	contained in v7.1 and v7.1.3

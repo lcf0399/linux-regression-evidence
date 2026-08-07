@@ -1,6 +1,8 @@
 # fsnotify 并发 inotify watch 增删回归
 
-状态：上游新报告候选；尚未发送。
+状态：已报告上游并收到维护者回复；已于 2026-07-29 发送单 worker follow-up。精确 P1
+结果没有材料性单 worker 回归；上游目前把 P6/P8 slowdown 视为低优先级的并行可扩展性
+取舍。
 
 本证据包记录一条范围很窄但可重复的回归：Linux 提交
 [`94bd01253c3d`](https://github.com/torvalds/linux/commit/94bd01253c3d5b1cd8955bdadeed24af02088094)
@@ -21,8 +23,10 @@ P8 distinct-inode aggregate worker-time 指标在 child 上相对两端 parent �
 `17.65%` 和 `15.11%`，两次 parent 自身只漂移 `2.18%`。matched distinct/shared 比值分别恶化 `17.67%` 和
 `21.64%`，parent 漂移为 `3.32%`。
 
-计时 case 在计时区外创建 96 个独立 inotify instance 和 96 个不同文件 inode；随后 8 个
-固定到不同 P-core 的 worker thread 并发地为每个 inode 增加一个 watch，再将其撤销。
+计时 case 在计时区外创建 96 个独立 inotify instance 和 96 个不同文件 inode。合成
+benchmark 始终只有一个进程：P1 在该进程内使用一个 worker thread，P8 则在同一个进程内
+使用 8 个固定到不同 P-core 的 worker thread。worker 为每个 inode 增加一个 watch，再将其
+撤销。
 matched shared-inode control 保留相同的 96 个 inotify instance 和 pathname，但所有 pathname
 都是同一个 inode 的 hard link；一个 keeper watch 保证 connector 的创建与销毁不进入计时区。
 每次启动先运行 2 个 warm-up round，再运行 25 个正式 round。
@@ -44,6 +48,27 @@ workload 的材料性信号起点放在 P4 与 P6 之间；这不是普适的应
 absolute 指标同方向，但 child paired CV 为 `15.006954%`，刚好高于预注册 `15%` gate，
 因此只作辅助证据。数据见
 [`bare-metal/scaling-extension-summary.tsv`](bare-metal/scaling-extension-summary.tsv)。
+
+## 维护者回复
+
+维护者把结果概括为：大量并行增加 inode mark 时，会在 superblock 的
+`inode_conn_list` 及其锁上发生竞争；他随后询问单线程 case 是否也能测到回归。现有精确 P1
+结果已经可以回答，无需重跑：
+
+```text
+worker   parent A    child     parent B   child vs A/B       parent drift
+P1       1426.416   1445.261   1439.104   +1.32% / +0.43%    0.89%
+P4       2568.770   2622.229   2612.885   +2.08% / +0.36%    1.70%
+```
+
+这些数值是每个 watch 的 aggregate worker 增加加撤销时间。P1、P4 都低于预注册的 `5%`
+门槛，因此现有证据支持“并行可扩展性问题”，而不是可测的单 worker 回归。
+
+维护者认为，如果单线程不受材料性影响，那么密集增加 inode mark 的场景并不常见，当前
+scalability loss 可以暂时作为可接受取舍。他还提到本地有一组尚未完成的实验 patch：用
+rhashtable 替换 list，并避免 inode mark 固定 inode；这可能顺带改善这里的并发扩展性，但
+目前没有完成时间或可测试 patch。我们已于 2026-07-29 用现有精确 P1/P4 结果回复。当前
+决策是等待该工作或新的上游兴趣，不再通过扩大合成 workload 继续追线。
 
 ## 聚焦机制证据
 
@@ -111,7 +136,7 @@ parent/child 相同。精确 ref 与审计边界见
 
 参考：[v3 cover](https://lore.kernel.org/linux-fsdevel/20260121135513.12008-1-jack@suse.cz/)、
 [v2 locking discussion](https://lore.kernel.org/linux-fsdevel/20260123-mengenlehre-wildhasen-46e47a6e7558@brauner/)、
-[维护者回复](https://lore.kernel.org/linux-fsdevel/m5a3dyhvpnjhyjmxae2o2sd2azhynbrupmhzsy2fbgomhdcyow@imnv6ytjaxfi/)。
+[v2 中关于锁竞争预期的维护者回复](https://lore.kernel.org/linux-fsdevel/m5a3dyhvpnjhyjmxae2o2sd2azhynbrupmhzsy2fbgomhdcyow@imnv6ytjaxfi/)。
 
 ## 目录
 

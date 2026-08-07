@@ -1,0 +1,8 @@
+kind	identity	subject	url	status
+introducing-thread	24a9e751-7442-4036-9b9f-8c144918c201@kernel.dk	[PATCH v2] io_uring/tctx: add separate lock for list of tctx's in ctx	https://lore.kernel.org/io-uring/24a9e751-7442-4036-9b9f-8c144918c201@kernel.dk/	intended reply thread
+review-reply	87tswz7wft.fsf@mailhost.krisman.be	Re: [PATCH v2] io_uring/tctx: add separate lock for list of tctx's in ctx	https://lore.kernel.org/io-uring/87tswz7wft.fsf@mailhost.krisman.be/	task-state review
+author-reply	716b7ef7-0553-4d4d-a020-c79ed9056079@kernel.dk	Re: [PATCH v2] io_uring/tctx: add separate lock for list of tctx's in ctx	https://lore.kernel.org/io-uring/716b7ef7-0553-4d4d-a020-c79ed9056079@kernel.dk/	task-state explanation
+direct-parent	fc5ff2500976cd2710a7acecffd12d95ee4f98fc	io_uring direct parent	https://github.com/torvalds/linux/commit/fc5ff2500976cd2710a7acecffd12d95ee4f98fc	exact good point
+introducing-commit	5623eb1ed035f01dfa620366a82b667545b10c82	io_uring/tctx: add separate lock for list of tctx's in ctx	https://github.com/torvalds/linux/commit/5623eb1ed035f01dfa620366a82b667545b10c82	exact bad point
+linus-master-audit	62cc90241548	Linus master snapshot	https://github.com/torvalds/linux/tree/master	source audit only on 2026-07-28; not benchmarked
+axboe-7.3-audit	c905736a	Axboe for-7.3/io_uring snapshot	https://git.kernel.dk/cgit/linux/log/?h=for-7.3/io_uring	source audit only on 2026-07-28; not benchmarked

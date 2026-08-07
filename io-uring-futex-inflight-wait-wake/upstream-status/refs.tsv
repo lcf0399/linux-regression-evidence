@@ -3,6 +3,7 @@ introducing_commit	079afb081c4288e94d5e4223d3eb6306d853c68b	https://github.com/t
 direct_parent	6a8118a77eec5fc4dfec69cc6bdc52229943f6ef	https://github.com/torvalds/linux/commit/6a8118a77eec5fc4dfec69cc6bdc52229943f6ef	exact direct parent
 patch_thread	20250604165647.293646-3-axboe@kernel.dk	https://www.spinics.net/lists/io-uring/msg29895.html	original PATCH 2/2; intended reply target
 performance_report	CANGjgdn=R_qyUdE=j9za+vkmqcxacbP-84OHXF4nZ4ho9qRyVg@mail.gmail.com	https://lore.kernel.org/io-uring/CANGjgdn=R_qyUdE=j9za+vkmqcxacbP-84OHXF4nZ4ho9qRyVg@mail.gmail.com/	report referenced by Jens in both candidate patches
+patch_validation_reply	CANGjgdkhQZWntcnpa2zBshGn_E7yaKDnPcSbH-HBBfXGWAw1+g@mail.gmail.com	https://lore.kernel.org/io-uring/CANGjgdkhQZWntcnpa2zBshGn_E7yaKDnPcSbH-HBBfXGWAw1+g@mail.gmail.com/	Gmail SENT confirmed 2026-07-31; thread headers intact; no later reply as of 2026-08-07; public retrieval not independently confirmed
 correctness_report	38053.1749045482@localhost	https://lore.kernel.org/io-uring/38053.1749045482@localhost/	private-futex wait exit use-after-free report
 correctness_discussion	use-after-free if killed while in IORING_OP_FUTEX_WAIT	https://www.spinics.net/lists/io-uring/msg29892.html	Jens explains the intended least-intrusive fix
 patch_test_base	48a5a7ab8d6ab7090564339e039c421f315de912	https://github.com/torvalds/linux/commit/48a5a7ab8d6ab7090564339e039c421f315de912	frozen Linus master base for the two candidate-patch tests

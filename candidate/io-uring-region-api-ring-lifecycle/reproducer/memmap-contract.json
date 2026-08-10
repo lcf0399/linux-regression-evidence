@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "target": "io_uring/memmap.c",
+  "source_ref": "v7.1.3",
+  "source_sha256": "b688f6bc0d9403aac283c855108a3083739781a62ba8d7be2fc3b6da48a057a9",
+  "model_input_sha256": "809954870327de3d5c0d6093dd8089e1ce74b45528e5b6f40e904d28988d4665",
+  "fixed_shape": {
+    "ring_entries": 64,
+    "cq_entries": 128,
+    "warmup_rounds": 3,
+    "measured_rounds": 15,
+    "remap_events_per_round": 4096,
+    "lifecycle_events_per_round": 512,
+    "cpu": 2,
+    "release_order": ["v6.12.95-old-A", "v7.1.3-new", "v6.12.95-old-B"]
+  },
+  "profiles": {
+    "r0_remap": {
+      "unit": "ns_per_mapping_set",
+      "direct_hit": ["io_uring_mmap"]
+    },
+    "l0_standard_lifecycle": {
+      "unit": "ns_per_lifecycle",
+      "direct_hit": ["io_create_region", "io_free_region", "io_uring_mmap"]
+    },
+    "n0_userbacked_lifecycle": {
+      "unit": "ns_per_lifecycle",
+      "direct_hit": ["io_pin_pages", "io_create_region", "io_free_region"]
+    },
+    "a0_anon_map": {
+      "unit": "ns_per_mapping_set",
+      "role": "independent_environment_control_no_subtraction"
+    },
+    "e0_errors": {
+      "role": "semantic_only"
+    }
+  },
+  "promotion_gates": {
+    "all_semantic_rows_pass": true,
+    "direct_hit_on_v7_1_3": true,
+    "actual_preempt_must_match": true,
+    "max_measured_cv": 0.03,
+    "max_old_control_drift": 0.03,
+    "minimum_old_faster_midpoint": 0.05,
+    "minimum_old_faster_drop_first": 0.05
+  }
+}

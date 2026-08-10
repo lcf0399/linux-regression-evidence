@@ -1,0 +1,5 @@
+profile	symbol	expected	observed	gate
+plain	io_nop_prep	4096	4096	pass
+plain	io_nop	4096	4096	pass
+inject	io_nop_prep	4096	4096	pass
+inject	io_nop	4096	4096	pass

@@ -1,0 +1,4 @@
+metric	old_a	new	old_b	old_midpoint	new_vs_old_percent	drop_first_percent	old_drift_percent
+n0_plain_nop	18.215269	19.648620	18.066592	18.140931	8.310983	8.246973	-0.816221
+i0_inject_result	17.903835	19.359663	17.719151	17.811493	8.691970	8.532535	-1.031535
+inject_over_plain_ratio	0.982921	0.985360	0.980795	0.981858	0.356732	0.270564	-0.216302

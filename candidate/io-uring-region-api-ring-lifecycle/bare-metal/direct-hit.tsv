@@ -1,0 +1,4 @@
+profile	kernel_commit	phase	function	count	status
+l0_standard_lifecycle	81a4058e0cd0f07139f088fbeb65bc488f687829	untimed_trace	io_create_region	68	pass
+l0_standard_lifecycle	81a4058e0cd0f07139f088fbeb65bc488f687829	untimed_trace	io_free_region	102	pass
+l0_standard_lifecycle	81a4058e0cd0f07139f088fbeb65bc488f687829	untimed_trace	io_uring_mmap	64	pass

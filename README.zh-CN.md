@@ -3,10 +3,11 @@
 这个仓库保存经过整理的 Linux 性能回归证据，以及对应的上游 follow-up 和 patch
 验证材料。
 
-## 上游状态
+## 已发送或已进入上游线程
 
-索引更新于 2026-08-07。可访问的 Gmail 线程已在当天实时核对；mprotect 条目依据学生
-邮箱保存的原始邮件头和本地证据记录。邮件送达、维护者回复和技术结论分开记录。
+索引更新于 2026-08-10。可访问的 Gmail 线程最近一次集中核对仍为 2026-08-07；
+mprotect 条目依据学生邮箱保存的原始邮件头和本地证据记录。邮件送达、维护者回复和
+技术结论分开记录。
 
 | 证据 | 上游状态 | 当前技术状态 |
 | --- | --- | --- |
@@ -16,9 +17,19 @@
 | [`btrfs-remap-writeback-inhibition-v2/`](btrfs-remap-writeback-inhibition-v2/) | David Sterba 已确认验证结果、在 patch 记录中加入证据链接，并把修正补丁加入 Btrfs `for-next`。 | 独立 patch 验证中，所含 4 KiB micro-workload 的 clone 成本降低约 `27%`、dedupe 降低约 `22%`。这不是 broad Btrfs 性能结论。 |
 | [`apparmor-af-unix-send-old-abi-6456cc/`](apparmor-af-unix-send-old-abi-6456cc/) | 报告于 2026-08-05 发出。John Johansen 回复称上游会调查，并预计能改善当前回归，但不承诺完全恢复。 | 精确源码增量使 unconfined AF_UNIX datagram `sendmmsg()` 慢 `15.295%`，独立大 runner 复现同方向。报告只询问如何在保留 ABI correctness 修复的同时降低 send-path 成本。 |
 | [`io-uring-msg-ring-send-fd-install/`](io-uring-msg-ring-send-fd-install/) | 报告于 2026-08-07 发出并进入 io-uring lore 公开归档；当天核对 Gmail 时尚无回复。 | 精确 A/B 将 `11.621%` fixed-file 安装 slowdown 归因到 `7029acd8a950`；64 至 4,096 槽位均为同方向。这是窄 registration/update 取舍。 |
-| [`io-uring-async-cancel-miss-5623eb1e/`](io-uring-async-cancel-miss-5623eb1e/) | 尚未发送；有日期的排重/修复审计未发现同类报告或等效修复。 | 精确 A/B 中 guaranteed-miss async cancel 慢 `8.833%`，匹配 hit control 为 `-0.562%`。结论只归因到整个提交。 |
 | [`io-uring-futex-inflight-wait-wake/`](io-uring-futex-inflight-wait-wake/) | 报告和 patch 验证回复分别于 2026-07-30、2026-07-31 发出；Jens Axboe 给出两枚补丁。2026-08-07 核对 Gmail 时没有更晚回复。 | direct-parent A/B 仍为 `+9.268%`。在较新的冻结 master 上，patch 1 让 private workload 快 `3.392%`；patch 2 对 private 中性，并让 matched shared workload 快 `1.578%`。两组源码基线不相减。 |
-| [`io-uring-futex-waitv-accounted-allocation/`](io-uring-futex-waitv-accounted-allocation/) | 尚未发送；有日期的排重/修复审计未发现同类报告或等效优化。 | 精确 A/B 中 WAITV/wake 在 `6e0d71c288fd` 后慢 `8.091%`，scalar control 为 `-0.555%`。证据保留 accounting 要求，也不建议 revert。 |
+
+## 尚未发送的候选
+
+四项未发送材料统一放在 [`candidate/`](candidate/) 下。进入该目录只表示材料尚未提交
+上游，不表示一定值得发送；其中 NOP 已按诊断接口结果收口。
+
+| 候选 | 当前判断 | 核心证据 |
+| --- | --- | --- |
+| [`WAITV accounted allocation`](candidate/io-uring-futex-waitv-accounted-allocation/) | 当前最清晰的发送候选；发送前刷新排重和收件人。 | 单一 allocation flag 变化；精确 A/B `+8.091%`，standalone `+6.488%`，scalar control `-0.555%`。 |
+| [`async cancel miss`](candidate/io-uring-async-cancel-miss-5623eb1e/) | 可发送，但范围限于 guaranteed-miss slow path 和 whole commit。 | 精确 A/B `+8.833%`，hit control `-0.562%`。 |
+| [`region API ring lifecycle`](candidate/io-uring-region-api-ring-lifecycle/) | 材料已准备；现实影响限于反复创建、销毁短生命周期 ring。 | release `+10.832%`；两个相邻 direct-parent pair 为 `+4.563%`、`+3.019%`。 |
+| [`NOP diagnostic control`](candidate/io-uring-nop-diagnostic-control/) | 不建议发性能回归报告；保留为诊断接口成本证据。 | release plain/inject `+15.801%/+16.240%`；精确提交成分 `+8.311%/+8.692%`。 |
 
 ## 如何阅读 bundle
 

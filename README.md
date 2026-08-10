@@ -3,12 +3,12 @@
 This repository contains curated public evidence for focused Linux performance
 regressions, upstream follow-up, and patch validation.
 
-## Upstream status
+## Sent or active upstream threads
 
-Index updated on 2026-08-07. Gmail-backed threads were checked live on that
-date. The mprotect entry is based on the saved raw header from the student
-mailbox and the local evidence record. Delivery, maintainer response, and the
-technical conclusion are kept separate.
+Index updated on 2026-08-10. The most recent consolidated live check of
+Gmail-backed threads remains 2026-08-07. The mprotect entry is based on the
+saved raw header from the student mailbox and the local evidence record.
+Delivery, maintainer response, and the technical conclusion are kept separate.
 
 | Evidence | Upstream state | Current technical state |
 | --- | --- | --- |
@@ -18,9 +18,21 @@ technical conclusion are kept separate.
 | [`btrfs-remap-writeback-inhibition-v2/`](btrfs-remap-writeback-inhibition-v2/) | David Sterba acknowledged the validation, linked it from the patch record, and added the corrected patch to Btrfs `for-next`. | Independent patch validation found about `27%` lower clone cost and `22%` lower dedupe cost for the included 4 KiB micro-workload. This is patch validation, not a broad Btrfs claim. |
 | [`apparmor-af-unix-send-old-abi-6456cc/`](apparmor-af-unix-send-old-abi-6456cc/) | Report sent on 2026-08-05. John Johansen replied that upstream will investigate and expects the regression can be improved, without promising full recovery. | The exact source delta makes unconfined AF_UNIX datagram `sendmmsg()` `15.295%` slower; an independent larger runner reproduces the direction. The report asks to retain the ABI correctness fix while reducing the added send-path cost. |
 | [`io-uring-msg-ring-send-fd-install/`](io-uring-msg-ring-send-fd-install/) | Report sent on 2026-08-07 and publicly archived by the io-uring lore archive; no reply was present in Gmail at the 2026-08-07 audit. | Exact A/B attributes an `11.621%` fixed-file installation slowdown to `7029acd8a950`. A 64-to-4,096-slot check keeps the same direction. This is a narrow registration/update trade-off. |
-| [`io-uring-async-cancel-miss-5623eb1e/`](io-uring-async-cancel-miss-5623eb1e/) | Not sent. The dated duplicate/fix audit found no matching report or equivalent fix. | Exact A/B finds guaranteed-miss async cancel `8.833%` slower while the matched hit control changes by `-0.562%`. Attribution is limited to the whole commit. |
 | [`io-uring-futex-inflight-wait-wake/`](io-uring-futex-inflight-wait-wake/) | Report and patch-validation reply sent on 2026-07-30 and 2026-07-31. Jens Axboe supplied two patches; Gmail had no later reply on 2026-08-07. | Direct-parent A/B remains `+9.268%`. On a newer frozen master, patch 1 improves the private workload by `3.392%`; patch 2 is private-neutral and improves the matched shared workload by `1.578%`. The two baselines are not subtracted. |
-| [`io-uring-futex-waitv-accounted-allocation/`](io-uring-futex-waitv-accounted-allocation/) | Not sent. The dated duplicate/fix audit found no matching report or equivalent optimization. | Exact A/B finds WAITV/wake `8.091%` slower after `6e0d71c288fd`; the scalar control changes by `-0.555%`. The accounting requirement is preserved and no revert is requested. |
+
+## Unsent candidates
+
+The four unsent bundles are grouped under [`candidate/`](candidate/). Inclusion
+there means only that the material has not been submitted upstream; it is not
+an automatic recommendation to report it. The NOP case is already closed as a
+diagnostic-interface result.
+
+| Candidate | Current disposition | Core evidence |
+| --- | --- | --- |
+| [`WAITV accounted allocation`](candidate/io-uring-futex-waitv-accounted-allocation/) | Clearest current send candidate; refresh the duplicate and recipient audit before sending. | One allocation-flag change; exact A/B `+8.091%`, standalone `+6.488%`, scalar control `-0.555%`. |
+| [`async cancel miss`](candidate/io-uring-async-cancel-miss-5623eb1e/) | Reportable, but scoped to the guaranteed-miss slow path and the whole commit. | Exact A/B `+8.833%`, hit control `-0.562%`. |
+| [`region API ring lifecycle`](candidate/io-uring-region-api-ring-lifecycle/) | Prepared; real-world impact is limited to repeated short-lived ring setup and teardown. | Release `+10.832%`; adjacent direct-parent pairs `+4.563%` and `+3.019%`. |
+| [`NOP diagnostic control`](candidate/io-uring-nop-diagnostic-control/) | No upstream regression report proposed; retained as diagnostic-interface cost evidence. | Release plain/inject `+15.801%/+16.240%`; exact-commit component `+8.311%/+8.692%`. |
 
 ## Reading a bundle
 

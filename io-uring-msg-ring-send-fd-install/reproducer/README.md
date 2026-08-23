@@ -65,3 +65,29 @@ The slot-count scope check rebuilt the exact source with only
 `FD_OPS_PER_ROUND` changed to 64, 256, 1,024, or 4,096. It kept the queue
 depth at 64 and used the same exact-kernel sequence and semantic gates. The
 unchanged 4,096-operation source remains the primary reproducer.
+
+## Node-cache cold/warm diagnostic
+
+`io_uring_msg_ring_node_cache_diag.c` is the 267-line source for the 128-slot
+cold/warm diagnostic. Its SHA-256 is
+`e6d41ddcb2d1109bea5e472e7d600305f56ffe368239ec7d40c2e76d4f8c2561`.
+It includes the short standalone source above so that it reuses the same raw
+io_uring helpers and semantic checks. The 128-slot size matches
+`IO_ALLOC_CACHE_MAX` in v7.1.3; it does not replace the original 4,096-slot
+exact-commit result.
+
+```sh
+make
+./build/io_uring_msg_ring_node_cache_diag --smoke
+./build/io_uring_msg_ring_node_cache_diag --timing \
+  --slots 128 --warmups 1 --pairs 15 --replicates 128
+```
+
+`trace_node_cache.sh` collects the separate PID-filtered function trace used
+to infer cache hits. It requires root access to tracefs and must not be active
+during clean timing:
+
+```sh
+./trace_node_cache.sh ./build/io_uring_msg_ring_node_cache_diag cold /tmp/msg-ring-cold
+./trace_node_cache.sh ./build/io_uring_msg_ring_node_cache_diag warm /tmp/msg-ring-warm
+```

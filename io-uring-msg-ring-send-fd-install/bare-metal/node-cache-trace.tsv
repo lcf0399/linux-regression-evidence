@@ -1,0 +1,3 @@
+condition	node_alloc	node_fresh_alloc	inferred_node_cache_hit	other_cache_fresh_alloc	semantic_pass
+cold	128	128	0	128	1
+warm	128	0	128	128	1

@@ -52,3 +52,26 @@ make
 槽位数适用范围检查只把精确源码中的 `FD_OPS_PER_ROUND` 分别改为 64、256、1,024 或
 4,096；queue depth 保持 64，并复用相同的精确内核顺序与语义门。未修改的 4,096 次
 操作源码仍是主 reproducer。
+
+## Node-cache cold/warm 诊断
+
+`io_uring_msg_ring_node_cache_diag.c` 是 128 槽 cold/warm 诊断使用的 267 行源码，
+SHA-256 为
+`e6d41ddcb2d1109bea5e472e7d600305f56ffe368239ec7d40c2e76d4f8c2561`。它包含上面的
+精简 standalone，以复用同一套 raw io_uring helper 与语义检查。选择 128 槽是为了匹配
+v7.1.3 的 `IO_ALLOC_CACHE_MAX`；它不替代原 4,096 槽精确提交结果。
+
+```sh
+make
+./build/io_uring_msg_ring_node_cache_diag --smoke
+./build/io_uring_msg_ring_node_cache_diag --timing \
+  --slots 128 --warmups 1 --pairs 15 --replicates 128
+```
+
+`trace_node_cache.sh` 采集独立的 PID-filtered function trace，用于推断 cache hit。它需要
+root 权限访问 tracefs，且不能在 clean timing 时开启：
+
+```sh
+./trace_node_cache.sh ./build/io_uring_msg_ring_node_cache_diag cold /tmp/msg-ring-cold
+./trace_node_cache.sh ./build/io_uring_msg_ring_node_cache_diag warm /tmp/msg-ring-warm
+```

@@ -79,6 +79,30 @@ child 相对 parent 中点慢 `11.145%`，drop-first 为 `11.147%`；45 行数�
 这证明 workload 直接命中了新增的逐安装 resource-node 路径，但不能据此断言全部时间差都
 来自某一个 allocator 函数。计数见 [`mechanism-summary.tsv`](mechanism-summary.tsv)。
 
+## Node-cache cold/warm 诊断
+
+后续在相同机器上比较新 target ring 首次填充（cold）与同 ring 先填充、注销、再填充
+（warm）。选择 128 槽是因为 v7.1.3 的 `IO_ALLOC_CACHE_MAX` 为 128。只有最后 128 次
+填充处于计时窗口；每个统计行汇总 128 个独立子对，即每条件 16,384 次计时安装。
+执行顺序为 v7.1.3 A、v6.12.95、v7.1.3 B，每点独立启动。
+
+| 点 | cold ns/install | warm ns/install | warm 对 cold |
+| --- | ---: | ---: | ---: |
+| v7.1.3 A | 139.531 | 109.143 | `-21.779%` |
+| v6.12.95 | 106.357 | 105.030 | `-1.248%` |
+| v7.1.3 B | 136.046 | 110.143 | `-19.040%` |
+
+v7.1.3 中点为 `137.789 -> 109.643 ns/install`（`-20.427%`）。独立非计时 trace
+确认 cold 为 128 次 fresh node allocation、推断 hit 为 0，warm 为 0 次 fresh、推断
+hit 为 128。
+两个 v7.1.3 控制的 cold 漂移为 `-2.498%`、warm 漂移为 `+0.916%`；因此本轮定位为
+机制诊断，不替代控制漂移仅 `0.097%` 的精确提交正式证据。两个 v7.1.3 点各自的
+cold/warm 效应均约为 19%～22%。
+因此 cache 确实改善 reuse，但原 workload 每轮新建 ring，首次填充没有可复用 node。v7.1.3
+warm 仍比 6.12.95 cold 慢 `3.089%`；本轮没有继续拆分剩余成本。紧凑数据见
+[`node-cache-cold-warm.tsv`](node-cache-cold-warm.tsv) 与
+[`node-cache-trace.tsv`](node-cache-trace.tsv)。
+
 ## 平台与范围
 
 物理机为 Intel Core i7-12700KF、32 GiB RAM。单进程固定到 P-core 逻辑 CPU 2，governor

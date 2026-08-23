@@ -91,6 +91,36 @@ This confirms that the workload directly reaches the new per-install resource
 node path. It does not prove that one allocator function accounts for the full
 timing difference. See [`mechanism-summary.tsv`](mechanism-summary.tsv).
 
+## Node-cache cold/warm diagnostic
+
+A follow-up on the same machine compared first fill of a new target ring
+(cold) with fill, unregister, and refill on the same ring (warm). The
+diagnostic uses 128 slots because `IO_ALLOC_CACHE_MAX` is 128 in v7.1.3. Only
+the final 128 installations were timed. Each row aggregated 128 independent
+subpairs, or 16,384 timed installations per condition. Fresh boots ran in the
+order v7.1.3 A, v6.12.95, v7.1.3 B.
+
+| point | cold ns/install | warm ns/install | warm vs cold |
+| --- | ---: | ---: | ---: |
+| v7.1.3 A | 139.531 | 109.143 | `-21.779%` |
+| v6.12.95 | 106.357 | 105.030 | `-1.248%` |
+| v7.1.3 B | 136.046 | 110.143 | `-19.040%` |
+
+The v7.1.3 midpoint changed from `137.789` to `109.643 ns/install`
+(`-20.427%`). A separate untimed trace observed 128 fresh node allocations
+and zero inferred hits for cold, versus zero fresh node allocations and 128
+inferred hits for warm. The surrounding v7.1.3 controls drifted by `-2.498%` for cold and
+`+0.916%` for warm, so this is a mechanism diagnostic rather than a replacement
+for the exact-commit result whose parent drift was only `0.097%`. Each v7.1.3
+point independently showed a 19% to 22% paired effect.
+
+The cache therefore improves reuse, but the original workload creates a new
+ring every round and has no nodes to reuse on first fill. The v7.1.3 warm
+midpoint remained `3.089%` slower than the v6.12.95 cold point; this diagnostic
+does not split the remaining cost. See
+[`node-cache-cold-warm.tsv`](node-cache-cold-warm.tsv) and
+[`node-cache-trace.tsv`](node-cache-trace.tsv).
+
 ## Platform and scope
 
 The physical machine was an Intel Core i7-12700KF system with 32 GiB RAM. The

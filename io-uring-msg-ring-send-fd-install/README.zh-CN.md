@@ -33,6 +33,13 @@ child 的 128 次。这能证明 direct hit，但不能把全部时间差都归�
 serialization 与资源回收停滞，因此本证据描述的是 registration-time trade-off，
 不建议回退原变更。
 
+2026-08-22 的 cold/warm 诊断解释了 cache 没有关闭原 workload 差距的原因：新 target
+ring 首次填充为 128/128 fresh node allocation、推断 cache hit 为 0；同 ring 先填充
+并注销后，第二次填充推断为 128/128 cache hit。v7.1.3 cold/warm 中点为
+`137.789 -> 109.643 ns/install`
+（`-20.427%`）；6.12.95 同形状预热仅为 `-1.248%`。所以 cache 能改善 reuse，但不能
+改善新 ring 的首次填充；它消除了该窄诊断中的大部分 release 差距，但没有完全消除。
+
 这是一条聚焦的 synthetic microbenchmark，不是应用 benchmark，也不声称普通
 io_uring read/write fast path 存在相同回归。
 
@@ -43,9 +50,9 @@ io_uring read/write fast path 存在相同回归。
 
 ## 目录
 
-- [`bare-metal/`](bare-metal/)：精确 A/B、槽位数适用范围检查、紧凑身份信息与
-  direct-hit trace summary；
-- [`reproducer/`](reproducer/)：正式实验源码、F0 精简 standalone、validator 与单点
-  runner；
+- [`bare-metal/`](bare-metal/)：精确 A/B、槽位数适用范围、node-cache cold/warm、
+  紧凑身份信息与 direct-hit trace summary；
+- [`reproducer/`](reproducer/)：正式实验源码、精简 `SEND_FD` standalone、cold/warm
+  诊断、trace helper、validator 与单点 runner；
 - [`upstream-status/`](upstream-status/)：引入线程、后续 cache 变更和有日期的源码审计；
 - `email/`：本地邮件材料与发送说明；被 Git 忽略，不属于公开证据包。

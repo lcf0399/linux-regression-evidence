@@ -36,6 +36,16 @@ A matched Linux 6.12.95/7.1.3 run nevertheless showed the same direction
 reclamation stalls, so this bundle describes a measured registration-time
 trade-off and does not recommend reverting it.
 
+A 2026-08-22 cold/warm diagnostic explains why the cache did not close the
+gap in the original workload. First fill of a new target ring used 128 fresh
+node allocations and had zero inferred cache hits. After filling and
+unregistering on the same ring, refill had 128 inferred hits and no fresh node
+allocations. The v7.1.3
+cold/warm midpoint changed from `137.789` to `109.643 ns/install`
+(`-20.427%`), while the same priming shape changed v6.12.95 by only `-1.248%`.
+The cache therefore improves reuse, not first fill of a new ring. It removed
+most, but not all, of the release gap in this narrow diagnostic.
+
 This is a focused synthetic microbenchmark. It is not an application
 benchmark and makes no claim about the ordinary io_uring read/write fast path.
 
@@ -48,9 +58,9 @@ claim remains bound to the unchanged 1,165-line source and table above.
 ## Layout
 
 - [`bare-metal/`](bare-metal/): exact A/B results, slot-count scope check,
-  compact identities and the direct-hit trace summary;
-- [`reproducer/`](reproducer/): exact experiment source, shorter F0-only
-  standalone, validator and one-point runner;
+  node-cache cold/warm diagnostic, compact identities and trace summaries;
+- [`reproducer/`](reproducer/): exact experiment source, shorter `SEND_FD`
+  standalone, cold/warm diagnostic, trace helper, validator and one-point runner;
 - [`upstream-status/`](upstream-status/): introducing thread, later cache
   change and dated source audit;
 - `email/`: local mail material and sending notes; intentionally ignored by

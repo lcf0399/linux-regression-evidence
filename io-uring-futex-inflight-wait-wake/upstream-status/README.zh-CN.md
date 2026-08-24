@@ -1,6 +1,11 @@
 # 上游状态审计
 
-源码与线程审计日期：2026-08-03；邮箱状态于 2026-08-07 再次核对。
+历史源码/线程审计日期：2026-08-03；最新邮箱与 stable queue 状态核对日期：2026-08-24。
+
+当前处置：上游已解决。提交
+[`73e701909747`](https://github.com/torvalds/linux/commit/73e7019097473fc9f83a334ef2c6ab3343709fef)
+取消同步 FUTEX_WAKE 的 inflight tracking，同时保留 WAIT 所需的生命周期处理，并带有
+`Reported-by: Chengfeng Lin <lin2530632123@gmail.com>`。
 
 Robert Morris 曾报告：进程仍有 private `IORING_OP_FUTEX_WAIT` pending 时被杀死，
 可能触发 use-after-free。Jens Axboe 的修复把标量和向量 futex wait 标为 inflight，
@@ -38,7 +43,14 @@ WAIT/WAKE workload 快 `3.392%`，完整系列快 `3.416%`，完整系列相对�
 `<CANGjgdkhQZWntcnpa2zBshGn_E7yaKDnPcSbH-HBBfXGWAw1+g@mail.gmail.com>`。
 原始报告的 Message-ID 为
 `<CANGjgdn=R_qyUdE=j9za+vkmqcxacbP-84OHXF4nZ4ho9qRyVg@mail.gmail.com>`。
-原始报告与验证回复均在 Gmail `SENT` 中；验证回复具有正确的 `In-Reply-To` 和
-`References`，实际 To/Cc 与原报告一致。截至 2026-08-03，Gmail 中没有更晚回复。
-公开归档尚未独立确认：lore 直查返回 403，精确网页检索没有命中；这两项都不能证明邮件
-未归档。2026-08-07 再次核对 Gmail 时仍没有更晚的维护者回复。
+原始报告与验证回复均在 Gmail `SENT` 中；验证回复的 `In-Reply-To`、`References` 和
+实际收件人均正确。
+
+2026-08-24，Greg Kroah-Hartman 针对该上游修复发出三封 stable queue 通知：
+
+- 7.1：`<2026082416-chili-empower-39fb@gregkh>`；
+- 6.18：`<2026082407-cruncher-carried-3088@gregkh>`；
+- 7.2：`<2026082423-upstate-nature-93d0@gregkh>`。
+
+这些通知证明修复已被选入三个 stable queue，但不能证明某个已经发布的 6.18.x、7.1.x 或
+7.2.x 正式版本已经包含它。除非正式版本验证失败或上游要求补充证据，否则不再安排实验。

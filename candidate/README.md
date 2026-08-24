@@ -1,8 +1,9 @@
-# Unsent Linux performance-regression candidates
+# Unsent Linux performance-regression candidates and closed diagnostic
 
-This directory groups curated evidence that has not been submitted upstream.
-Placement here means only "not sent"; it does not imply that a report has been
-approved, and it does not change the scope documented by each bundle.
+This directory groups three curated report candidates that have not been
+submitted upstream, plus one unsent NOP diagnostic that is already closed.
+Placement here does not imply approval to report and does not form an active
+experiment queue.
 
 | Bundle | Current disposition | Main boundary |
 | --- | --- | --- |

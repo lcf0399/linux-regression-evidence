@@ -32,7 +32,7 @@ fix；上游问题只应是：能否用更低的逐请求成本保留同样的�
 这是 focused synthetic microbenchmark，不是应用 benchmark，也不声称 generic futex、
 generic io_uring 或 wait-vector 路径都发生回归。
 
-## 上游回复与候选补丁验证
+## 上游回复、补丁验证与收口状态
 
 Jens Axboe 认可同步完成的 WAKE 不需要采用这套 inflight tracking，并给出两枚补丁：
 补丁 1 把 tracking 移到 WAIT 专用 prep，补丁 2 只对包含 private wait 的请求保留
@@ -61,11 +61,19 @@ tracking 的标量 shared-WAIT 路径；shared WAITV 未测试。
 原始报告于 2026-07-30 从 Gmail 发送，Message-ID 为
 `<CANGjgdn=R_qyUdE=j9za+vkmqcxacbP-84OHXF4nZ4ho9qRyVg@mail.gmail.com>`。
 补丁验证回复于 2026-07-31 发送，Message-ID 为
-`<CANGjgdkhQZWntcnpa2zBshGn_E7yaKDnPcSbH-HBBfXGWAw1+g@mail.gmail.com>`；
-其 `In-Reply-To` 和 `References` 正确指向 Jens 的补丁回复线程，实际收件人与抄送也与
-原报告一致。截至 2026-08-03，Gmail 中没有更晚回复。lore 直查返回 403，精确网页检索
-也未命中，因此公开归档状态仍标为“尚未独立确认”；这不等同于邮件未发送或未归档。
-2026-08-07 再次核对 Gmail 时，仍没有更晚的维护者回复。
+`<CANGjgdkhQZWntcnpa2zBshGn_E7yaKDnPcSbH-HBBfXGWAw1+g@mail.gmail.com>`；其线程头和
+实际收件人均正确。
+
+Jens 针对 WAKE 的修复已经上游合并为
+[`73e701909747`](https://github.com/torvalds/linux/commit/73e7019097473fc9f83a334ef2c6ab3343709fef)
+（`io_uring/futex: don't mark futex wake requests as inflight`），并带有
+`Reported-by: Chengfeng Lin <lin2530632123@gmail.com>`。2026-08-24，Greg
+Kroah-Hartman 又把该修复加入 6.18、7.1 和 7.2 stable queue。进入 stable queue 表示
+补丁已经被选入，不等于某个当前可下载的 stable 正式版本已经包含它。
+
+因此这条线在技术上已经收口：同步 WAKE 上不必要的 tracking 已有上游修复，两枚候选补丁
+已经完成裸机验证，主修复也已进入上述受维护 stable 分支的队列。只有正式 stable 版本验证
+失败，或上游要求补充测试时，才重新打开这条线。
 
 ## 目录
 

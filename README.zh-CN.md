@@ -5,9 +5,12 @@
 
 ## 已发送或已进入上游线程
 
-索引更新于 2026-08-10。可访问的 Gmail 线程最近一次集中核对仍为 2026-08-07；
-mprotect 条目依据学生邮箱保存的原始邮件头和本地证据记录。邮件送达、维护者回复和
-技术结论分开记录。
+索引更新于 2026-08-24。futex stable queue 状态已在当天通过 Gmail 实时核对；其他较早
+Gmail 线程最近一次集中核对仍为 2026-08-07。mprotect 条目依据学生邮箱保存的原始邮件头
+和本地证据记录。邮件送达、维护者回复和技术结论分开记录。
+
+I/O 源文件主动探索阶段已经结束，目前没有排队的新 target 或裸机实验。本仓库后续只
+跟踪既有上游线程，以及由用户逐项决定是否发送的候选材料。
 
 | 证据 | 上游状态 | 当前技术状态 |
 | --- | --- | --- |
@@ -17,12 +20,13 @@ mprotect 条目依据学生邮箱保存的原始邮件头和本地证据记录�
 | [`btrfs-remap-writeback-inhibition-v2/`](btrfs-remap-writeback-inhibition-v2/) | David Sterba 已确认验证结果、在 patch 记录中加入证据链接，并把修正补丁加入 Btrfs `for-next`。 | 独立 patch 验证中，所含 4 KiB micro-workload 的 clone 成本降低约 `27%`、dedupe 降低约 `22%`。这不是 broad Btrfs 性能结论。 |
 | [`apparmor-af-unix-send-old-abi-6456cc/`](apparmor-af-unix-send-old-abi-6456cc/) | 报告于 2026-08-05 发出。John Johansen 回复称上游会调查，并预计能改善当前回归，但不承诺完全恢复。 | 精确源码增量使 unconfined AF_UNIX datagram `sendmmsg()` 慢 `15.295%`，独立大 runner 复现同方向。报告只询问如何在保留 ABI correctness 修复的同时降低 send-path 成本。 |
 | [`io-uring-msg-ring-send-fd-install/`](io-uring-msg-ring-send-fd-install/) | 报告于 2026-08-07 发出并进入 io-uring lore 公开归档；当天核对 Gmail 时尚无回复。 | 精确 A/B 将 `11.621%` fixed-file 安装 slowdown 归因到 `7029acd8a950`；64 至 4,096 槽位均为同方向。这是窄 registration/update 取舍。 |
-| [`io-uring-futex-inflight-wait-wake/`](io-uring-futex-inflight-wait-wake/) | 报告和 patch 验证回复分别于 2026-07-30、2026-07-31 发出；Jens Axboe 给出两枚补丁。2026-08-07 核对 Gmail 时没有更晚回复。 | direct-parent A/B 仍为 `+9.268%`。在较新的冻结 master 上，patch 1 让 private workload 快 `3.392%`；patch 2 对 private 中性，并让 matched shared workload 快 `1.578%`。两组源码基线不相减。 |
+| [`io-uring-futex-inflight-wait-wake/`](io-uring-futex-inflight-wait-wake/) | 上游已解决：`73e701909747` 带有本报告署名；2026-08-24，Greg Kroah-Hartman 又将它加入 6.18、7.1、7.2 stable queue。进入队列不等于 stable 正式版本已经包含。 | direct-parent A/B 仍为 `+9.268%`。patch 1 让较新 master 上的 private workload 快 `3.392%`；patch 2 对 private 中性，并让 matched shared workload 快 `1.578%`。同步 WAKE 上不必要的 tracking 已修复，因此除非正式版本验证失败，这条线已经收口。 |
 
-## 尚未发送的候选
+## 尚未发送的候选与已关闭诊断项
 
-四项未发送材料统一放在 [`candidate/`](candidate/) 下。进入该目录只表示材料尚未提交
-上游，不表示一定值得发送；其中 NOP 已按诊断接口结果收口。
+三个未发送报告候选和一个未发送但已关闭的诊断 bundle 统一放在
+[`candidate/`](candidate/) 下。进入该目录不会形成新的实验队列，也不表示一定值得
+发送上游。
 
 | 候选 | 当前判断 | 核心证据 |
 | --- | --- | --- |

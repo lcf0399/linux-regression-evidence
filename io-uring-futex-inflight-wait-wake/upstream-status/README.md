@@ -1,7 +1,13 @@
 # Upstream status audit
 
-Source and thread audit date: 2026-08-03. Mailbox status checked again:
-2026-08-07.
+Historical source/thread audit: 2026-08-03. Latest mailbox and stable-queue
+status check: 2026-08-24.
+
+Current disposition: resolved upstream. Commit
+[`73e701909747`](https://github.com/torvalds/linux/commit/73e7019097473fc9f83a334ef2c6ab3343709fef)
+removes inflight tracking from synchronous FUTEX_WAKE, retains the required
+WAIT lifetime handling, and carries
+`Reported-by: Chengfeng Lin <lin2530632123@gmail.com>`.
 
 Robert Morris reported a use-after-free when a task was killed with a private
 `IORING_OP_FUTEX_WAIT` still pending. Jens Axboe fixed it by marking scalar and
@@ -52,9 +58,16 @@ The patch-validation reply was sent from Gmail on 2026-07-31 with Message-ID
 The original report has Message-ID
 `<CANGjgdn=R_qyUdE=j9za+vkmqcxacbP-84OHXF4nZ4ho9qRyVg@mail.gmail.com>`.
 Both are present in Gmail `SENT`; the validation reply has the expected
-`In-Reply-To` and `References`, and its actual To/Cc match the original
-report. As of 2026-08-03, Gmail contains no later response. Public archival
-has not been independently confirmed: direct lore requests returned 403 and
-exact web searches returned no hit. Neither result proves that the mail was
-not archived. A second Gmail check on 2026-08-07 still found no later
-maintainer reply.
+`In-Reply-To`, `References`, and recipients.
+
+On 2026-08-24, Greg Kroah-Hartman sent three stable-queue notifications for
+the upstream fix:
+
+- 7.1: `<2026082416-chili-empower-39fb@gregkh>`;
+- 6.18: `<2026082407-cruncher-carried-3088@gregkh>`;
+- 7.2: `<2026082423-upstate-nature-93d0@gregkh>`.
+
+These messages establish that the fix was selected for all three stable
+queues. They do not establish that a released 6.18.x, 7.1.x, or 7.2.x kernel
+already contains it. No further experiment is scheduled unless release
+validation fails or upstream requests more evidence.

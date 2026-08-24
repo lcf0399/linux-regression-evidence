@@ -38,7 +38,7 @@ be retained at lower per-request cost.
 This is a focused synthetic microbenchmark, not an application benchmark or
 a claim about futex, io_uring, or wait-vector performance in general.
 
-## Upstream response and patch test
+## Upstream response, patch test, and resolution
 
 Jens Axboe agreed that inflight tracking was unnecessarily applied to the
 synchronous WAKE side and sent two patches. Patch 1 moves tracking to the WAIT
@@ -73,14 +73,22 @@ WAITV was not tested.
 The original report was sent from Gmail on 2026-07-30 with Message-ID
 `<CANGjgdn=R_qyUdE=j9za+vkmqcxacbP-84OHXF4nZ4ho9qRyVg@mail.gmail.com>`.
 The patch-validation reply was sent on 2026-07-31 with Message-ID
-`<CANGjgdkhQZWntcnpa2zBshGn_E7yaKDnPcSbH-HBBfXGWAw1+g@mail.gmail.com>`.
-Its `In-Reply-To` and `References` headers correctly continue Jens' patch
-reply thread, and its actual recipients match the original report. As of
-2026-08-03, Gmail contains no later response. Direct lore requests returned
-403 and exact web searches found no result, so public archival remains
-independently unconfirmed; this is not evidence that the message was not sent
-or archived. The Gmail mailbox was checked again on 2026-08-07 and still had
-no later maintainer reply.
+`<CANGjgdkhQZWntcnpa2zBshGn_E7yaKDnPcSbH-HBBfXGWAw1+g@mail.gmail.com>`;
+its thread headers and recipients are correct.
+
+Jens' WAKE-side fix was merged upstream as
+[`73e701909747`](https://github.com/torvalds/linux/commit/73e7019097473fc9f83a334ef2c6ab3343709fef)
+(`io_uring/futex: don't mark futex wake requests as inflight`) and carries
+`Reported-by: Chengfeng Lin <lin2530632123@gmail.com>`. On 2026-08-24, Greg
+Kroah-Hartman added that fix to the 6.18, 7.1, and 7.2 stable queues. A stable
+queue notification means that the backport has been selected; it is not proof
+that a particular downloadable stable release already contains it.
+
+The report is therefore technically closed: the unnecessary synchronous-WAKE
+tracking has an upstream fix, the proposed patches were tested on bare metal,
+and the main fix is queued for the maintained stable lines above. Reopen this
+line only if a released stable kernel fails validation or upstream requests an
+additional test.
 
 ## Layout
 

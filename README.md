@@ -5,10 +5,15 @@ regressions, upstream follow-up, and patch validation.
 
 ## Sent or active upstream threads
 
-Index updated on 2026-08-10. The most recent consolidated live check of
+Index updated on 2026-08-24. The futex stable-queue status was checked live in
+Gmail on that date; the most recent consolidated check of the other older
 Gmail-backed threads remains 2026-08-07. The mprotect entry is based on the
 saved raw header from the student mailbox and the local evidence record.
 Delivery, maintainer response, and the technical conclusion are kept separate.
+
+The active I/O source-file exploration phase is closed. No new I/O target or
+bare-metal experiment is queued. This repository now tracks only existing
+upstream threads and user-selected decisions for the unsent material below.
 
 | Evidence | Upstream state | Current technical state |
 | --- | --- | --- |
@@ -18,14 +23,13 @@ Delivery, maintainer response, and the technical conclusion are kept separate.
 | [`btrfs-remap-writeback-inhibition-v2/`](btrfs-remap-writeback-inhibition-v2/) | David Sterba acknowledged the validation, linked it from the patch record, and added the corrected patch to Btrfs `for-next`. | Independent patch validation found about `27%` lower clone cost and `22%` lower dedupe cost for the included 4 KiB micro-workload. This is patch validation, not a broad Btrfs claim. |
 | [`apparmor-af-unix-send-old-abi-6456cc/`](apparmor-af-unix-send-old-abi-6456cc/) | Report sent on 2026-08-05. John Johansen replied that upstream will investigate and expects the regression can be improved, without promising full recovery. | The exact source delta makes unconfined AF_UNIX datagram `sendmmsg()` `15.295%` slower; an independent larger runner reproduces the direction. The report asks to retain the ABI correctness fix while reducing the added send-path cost. |
 | [`io-uring-msg-ring-send-fd-install/`](io-uring-msg-ring-send-fd-install/) | Report sent on 2026-08-07 and publicly archived by the io-uring lore archive; no reply was present in Gmail at the 2026-08-07 audit. | Exact A/B attributes an `11.621%` fixed-file installation slowdown to `7029acd8a950`. A 64-to-4,096-slot check keeps the same direction. This is a narrow registration/update trade-off. |
-| [`io-uring-futex-inflight-wait-wake/`](io-uring-futex-inflight-wait-wake/) | Report and patch-validation reply sent on 2026-07-30 and 2026-07-31. Jens Axboe supplied two patches; Gmail had no later reply on 2026-08-07. | Direct-parent A/B remains `+9.268%`. On a newer frozen master, patch 1 improves the private workload by `3.392%`; patch 2 is private-neutral and improves the matched shared workload by `1.578%`. The two baselines are not subtracted. |
+| [`io-uring-futex-inflight-wait-wake/`](io-uring-futex-inflight-wait-wake/) | Resolved upstream: `73e701909747` carries the report attribution, and on 2026-08-24 Greg Kroah-Hartman queued it for 6.18, 7.1, and 7.2 stable. Queueing does not mean a stable release already contains it. | Direct-parent A/B remains `+9.268%`. Patch 1 improved the newer-master private workload by `3.392%`; patch 2 was private-neutral and improved the matched shared workload by `1.578%`. The unnecessary synchronous-WAKE tracking is fixed, so this line is closed unless release validation fails. |
 
-## Unsent candidates
+## Unsent candidates and closed diagnostic
 
-The four unsent bundles are grouped under [`candidate/`](candidate/). Inclusion
-there means only that the material has not been submitted upstream; it is not
-an automatic recommendation to report it. The NOP case is already closed as a
-diagnostic-interface result.
+Three unsent report candidates and one unsent but closed diagnostic bundle are
+grouped under [`candidate/`](candidate/). Inclusion there does not create an
+active experiment queue or automatically recommend an upstream report.
 
 | Candidate | Current disposition | Core evidence |
 | --- | --- | --- |

@@ -1,0 +1,8 @@
+kind	date	identity	subject	url_or_ref	status
+original_patch	2026-01-25	d8fd1498-fe73-4f48-9213-6b18ec698a3d@kernel.dk	[PATCH for-next] io_uring/futex: use GFP_KERNEL_ACCOUNT for futex data allocation	https://lore.kernel.org/io-uring/d8fd1498-fe73-4f48-9213-6b18ec698a3d@kernel.dk/	0 replies in archived thread
+introducing_commit	2026-01-25	6e0d71c288fdcf5866f5d0c6cde850a091cc3c55	io_uring/futex: use GFP_KERNEL_ACCOUNT for futex data allocation	https://github.com/torvalds/linux/commit/6e0d71c288fdcf5866f5d0c6cde850a091cc3c55	present in mainline history
+core_pull	2026-02-06	8b44ed7f-267f-433d-a3d3-262feb13d657@kernel.dk	[GIT PULL] Core io_uring changes for 7.0-rc1	https://lore.kernel.org/io-uring/8b44ed7f-267f-433d-a3d3-262feb13d657@kernel.dk/	included in Linux 7.0 pull
+linus_master_prior_audit	2026-07-28	fc02acf6ac0ccde0c805c2daa9148683cdd01ba8	prior audited master	refs/remotes/origin/master	GFP_KERNEL_ACCOUNT still present
+linus_master	2026-08-30	08dbfad3f5040f5bdb6c529da20d6d4e81fefd72	current audited master	https://github.com/torvalds/linux/commit/08dbfad3f5040f5bdb6c529da20d6d4e81fefd72	kzalloc_flex still uses GFP_KERNEL_ACCOUNT in io_futexv_prep
+maintainer_for_next	2026-08-30	44e96e364b04163ddddc8a24289cef4982b7e36e	current io_uring maintainer for-next	https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git/commit/?id=44e96e364b04163ddddc8a24289cef4982b7e36e	GFP_KERNEL_ACCOUNT still present in io_futexv_prep
+duplicate_fix_refresh	2026-08-30	d8fd1498-fe73-4f48-9213-6b18ec698a3d@kernel.dk	exact-thread and matching-performance refresh	https://lore.kernel.org/io-uring/d8fd1498-fe73-4f48-9213-6b18ec698a3d@kernel.dk/	original thread still has no archived reply; no equivalent optimization or matching report found

@@ -1,0 +1,4 @@
+implementation	profile	account_a_mean_ns_per_pair	no_account_mean_ns_per_pair	account_b_mean_ns_per_pair	account_midpoint_ns_per_pair	no_account_vs_account_midpoint_percent	account_vs_no_account_percent	drop_first_percent	account_drift_percent	max_cv_percent
+formal	v0_waitv_wake	1147.943718	1050.138395	1138.013460	1142.978589	-8.122654	8.840758	-8.137855	-0.865047	0.139517
+standalone	v0_waitv_wake	1145.947461	1044.277327	1149.127132	1147.537297	-8.998398	9.888175	-9.004957	0.277471	0.142247
+formal	s0_wait_wake_control	197.195512	197.549736	197.552958	197.374235	0.088918	-0.088839	0.073477	0.181265	0.144042

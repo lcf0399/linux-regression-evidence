@@ -1,11 +1,10 @@
 # 尚未发送的 Linux 性能回归候选与已关闭诊断项
 
-本目录集中保存三个尚未提交上游的报告候选，以及一个未发送但已经关闭的 NOP 诊断项。
+本目录集中保存两个尚未提交上游的报告候选，以及一个未发送但已经关闭的 NOP 诊断项。
 进入本目录不代表已经决定报告，也不会形成新的实验队列；结论边界仍以各 bundle 为准。
 
 | bundle | 当前处置 | 主要边界 |
 | --- | --- | --- |
-| [`io-uring-futex-waitv-accounted-allocation/`](io-uring-futex-waitv-accounted-allocation/) | 当前最清晰的发送候选 | 保留 memcg accounting 语义，只询问能否降低逐 WAITV 分配成本。 |
 | [`io-uring-async-cancel-miss-5623eb1e/`](io-uring-async-cancel-miss-5623eb1e/) | 可发送 | 只覆盖 guaranteed-miss async cancel；归因停在 whole commit。 |
 | [`io-uring-region-api-ring-lifecycle/`](io-uring-region-api-ring-lifecycle/) | 已准备，发送前需刷新上游审计 | 只覆盖反复创建和销毁短生命周期标准 ring。 |
 | [`io-uring-nop-diagnostic-control/`](io-uring-nop-diagnostic-control/) | 已收口，不建议发送 | NOP 是测试/控制 opcode，不代表应用 I/O。 |

@@ -121,6 +121,97 @@ does not split the remaining cost. See
 [`node-cache-cold-warm.tsv`](node-cache-cold-warm.tsv) and
 [`node-cache-trace.tsv`](node-cache-trace.tsv).
 
+## Dedicated-slab patch follow-up
+
+A private collaborator supplied a patch that routes `io_rsrc_node` fresh
+allocations through a dedicated `kmem_cache`. The attachment was applied
+unchanged to public v6.18-rc4 `6146a0f1dfae`; the resulting child was
+`72461b3d32e3`. Six fresh boots compared unpatched, patched with default SLUB
+merging, and the same patched binary with global `slab_nomerge`:
+
+| workload | unpatched | patch default | vs unpatched | patch `slab_nomerge` | vs unpatched |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| F0 4,096-slot first fill | 119.394 | 129.586 | `+8.536%` | 129.721 | `+8.649%` |
+| 128-slot cold | 127.401 | 137.154 | `+7.656%` | 136.934 | `+7.483%` |
+| 128-slot warm reuse | 108.677 | 108.261 | `-0.382%` | 108.463 | `-0.197%` |
+
+The default patch cache was merged into `:A-0000032`; with `slab_nomerge` it
+was an independent named cache. Their near-identical results show that
+merging did not explain the roughly 8% cold slowdown. Warm reuse did not show
+the slowdown because it obtained nodes from the per-ring cache rather than
+the slab allocator.
+
+A second four-boot experiment kept `slab_nomerge` on both sides and removed
+only `SLAB_ACCOUNT` from the patched cache. The account commit was
+`72461b3d32e3`; its direct child `82669ceb64b7` contained that one source-line
+change:
+
+| workload | with `SLAB_ACCOUNT` | without it | change |
+| --- | ---: | ---: | ---: |
+| F0 4,096-slot first fill | 130.326 | 118.099 | `-9.382%` |
+| 128-slot cold | 137.338 | 125.207 | `-8.833%` |
+| 128-slot warm reuse | 108.139 | 108.657 | `+0.479%` |
+
+Both named caches had object size 24, alignment 32, order 0, 128 objects per
+slab, and zero aliases. F0 account/no-account control drift was `-0.318%` and
+`-0.044%`; drop-first remained `-9.375%`. This isolates the patch's added
+cold cost to work enabled by `SLAB_ACCOUNT`, but does not assign the cost to
+individual memory-cgroup instructions. Removing the flag is a diagnostic,
+not a proposed fix, and the no-account point is not mixed with the unpatched
+point from the separate six-boot sequence. See
+[`uzair-patch1-followup.tsv`](uzair-patch1-followup.tsv).
+
+## Revised v2 slab and bulk-refill patches
+
+Uzair then supplied a two-patch v2 series. Patch 1 keeps the dedicated
+`io_rsrc_node` slab but removes the unintended `SLAB_ACCOUNT` flag. Patch 2
+refills the per-ring node cache in batches of 32 after a cache miss. Both
+attachments were applied unchanged to public v6.18-rc4 `6146a0f1dfae`;
+the local test commits were `da4febd3fde7` for patch 1 and `2359f858fa8d`
+for patch 1+2.
+
+The formal sequence used six fresh boots:
+
+```text
+unpatched-A -> patch1-A -> patch1+2-A -> patch1+2-B -> patch1-B -> unpatched-B
+```
+
+Each point retained the original 4,096-slot first-fill workload, 3 warm-up
+rounds, 15 measured rounds, and actual `preempt=full`:
+
+| role | ns/install | vs unpatched | vs patch 1 | control drift |
+| --- | ---: | ---: | ---: | ---: |
+| unpatched | 119.187760 | — | — | `+0.661%` |
+| patch 1 | 118.406665 | `-0.655%` | — | `-0.171%` |
+| patch 1+2 | 118.415243 | `-0.648%` | `+0.007%` | `-0.872%` |
+
+All 90 measured primary rows passed the workload semantic checks, and the
+maximum primary CV was `1.301%`. Patch 1 is therefore effectively neutral at
+this boundary, while patch 2 has no measurable incremental benefit. A
+drop-first sensitivity check gave the same interpretation. These current-base
+numbers cannot be subtracted from the earlier v6.12.95-to-v7.1.3 `+15.602%`
+release comparison because they use a different baseline and answer a narrower
+patch question.
+
+The secondary 128-slot cold diagnostic measured patch 1+2 `1.404%` slower
+than patch 1, but its patch 1+2 control drift was `2.786%`. It is retained as
+noisy diagnostic evidence and is not used to infer a slowdown. The warm
+diagnostic also showed no bulk-refill benefit. Compact timing data, including
+drop-first and both diagnostics, are in
+[`uzair-v2-bulk-refill.tsv`](uzair-v2-bulk-refill.tsv).
+
+A separate **untimed** probe established that the neutral timing did not come
+from missing patch 2. Both kernels executed 73,985 `io_rsrc_node_alloc()`
+calls. Patch 1 made 73,985 single-object slab allocations; patch 1+2 instead
+made 2,313 bulk calls. Every bulk call requested and returned all 32 objects,
+with no short or zero return. The 256-slot smoke cycle used exactly 8 calls,
+and each of the eighteen complete 4,096-slot cycles used exactly 128. The
+31-object difference between 74,016 bulk-returned objects and 73,985 consumed
+nodes is the unused remainder of the source ring's initial refill. This proves
+the intended bulk path ran correctly, but it does not explain why fewer
+allocator calls did not reduce end-to-end first-fill time. See
+[`uzair-v2-bulk-refill-mechanism.tsv`](uzair-v2-bulk-refill-mechanism.tsv).
+
 ## Platform and scope
 
 The physical machine was an Intel Core i7-12700KF system with 32 GiB RAM. The

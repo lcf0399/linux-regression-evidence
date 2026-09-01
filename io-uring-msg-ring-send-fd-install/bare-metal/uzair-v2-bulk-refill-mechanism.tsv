@@ -1,0 +1,3 @@
+role	node_alloc_calls	node_alloc_null_returns	node_cache_new_calls	single_slab_alloc_calls	bulk_calls	bulk_requested_objects	bulk_returned_objects	bulk_non32_requests	bulk_short_returns	bulk_zero_returns	cycle_256_bulk_calls	full_4096_cycles	bulk_calls_per_full_4096_cycle	semantic_status	interpretation
+patch1_dedicated_slab	73985	0	73985	73985	0	0	0	0	0	0	0	18	0	pass	single_object_allocation_negative_control
+patch1_plus_bulk_refill	73985	0	2313	0	2313	74016	74016	0	0	0	8	18	128	pass	bulk_path_executed_with_full_32_object_batches

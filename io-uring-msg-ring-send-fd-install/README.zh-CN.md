@@ -40,6 +40,25 @@ ring 首次填充为 128/128 fresh node allocation、推断 cache hit 为 0；�
 （`-20.427%`）；6.12.95 同形状预热仅为 `-1.248%`。所以 cache 能改善 reuse，但不能
 改善新 ring 的首次填充；它消除了该窄诊断中的大部分 release 差距，但没有完全消除。
 
+后续私人协作 patch 尝试把 `io_rsrc_node` 放进专用 slab。在 public v6.18-rc4 上，
+4,096 槽首次填充的未打 patch、默认合并 patch 与 `slab_nomerge` patch 中点分别为
+`119.394`、`129.586`、`129.721 ns/install`；两个 patch 点分别慢 `8.536%` 和
+`8.649%`，而 128 槽 warm reuse 与未打 patch 的差异均小于 `0.4%`。因此本机结果不支持
+用默认 slab 合并解释该变化。
+
+另一组单变量诊断让两边都使用 `slab_nomerge`，只改变 `SLAB_ACCOUNT`。删除该 flag 后，
+首次填充变化 `-9.382%`、128 槽 cold fill 变化 `-8.833%`，warm reuse 为 `+0.479%`。
+这把 patch 新增的 cold-path 成本收口到该 flag 启用的记账工作，但不是修复建议：删除 flag
+会改变 memory-cgroup 记账语义。私人 patch 本身未在本证据包中再分发；紧凑比较见
+[`uzair-patch1-followup.tsv`](bare-metal/uzair-patch1-followup.tsv)。
+
+Uzair 修订后的 v2 系列在 patch 1 中删除了非故意加入的记账 flag，并在 patch 2 中增加
+32-object bulk refill。六次启动的 current-base 序列测得 patch 1 相对 unpatched
+`-0.655%`，patch 1+2 相对 patch 1 `+0.007%`；在该边界上都属于基本持平。独立非计时
+探针确认 patch 2 完整执行 2,313 次 32-object bulk call，且每个完整 4,096-slot cycle
+精确调用 128 次。因此中性结果不能用“没有命中分支”或“bulk 部分返回”解释。正式计时、
+noisy 的 128-slot 诊断和机制计数分别保存在 [`bare-metal/`](bare-metal/) 中。
+
 这是一条聚焦的 synthetic microbenchmark，不是应用 benchmark，也不声称普通
 io_uring read/write fast path 存在相同回归。
 
@@ -50,8 +69,8 @@ io_uring read/write fast path 存在相同回归。
 
 ## 目录
 
-- [`bare-metal/`](bare-metal/)：精确 A/B、槽位数适用范围、node-cache cold/warm、
-  紧凑身份信息与 direct-hit trace summary；
+- [`bare-metal/`](bare-metal/)：精确 A/B、槽位数适用范围、node-cache cold/warm 与私人
+  patch 诊断、紧凑身份信息及 direct-hit trace summary；
 - [`reproducer/`](reproducer/)：正式实验源码、精简 `SEND_FD` standalone、cold/warm
   诊断、trace helper、validator 与单点 runner；
 - [`upstream-status/`](upstream-status/)：引入线程、后续 cache 变更和有日期的源码审计；

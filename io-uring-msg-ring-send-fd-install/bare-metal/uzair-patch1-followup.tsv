@@ -1,0 +1,10 @@
+experiment	left_condition	right_condition	workload	left_ns_per_install	right_ns_per_install	right_vs_left_percent	left_control_drift_percent	right_control_drift_percent	actual_preempt	semantic_status
+dedicated_slab_three_condition	unpatched	patch_default_merged	F0_4096_first_fill	119.394320	129.585539	8.535765	0.263065	-0.058952	full	pass
+dedicated_slab_three_condition	unpatched	patch_slab_nomerge	F0_4096_first_fill	119.394320	129.721281	8.649458	0.263065	0.206799	full	pass
+dedicated_slab_three_condition	unpatched	patch_default_merged	diagnostic_128_cold	127.400867	137.154319	7.655719	na	na	full	pass
+dedicated_slab_three_condition	unpatched	patch_slab_nomerge	diagnostic_128_cold	127.400867	136.933901	7.482707	na	na	full	pass
+dedicated_slab_three_condition	unpatched	patch_default_merged	diagnostic_128_warm	108.676703	108.261196	-0.382333	na	na	full	pass
+dedicated_slab_three_condition	unpatched	patch_slab_nomerge	diagnostic_128_warm	108.676703	108.462980	-0.196659	na	na	full	pass
+slab_account_single_variable	patch_slab_nomerge_account	patch_slab_nomerge_noaccount	F0_4096_first_fill	130.326221	118.098706	-9.382237	-0.318453	-0.043610	full	pass
+slab_account_single_variable	patch_slab_nomerge_account	patch_slab_nomerge_noaccount	diagnostic_128_cold	137.337887	125.206909	-8.832943	na	na	full	pass
+slab_account_single_variable	patch_slab_nomerge_account	patch_slab_nomerge_noaccount	diagnostic_128_warm	108.138993	108.656738	0.478777	na	na	full	pass

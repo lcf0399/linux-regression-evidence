@@ -46,6 +46,33 @@ cold/warm midpoint changed from `137.789` to `109.643 ns/install`
 The cache therefore improves reuse, not first fill of a new ring. It removed
 most, but not all, of the release gap in this narrow diagnostic.
 
+A later private patch proposed allocating `io_rsrc_node` from a dedicated
+slab. On public v6.18-rc4, the unpatched, default-merged patch, and
+`slab_nomerge` patch midpoints were respectively `119.394`, `129.586`, and
+`129.721 ns/install` for the 4,096-slot first fill. The patched points were
+`8.536%` and `8.649%` slower, while the 128-slot warm-reuse condition remained
+within `0.4%` of unpatched. Default merging therefore did not explain the
+result on this system.
+
+In a separate single-variable diagnostic, both kernels used `slab_nomerge`
+and differed only by `SLAB_ACCOUNT`. Removing that flag changed first fill by
+`-9.382%`, 128-slot cold fill by `-8.833%`, and warm reuse by `+0.479%`.
+This points to accounting work enabled by the flag as the source of the
+patch's added cold-path cost. It is not a fix proposal: removing the flag
+changes memory-cgroup accounting semantics. The private patch itself is not
+redistributed in this bundle; the compact comparisons are recorded in
+[`uzair-patch1-followup.tsv`](bare-metal/uzair-patch1-followup.tsv).
+
+Uzair's revised v2 series removed the unintended accounting flag in patch 1
+and added a 32-object bulk refill in patch 2. A six-boot current-base sequence
+measured patch 1 at `-0.655%` versus unpatched and patch 1+2 at `+0.007%`
+versus patch 1; both are effectively neutral at this boundary. An independent
+untimed probe confirmed that patch 2 executed 2,313 full 32-object bulk calls,
+including exactly 128 calls in every complete 4,096-slot cycle. Thus the
+neutral result is not explained by a missed branch or partial bulk returns.
+The formal timing, noisy 128-slot diagnostic, and mechanism counts are kept
+separately in [`bare-metal/`](bare-metal/).
+
 This is a focused synthetic microbenchmark. It is not an application
 benchmark and makes no claim about the ordinary io_uring read/write fast path.
 
@@ -58,7 +85,8 @@ claim remains bound to the unchanged 1,165-line source and table above.
 ## Layout
 
 - [`bare-metal/`](bare-metal/): exact A/B results, slot-count scope check,
-  node-cache cold/warm diagnostic, compact identities and trace summaries;
+  node-cache cold/warm and private-patch diagnostics, compact identities and
+  trace summaries;
 - [`reproducer/`](reproducer/): exact experiment source, shorter `SEND_FD`
   standalone, cold/warm diagnostic, trace helper, validator and one-point runner;
 - [`upstream-status/`](upstream-status/): introducing thread, later cache

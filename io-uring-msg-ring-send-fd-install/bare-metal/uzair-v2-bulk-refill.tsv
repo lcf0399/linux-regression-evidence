@@ -1,0 +1,13 @@
+family	role	midpoint_ns_per_install	vs_unpatched_percent	vs_patch1_percent	control_drift_percent	actual_preempt	semantic_status	interpretation
+primary	unpatched	119.187760	na	na	0.660740	full	pass	formal_clean_timing
+primary	patch1_dedicated_slab	118.406665	-0.655349	na	-0.171251	full	pass	formal_clean_timing_effect_within_control_drift
+primary	patch1_plus_bulk_refill	118.415243	-0.648152	0.007244	-0.872319	full	pass	formal_clean_timing_no_measurable_incremental_benefit
+primary_drop_first	unpatched	119.171491	na	na	0.666002	full	pass	formal_sensitivity_check
+primary_drop_first	patch1_dedicated_slab	118.438756	-0.614858	na	-0.249433	full	pass	formal_sensitivity_check_effect_within_control_drift
+primary_drop_first	patch1_plus_bulk_refill	118.423349	-0.627787	-0.013008	-0.882645	full	pass	formal_sensitivity_check_no_measurable_incremental_benefit
+diagnostic_128_cold	unpatched	126.503115	na	na	-0.589772	full	pass	secondary_mechanism_diagnostic
+diagnostic_128_cold	patch1_dedicated_slab	124.059855	-1.931383	na	0.176791	full	pass	secondary_mechanism_diagnostic
+diagnostic_128_cold	patch1_plus_bulk_refill	125.801371	-0.554724	1.403771	2.785793	full	pass	noisy_control_drift_do_not_infer_direction
+diagnostic_128_warm	unpatched	109.945583	na	na	-1.219792	full	pass	secondary_mechanism_diagnostic
+diagnostic_128_warm	patch1_dedicated_slab	109.010870	-0.850159	na	-1.763989	full	pass	secondary_mechanism_diagnostic
+diagnostic_128_warm	patch1_plus_bulk_refill	108.612714	-1.212299	-0.365245	-0.039438	full	pass	secondary_mechanism_diagnostic

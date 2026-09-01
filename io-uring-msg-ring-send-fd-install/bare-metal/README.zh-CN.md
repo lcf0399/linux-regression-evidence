@@ -103,6 +103,81 @@ warm 仍比 6.12.95 cold 慢 `3.089%`；本轮没有继续拆分剩余成本。�
 [`node-cache-cold-warm.tsv`](node-cache-cold-warm.tsv) 与
 [`node-cache-trace.tsv`](node-cache-trace.tsv)。
 
+## 专用 slab patch 后续
+
+私人协作者提供了一枚 patch，把 `io_rsrc_node` 的 fresh allocation 改为来自专用
+`kmem_cache`。附件原样应用到 public v6.18-rc4 `6146a0f1dfae`，child 为
+`72461b3d32e3`。六次独立冷启动比较未打 patch、默认 SLUB 合并的 patch，以及同一 patched
+binary 加全局 `slab_nomerge`：
+
+| workload | 未打 patch | patch 默认 | 相对未打 patch | patch `slab_nomerge` | 相对未打 patch |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| F0 4,096-slot first fill | 119.394 | 129.586 | `+8.536%` | 129.721 | `+8.649%` |
+| 128-slot cold | 127.401 | 137.154 | `+7.656%` | 136.934 | `+7.483%` |
+| 128-slot warm reuse | 108.677 | 108.261 | `-0.382%` | 108.463 | `-0.197%` |
+
+默认 patch cache 被合入 `:A-0000032`；使用 `slab_nomerge` 时则成为独立命名 cache。
+两者结果几乎相同，说明默认是否合并不能解释约 8% 的 cold slowdown。warm reuse 没有该
+slowdown，因为它从 per-ring cache 取得 node，不进入 slab allocator。
+
+第二组四点实验让两边都使用 `slab_nomerge`，只从 patched cache 删除
+`SLAB_ACCOUNT`。account commit 为 `72461b3d32e3`，direct child `82669ceb64b7`
+只包含这一行源码变化：
+
+| workload | 保留 `SLAB_ACCOUNT` | 删除该 flag | 变化 |
+| --- | ---: | ---: | ---: |
+| F0 4,096-slot first fill | 130.326 | 118.099 | `-9.382%` |
+| 128-slot cold | 137.338 | 125.207 | `-8.833%` |
+| 128-slot warm reuse | 108.139 | 108.657 | `+0.479%` |
+
+两边命名 cache 都是 object size 24、alignment 32、order 0、每 slab 128 个对象、aliases 0。
+F0 account/no-account 控制漂移为 `-0.318%` 和 `-0.044%`，drop-first 仍为
+`-9.375%`。本轮把 patch 新增的 cold 成本隔离到 `SLAB_ACCOUNT` 启用的工作，但没有继续
+拆分具体 memory-cgroup 指令。删除 flag 是诊断，不是修复建议；no-account 数值也不与另一个
+六点序列中的未打 patch 数值混算。见
+[`uzair-patch1-followup.tsv`](uzair-patch1-followup.tsv)。
+
+## 修订后的 v2 slab 与 bulk-refill 补丁
+
+Uzair 随后提供了两枚 v2 补丁。patch 1 保留专用 `io_rsrc_node` slab，但删除非故意加入的
+`SLAB_ACCOUNT`；patch 2 在 cache miss 后按 32 个对象一批补充 per-ring node cache。
+两枚附件均原样应用到 public v6.18-rc4 `6146a0f1dfae`；本地测试提交分别为 patch 1
+`da4febd3fde7` 与 patch 1+2 `2359f858fa8d`。
+
+正式实验使用六次 fresh boot：
+
+```text
+unpatched-A -> patch1-A -> patch1+2-A -> patch1+2-B -> patch1-B -> unpatched-B
+```
+
+每点沿用原 4,096-slot first-fill workload，3 轮 warm-up、15 轮 measured，实际运行模式均为
+`preempt=full`：
+
+| role | ns/install | 相对 unpatched | 相对 patch 1 | 控制漂移 |
+| --- | ---: | ---: | ---: | ---: |
+| unpatched | 119.187760 | — | — | `+0.661%` |
+| patch 1 | 118.406665 | `-0.655%` | — | `-0.171%` |
+| patch 1+2 | 118.415243 | `-0.648%` | `+0.007%` | `-0.872%` |
+
+90 行 primary measured 数据全部通过 workload 语义检查，最大 CV 为 `1.301%`。因此在该
+边界上 patch 1 基本持平，patch 2 相对 patch 1 没有可测增益；drop-first 复核给出同一
+解释。这里的 current-base 数值不能与早先 v6.12.95→v7.1.3 的 `+15.602%` release
+对照相减，因为两者基线不同，回答的问题边界也不同。
+
+次级 128-slot cold 诊断中 patch 1+2 相对 patch 1 慢 `1.404%`，但 patch 1+2 自身控制
+漂移达到 `2.786%`。因此只如实保留 noisy 结果，不据此判断 patch 2 变慢；warm 诊断也没有
+显示 bulk-refill 收益。包含 drop-first 与两项诊断的紧凑计时数据见
+[`uzair-v2-bulk-refill.tsv`](uzair-v2-bulk-refill.tsv)。
+
+另一次独立的**非计时**探针证明，中性计时结果不是因为没有命中 patch 2。两套内核都执行
+73,985 次 `io_rsrc_node_alloc()`；patch 1 产生 73,985 次单对象 slab allocation，
+patch 1+2 则改为 2,313 次 bulk call。每次都请求并完整返回 32 个对象，没有 short 或 zero
+return。256-slot smoke cycle 精确调用 8 次；18 个完整 4,096-slot cycle 中每个都精确调用
+128 次。bulk 共返回 74,016 个对象，比消耗的 73,985 个 node 多 31 个；它们是 source
+ring 首次 refill 后未使用的余量。这证明预期 bulk 路径完整执行，但仍不能解释 allocator
+往返大幅减少为何没有降低端到端 first-fill 时间。见
+[`uzair-v2-bulk-refill-mechanism.tsv`](uzair-v2-bulk-refill-mechanism.tsv)。
+
 ## 平台与范围
 
 物理机为 Intel Core i7-12700KF、32 GiB RAM。单进程固定到 P-core 逻辑 CPU 2，governor

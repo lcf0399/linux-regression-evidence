@@ -1,0 +1,86 @@
+From: Kernel Study Diagnostic <kernel-study@localhost>
+Date: Thu, 3 Sep 2026 12:00:00 +0000
+Subject: [DIAGNOSTIC ONLY] io_uring/rsrc: prefill sparse file node cache
+
+This is a deliberately narrow mechanism experiment for the 4,096-slot
+MSG_RING SEND_FD reproducer.  Move the raw io_rsrc_node allocations from the
+first-fill path into sparse fixed-file registration, while leaving the later
+node initialization and installation path unchanged.
+
+This is not proposed as an upstream fix.  It intentionally grows the per-ring
+cache for this exact diagnostic and can trade registration time and memory for
+lower runtime allocation cost.
+---
+ io_uring/rsrc.c | 50 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 50 insertions(+)
+
+diff --git a/io_uring/rsrc.c b/io_uring/rsrc.c
+index 24a2c741d556..8f392e51ed10 100644
+--- a/io_uring/rsrc.c
++++ b/io_uring/rsrc.c
+@@ -142,6 +142,51 @@ struct io_rsrc_node *io_rsrc_node_alloc(struct io_ring_ctx *ctx, int type)
+ 	return node;
+ }
+ 
++/*
++ * Diagnostic only: the F0 reproducer registers one 4,096-entry sparse file
++ * table and then times its first fill.  Put all raw node allocations before
++ * that timed fill so the experiment can isolate allocation-path cost from the
++ * remaining io_rsrc_node initialization and installation work.
++ */
++#define IO_RSRC_NODE_DIAG_PREFILL	4096U
++
++static int io_rsrc_node_cache_diag_prefill(struct io_ring_ctx *ctx,
++					    unsigned int nr)
++{
++	struct io_alloc_cache *cache = &ctx->rsrc_node_cache;
++	unsigned int i;
++
++	io_alloc_cache_free(cache, kfree);
++	cache->nr_cached = 0;
++	cache->max_cached = 0;
++	cache->elem_size = sizeof(struct io_rsrc_node);
++	if (io_alloc_cache_init(cache, nr, sizeof(struct io_rsrc_node)))
++		goto restore_default;
++
++	for (i = 0; i < nr; i++) {
++		struct io_rsrc_node *node;
++
++		node = kzalloc(sizeof(*node), GFP_KERNEL);
++		if (!node)
++			goto restore_default;
++		if (!io_alloc_cache_put(cache, node)) {
++			kfree(node);
++			goto restore_default;
++		}
++	}
++	return 0;
++
++restore_default:
++	io_alloc_cache_free(cache, kfree);
++	cache->nr_cached = 0;
++	cache->max_cached = 0;
++	cache->elem_size = sizeof(struct io_rsrc_node);
++	/* A zero-capacity cache remains safe if even this restoration fails. */
++	io_alloc_cache_init(cache, IO_NODE_ALLOC_CACHE_MAX,
++			    sizeof(struct io_rsrc_node));
++	return -ENOMEM;
++}
++
+ static void io_rsrc_data_free(struct io_rsrc_data *data)
+ {
+ 	int i;
+@@ -531,6 +576,11 @@ int io_sqe_files_register(struct io_ring_ctx *ctx, void __user *arg,
+ 		return -ENOMEM;
+ 	}
+ 
++	if (!fds && nr_args == IO_RSRC_NODE_DIAG_PREFILL) {
++		ret = io_rsrc_node_cache_diag_prefill(ctx, nr_args);
++		if (ret)
++			goto fail;
++	}
+ 	for (i = 0; i < nr_args; i++, ctx->nr_user_files++) {
+ 		struct io_rsrc_node *node;
+ 		u64 tag = 0;
+-- 
+2.43.0

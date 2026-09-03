@@ -1,5 +1,21 @@
 # 裸机结果
 
+## 证据索引
+
+本目录按证据类型而不是日期拆分文件。逐项核对后，没有两份 TSV 承担完全相同的证据作用，
+也没有哪一份可以安全地按重复文件删除：
+
+| 分组 | 文件 | 作用 |
+| --- | --- | --- |
+| 精确主结果 | [`source-identity.tsv`](source-identity.tsv)、[`build-identity.tsv`](build-identity.tsv)、[`exact-ab-points.tsv`](exact-ab-points.tsv)、[`measured-rounds.tsv`](measured-rounds.tsv)、[`result-summary.tsv`](result-summary.tsv) | 源码/构建来源、逐点统计、入选的逐轮数据和跨区间汇总 |
+| 范围与 direct hit | [`slot-gradient.tsv`](slot-gradient.tsv)、[`standalone-cross-check.tsv`](standalone-cross-check.tsv)、[`mechanism-summary.tsv`](mechanism-summary.tsv) | 槽位范围、可读源码交叉验证和精确路径计数 |
+| Cache 与 allocation 诊断 | [`node-cache-cold-warm.tsv`](node-cache-cold-warm.tsv)、[`node-cache-trace.tsv`](node-cache-trace.tsv)、[`first-fill-allocation-diagnostics.tsv`](first-fill-allocation-diagnostics.tsv) | reuse timing、推断 hit、新 slab/perf 与两项 prefill 诊断 |
+| 协作者补丁 | [`uzair-patch1-followup.tsv`](uzair-patch1-followup.tsv)、[`uzair-v2-bulk-refill.tsv`](uzair-v2-bulk-refill.tsv)、[`uzair-v2-bulk-refill-mechanism.tsv`](uzair-v2-bulk-refill-mechanism.tsv) | 专用 slab/accounting 诊断，以及修订 bulk-refill 的计时和路径验证 |
+
+汇总表与逐轮表会有少量统计值重叠：前者是快速索引，后者是重新计算 mean、CV 和
+drop-first 所需的最小原始数据。计时和 trace 的测量范围不同，不能为了减少文件数而混成
+同一种结果。
+
 主结果是围绕
 [`7029acd8a950`](https://github.com/torvalds/linux/commit/7029acd8a950393ee3a3d8e1a7ee1a9b77808a3b)
 （`io_uring/rsrc: get rid of per-ring io_rsrc_node list`）的精确 direct-parent
@@ -177,6 +193,62 @@ return。256-slot smoke cycle 精确调用 8 次；18 个完整 4,096-slot cycle
 ring 首次 refill 后未使用的余量。这证明预期 bulk 路径完整执行，但仍不能解释 allocator
 往返大幅减少为何没有降低端到端 first-fill 时间。见
 [`uzair-v2-bulk-refill-mechanism.tsv`](uzair-v2-bulk-refill-mechanism.tsv)。
+
+## 首次填充 allocation 路径诊断
+
+三轮连续诊断进一步收窄了首次填充成本，但不改变正式的 `+11.621%` 精确提交结果。
+
+第一轮在精确 `7029acd8` child 上做非计时 trace：4,096 次
+`io_rsrc_node_alloc()` 中，workload PID 的 40 次 `allocate_slab()` 恰好有 32 次动态嵌套
+在 node allocation 内，而且全部使用同一 cache pointer。这与 4,096 个对象除以每个
+order-0 slab 的 128 个对象完全一致。独立整进程 perf sandwich 中，child 相对 parent
+中点的 cycles 和 instructions 分别为 `+6.999%`、`+8.063%`；L1D miss 只能看方向，LLC
+数据不可用。这证明首次填充确实创建新 slab backing、child 总 CPU 工作更多，但不能量化
+32 次 slab 页创建单独解释了多少 clean latency。
+
+第二轮构造 `7029acd8` 的诊断性直接 child，在 sparse table 注册时提前分配并缓存全部
+4,096 个 raw node。后续 SEND_FD first fill 仍执行 4,096 次逻辑 node allocation，但非计时
+门禁确认其动态范围内 `allocate_slab()` 为 0。干净 fresh-boot 顺序为
+`child A -> prefill -> child B`：
+
+| 点 | ns/install | CV |
+| --- | ---: | ---: |
+| child A | `115.289095` | `1.084%` |
+| 诊断 prefill | `104.245882` | `0.338%` |
+| child B | `115.071126` | `1.723%` |
+
+child 中点为 `115.180111 ns/install`；prefill 将计时成本减少 `10.934228 ns/install`
+（`-9.493%`）。child 端点漂移为 `-0.189%`，drop-first 为 `-9.456%`。因此，逐对象 raw
+allocation 与清零路径解释了本轮首次填充额外成本的大部分。但它没有把 32 次 slab 页创建
+与其余 4,096 次 `kzalloc()` 工作分开，也没有证明总成本下降：注册时间和缓存内存只是移到
+计时区外，且没有测量。本变体仅用于诊断，不是上游修复。
+
+第三轮使用更窄的诊断：只提前准备 slab backing，计时 first fill 仍保留 4,096 次逐对象分配。
+注册阶段从真实 `io_rsrc_node_alloc()` callsite 分配 4,129 个对象，释放 4,096 个，并保留
+33 个 page anchor。非计时 probe 在注册阶段观察到 32 次 `allocate_slab()`。计时 first fill
+仍执行 4,096 次 `io_rsrc_node_alloc()` 和 4,096 次逐对象 kmalloc，但 `allocate_slab()` 为 0。
+干净 fresh-boot 顺序为 `child A -> slab-prime A -> slab-prime B -> child B`：
+
+| 点 | ns/install | CV |
+| --- | ---: | ---: |
+| child A | `115.055192` | `0.943%` |
+| slab-prime A | `116.418701` | `1.632%` |
+| slab-prime B | `115.258854` | `1.205%` |
+| child B | `114.494531` | `0.345%` |
+
+child 中点为 `114.774862 ns/install`，slab-prime 中点为 `115.838778 ns/install`。该诊断为
+`+0.927%`（`+1.063916 ns/install`），没有改善计时 first fill。child 和 slab-prime 端点漂移
+分别为 `-0.487%` 与 `-0.996%`，drop-first 为 `+1.050%`。在这项诊断下，可以更窄地排除
+新 slab page 创建是主要原因；但不能把结果解释成纯粹的逐页成本，因为注册阶段还分配、触碰
+了对象并保留 anchor。
+
+综合 full-prefill 与 slab-prime，后续值得研究的是反复执行的逐对象分配、清零，以及首次触碰
+或局部性影响。现有结果不能说明其中哪项成本最大，两种变体也都不是降低总成本的修复。三步
+紧凑数据合并保存在
+[`first-fill-allocation-diagnostics.tsv`](first-fill-allocation-diagnostics.tsv)。两项精确诊断源码
+增量分别为
+[`full-prefill`](../reproducer/0001-diagnostic-prefill-sparse-node-cache.patch) 和
+[`slab-prime`](../reproducer/0002-diagnostic-prime-node-slab-backing.patch)。
 
 ## 平台与范围
 

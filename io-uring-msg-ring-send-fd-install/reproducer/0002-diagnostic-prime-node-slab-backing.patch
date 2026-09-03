@@ -1,0 +1,130 @@
+From: Kernel Study Diagnostic <kernel-study@localhost>
+Date: Thu, 3 Sep 2026 15:00:00 +0000
+Subject: [DIAGNOSTIC ONLY] io_uring/rsrc: prime node slab backing
+
+This is a deliberately narrow mechanism experiment for the 4,096-slot
+MSG_RING SEND_FD reproducer.  During sparse table registration, allocate raw
+nodes through the exact io_rsrc_node_alloc() callsite, retain one anchor per
+slab page, and return at least 4,096 other objects to the slab allocator.
+
+The later first fill still executes io_rsrc_node_alloc() and its per-object
+kzalloc/zeroing path 4,096 times, but should not have to create a fresh slab
+page.  This separates slab-backing/first-touch setup from repeated per-object
+allocation more narrowly than the previous full-cache prefill diagnostic.
+
+This is not proposed as an upstream fix.  It intentionally adds registration
+work and retained anchors for this exact diagnostic.
+---
+ io_uring/rsrc.c | 72 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ io_uring/rsrc.h |  2 ++
+ 2 files changed, 74 insertions(+)
+
+diff --git a/io_uring/rsrc.h b/io_uring/rsrc.h
+--- a/io_uring/rsrc.h
++++ b/io_uring/rsrc.h
+@@ -16,5 +16,7 @@ struct io_rsrc_data {
+ 	unsigned int			nr;
+ 	struct io_rsrc_node		**nodes;
++	unsigned int			diag_nr_slab_anchors;
++	struct io_rsrc_node		**diag_slab_anchors;
+ };
+ 
+ struct io_rsrc_node {
+diff --git a/io_uring/rsrc.c b/io_uring/rsrc.c
+--- a/io_uring/rsrc.c
++++ b/io_uring/rsrc.c
+@@ -142,6 +144,70 @@ struct io_rsrc_node *io_rsrc_node_alloc(struct io_ring_ctx *ctx, int type)
+ 	return node;
+ }
+ 
++/*
++ * Diagnostic only: keep one allocated object on every slab page touched by
++ * this preparation, then return at least @nr other objects to the allocator.
++ * The anchor prevents a now-empty slab from being discarded before the timed
++ * first fill.  Calling io_rsrc_node_alloc() here is intentional: randomized
++ * kmalloc caches are selected using the allocation callsite, so a separate
++ * kzalloc() callsite would not reliably prime the same cache.
++ */
++#define IO_RSRC_NODE_DIAG_SLAB_PRIME	4096U
++
++static int io_rsrc_node_diag_slab_prime(struct io_ring_ctx *ctx,
++					struct io_rsrc_data *data,
++					unsigned int nr)
++{
++	struct io_rsrc_node **free_nodes;
++	struct io_rsrc_node **anchors;
++	unsigned int nr_free = 0, nr_anchors = 0;
++	unsigned int i;
++
++	free_nodes = kvmalloc_array(nr, sizeof(*free_nodes), GFP_KERNEL);
++	anchors = kvmalloc_array(nr, sizeof(*anchors), GFP_KERNEL);
++	if (!free_nodes || !anchors)
++		goto fail;
++
++	while (nr_free < nr) {
++		struct io_rsrc_node *node;
++		struct page *page;
++
++		node = io_rsrc_node_alloc(ctx, IORING_RSRC_FILE);
++		if (!node)
++			goto fail;
++		page = virt_to_head_page(node);
++		for (i = 0; i < nr_anchors; i++) {
++			if (virt_to_head_page(anchors[i]) == page)
++				break;
++		}
++		if (i == nr_anchors) {
++			if (nr_anchors == nr) {
++				kfree(node);
++				goto fail;
++			}
++			anchors[nr_anchors++] = node;
++		} else {
++			free_nodes[nr_free++] = node;
++		}
++	}
++
++	for (i = 0; i < nr_free; i++)
++		kfree(free_nodes[i]);
++	kvfree(free_nodes);
++	data->diag_slab_anchors = anchors;
++	data->diag_nr_slab_anchors = nr_anchors;
++	return 0;
++
++fail:
++	for (i = 0; i < nr_free; i++)
++		kfree(free_nodes[i]);
++	for (i = 0; i < nr_anchors; i++)
++		kfree(anchors[i]);
++	kvfree(free_nodes);
++	kvfree(anchors);
++	return -ENOMEM;
++}
++
+ static void io_rsrc_data_free(struct io_rsrc_data *data)
+ {
+ 	int i;
+@@ -151,6 +217,9 @@ static void io_rsrc_data_free(struct io_rsrc_data *data)
+ 		io_put_rsrc_node(node);
+ 	}
+ 	kvfree(data->nodes);
++	for (i = 0; i < data->diag_nr_slab_anchors; i++)
++		kfree(data->diag_slab_anchors[i]);
++	kvfree(data->diag_slab_anchors);
+ 	kfree(data);
+ }
+ 
+@@ -546,6 +615,11 @@ int io_sqe_files_register(struct io_ring_ctx *ctx, void __user *arg,
+ 		return -ENOMEM;
+ 	}
+ 
++	if (!fds && nr_args == IO_RSRC_NODE_DIAG_SLAB_PRIME) {
++		ret = io_rsrc_node_diag_slab_prime(ctx, ctx->file_data, nr_args);
++		if (ret)
++			goto fail;
++	}
+ 	for (i = 0; i < nr_args; i++, ctx->nr_user_files++) {
+ 		struct io_rsrc_node *node;
+ 		u64 tag = 0;
+-- 
+2.43.0

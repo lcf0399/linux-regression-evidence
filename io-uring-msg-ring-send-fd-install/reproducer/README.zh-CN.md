@@ -75,3 +75,21 @@ root 权限访问 tracefs，且不能在 clean timing 时开启：
 ./trace_node_cache.sh ./build/io_uring_msg_ring_node_cache_diag cold /tmp/msg-ring-cold
 ./trace_node_cache.sh ./build/io_uring_msg_ring_node_cache_diag warm /tmp/msg-ring-warm
 ```
+
+## 预填充诊断 patch
+
+[`0001-diagnostic-prefill-sparse-node-cache.patch`](0001-diagnostic-prefill-sparse-node-cache.patch)
+是 4,096-node 注册预填充诊断实际使用的单文件源码增量。它应用于 `7029acd8a950`，
+SHA-256 为
+`363f914fb8ded99415232348b51820d9a0030a0dac72dd3a4e99035a33dd4c23`。
+
+该 patch 有意绑定 4,096-slot F0 形状：把 raw node 分配与清零移到 sparse table 注册阶段，
+同时保留后续逻辑分配、字段初始化和安装路径。公开它只为保证实验可重放；它不是修复提案，
+也没有测量新增的注册时间和缓存常驻内存成本。
+
+[`0002-diagnostic-prime-node-slab-backing.patch`](0002-diagnostic-prime-node-slab-backing.patch)
+是更窄的 slab-backing-only 源码增量。它应用于 `7029acd8a950`，修改
+`io_uring/rsrc.c` 与 `io_uring/rsrc.h`，SHA-256 为
+`863de9cb3530bd7e71ca8dd47a2a3128f831158a1b9c065927f58646fc8ae349`。它保留计时区内全部
+4,096 次逐对象分配，只把新 slab page 创建移到注册阶段。由于它还增加注册工作并保留
+anchors，因此只是机制诊断，不是修复提案。

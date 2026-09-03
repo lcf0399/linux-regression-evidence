@@ -1,0 +1,58 @@
+experiment	record_type	metric_or_point	role	commit	value	unit	cv_percent	control_drift_percent	status	interpretation
+new_slab_trace	mechanism	node_alloc_calls	child	7029acd8a950393ee3a3d8e1a7ee1a9b77808a3b	4096	calls	na	na	pass	all logical node allocations returned
+new_slab_trace	mechanism	all_pid_allocate_slab_calls	child	7029acd8a950393ee3a3d8e1a7ee1a9b77808a3b	40	calls	na	na	pass	includes eight calls outside the node-allocation dynamic scope
+new_slab_trace	mechanism	nested_allocate_slab_calls	child	7029acd8a950393ee3a3d8e1a7ee1a9b77808a3b	32	calls	na	na	pass	all used the same slab-cache pointer and match 4096 divided by 128 objects per slab
+new_slab_trace	mechanism	function_graph_all_slab_duration	child	7029acd8a950393ee3a3d8e1a7ee1a9b77808a3b	132.228	us	na	na	diagnostic_only	instrumented duration includes all 40 PID calls and is not clean latency attribution
+whole_process_perf	counter	cycles_vs_parent_midpoint	child	7029acd8a950393ee3a3d8e1a7ee1a9b77808a3b	6.999	percent	1.20-7.44	-0.158	directional	child CV was 1.20-1.26 percent and parent endpoint CV was 5.56-7.44 percent; whole-process scope includes setup warmup verification and cleanup
+whole_process_perf	counter	instructions_vs_parent_midpoint	child	7029acd8a950393ee3a3d8e1a7ee1a9b77808a3b	8.063	percent	1.20-7.44	0.047	directional	child CV was 1.20-1.26 percent and parent endpoint CV was 5.56-7.44 percent; whole-process scope includes setup warmup verification and cleanup
+whole_process_perf	counter	l1d_load_misses_vs_parent_midpoint	child	7029acd8a950393ee3a3d8e1a7ee1a9b77808a3b	27.921	percent	na	-6.134	directional_only	child exceeded both parent endpoints but parent drift was high
+whole_process_perf	counter	llc_load_misses	child	7029acd8a950393ee3a3d8e1a7ee1a9b77808a3b	na	na	38.7-48.9	-13.771	inconclusive	do not infer a direction
+whole_process_perf	internal_timing	child_vs_parent_midpoint	child	7029acd8a950393ee3a3d8e1a7ee1a9b77808a3b	11.027	percent	0.206	-0.071	cross_check	internal timing while perf was active
+register_prefill	identity	diagnostic_patch_sha256	prefill	63e60a1059df1dd569a46276ccce58740bdb1b94	363f914fb8ded99415232348b51820d9a0030a0dac72dd3a4e99035a33dd4c23	sha256	na	na	pass	direct child of 7029acd8 and only io_uring/rsrc.c changed
+register_prefill	identity	formal_binary_sha256	matched	na	8c23628f679aebc05461ac65c70c0b00bea126f6f33e7c369deaf999562b7e32	sha256	na	na	pass	identical workload binary at all three timing points
+register_prefill	identity	canonical_config_sha256	matched	na	c839b55296a9db9a49a5ace7012000476bdc050b34c134157e80f7123426e2d7	sha256	na	na	pass	10563 symbols compared with missing extra and changed all empty
+register_prefill	identity	child_runtime_build_id	child	7029acd8a950393ee3a3d8e1a7ee1a9b77808a3b	3868e9663bca56591ea60c9d764d1124fcf64e66	build_id	na	na	pass	matched at child A and child B
+register_prefill	identity	prefill_runtime_build_id	prefill	63e60a1059df1dd569a46276ccce58740bdb1b94	b4c87e923e20f05088ac4bede388c6547a27a1fb	build_id	na	na	pass	matched installed diagnostic artifact
+register_prefill	identity	child_a_boot_id	child	7029acd8a950393ee3a3d8e1a7ee1a9b77808a3b	dbb23cfa-216e-44c6-a709-6b99c8b62638	boot_id	na	na	pass	distinct fresh boot
+register_prefill	identity	prefill_boot_id	prefill	63e60a1059df1dd569a46276ccce58740bdb1b94	170add67-56fb-4fa5-99a0-133385be9117	boot_id	na	na	pass	distinct fresh boot
+register_prefill	identity	child_b_boot_id	child	7029acd8a950393ee3a3d8e1a7ee1a9b77808a3b	f5d5419f-7959-436c-8a69-23dc9daf44bd	boot_id	na	na	pass	distinct fresh boot
+register_prefill	identity	compiler	matched	na	gcc-15.2.0-with-ccache-4.12.3	identity	na	na	pass	compiler command was ccache gcc -std=gnu11
+register_prefill	identity	actual_preempt	matched	na	full	mode	na	na	pass	build dynamic cmdline full runtime full
+register_prefill	identity	measured_rounds_per_point	matched	na	15	rounds	na	na	pass	three warmup rounds were outside the selected data
+register_prefill	mechanism	node_alloc_calls	prefill	63e60a1059df1dd569a46276ccce58740bdb1b94	4096	calls	na	na	pass	all logical node allocations still executed and returned
+register_prefill	mechanism	all_pid_allocate_slab_calls	prefill	63e60a1059df1dd569a46276ccce58740bdb1b94	7	calls	na	na	pass	all seven occurred outside the node-allocation dynamic scope
+register_prefill	mechanism	nested_allocate_slab_calls	prefill	63e60a1059df1dd569a46276ccce58740bdb1b94	0	calls	na	na	pass	prefill removed raw slab allocation from the timed node path
+register_prefill	timing	child_a	child	7029acd8a950393ee3a3d8e1a7ee1a9b77808a3b	115.289095	ns_per_install	1.084452	na	pass	fresh boot control A
+register_prefill	timing	prefill	prefill	63e60a1059df1dd569a46276ccce58740bdb1b94	104.245882	ns_per_install	0.338348	na	pass	4096 raw allocations and zeroing moved to sparse registration
+register_prefill	timing	child_b	child	7029acd8a950393ee3a3d8e1a7ee1a9b77808a3b	115.071126	ns_per_install	1.723010	na	pass	fresh boot control B
+register_prefill	comparison	child_midpoint	child	7029acd8a950393ee3a3d8e1a7ee1a9b77808a3b	115.180111	ns_per_install	na	-0.189063	pass	midpoint of child A and child B
+register_prefill	comparison	prefill_vs_child_midpoint	prefill	63e60a1059df1dd569a46276ccce58740bdb1b94	-9.493157	percent	na	-0.189063	pass	drop-first result was -9.455522 percent
+register_prefill	comparison	prefill_absolute_change	prefill	63e60a1059df1dd569a46276ccce58740bdb1b94	-10.934228	ns_per_install	na	-0.189063	pass	allocation and zeroing were moved rather than eliminated
+slab_prime	identity	diagnostic_patch_sha256	slabprime	4395bc0311117ff91ecadcc50fe6cb9cc44728bb	863de9cb3530bd7e71ca8dd47a2a3128f831158a1b9c065927f58646fc8ae349	sha256	na	na	pass	direct child of 7029acd8; io_uring/rsrc.c and io_uring/rsrc.h changed
+slab_prime	identity	formal_binary_sha256	matched	na	8c23628f679aebc05461ac65c70c0b00bea126f6f33e7c369deaf999562b7e32	sha256	na	na	pass	identical workload binary at all four timing points
+slab_prime	identity	canonical_config_sha256	matched	na	c839b55296a9db9a49a5ace7012000476bdc050b34c134157e80f7123426e2d7	sha256	na	na	pass	10563 symbols compared with missing extra and changed all empty
+slab_prime	identity	child_runtime_build_id	child	7029acd8a950393ee3a3d8e1a7ee1a9b77808a3b	3868e9663bca56591ea60c9d764d1124fcf64e66	build_id	na	na	pass	matched at child A and child B
+slab_prime	identity	slabprime_runtime_build_id	slabprime	4395bc0311117ff91ecadcc50fe6cb9cc44728bb	40c75904aa8c17be694f064362965681f3b83e7a	build_id	na	na	pass	matched at slab-prime A and slab-prime B
+slab_prime	identity	child_a_boot_id	child	7029acd8a950393ee3a3d8e1a7ee1a9b77808a3b	cec40a50-14da-4add-999c-6ac70a1fde1a	boot_id	na	na	pass	distinct fresh boot
+slab_prime	identity	slabprime_a_boot_id	slabprime	4395bc0311117ff91ecadcc50fe6cb9cc44728bb	ba286537-87f9-4717-839f-23d1b2d9266d	boot_id	na	na	pass	distinct fresh boot
+slab_prime	identity	slabprime_b_boot_id	slabprime	4395bc0311117ff91ecadcc50fe6cb9cc44728bb	dc24438f-8e80-4bdd-9052-9e226a6c62bb	boot_id	na	na	pass	distinct fresh boot
+slab_prime	identity	child_b_boot_id	child	7029acd8a950393ee3a3d8e1a7ee1a9b77808a3b	2c8cb32a-b7d1-43e7-ba89-95310f24fd68	boot_id	na	na	pass	distinct fresh boot
+slab_prime	identity	compiler	matched	na	gcc-15.2.0-with-ccache-4.12.3	identity	na	na	pass	compiler command was ccache gcc -std=gnu11
+slab_prime	identity	actual_preempt	matched	na	full	mode	na	na	pass	build dynamic cmdline full runtime full
+slab_prime	identity	measured_rounds_per_point	matched	na	15	rounds	na	na	pass	three warmup rounds were outside the selected data
+slab_prime	mechanism	prime_node_alloc_calls	registration	4395bc0311117ff91ecadcc50fe6cb9cc44728bb	4129	calls	na	na	pass	all calls returned
+slab_prime	mechanism	prime_per_object_kmalloc_calls	registration	4395bc0311117ff91ecadcc50fe6cb9cc44728bb	4129	calls	na	na	pass	all calls returned
+slab_prime	mechanism	prime_allocate_slab_calls	registration	4395bc0311117ff91ecadcc50fe6cb9cc44728bb	32	calls	na	na	pass	all calls returned
+slab_prime	mechanism	prime_objects_freed	registration	4395bc0311117ff91ecadcc50fe6cb9cc44728bb	4096	objects	na	na	pass	available to the later per-object allocation path
+slab_prime	mechanism	prime_page_anchors_retained	registration	4395bc0311117ff91ecadcc50fe6cb9cc44728bb	33	objects	na	na	pass	one anchor retained for each distinct slab page touched
+slab_prime	mechanism	timed_node_alloc_calls	slabprime	4395bc0311117ff91ecadcc50fe6cb9cc44728bb	4096	calls	na	na	pass	all calls returned
+slab_prime	mechanism	timed_per_object_kmalloc_calls	slabprime	4395bc0311117ff91ecadcc50fe6cb9cc44728bb	4096	calls	na	na	pass	all calls returned
+slab_prime	mechanism	timed_allocate_slab_calls	slabprime	4395bc0311117ff91ecadcc50fe6cb9cc44728bb	0	calls	na	na	pass	new slab backing was absent from the timed first fill
+slab_prime	timing	child_a	child	7029acd8a950393ee3a3d8e1a7ee1a9b77808a3b	115.055192	ns_per_install	0.942731	na	pass	fresh boot control A
+slab_prime	timing	slabprime_a	slabprime	4395bc0311117ff91ecadcc50fe6cb9cc44728bb	116.418701	ns_per_install	1.631516	na	pass	fresh boot diagnostic A
+slab_prime	timing	slabprime_b	slabprime	4395bc0311117ff91ecadcc50fe6cb9cc44728bb	115.258854	ns_per_install	1.204736	na	pass	fresh boot diagnostic B
+slab_prime	timing	child_b	child	7029acd8a950393ee3a3d8e1a7ee1a9b77808a3b	114.494531	ns_per_install	0.344994	na	pass	fresh boot control B
+slab_prime	comparison	child_midpoint	child	7029acd8a950393ee3a3d8e1a7ee1a9b77808a3b	114.774862	ns_per_install	na	-0.487297	pass	midpoint of child A and child B
+slab_prime	comparison	slabprime_midpoint	slabprime	4395bc0311117ff91ecadcc50fe6cb9cc44728bb	115.838778	ns_per_install	na	-0.996272	pass	midpoint of slab-prime A and slab-prime B
+slab_prime	comparison	slabprime_vs_child_midpoint	slabprime	4395bc0311117ff91ecadcc50fe6cb9cc44728bb	0.926959	percent	na	-0.487297	pass	drop-first result was 1.050287 percent
+slab_prime	comparison	slabprime_absolute_change	slabprime	4395bc0311117ff91ecadcc50fe6cb9cc44728bb	1.063916	ns_per_install	na	-0.487297	pass	no timed first-fill improvement

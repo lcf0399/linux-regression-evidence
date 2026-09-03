@@ -1,5 +1,22 @@
 # Bare-metal results
 
+## Evidence map
+
+The files are separated by evidence type rather than by date. No two TSV
+files have the same evidentiary role or can be safely deleted as duplicates:
+
+| group | files | purpose |
+| --- | --- | --- |
+| Primary exact result | [`source-identity.tsv`](source-identity.tsv), [`build-identity.tsv`](build-identity.tsv), [`exact-ab-points.tsv`](exact-ab-points.tsv), [`measured-rounds.tsv`](measured-rounds.tsv), [`result-summary.tsv`](result-summary.tsv) | source/build provenance, point statistics, selected raw rounds, and cross-window summary |
+| Scope and direct hit | [`slot-gradient.tsv`](slot-gradient.tsv), [`standalone-cross-check.tsv`](standalone-cross-check.tsv), [`mechanism-summary.tsv`](mechanism-summary.tsv) | slot-count scope, readable-source cross-check, and exact path counts |
+| Cache and allocation diagnosis | [`node-cache-cold-warm.tsv`](node-cache-cold-warm.tsv), [`node-cache-trace.tsv`](node-cache-trace.tsv), [`first-fill-allocation-diagnostics.tsv`](first-fill-allocation-diagnostics.tsv) | reuse timing, inferred hit counts, new-slab/perf observations, and both prefill diagnostics |
+| Collaborator patches | [`uzair-patch1-followup.tsv`](uzair-patch1-followup.tsv), [`uzair-v2-bulk-refill.tsv`](uzair-v2-bulk-refill.tsv), [`uzair-v2-bulk-refill-mechanism.tsv`](uzair-v2-bulk-refill-mechanism.tsv) | dedicated-slab/accounting diagnostics and revised bulk-refill timing/path checks |
+
+The summary and selected-round files intentionally overlap on a few aggregate
+numbers: the former is the compact index, while the latter is the minimal data
+needed to recompute mean, CV, and drop-first. Timing and trace records remain
+separate because they have different measurement scopes.
+
 The primary result is an exact direct-parent comparison around
 [`7029acd8a950`](https://github.com/torvalds/linux/commit/7029acd8a950393ee3a3d8e1a7ee1a9b77808a3b)
 (`io_uring/rsrc: get rid of per-ring io_rsrc_node list`). Three independent
@@ -211,6 +228,77 @@ nodes is the unused remainder of the source ring's initial refill. This proves
 the intended bulk path ran correctly, but it does not explain why fewer
 allocator calls did not reduce end-to-end first-fill time. See
 [`uzair-v2-bulk-refill-mechanism.tsv`](uzair-v2-bulk-refill-mechanism.tsv).
+
+## First-fill allocation-path diagnostics
+
+Three consecutive diagnostics narrowed the original first-fill cost without
+changing the formal `+11.621%` result.
+
+First, an untimed trace on the exact `7029acd8` child observed 4,096
+`io_rsrc_node_alloc()` calls. Exactly 32 of the workload PID's 40
+`allocate_slab()` calls were dynamically nested under node allocation and all
+used the same cache pointer. This matches 4,096 objects divided by 128 objects
+per order-0 slab. A separate whole-process perf sandwich found the child at
+`+6.999%` cycles and `+8.063%` instructions against the parent midpoint. The
+L1D miss result was directional and LLC misses were inconclusive. These probes
+prove that new slab backing is allocated and that total CPU work is higher;
+they do not measure how much clean latency the 32 slab-page creations alone
+explain.
+
+Second, a diagnostic direct child of `7029acd8` preallocated and cached all
+4,096 raw nodes during sparse-table registration. The later SEND_FD first fill
+still made all 4,096 logical node-allocation calls, but an untimed gate found
+zero `allocate_slab()` calls inside their dynamic scope. Clean fresh boots ran
+`child A -> prefill -> child B`:
+
+| point | ns/install | CV |
+| --- | ---: | ---: |
+| child A | `115.289095` | `1.084%` |
+| diagnostic prefill | `104.245882` | `0.338%` |
+| child B | `115.071126` | `1.723%` |
+
+The child midpoint was `115.180111 ns/install`; prefill reduced the timed cost
+by `10.934228 ns/install` (`-9.493%`). Child endpoint drift was `-0.189%`, and
+drop-first was `-9.456%`. This establishes that the raw per-object allocation
+and zeroing path accounts for most of the measured first-fill overhead in this
+diagnostic. It does **not** isolate slab-page creation from the other 4,096
+`kzalloc()` operations, and it does not show lower total cost: registration
+time and retained memory were moved outside the timed window and were not
+measured. The variant is diagnostic, not an upstream fix.
+
+Third, a narrower diagnostic primed slab backing while retaining the 4,096
+per-object allocations in the timed first fill. Registration allocated 4,129
+objects through the real `io_rsrc_node_alloc()` callsite, returned 4,096 to
+the allocator, and retained 33 page anchors. The untimed probe observed 32
+`allocate_slab()` calls during registration. Timed first fill still made
+4,096 `io_rsrc_node_alloc()` and 4,096 per-object kmalloc calls, but made zero
+`allocate_slab()` calls. Clean fresh boots ran
+`child A -> slab-prime A -> slab-prime B -> child B`:
+
+| point | ns/install | CV |
+| --- | ---: | ---: |
+| child A | `115.055192` | `0.943%` |
+| slab-prime A | `116.418701` | `1.632%` |
+| slab-prime B | `115.258854` | `1.205%` |
+| child B | `114.494531` | `0.345%` |
+
+The child midpoint was `114.774862 ns/install`; the slab-prime midpoint was
+`115.838778 ns/install`. The diagnostic measured `+0.927%`
+(`+1.063916 ns/install`), so it did not improve timed first fill. Child and
+slab-prime endpoint drifts were `-0.487%` and `-0.996%`; drop-first was
+`+1.050%`. This more narrowly rejects fresh slab-page creation as a material
+explanation under the diagnostic. It does not measure a pure per-page cost,
+because registration also allocated and touched objects and retained anchors.
+
+Together, the full-prefill and slab-prime results leave repeated per-object
+allocation, zeroing, and first-touch or locality effects as the useful search
+space. They do not show which of those costs is largest, and neither variant
+is a total-cost fix. Compact records for all three steps are in
+[`first-fill-allocation-diagnostics.tsv`](first-fill-allocation-diagnostics.tsv).
+The exact diagnostic source deltas are
+[`full-prefill`](../reproducer/0001-diagnostic-prefill-sparse-node-cache.patch)
+and
+[`slab-prime`](../reproducer/0002-diagnostic-prime-node-slab-backing.patch).
 
 ## Platform and scope
 

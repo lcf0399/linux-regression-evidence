@@ -5,7 +5,7 @@
 
 ## 已发送或已进入上游线程
 
-索引更新于 2026-09-01。MSG_RING 私人协作线程与 v2 patch 结果已在当天刷新；futex stable
+索引更新于 2026-09-03。MSG_RING 私人协作线程与 allocation-path 诊断已在当天刷新；futex stable
 queue 状态于 2026-08-24 通过 Gmail 实时核对，其他较早 Gmail 线程最近一次集中核对仍为
 2026-08-07。mprotect 条目依据学生邮箱保存的原始邮件头和本地证据记录。邮件送达、维护者
 回复和技术结论分开记录。
@@ -20,7 +20,7 @@ I/O 源文件主动探索阶段已经结束，目前没有排队的新 target �
 | [`fsnotify-concurrent-inotify-watch-setup/`](fsnotify-concurrent-inotify-watch-setup/) | Jan Kara 认可 P6/P8 的竞争解释并询问单 worker。P1/P4 回复已于 2026-07-29 发出；2026-08-07 核对 Gmail 时没有更晚回复。 | P1/P4 低于 signal gate；P6/P8 表现为 superblock connector list 上的并行可扩展性损失。上游目前接受该取舍，并提到可能顺带改善它的未完成 rhashtable 工作。 |
 | [`btrfs-remap-writeback-inhibition-v2/`](btrfs-remap-writeback-inhibition-v2/) | David Sterba 已确认验证结果、在 patch 记录中加入证据链接，并把修正补丁加入 Btrfs `for-next`。 | 独立 patch 验证中，所含 4 KiB micro-workload 的 clone 成本降低约 `27%`、dedupe 降低约 `22%`。这不是 broad Btrfs 性能结论。 |
 | [`apparmor-af-unix-send-old-abi-6456cc/`](apparmor-af-unix-send-old-abi-6456cc/) | 报告于 2026-08-05 发出。John Johansen 回复称上游会调查，并预计能改善当前回归，但不承诺完全恢复。 | 精确源码增量使 unconfined AF_UNIX datagram `sendmmsg()` 慢 `15.295%`，独立大 runner 复现同方向。报告只询问如何在保留 ABI correctness 修复的同时降低 send-path 成本。 |
-| [`io-uring-msg-ring-send-fd-install/`](io-uring-msg-ring-send-fd-install/) | 报告于 2026-08-07 发出并进入 io-uring lore 公开归档。私人协作者 Uzair Beg 提供了修订补丁；最新验证回复已于 2026-09-01 发出。这项协作不等同于维护者正式结论。 | 精确 A/B 将 `11.621%` fixed-file 安装 slowdown 归因到 `7029acd8a950`。在 v6.18-rc4 上，修订后的 patch 1 基本持平，bulk-refill patch 相对 patch 1 为 `+0.007%`；非计时探针确认完整命中 bulk 路径，因此中性结果不是漏走补丁分支造成的。 |
+| [`io-uring-msg-ring-send-fd-install/`](io-uring-msg-ring-send-fd-install/) | 报告于 2026-08-07 发出并进入 io-uring lore 公开归档。私人协作者 Uzair Beg 提供了修订补丁；最近一封已经发出的诊断回复发送于 2026-09-03。这项协作不等同于维护者正式结论。 | 精确 A/B 将 `11.621%` fixed-file 安装 slowdown 归因到 `7029acd8a950`。修订 bulk refill 在完整命中路径后仍基本持平。只预热 slab page 同样持平（`+0.927%`），而把全部 4,096 次 raw allocation/清零移到注册阶段后，计时 first fill 快 `9.493%`；这些都是机制诊断，不是修复提案。 |
 | [`io-uring-futex-inflight-wait-wake/`](io-uring-futex-inflight-wait-wake/) | 上游已解决：`73e701909747` 带有本报告署名；2026-08-24，Greg Kroah-Hartman 又将它加入 6.18、7.1、7.2 stable queue。进入队列不等于 stable 正式版本已经包含。 | direct-parent A/B 仍为 `+9.268%`。patch 1 让较新 master 上的 private workload 快 `3.392%`；patch 2 对 private 中性，并让 matched shared workload 快 `1.578%`。同步 WAKE 上不必要的 tracking 已修复，因此除非正式版本验证失败，这条线已经收口。 |
 | [`io-uring-futex-waitv-accounted-allocation/`](io-uring-futex-waitv-accounted-allocation/) | 回复原 allocation 补丁线程的邮件已于 2026-08-30 发出。当天源码刷新未发现等效优化；当时 current master/for-next 仍保留 accounted allocation。 | 精确 direct-parent A/B 为 `+8.091%`，另一份 standalone 为 `+6.488%`，标量对照为 `-0.555%`。另一组 v7.2 诊断仍把约 `8–9%` 窄成本隔离到 accounted WAITV allocation，但不建议取消 memcg accounting。 |
 

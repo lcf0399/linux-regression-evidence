@@ -2,94 +2,69 @@
 
 This bundle documents a narrow io_uring registration/update slowdown. The
 workload uses `IORING_OP_MSG_RING` with `IORING_MSG_SEND_FD` to install one
-source fixed file into empty slots of a second ring's fixed-file table.
+source fixed file into empty slots of a second ring's sparse fixed-file table.
+It is a focused synthetic microbenchmark, not an application benchmark or a
+claim about the ordinary io_uring read/write fast path.
 
-The primary evidence is an exact direct-parent comparison around
+## Primary result
+
+The formal evidence is an exact direct-parent comparison around
 [`7029acd8a950`](https://github.com/torvalds/linux/commit/7029acd8a950393ee3a3d8e1a7ee1a9b77808a3b)
 (`io_uring/rsrc: get rid of per-ring io_rsrc_node list`):
 
-| point | mean ns/install |
-| --- | ---: |
-| parent A | 102.476 |
-| child | 114.441 |
-| parent B | 102.576 |
+| point | mean ns/install | CV |
+| --- | ---: | ---: |
+| parent A | `102.476` | `0.705%` |
+| child | `114.441` | `0.289%` |
+| parent B | `102.576` | `0.340%` |
 
-The child was `11.621%` slower than the parent midpoint. Dropping the first
-measured round gave `11.649%`, and parent drift was `0.097%`. All three boots
-used the same workload binary, normalized kernel configuration and actual
-runtime preemption mode (`full`). All 45 measured rows passed the semantic
-checks.
+The child was `11.621%` slower than the parent midpoint. Drop-first was
+`11.649%`, parent drift was `0.097%`, and all 45 measured rows passed semantic
+checks. The same workload binary, normalized config, build controls, CPU 2,
+and actual runtime `preempt=full` were used at all three fresh-boot points.
 
-An exact-kernel scope check at 64, 256, 1,024, and 4,096 target slots found
-the same direction at every size (`+8.399%` to `+11.889%`). The smaller points
-were noisier, so this does not replace the primary result; it shows that the
-signal is not confined to the original 4,096-slot stress shape.
+The change gives each fixed-file slot an independent resource node, removing
+per-ring serialization and reclamation stalls. This bundle therefore records
+a measured registration/update trade-off and does not recommend reverting the
+correctness/scalability change.
 
-An untimed trace confirms the intended path. For 128 successful installs,
-calls to `io_rsrc_node_alloc()` nested under `__io_fixed_fd_install()` changed
-from 0 in the parent to 128 in the child. This establishes direct hit; it does
-not assign the entire timing difference to one allocator function.
+## Evidence chain
 
-A later node-cache change, `ed9f3112a8a8`, is already present in Linux 7.1.3.
-A matched Linux 6.12.95/7.1.3 run nevertheless showed the same direction
-(`+15.602%`). The original change removes per-ring serialization and resource
-reclamation stalls, so this bundle describes a measured registration-time
-trade-off and does not recommend reverting it.
+| question | result | scope |
+| --- | --- | --- |
+| Does the release-level signal reproduce? | Linux 6.13 vs 6.12: `+10.747%`; Linux 7.1.3 vs 6.12.95: `+15.602%` | supporting matched endpoint checks |
+| Is it confined to 4,096 slots? | 64–4,096 slots: `+8.399%` to `+11.889%` | scope check; smaller points were noisier |
+| Does the workload hit the new path? | 128 fixed-file installs changed nested `io_rsrc_node_alloc()` from `0` to `128` | untimed direct-hit trace |
+| Why did the later node cache not close first-fill cost? | v7.1.3 same-ring reuse changed `137.789` to `109.643 ns/install` (`-20.427%`) | cache helps reuse; a new ring starts with an empty cache |
+| Did a dedicated slab help? | initial private patch slowed cold first fill about 8%; deleting unintended `SLAB_ACCOUNT` removed that added cost | diagnostic only; accounting semantics matter |
+| Did revised 32-object bulk refill help? | patch 1: `-0.655%`; patch 1+2 vs patch 1: `+0.007%` | clean current-base timing was neutral; an untimed probe proved full bulk execution |
+| Are new slab pages created during first fill? | 4,096 node allocations contained exactly 32 nested `allocate_slab()` calls | mechanism proof, not clean latency attribution |
+| Do those new slab pages explain the gap? | priming slab backing removed all 32 new-slab calls from timed first fill but measured `+0.927%` | no improvement; 4,096 per-object allocations remained |
+| Where is most timed cost? | moving all 4,096 raw node allocations/zeroing to registration reduced first-fill by `10.934 ns/install` (`-9.493%`) | diagnostic prefill; registration time and retained memory were not measured |
 
-A 2026-08-22 cold/warm diagnostic explains why the cache did not close the
-gap in the original workload. First fill of a new target ring used 128 fresh
-node allocations and had zero inferred cache hits. After filling and
-unregistering on the same ring, refill had 128 inferred hits and no fresh node
-allocations. The v7.1.3
-cold/warm midpoint changed from `137.789` to `109.643 ns/install`
-(`-20.427%`), while the same priming shape changed v6.12.95 by only `-1.248%`.
-The cache therefore improves reuse, not first fill of a new ring. It removed
-most, but not all, of the release gap in this narrow diagnostic.
+The two prefill diagnostics separate these costs more clearly. Slab priming
+removed new-page creation from the timed region but kept all 4,096 per-object
+allocations and did not improve latency. Full prefill moved all raw allocation
+and zeroing out of the timed region and was `9.493%` faster. This narrows the
+remaining investigation to repeated per-object allocation, zeroing, and
+first-touch or locality effects, without proving which one is largest. Neither
+diagnostic shows a total-cost win because registration work and retained
+memory were outside the primary measurement.
 
-A later private patch proposed allocating `io_rsrc_node` from a dedicated
-slab. On public v6.18-rc4, the unpatched, default-merged patch, and
-`slab_nomerge` patch midpoints were respectively `119.394`, `129.586`, and
-`129.721 ns/install` for the 4,096-slot first fill. The patched points were
-`8.536%` and `8.649%` slower, while the 128-slot warm-reuse condition remained
-within `0.4%` of unpatched. Default merging therefore did not explain the
-result on this system.
-
-In a separate single-variable diagnostic, both kernels used `slab_nomerge`
-and differed only by `SLAB_ACCOUNT`. Removing that flag changed first fill by
-`-9.382%`, 128-slot cold fill by `-8.833%`, and warm reuse by `+0.479%`.
-This points to accounting work enabled by the flag as the source of the
-patch's added cold-path cost. It is not a fix proposal: removing the flag
-changes memory-cgroup accounting semantics. The private patch itself is not
-redistributed in this bundle; the compact comparisons are recorded in
-[`uzair-patch1-followup.tsv`](bare-metal/uzair-patch1-followup.tsv).
-
-Uzair's revised v2 series removed the unintended accounting flag in patch 1
-and added a 32-object bulk refill in patch 2. A six-boot current-base sequence
-measured patch 1 at `-0.655%` versus unpatched and patch 1+2 at `+0.007%`
-versus patch 1; both are effectively neutral at this boundary. An independent
-untimed probe confirmed that patch 2 executed 2,313 full 32-object bulk calls,
-including exactly 128 calls in every complete 4,096-slot cycle. Thus the
-neutral result is not explained by a missed branch or partial bulk returns.
-The formal timing, noisy 128-slot diagnostic, and mechanism counts are kept
-separately in [`bare-metal/`](bare-metal/).
-
-This is a focused synthetic microbenchmark. It is not an application
-benchmark and makes no claim about the ordinary io_uring read/write fast path.
-
-A shorter, commented F0-only source is also provided for code review. Its
-independent exact-kernel cross-check measured `+11.145%`, close to the
-`+11.621%` formal result. Because its two parent controls drifted by `2.645%`,
-above the formal `2%` gate, that cross-check is directional only; the formal
-claim remains bound to the unchanged 1,165-line source and table above.
+Detailed statistics, scope limits, path counts, and the compact allocator
+diagnostics are in [`bare-metal/`](bare-metal/README.md). Both exact diagnostic
+source deltas are included for reproducibility and are explicitly not upstream
+fix proposals.
 
 ## Layout
 
-- [`bare-metal/`](bare-metal/): exact A/B results, slot-count scope check,
-  node-cache cold/warm and private-patch diagnostics, compact identities and
-  trace summaries;
-- [`reproducer/`](reproducer/): exact experiment source, shorter `SEND_FD`
-  standalone, cold/warm diagnostic, trace helper, validator and one-point runner;
+- [`bare-metal/`](bare-metal/README.md): detailed exact A/B evidence, scope
+  checks, cache/allocation diagnostics, collaborator-patch results, compact
+  identities, and selected raw rounds;
+- [`reproducer/`](reproducer/README.md): exact experiment source, readable
+  F0-only source, cold/warm helper, validator, runners, and diagnostic prefill
+  source deltas;
 - [`upstream-status/`](upstream-status/): introducing thread, later cache
-  change and dated source audit;
-- `email/`: local mail material and sending notes; intentionally ignored by
-  Git and not part of the public evidence bundle.
+  change, and dated source audit;
+- `email/`: local correspondence and sending notes; ignored by Git and not
+  part of the public evidence bundle.

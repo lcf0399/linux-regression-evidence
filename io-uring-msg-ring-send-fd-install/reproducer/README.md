@@ -91,3 +91,24 @@ during clean timing:
 ./trace_node_cache.sh ./build/io_uring_msg_ring_node_cache_diag cold /tmp/msg-ring-cold
 ./trace_node_cache.sh ./build/io_uring_msg_ring_node_cache_diag warm /tmp/msg-ring-warm
 ```
+
+## Prefill diagnostic patches
+
+[`0001-diagnostic-prefill-sparse-node-cache.patch`](0001-diagnostic-prefill-sparse-node-cache.patch)
+is the exact one-file source delta used for the 4,096-node registration-prefill
+diagnostic. It applies to `7029acd8a950` and has SHA-256
+`363f914fb8ded99415232348b51820d9a0030a0dac72dd3a4e99035a33dd4c23`.
+
+The patch is intentionally tied to the 4,096-slot F0 shape. It moves raw node
+allocation and zeroing to sparse-table registration but retains the later
+logical allocation, initialization, and installation path. It is published
+for reproducibility only; it is not a fix proposal and does not measure the
+registration-time or retained-memory cost that it introduces.
+
+[`0002-diagnostic-prime-node-slab-backing.patch`](0002-diagnostic-prime-node-slab-backing.patch)
+is the narrower slab-backing-only delta. It applies to `7029acd8a950`, changes
+`io_uring/rsrc.c` and `io_uring/rsrc.h`, and has SHA-256
+`863de9cb3530bd7e71ca8dd47a2a3128f831158a1b9c065927f58646fc8ae349`.
+It retains all 4,096 timed per-object allocations while moving fresh slab-page
+creation to registration. It also adds registration work and retained anchors,
+so it is a mechanism diagnostic rather than a fix proposal.

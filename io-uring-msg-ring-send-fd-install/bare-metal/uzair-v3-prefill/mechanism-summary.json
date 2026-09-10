@@ -1,0 +1,1729 @@
+{
+  "scope": "Independent non-timing probes; wall-clock exit-work windows are not CPU execution time. No full-lifetime or application claim.",
+  "original_v3": {
+    "p123": {
+      "original_f0": {
+        "counts": {
+          "node_alloc_calls": 73985,
+          "node_alloc_returns": 73985,
+          "node_alloc_null_returns": 0,
+          "node_cache_new_calls": 1,
+          "node_cache_new_returns": 1,
+          "node_cache_new_null_returns": 0,
+          "single_slab_alloc_calls": 0,
+          "bulk_calls": 1,
+          "bulk_returns": 1,
+          "bulk_requested_total": 32,
+          "bulk_returned_total": 32,
+          "bulk_non32_requests": 0,
+          "bulk_short_returns": 0,
+          "bulk_zero_returns": 0,
+          "bulk_cache_pointer_mismatches": 0,
+          "cycles_started": 19,
+          "cycles_returned": 19,
+          "cycle_return_errors": 0,
+          "cycles_256": 1,
+          "cycles_4096": 18,
+          "cycle_ops_unexpected": 0,
+          "cycle_bulk_calls_eq_0": 19,
+          "cycle_bulk_calls_eq_8": 0,
+          "cycle_bulk_calls_eq_128": 0,
+          "cycle_bulk_calls_unexpected": 0
+        },
+        "timing_evidence": false
+      },
+      "cases": {
+        "128/128": {
+          "counts": {
+            "init_calls": 1,
+            "node_calls": 128,
+            "new_calls": 0,
+            "install_bulk_calls": 0,
+            "install_bulk_requested": 0,
+            "install_bulk_returned": 0,
+            "prefill_calls": 1,
+            "prefill_bulk_calls": 1,
+            "prefill_requested": 128,
+            "prefill_returned": 128,
+            "free_calls": 1,
+            "free_completed": 1,
+            "free_objects": 128
+          },
+          "snapshots": {
+            "20": {
+              "snapshot_phase": 20,
+              "cached": 0,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "30": {
+              "snapshot_phase": 30,
+              "cached": 128,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "40": {
+              "snapshot_phase": 40,
+              "cached": 0,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "50": {
+              "snapshot_phase": 50,
+              "cached": 128,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "60": {
+              "snapshot_phase": 60,
+              "cached": 128,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            }
+          },
+          "after_registration_cached_object_payload_bytes": 3072,
+          "cache_pointer_array_bytes": 1024,
+          "after_unregister_cached_object_payload_bytes": 3072,
+          "physical_slab_page_attribution": "not measured"
+        },
+        "4096/4096": {
+          "counts": {
+            "init_calls": 1,
+            "node_calls": 4096,
+            "new_calls": 0,
+            "install_bulk_calls": 0,
+            "install_bulk_requested": 0,
+            "install_bulk_returned": 0,
+            "prefill_calls": 1,
+            "prefill_bulk_calls": 1,
+            "prefill_requested": 4096,
+            "prefill_returned": 4096,
+            "free_calls": 1,
+            "free_completed": 1,
+            "free_objects": 4096
+          },
+          "snapshots": {
+            "20": {
+              "snapshot_phase": 20,
+              "cached": 0,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "30": {
+              "snapshot_phase": 30,
+              "cached": 4096,
+              "capacity": 4096,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "40": {
+              "snapshot_phase": 40,
+              "cached": 0,
+              "capacity": 4096,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "50": {
+              "snapshot_phase": 50,
+              "cached": 4096,
+              "capacity": 4096,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "60": {
+              "snapshot_phase": 60,
+              "cached": 4096,
+              "capacity": 4096,
+              "elem_size": 24,
+              "init_clear": 0
+            }
+          },
+          "after_registration_cached_object_payload_bytes": 98304,
+          "cache_pointer_array_bytes": 32768,
+          "after_unregister_cached_object_payload_bytes": 98304,
+          "physical_slab_page_attribution": "not measured"
+        },
+        "4096/64": {
+          "counts": {
+            "init_calls": 1,
+            "node_calls": 64,
+            "new_calls": 0,
+            "install_bulk_calls": 0,
+            "install_bulk_requested": 0,
+            "install_bulk_returned": 0,
+            "prefill_calls": 1,
+            "prefill_bulk_calls": 1,
+            "prefill_requested": 4096,
+            "prefill_returned": 4096,
+            "free_calls": 1,
+            "free_completed": 1,
+            "free_objects": 4096
+          },
+          "snapshots": {
+            "20": {
+              "snapshot_phase": 20,
+              "cached": 0,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "30": {
+              "snapshot_phase": 30,
+              "cached": 4096,
+              "capacity": 4096,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "40": {
+              "snapshot_phase": 40,
+              "cached": 4032,
+              "capacity": 4096,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "50": {
+              "snapshot_phase": 50,
+              "cached": 4096,
+              "capacity": 4096,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "60": {
+              "snapshot_phase": 60,
+              "cached": 4096,
+              "capacity": 4096,
+              "elem_size": 24,
+              "init_clear": 0
+            }
+          },
+          "after_registration_cached_object_payload_bytes": 98304,
+          "cache_pointer_array_bytes": 32768,
+          "after_unregister_cached_object_payload_bytes": 98304,
+          "physical_slab_page_attribution": "not measured"
+        },
+        "4096/0": {
+          "counts": {
+            "init_calls": 1,
+            "node_calls": 0,
+            "new_calls": 0,
+            "install_bulk_calls": 0,
+            "install_bulk_requested": 0,
+            "install_bulk_returned": 0,
+            "prefill_calls": 1,
+            "prefill_bulk_calls": 1,
+            "prefill_requested": 4096,
+            "prefill_returned": 4096,
+            "free_calls": 1,
+            "free_completed": 1,
+            "free_objects": 4096
+          },
+          "snapshots": {
+            "20": {
+              "snapshot_phase": 20,
+              "cached": 0,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "30": {
+              "snapshot_phase": 30,
+              "cached": 4096,
+              "capacity": 4096,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "40": {
+              "snapshot_phase": 40,
+              "cached": 4096,
+              "capacity": 4096,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "50": {
+              "snapshot_phase": 50,
+              "cached": 4096,
+              "capacity": 4096,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "60": {
+              "snapshot_phase": 60,
+              "cached": 4096,
+              "capacity": 4096,
+              "elem_size": 24,
+              "init_clear": 0
+            }
+          },
+          "after_registration_cached_object_payload_bytes": 98304,
+          "cache_pointer_array_bytes": 32768,
+          "after_unregister_cached_object_payload_bytes": 98304,
+          "physical_slab_page_attribution": "not measured"
+        },
+        "8192/8192": {
+          "counts": {
+            "init_calls": 1,
+            "node_calls": 8192,
+            "new_calls": 128,
+            "install_bulk_calls": 128,
+            "install_bulk_requested": 4096,
+            "install_bulk_returned": 4096,
+            "prefill_calls": 1,
+            "prefill_bulk_calls": 1,
+            "prefill_requested": 4096,
+            "prefill_returned": 4096,
+            "free_calls": 1,
+            "free_completed": 1,
+            "free_objects": 4096
+          },
+          "snapshots": {
+            "20": {
+              "snapshot_phase": 20,
+              "cached": 0,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "30": {
+              "snapshot_phase": 30,
+              "cached": 4096,
+              "capacity": 4096,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "40": {
+              "snapshot_phase": 40,
+              "cached": 0,
+              "capacity": 4096,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "50": {
+              "snapshot_phase": 50,
+              "cached": 4096,
+              "capacity": 4096,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "60": {
+              "snapshot_phase": 60,
+              "cached": 4096,
+              "capacity": 4096,
+              "elem_size": 24,
+              "init_clear": 0
+            }
+          },
+          "after_registration_cached_object_payload_bytes": 98304,
+          "cache_pointer_array_bytes": 32768,
+          "after_unregister_cached_object_payload_bytes": 98304,
+          "physical_slab_page_attribution": "not measured"
+        }
+      }
+    },
+    "unpatched": {
+      "original_f0": {
+        "counts": {
+          "node_alloc_calls": 73985,
+          "node_alloc_returns": 73985,
+          "node_alloc_null_returns": 0,
+          "node_cache_new_calls": 73985,
+          "node_cache_new_returns": 73985,
+          "node_cache_new_null_returns": 0,
+          "single_slab_alloc_calls": 0,
+          "bulk_calls": 0,
+          "bulk_returns": 0,
+          "bulk_requested_total": 0,
+          "bulk_returned_total": 0,
+          "bulk_non32_requests": 0,
+          "bulk_short_returns": 0,
+          "bulk_zero_returns": 0,
+          "bulk_cache_pointer_mismatches": 0,
+          "cycles_started": 19,
+          "cycles_returned": 19,
+          "cycle_return_errors": 0,
+          "cycles_256": 1,
+          "cycles_4096": 18,
+          "cycle_ops_unexpected": 0,
+          "cycle_bulk_calls_eq_0": 19,
+          "cycle_bulk_calls_eq_8": 0,
+          "cycle_bulk_calls_eq_128": 0,
+          "cycle_bulk_calls_unexpected": 0
+        },
+        "timing_evidence": false
+      },
+      "cases": {
+        "128/128": {
+          "counts": {
+            "init_calls": 1,
+            "node_calls": 128,
+            "new_calls": 128,
+            "install_bulk_calls": 0,
+            "install_bulk_requested": 0,
+            "install_bulk_returned": 0,
+            "prefill_calls": 0,
+            "prefill_bulk_calls": 0,
+            "prefill_requested": 0,
+            "prefill_returned": 0,
+            "free_calls": 1,
+            "free_completed": 1,
+            "free_objects": 128
+          },
+          "snapshots": {
+            "20": {
+              "snapshot_phase": 20,
+              "cached": 0,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "30": {
+              "snapshot_phase": 30,
+              "cached": 0,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "40": {
+              "snapshot_phase": 40,
+              "cached": 0,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "50": {
+              "snapshot_phase": 50,
+              "cached": 128,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "60": {
+              "snapshot_phase": 60,
+              "cached": 128,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            }
+          },
+          "after_registration_cached_object_payload_bytes": 0,
+          "cache_pointer_array_bytes": 1024,
+          "after_unregister_cached_object_payload_bytes": 3072,
+          "physical_slab_page_attribution": "not measured"
+        },
+        "4096/4096": {
+          "counts": {
+            "init_calls": 1,
+            "node_calls": 4096,
+            "new_calls": 4096,
+            "install_bulk_calls": 0,
+            "install_bulk_requested": 0,
+            "install_bulk_returned": 0,
+            "prefill_calls": 0,
+            "prefill_bulk_calls": 0,
+            "prefill_requested": 0,
+            "prefill_returned": 0,
+            "free_calls": 1,
+            "free_completed": 1,
+            "free_objects": 128
+          },
+          "snapshots": {
+            "20": {
+              "snapshot_phase": 20,
+              "cached": 0,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "30": {
+              "snapshot_phase": 30,
+              "cached": 0,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "40": {
+              "snapshot_phase": 40,
+              "cached": 0,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "50": {
+              "snapshot_phase": 50,
+              "cached": 128,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "60": {
+              "snapshot_phase": 60,
+              "cached": 128,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            }
+          },
+          "after_registration_cached_object_payload_bytes": 0,
+          "cache_pointer_array_bytes": 1024,
+          "after_unregister_cached_object_payload_bytes": 3072,
+          "physical_slab_page_attribution": "not measured"
+        },
+        "4096/64": {
+          "counts": {
+            "init_calls": 1,
+            "node_calls": 64,
+            "new_calls": 64,
+            "install_bulk_calls": 0,
+            "install_bulk_requested": 0,
+            "install_bulk_returned": 0,
+            "prefill_calls": 0,
+            "prefill_bulk_calls": 0,
+            "prefill_requested": 0,
+            "prefill_returned": 0,
+            "free_calls": 1,
+            "free_completed": 1,
+            "free_objects": 64
+          },
+          "snapshots": {
+            "20": {
+              "snapshot_phase": 20,
+              "cached": 0,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "30": {
+              "snapshot_phase": 30,
+              "cached": 0,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "40": {
+              "snapshot_phase": 40,
+              "cached": 0,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "50": {
+              "snapshot_phase": 50,
+              "cached": 64,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "60": {
+              "snapshot_phase": 60,
+              "cached": 64,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            }
+          },
+          "after_registration_cached_object_payload_bytes": 0,
+          "cache_pointer_array_bytes": 1024,
+          "after_unregister_cached_object_payload_bytes": 1536,
+          "physical_slab_page_attribution": "not measured"
+        },
+        "4096/0": {
+          "counts": {
+            "init_calls": 1,
+            "node_calls": 0,
+            "new_calls": 0,
+            "install_bulk_calls": 0,
+            "install_bulk_requested": 0,
+            "install_bulk_returned": 0,
+            "prefill_calls": 0,
+            "prefill_bulk_calls": 0,
+            "prefill_requested": 0,
+            "prefill_returned": 0,
+            "free_calls": 1,
+            "free_completed": 1,
+            "free_objects": 0
+          },
+          "snapshots": {
+            "20": {
+              "snapshot_phase": 20,
+              "cached": 0,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "30": {
+              "snapshot_phase": 30,
+              "cached": 0,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "40": {
+              "snapshot_phase": 40,
+              "cached": 0,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "50": {
+              "snapshot_phase": 50,
+              "cached": 0,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "60": {
+              "snapshot_phase": 60,
+              "cached": 0,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            }
+          },
+          "after_registration_cached_object_payload_bytes": 0,
+          "cache_pointer_array_bytes": 1024,
+          "after_unregister_cached_object_payload_bytes": 0,
+          "physical_slab_page_attribution": "not measured"
+        },
+        "8192/8192": {
+          "counts": {
+            "init_calls": 1,
+            "node_calls": 8192,
+            "new_calls": 8192,
+            "install_bulk_calls": 0,
+            "install_bulk_requested": 0,
+            "install_bulk_returned": 0,
+            "prefill_calls": 0,
+            "prefill_bulk_calls": 0,
+            "prefill_requested": 0,
+            "prefill_returned": 0,
+            "free_calls": 1,
+            "free_completed": 1,
+            "free_objects": 128
+          },
+          "snapshots": {
+            "20": {
+              "snapshot_phase": 20,
+              "cached": 0,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "30": {
+              "snapshot_phase": 30,
+              "cached": 0,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "40": {
+              "snapshot_phase": 40,
+              "cached": 0,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "50": {
+              "snapshot_phase": 50,
+              "cached": 128,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "60": {
+              "snapshot_phase": 60,
+              "cached": 128,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            }
+          },
+          "after_registration_cached_object_payload_bytes": 0,
+          "cache_pointer_array_bytes": 1024,
+          "after_unregister_cached_object_payload_bytes": 3072,
+          "physical_slab_page_attribution": "not measured"
+        }
+      }
+    },
+    "p12": {
+      "original_f0": {
+        "counts": {
+          "node_alloc_calls": 73985,
+          "node_alloc_returns": 73985,
+          "node_alloc_null_returns": 0,
+          "node_cache_new_calls": 2313,
+          "node_cache_new_returns": 2313,
+          "node_cache_new_null_returns": 0,
+          "single_slab_alloc_calls": 0,
+          "bulk_calls": 2313,
+          "bulk_returns": 2313,
+          "bulk_requested_total": 74016,
+          "bulk_returned_total": 74016,
+          "bulk_non32_requests": 0,
+          "bulk_short_returns": 0,
+          "bulk_zero_returns": 0,
+          "bulk_cache_pointer_mismatches": 0,
+          "cycles_started": 19,
+          "cycles_returned": 19,
+          "cycle_return_errors": 0,
+          "cycles_256": 1,
+          "cycles_4096": 18,
+          "cycle_ops_unexpected": 0,
+          "cycle_bulk_calls_eq_0": 0,
+          "cycle_bulk_calls_eq_8": 1,
+          "cycle_bulk_calls_eq_128": 18,
+          "cycle_bulk_calls_unexpected": 0
+        },
+        "timing_evidence": false
+      },
+      "cases": {
+        "128/128": {
+          "counts": {
+            "init_calls": 1,
+            "node_calls": 128,
+            "new_calls": 4,
+            "install_bulk_calls": 4,
+            "install_bulk_requested": 128,
+            "install_bulk_returned": 128,
+            "prefill_calls": 0,
+            "prefill_bulk_calls": 0,
+            "prefill_requested": 0,
+            "prefill_returned": 0,
+            "free_calls": 1,
+            "free_completed": 1,
+            "free_objects": 128
+          },
+          "snapshots": {
+            "20": {
+              "snapshot_phase": 20,
+              "cached": 0,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "30": {
+              "snapshot_phase": 30,
+              "cached": 0,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "40": {
+              "snapshot_phase": 40,
+              "cached": 0,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "50": {
+              "snapshot_phase": 50,
+              "cached": 128,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "60": {
+              "snapshot_phase": 60,
+              "cached": 128,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            }
+          },
+          "after_registration_cached_object_payload_bytes": 0,
+          "cache_pointer_array_bytes": 1024,
+          "after_unregister_cached_object_payload_bytes": 3072,
+          "physical_slab_page_attribution": "not measured"
+        },
+        "4096/4096": {
+          "counts": {
+            "init_calls": 1,
+            "node_calls": 4096,
+            "new_calls": 128,
+            "install_bulk_calls": 128,
+            "install_bulk_requested": 4096,
+            "install_bulk_returned": 4096,
+            "prefill_calls": 0,
+            "prefill_bulk_calls": 0,
+            "prefill_requested": 0,
+            "prefill_returned": 0,
+            "free_calls": 1,
+            "free_completed": 1,
+            "free_objects": 128
+          },
+          "snapshots": {
+            "20": {
+              "snapshot_phase": 20,
+              "cached": 0,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "30": {
+              "snapshot_phase": 30,
+              "cached": 0,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "40": {
+              "snapshot_phase": 40,
+              "cached": 0,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "50": {
+              "snapshot_phase": 50,
+              "cached": 128,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "60": {
+              "snapshot_phase": 60,
+              "cached": 128,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            }
+          },
+          "after_registration_cached_object_payload_bytes": 0,
+          "cache_pointer_array_bytes": 1024,
+          "after_unregister_cached_object_payload_bytes": 3072,
+          "physical_slab_page_attribution": "not measured"
+        },
+        "4096/64": {
+          "counts": {
+            "init_calls": 1,
+            "node_calls": 64,
+            "new_calls": 2,
+            "install_bulk_calls": 2,
+            "install_bulk_requested": 64,
+            "install_bulk_returned": 64,
+            "prefill_calls": 0,
+            "prefill_bulk_calls": 0,
+            "prefill_requested": 0,
+            "prefill_returned": 0,
+            "free_calls": 1,
+            "free_completed": 1,
+            "free_objects": 64
+          },
+          "snapshots": {
+            "20": {
+              "snapshot_phase": 20,
+              "cached": 0,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "30": {
+              "snapshot_phase": 30,
+              "cached": 0,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "40": {
+              "snapshot_phase": 40,
+              "cached": 0,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "50": {
+              "snapshot_phase": 50,
+              "cached": 64,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "60": {
+              "snapshot_phase": 60,
+              "cached": 64,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            }
+          },
+          "after_registration_cached_object_payload_bytes": 0,
+          "cache_pointer_array_bytes": 1024,
+          "after_unregister_cached_object_payload_bytes": 1536,
+          "physical_slab_page_attribution": "not measured"
+        },
+        "4096/0": {
+          "counts": {
+            "init_calls": 1,
+            "node_calls": 0,
+            "new_calls": 0,
+            "install_bulk_calls": 0,
+            "install_bulk_requested": 0,
+            "install_bulk_returned": 0,
+            "prefill_calls": 0,
+            "prefill_bulk_calls": 0,
+            "prefill_requested": 0,
+            "prefill_returned": 0,
+            "free_calls": 1,
+            "free_completed": 1,
+            "free_objects": 0
+          },
+          "snapshots": {
+            "20": {
+              "snapshot_phase": 20,
+              "cached": 0,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "30": {
+              "snapshot_phase": 30,
+              "cached": 0,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "40": {
+              "snapshot_phase": 40,
+              "cached": 0,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "50": {
+              "snapshot_phase": 50,
+              "cached": 0,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "60": {
+              "snapshot_phase": 60,
+              "cached": 0,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            }
+          },
+          "after_registration_cached_object_payload_bytes": 0,
+          "cache_pointer_array_bytes": 1024,
+          "after_unregister_cached_object_payload_bytes": 0,
+          "physical_slab_page_attribution": "not measured"
+        },
+        "8192/8192": {
+          "counts": {
+            "init_calls": 1,
+            "node_calls": 8192,
+            "new_calls": 256,
+            "install_bulk_calls": 256,
+            "install_bulk_requested": 8192,
+            "install_bulk_returned": 8192,
+            "prefill_calls": 0,
+            "prefill_bulk_calls": 0,
+            "prefill_requested": 0,
+            "prefill_returned": 0,
+            "free_calls": 1,
+            "free_completed": 1,
+            "free_objects": 128
+          },
+          "snapshots": {
+            "20": {
+              "snapshot_phase": 20,
+              "cached": 0,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "30": {
+              "snapshot_phase": 30,
+              "cached": 0,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "40": {
+              "snapshot_phase": 40,
+              "cached": 0,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "50": {
+              "snapshot_phase": 50,
+              "cached": 128,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            },
+            "60": {
+              "snapshot_phase": 60,
+              "cached": 128,
+              "capacity": 128,
+              "elem_size": 24,
+              "init_clear": 0
+            }
+          },
+          "after_registration_cached_object_payload_bytes": 0,
+          "cache_pointer_array_bytes": 1024,
+          "after_unregister_cached_object_payload_bytes": 3072,
+          "physical_slab_page_attribution": "not measured"
+        }
+      }
+    }
+  },
+  "lifecycle_followup": {
+    "p123": {
+      "overlap": {
+        "serial-4096-64": {
+          "status": "pass",
+          "rings": 16,
+          "cycles": 16,
+          "max_exit_work_lag_after_close_us": 14911.549,
+          "starts_with_prior_ctx_pending": 15,
+          "intervals_overlapping_prior_exit_work": 15,
+          "intervals_overlapping_prior_cache_free": 0
+        },
+        "serial-4096-4096": {
+          "status": "pass",
+          "rings": 16,
+          "cycles": 16,
+          "max_exit_work_lag_after_close_us": 27541.718,
+          "starts_with_prior_ctx_pending": 15,
+          "intervals_overlapping_prior_exit_work": 15,
+          "intervals_overlapping_prior_cache_free": 1
+        },
+        "serial-128-128": {
+          "status": "pass",
+          "rings": 16,
+          "cycles": 16,
+          "max_exit_work_lag_after_close_us": 12333.537,
+          "starts_with_prior_ctx_pending": 15,
+          "intervals_overlapping_prior_exit_work": 15,
+          "intervals_overlapping_prior_cache_free": 0
+        },
+        "paced-4096-64": {
+          "status": "pass",
+          "rings": 16,
+          "cycles": 16,
+          "max_exit_work_lag_after_close_us": 12757.337,
+          "starts_with_prior_ctx_pending": 0,
+          "intervals_overlapping_prior_exit_work": 0,
+          "intervals_overlapping_prior_cache_free": 0
+        },
+        "paced-4096-4096": {
+          "status": "pass",
+          "rings": 16,
+          "cycles": 16,
+          "max_exit_work_lag_after_close_us": 14525.902,
+          "starts_with_prior_ctx_pending": 0,
+          "intervals_overlapping_prior_exit_work": 0,
+          "intervals_overlapping_prior_cache_free": 0
+        },
+        "paced-128-128": {
+          "status": "pass",
+          "rings": 16,
+          "cycles": 16,
+          "max_exit_work_lag_after_close_us": 15532.675,
+          "starts_with_prior_ctx_pending": 0,
+          "intervals_overlapping_prior_exit_work": 0,
+          "intervals_overlapping_prior_cache_free": 0
+        }
+      },
+      "counts": {
+        "paced-4096-64": {
+          "status": "pass",
+          "cycle_counts": [
+            {
+              "ring": 1,
+              "cycle": 1,
+              "nodes": 64,
+              "misses": 0,
+              "bulk_calls": 0,
+              "requested": 0,
+              "returned": 0
+            }
+          ],
+          "cleanup_counts": [
+            {
+              "ring": 1,
+              "cached": 0,
+              "entries_null": 1,
+              "freed_objects": 4096
+            }
+          ]
+        },
+        "paced-4096-4096": {
+          "status": "pass",
+          "cycle_counts": [
+            {
+              "ring": 1,
+              "cycle": 1,
+              "nodes": 4096,
+              "misses": 0,
+              "bulk_calls": 0,
+              "requested": 0,
+              "returned": 0
+            }
+          ],
+          "cleanup_counts": [
+            {
+              "ring": 1,
+              "cached": 0,
+              "entries_null": 1,
+              "freed_objects": 4096
+            }
+          ]
+        },
+        "paced-128-128": {
+          "status": "pass",
+          "cycle_counts": [
+            {
+              "ring": 1,
+              "cycle": 1,
+              "nodes": 128,
+              "misses": 0,
+              "bulk_calls": 0,
+              "requested": 0,
+              "returned": 0
+            }
+          ],
+          "cleanup_counts": [
+            {
+              "ring": 1,
+              "cached": 0,
+              "entries_null": 1,
+              "freed_objects": 128
+            }
+          ]
+        },
+        "reuse-4096-4096": {
+          "status": "pass",
+          "cycle_counts": [
+            {
+              "ring": 1,
+              "cycle": 0,
+              "nodes": 4096,
+              "misses": 0,
+              "bulk_calls": 0,
+              "requested": 0,
+              "returned": 0
+            },
+            {
+              "ring": 1,
+              "cycle": 1,
+              "nodes": 4096,
+              "misses": 0,
+              "bulk_calls": 0,
+              "requested": 0,
+              "returned": 0
+            },
+            {
+              "ring": 1,
+              "cycle": 2,
+              "nodes": 4096,
+              "misses": 0,
+              "bulk_calls": 0,
+              "requested": 0,
+              "returned": 0
+            },
+            {
+              "ring": 1,
+              "cycle": 3,
+              "nodes": 4096,
+              "misses": 0,
+              "bulk_calls": 0,
+              "requested": 0,
+              "returned": 0
+            },
+            {
+              "ring": 1,
+              "cycle": 4,
+              "nodes": 4096,
+              "misses": 0,
+              "bulk_calls": 0,
+              "requested": 0,
+              "returned": 0
+            }
+          ],
+          "cleanup_counts": [
+            {
+              "ring": 1,
+              "cached": 0,
+              "entries_null": 1,
+              "freed_objects": 4096
+            }
+          ]
+        },
+        "reuse-4096-64": {
+          "status": "pass",
+          "cycle_counts": [
+            {
+              "ring": 1,
+              "cycle": 0,
+              "nodes": 64,
+              "misses": 0,
+              "bulk_calls": 0,
+              "requested": 0,
+              "returned": 0
+            },
+            {
+              "ring": 1,
+              "cycle": 1,
+              "nodes": 64,
+              "misses": 0,
+              "bulk_calls": 0,
+              "requested": 0,
+              "returned": 0
+            },
+            {
+              "ring": 1,
+              "cycle": 2,
+              "nodes": 64,
+              "misses": 0,
+              "bulk_calls": 0,
+              "requested": 0,
+              "returned": 0
+            },
+            {
+              "ring": 1,
+              "cycle": 3,
+              "nodes": 64,
+              "misses": 0,
+              "bulk_calls": 0,
+              "requested": 0,
+              "returned": 0
+            },
+            {
+              "ring": 1,
+              "cycle": 4,
+              "nodes": 64,
+              "misses": 0,
+              "bulk_calls": 0,
+              "requested": 0,
+              "returned": 0
+            }
+          ],
+          "cleanup_counts": [
+            {
+              "ring": 1,
+              "cached": 0,
+              "entries_null": 1,
+              "freed_objects": 4096
+            }
+          ]
+        }
+      }
+    },
+    "unpatched": {
+      "overlap": {
+        "serial-4096-64": {
+          "status": "pass",
+          "rings": 16,
+          "cycles": 16,
+          "max_exit_work_lag_after_close_us": 21054.719,
+          "starts_with_prior_ctx_pending": 15,
+          "intervals_overlapping_prior_exit_work": 14,
+          "intervals_overlapping_prior_cache_free": 0
+        },
+        "serial-4096-4096": {
+          "status": "pass",
+          "rings": 16,
+          "cycles": 16,
+          "max_exit_work_lag_after_close_us": 22918.351,
+          "starts_with_prior_ctx_pending": 15,
+          "intervals_overlapping_prior_exit_work": 15,
+          "intervals_overlapping_prior_cache_free": 1
+        },
+        "serial-128-128": {
+          "status": "pass",
+          "rings": 16,
+          "cycles": 16,
+          "max_exit_work_lag_after_close_us": 23020.166,
+          "starts_with_prior_ctx_pending": 15,
+          "intervals_overlapping_prior_exit_work": 14,
+          "intervals_overlapping_prior_cache_free": 0
+        },
+        "paced-4096-64": {
+          "status": "pass",
+          "rings": 16,
+          "cycles": 16,
+          "max_exit_work_lag_after_close_us": 16158.86,
+          "starts_with_prior_ctx_pending": 0,
+          "intervals_overlapping_prior_exit_work": 0,
+          "intervals_overlapping_prior_cache_free": 0
+        },
+        "paced-4096-4096": {
+          "status": "pass",
+          "rings": 16,
+          "cycles": 16,
+          "max_exit_work_lag_after_close_us": 21607.562,
+          "starts_with_prior_ctx_pending": 0,
+          "intervals_overlapping_prior_exit_work": 0,
+          "intervals_overlapping_prior_cache_free": 0
+        },
+        "paced-128-128": {
+          "status": "pass",
+          "rings": 16,
+          "cycles": 16,
+          "max_exit_work_lag_after_close_us": 10183.272,
+          "starts_with_prior_ctx_pending": 0,
+          "intervals_overlapping_prior_exit_work": 0,
+          "intervals_overlapping_prior_cache_free": 0
+        }
+      },
+      "counts": {
+        "paced-4096-64": {
+          "status": "pass",
+          "cycle_counts": [
+            {
+              "ring": 1,
+              "cycle": 1,
+              "nodes": 64,
+              "misses": 64,
+              "bulk_calls": 0,
+              "requested": 0,
+              "returned": 0
+            }
+          ],
+          "cleanup_counts": [
+            {
+              "ring": 1,
+              "cached": 0,
+              "entries_null": 1,
+              "freed_objects": 64
+            }
+          ]
+        },
+        "paced-4096-4096": {
+          "status": "pass",
+          "cycle_counts": [
+            {
+              "ring": 1,
+              "cycle": 1,
+              "nodes": 4096,
+              "misses": 4096,
+              "bulk_calls": 0,
+              "requested": 0,
+              "returned": 0
+            }
+          ],
+          "cleanup_counts": [
+            {
+              "ring": 1,
+              "cached": 0,
+              "entries_null": 1,
+              "freed_objects": 128
+            }
+          ]
+        },
+        "paced-128-128": {
+          "status": "pass",
+          "cycle_counts": [
+            {
+              "ring": 1,
+              "cycle": 1,
+              "nodes": 128,
+              "misses": 128,
+              "bulk_calls": 0,
+              "requested": 0,
+              "returned": 0
+            }
+          ],
+          "cleanup_counts": [
+            {
+              "ring": 1,
+              "cached": 0,
+              "entries_null": 1,
+              "freed_objects": 128
+            }
+          ]
+        },
+        "reuse-4096-4096": {
+          "status": "pass",
+          "cycle_counts": [
+            {
+              "ring": 1,
+              "cycle": 0,
+              "nodes": 4096,
+              "misses": 4096,
+              "bulk_calls": 0,
+              "requested": 0,
+              "returned": 0
+            },
+            {
+              "ring": 1,
+              "cycle": 1,
+              "nodes": 4096,
+              "misses": 3968,
+              "bulk_calls": 0,
+              "requested": 0,
+              "returned": 0
+            },
+            {
+              "ring": 1,
+              "cycle": 2,
+              "nodes": 4096,
+              "misses": 3968,
+              "bulk_calls": 0,
+              "requested": 0,
+              "returned": 0
+            },
+            {
+              "ring": 1,
+              "cycle": 3,
+              "nodes": 4096,
+              "misses": 3968,
+              "bulk_calls": 0,
+              "requested": 0,
+              "returned": 0
+            },
+            {
+              "ring": 1,
+              "cycle": 4,
+              "nodes": 4096,
+              "misses": 3968,
+              "bulk_calls": 0,
+              "requested": 0,
+              "returned": 0
+            }
+          ],
+          "cleanup_counts": [
+            {
+              "ring": 1,
+              "cached": 0,
+              "entries_null": 1,
+              "freed_objects": 128
+            }
+          ]
+        },
+        "reuse-4096-64": {
+          "status": "pass",
+          "cycle_counts": [
+            {
+              "ring": 1,
+              "cycle": 0,
+              "nodes": 64,
+              "misses": 64,
+              "bulk_calls": 0,
+              "requested": 0,
+              "returned": 0
+            },
+            {
+              "ring": 1,
+              "cycle": 1,
+              "nodes": 64,
+              "misses": 0,
+              "bulk_calls": 0,
+              "requested": 0,
+              "returned": 0
+            },
+            {
+              "ring": 1,
+              "cycle": 2,
+              "nodes": 64,
+              "misses": 0,
+              "bulk_calls": 0,
+              "requested": 0,
+              "returned": 0
+            },
+            {
+              "ring": 1,
+              "cycle": 3,
+              "nodes": 64,
+              "misses": 0,
+              "bulk_calls": 0,
+              "requested": 0,
+              "returned": 0
+            },
+            {
+              "ring": 1,
+              "cycle": 4,
+              "nodes": 64,
+              "misses": 0,
+              "bulk_calls": 0,
+              "requested": 0,
+              "returned": 0
+            }
+          ],
+          "cleanup_counts": [
+            {
+              "ring": 1,
+              "cached": 0,
+              "entries_null": 1,
+              "freed_objects": 64
+            }
+          ]
+        }
+      }
+    },
+    "p12": {
+      "overlap": {
+        "serial-4096-64": {
+          "status": "pass",
+          "rings": 16,
+          "cycles": 16,
+          "max_exit_work_lag_after_close_us": 22348.164,
+          "starts_with_prior_ctx_pending": 15,
+          "intervals_overlapping_prior_exit_work": 14,
+          "intervals_overlapping_prior_cache_free": 0
+        },
+        "serial-4096-4096": {
+          "status": "pass",
+          "rings": 16,
+          "cycles": 16,
+          "max_exit_work_lag_after_close_us": 23066.867,
+          "starts_with_prior_ctx_pending": 15,
+          "intervals_overlapping_prior_exit_work": 15,
+          "intervals_overlapping_prior_cache_free": 1
+        },
+        "serial-128-128": {
+          "status": "pass",
+          "rings": 16,
+          "cycles": 16,
+          "max_exit_work_lag_after_close_us": 20044.821,
+          "starts_with_prior_ctx_pending": 15,
+          "intervals_overlapping_prior_exit_work": 14,
+          "intervals_overlapping_prior_cache_free": 0
+        },
+        "paced-4096-64": {
+          "status": "pass",
+          "rings": 16,
+          "cycles": 16,
+          "max_exit_work_lag_after_close_us": 14792.394,
+          "starts_with_prior_ctx_pending": 0,
+          "intervals_overlapping_prior_exit_work": 0,
+          "intervals_overlapping_prior_cache_free": 0
+        },
+        "paced-4096-4096": {
+          "status": "pass",
+          "rings": 16,
+          "cycles": 16,
+          "max_exit_work_lag_after_close_us": 21164.174,
+          "starts_with_prior_ctx_pending": 0,
+          "intervals_overlapping_prior_exit_work": 0,
+          "intervals_overlapping_prior_cache_free": 0
+        },
+        "paced-128-128": {
+          "status": "pass",
+          "rings": 16,
+          "cycles": 16,
+          "max_exit_work_lag_after_close_us": 17356.334,
+          "starts_with_prior_ctx_pending": 0,
+          "intervals_overlapping_prior_exit_work": 0,
+          "intervals_overlapping_prior_cache_free": 0
+        }
+      },
+      "counts": {
+        "paced-4096-64": {
+          "status": "pass",
+          "cycle_counts": [
+            {
+              "ring": 1,
+              "cycle": 1,
+              "nodes": 64,
+              "misses": 2,
+              "bulk_calls": 2,
+              "requested": 64,
+              "returned": 64
+            }
+          ],
+          "cleanup_counts": [
+            {
+              "ring": 1,
+              "cached": 0,
+              "entries_null": 1,
+              "freed_objects": 64
+            }
+          ]
+        },
+        "paced-4096-4096": {
+          "status": "pass",
+          "cycle_counts": [
+            {
+              "ring": 1,
+              "cycle": 1,
+              "nodes": 4096,
+              "misses": 128,
+              "bulk_calls": 128,
+              "requested": 4096,
+              "returned": 4096
+            }
+          ],
+          "cleanup_counts": [
+            {
+              "ring": 1,
+              "cached": 0,
+              "entries_null": 1,
+              "freed_objects": 128
+            }
+          ]
+        },
+        "paced-128-128": {
+          "status": "pass",
+          "cycle_counts": [
+            {
+              "ring": 1,
+              "cycle": 1,
+              "nodes": 128,
+              "misses": 4,
+              "bulk_calls": 4,
+              "requested": 128,
+              "returned": 128
+            }
+          ],
+          "cleanup_counts": [
+            {
+              "ring": 1,
+              "cached": 0,
+              "entries_null": 1,
+              "freed_objects": 128
+            }
+          ]
+        },
+        "reuse-4096-4096": {
+          "status": "pass",
+          "cycle_counts": [
+            {
+              "ring": 1,
+              "cycle": 0,
+              "nodes": 4096,
+              "misses": 128,
+              "bulk_calls": 128,
+              "requested": 4096,
+              "returned": 4096
+            },
+            {
+              "ring": 1,
+              "cycle": 1,
+              "nodes": 4096,
+              "misses": 124,
+              "bulk_calls": 124,
+              "requested": 3968,
+              "returned": 3968
+            },
+            {
+              "ring": 1,
+              "cycle": 2,
+              "nodes": 4096,
+              "misses": 124,
+              "bulk_calls": 124,
+              "requested": 3968,
+              "returned": 3968
+            },
+            {
+              "ring": 1,
+              "cycle": 3,
+              "nodes": 4096,
+              "misses": 124,
+              "bulk_calls": 124,
+              "requested": 3968,
+              "returned": 3968
+            },
+            {
+              "ring": 1,
+              "cycle": 4,
+              "nodes": 4096,
+              "misses": 124,
+              "bulk_calls": 124,
+              "requested": 3968,
+              "returned": 3968
+            }
+          ],
+          "cleanup_counts": [
+            {
+              "ring": 1,
+              "cached": 0,
+              "entries_null": 1,
+              "freed_objects": 128
+            }
+          ]
+        },
+        "reuse-4096-64": {
+          "status": "pass",
+          "cycle_counts": [
+            {
+              "ring": 1,
+              "cycle": 0,
+              "nodes": 64,
+              "misses": 2,
+              "bulk_calls": 2,
+              "requested": 64,
+              "returned": 64
+            },
+            {
+              "ring": 1,
+              "cycle": 1,
+              "nodes": 64,
+              "misses": 0,
+              "bulk_calls": 0,
+              "requested": 0,
+              "returned": 0
+            },
+            {
+              "ring": 1,
+              "cycle": 2,
+              "nodes": 64,
+              "misses": 0,
+              "bulk_calls": 0,
+              "requested": 0,
+              "returned": 0
+            },
+            {
+              "ring": 1,
+              "cycle": 3,
+              "nodes": 64,
+              "misses": 0,
+              "bulk_calls": 0,
+              "requested": 0,
+              "returned": 0
+            },
+            {
+              "ring": 1,
+              "cycle": 4,
+              "nodes": 64,
+              "misses": 0,
+              "bulk_calls": 0,
+              "requested": 0,
+              "returned": 0
+            }
+          ],
+          "cleanup_counts": [
+            {
+              "ring": 1,
+              "cached": 0,
+              "entries_null": 1,
+              "freed_objects": 64
+            }
+          ]
+        }
+      }
+    }
+  },
+  "local_failure_checks": {
+    "status": "pass",
+    "cases": [
+      "case=zero status=pass",
+      "case=one status=pass",
+      "case=small status=pass",
+      "case=full_4096 status=pass",
+      "case=capped_8192 status=pass",
+      "case=preserve_existing status=pass",
+      "case=already_enough status=pass",
+      "case=array_failure_unchanged status=pass",
+      "case=bulk_failure_preserves_objects_not_capacity status=pass",
+      "case=bulk_failure_without_growth status=pass",
+      "case=mock_short_return status=pass",
+      "case=mock_poison_failure_cleanup status=pass",
+      "case=non_slab_unchanged status=pass",
+      "case=no_entries_unchanged status=pass",
+      "case=unchanged_bulk_miss status=pass"
+    ],
+    "sanitizers": "address,undefined,leak",
+    "allocator_is_stubbed": true,
+    "scope": "actual patched cache C code with deterministic allocator stubs; not kernel fault injection or timing",
+    "known_semantic_difference": "bulk failure after successful array growth retains enlarged capacity"
+  }
+}

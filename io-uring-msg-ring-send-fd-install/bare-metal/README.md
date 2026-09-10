@@ -11,6 +11,7 @@ files have the same evidentiary role or can be safely deleted as duplicates:
 | Scope and direct hit | [`slot-gradient.tsv`](slot-gradient.tsv), [`standalone-cross-check.tsv`](standalone-cross-check.tsv), [`mechanism-summary.tsv`](mechanism-summary.tsv) | slot-count scope, readable-source cross-check, and exact path counts |
 | Cache and allocation diagnosis | [`node-cache-cold-warm.tsv`](node-cache-cold-warm.tsv), [`node-cache-trace.tsv`](node-cache-trace.tsv), [`first-fill-allocation-diagnostics.tsv`](first-fill-allocation-diagnostics.tsv) | reuse timing, inferred hit counts, new-slab/perf observations, and both prefill diagnostics |
 | Collaborator patches | [`uzair-patch1-followup.tsv`](uzair-patch1-followup.tsv), [`uzair-v2-bulk-refill.tsv`](uzair-v2-bulk-refill.tsv), [`uzair-v2-bulk-refill-mechanism.tsv`](uzair-v2-bulk-refill-mechanism.tsv) | dedicated-slab/accounting diagnostics and revised bulk-refill timing/path checks |
+| v3 prefill and lifecycle follow-up | [`uzair-v3-prefill/`](uzair-v3-prefill/README.md) | unchanged v3 first fill, registration cost, repeated batch reuse, low utilization, memory/cleanup, and instability; 28 metrics with source/build identity |
 
 The summary and selected-round files intentionally overlap on a few aggregate
 numbers: the former is the compact index, while the latter is the minimal data
@@ -299,6 +300,18 @@ The exact diagnostic source deltas are
 [`full-prefill`](../reproducer/0001-diagnostic-prefill-sparse-node-cache.patch)
 and
 [`slab-prime`](../reproducer/0002-diagnostic-prime-node-slab-backing.patch).
+
+## v3 prefill and lifecycle follow-up
+
+The [consolidated v3 page](uzair-v3-prefill/README.md) preserves both
+completed v6.18-rc4 U/B/C matrices without replacing the earlier evidence.
+First fill improves by `9.791%` against unpatched and `8.819%` against
+0001+0002. Same-ring 4,096-file remove/refill improves by
+`18.820% / 18.584%`; a 64-file reuse control is effectively unchanged.
+Registration through first fill does not improve. Low-use/small-table
+failures and retained-memory costs are reported, not filtered out.
+All 28 metric summaries, 900 measured groups, individual-tail summaries,
+independent mechanism checks, and auxiliary sources are kept together.
 
 ## Platform and scope
 

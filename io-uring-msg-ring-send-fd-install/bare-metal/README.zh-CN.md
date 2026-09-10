@@ -11,6 +11,7 @@
 | 范围与 direct hit | [`slot-gradient.tsv`](slot-gradient.tsv)、[`standalone-cross-check.tsv`](standalone-cross-check.tsv)、[`mechanism-summary.tsv`](mechanism-summary.tsv) | 槽位范围、可读源码交叉验证和精确路径计数 |
 | Cache 与 allocation 诊断 | [`node-cache-cold-warm.tsv`](node-cache-cold-warm.tsv)、[`node-cache-trace.tsv`](node-cache-trace.tsv)、[`first-fill-allocation-diagnostics.tsv`](first-fill-allocation-diagnostics.tsv) | reuse timing、推断 hit、新 slab/perf 与两项 prefill 诊断 |
 | 协作者补丁 | [`uzair-patch1-followup.tsv`](uzair-patch1-followup.tsv)、[`uzair-v2-bulk-refill.tsv`](uzair-v2-bulk-refill.tsv)、[`uzair-v2-bulk-refill-mechanism.tsv`](uzair-v2-bulk-refill-mechanism.tsv) | 专用 slab/accounting 诊断，以及修订 bulk-refill 的计时和路径验证 |
+| v3 prefill 与生命周期补充 | [`uzair-v3-prefill/`](uzair-v3-prefill/README.zh-CN.md) | 原样 v3 首填、注册代价、批量复用、低使用率、内存/释放和不稳定项；共 28 项指标及完整来源 |
 
 汇总表与逐轮表会有少量统计值重叠：前者是快速索引，后者是重新计算 mean、CV 和
 drop-first 所需的最小原始数据。计时和 trace 的测量范围不同，不能为了减少文件数而混成
@@ -249,6 +250,14 @@ child 中点为 `114.774862 ns/install`，slab-prime 中点为 `115.838778 ns/in
 增量分别为
 [`full-prefill`](../reproducer/0001-diagnostic-prefill-sparse-node-cache.patch) 和
 [`slab-prime`](../reproducer/0002-diagnostic-prime-node-slab-backing.patch)。
+
+## v3 prefill 与生命周期补充
+
+[合并结果页](uzair-v3-prefill/README.zh-CN.md)保留两次完成的 v6.18-rc4 U/B/C
+矩阵，不替换历史证据。first fill 对未修改版快 `9.791%`、对前两枚快 `8.819%`；
+同 ring 4096 文件移除→重装分别快 `18.820% / 18.584%`，64 文件复用控制基本持平。
+注册至首次填充完成没有改善，少量使用/小表的未过门与常驻内存代价都保留。
+全部 28 项汇总、900 个计量组、单操作长尾摘要、独立机制检查及辅助源码集中在该目录。
 
 ## 平台与范围
 

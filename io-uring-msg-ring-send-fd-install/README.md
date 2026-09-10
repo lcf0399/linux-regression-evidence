@@ -28,6 +28,23 @@ per-ring serialization and reclamation stalls. This bundle therefore records
 a measured registration/update trade-off and does not recommend reverting the
 correctness/scalability change.
 
+## v3 patch validation (2026-09-10)
+
+The unchanged three-patch v3 series was tested on exact public v6.18-rc4.
+Original first fill was `107.731 ns/install`, `9.791%` below unpatched and
+`8.819%` below 0001+0002. A separate same-ring 4,096-file remove/refill
+interval improved by `18.820%` / `18.584%`, respectively, with independent
+counts showing that the larger cache avoids repeated allocation.
+
+Registration through first-fill completion did not improve (`+1.144%` in
+the original auxiliary and `+1.637%` with paced new rings). Low-use and
+small-table timing failures remain visible, alongside 4,032 idle nodes
+after registering 4,096 slots and using 64. Asynchronous exit overlaps
+iterations even without the patches; its role in earlier timing noise
+was not established. See the [v3 result page](bare-metal/uzair-v3-prefill/README.md)
+for all 28 timing metrics, mechanism checks, identities, and auxiliary
+sources. These are not complete-lifetime or generic I/O gains.
+
 ## Evidence chain
 
 | question | result | scope |

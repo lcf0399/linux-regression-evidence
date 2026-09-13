@@ -1,0 +1,23 @@
+tree d6f87fb271fcc1d96a0908f077a64df6976b26da
+parent f917dc56060a10f401dd8ca46a1c5df237b35d84
+author T.J. Mercier <tjmercier@google.com> 1772058842 -0800
+committer Greg Kroah-Hartman <gregkh@linuxfoundation.org> 1773327063 +0100
+
+kernfs: Don't set_nlink for directories being removed
+
+If a directory is already in the process of removal its i_nlink count
+becomes irrelevant because its contents are also about to be removed and
+any pending filesystem operations on it or its contents will soon start
+to fail. So we can avoid setting it for directories already flagged for
+removal.
+
+This avoids a race in the next patch, which adds clearing of the i_nlink
+count for kernfs nodes being removed to support inotify delete events.
+
+Use protection from the kernfs_iattr_rwsem to avoid adding more
+contention to the kernfs_rwsem for calls to kernfs_refresh_inode.
+
+Signed-off-by: T.J. Mercier <tjmercier@google.com>
+Tested-by: syzbot@syzkaller.appspotmail.com
+Link: https://patch.msgid.link/20260225223404.783173-2-tjmercier@google.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>

@@ -1,0 +1,53 @@
+tree e2368bca2521f1371e1c7f11a6dfa712b1f05c87
+parent 507d8ce13f5b91d5b4dca7bd4b4e4249e8021cca
+author T.J. Mercier <tjmercier@google.com> 1772058843 -0800
+committer Greg Kroah-Hartman <gregkh@linuxfoundation.org> 1773327063 +0100
+
+kernfs: Send IN_DELETE_SELF and IN_IGNORED
+
+Currently some kernfs files (e.g. cgroup.events, memory.events) support
+inotify watches for IN_MODIFY, but unlike with regular filesystems, they
+do not receive IN_DELETE_SELF or IN_IGNORED events when they are
+removed. This means inotify watches persist after file deletion until
+the process exits and the inotify file descriptor is cleaned up, or
+until inotify_rm_watch is called manually.
+
+This creates a problem for processes monitoring cgroups. For example, a
+service monitoring memory.events for memory.high breaches needs to know
+when a cgroup is removed to clean up its state. Where it's known that a
+cgroup is removed when all processes die, without IN_DELETE_SELF the
+service must resort to inefficient workarounds such as:
+  1) Periodically scanning procfs to detect process death (wastes CPU
+     and is susceptible to PID reuse).
+  2) Holding a pidfd for every monitored cgroup (can exhaust file
+     descriptors).
+
+This patch enables IN_DELETE_SELF and IN_IGNORED events for kernfs files
+and directories by clearing inode i_nlink values during removal. This
+allows VFS to make the necessary fsnotify calls so that userspace
+receives the inotify events.
+
+As a result, applications can rely on a single existing watch on a file
+of interest (e.g. memory.events) to receive notifications for both
+modifications and the eventual removal of the file, as well as automatic
+watch descriptor cleanup, simplifying userspace logic and improving
+efficiency.
+
+There is gap in this implementation for certain file removals due their
+unique nature in kernfs. Directory removals that trigger file removals
+occur through vfs_rmdir, which shrinks the dcache and emits fsnotify
+events after the rmdir operation; there is no issue here. However kernfs
+writes to particular files (e.g. cgroup.subtree_control) can also cause
+file removal, but vfs_write does not attempt to emit fsnotify events
+after the write operation, even if i_nlink counts are 0. As a usecase
+for monitoring this category of file removals is not known, they are
+left without having IN_DELETE or IN_DELETE_SELF events generated.
+Fanotify recursive monitoring also does not work for kernfs nodes that
+do not have inodes attached, as they are created on-demand in kernfs.
+
+Suggested-by: Jan Kara <jack@suse.cz>
+Signed-off-by: T.J. Mercier <tjmercier@google.com>
+Tested-by: syzbot@syzkaller.appspotmail.com
+Acked-by: Tejun Heo <tj@kernel.org>
+Link: https://patch.msgid.link/20260225223404.783173-3-tjmercier@google.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>

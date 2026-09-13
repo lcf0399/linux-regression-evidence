@@ -28,6 +28,15 @@ upstream threads and user-selected decisions for the unsent material below.
 | [`io-uring-futex-inflight-wait-wake/`](io-uring-futex-inflight-wait-wake/) | Resolved upstream: `73e701909747` carries the report attribution, and on 2026-08-24 Greg Kroah-Hartman queued it for 6.18, 7.1, and 7.2 stable. Queueing does not mean a stable release already contains it. | Direct-parent A/B remains `+9.268%`. Patch 1 improved the newer-master private workload by `3.392%`; patch 2 was private-neutral and improved the matched shared workload by `1.578%`. The unnecessary synchronous-WAKE tracking is fixed, so this line is closed unless release validation fails. |
 | [`io-uring-futex-waitv-accounted-allocation/`](io-uring-futex-waitv-accounted-allocation/) | The reply to the original allocation patch thread was sent on 2026-08-30. The source refresh on that date found no equivalent optimization; current master/for-next retained the accounted allocation. | Exact direct-parent A/B is `+8.091%`, a separate standalone is `+6.488%`, and the scalar control is `-0.555%`. A separate v7.2 diagnostic still isolates about `8–9%` to the accounted WAITV allocation without proposing removal of memcg accounting. |
 
+## Prepared for upstream submission
+
+Added on 2026-09-13; the report has not been sent. This addition does not
+refresh the older thread audit dates above.
+
+| Evidence | Report state | Current technical state |
+| --- | --- | --- |
+| [`kernfs-empty-cgroup-removal/`](kernfs-empty-cgroup-removal/) | Prepared for submission; no sent Message-ID or maintainer response | Two exact-source runs reproduce about 46–48% higher empty-cgroup deletion cost across link-count protection and notification changes, including with sched_ext disabled. A local prototype saves about 4–5%; separate pinned 7.3-rc2 testing saves about 2% versus v7.2. Neither is a complete fix or an application-impact claim. |
+
 ## Unsent candidates and closed diagnostic
 
 Two unsent report candidates and one unsent but closed diagnostic bundle are

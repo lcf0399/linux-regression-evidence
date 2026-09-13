@@ -1,0 +1,244 @@
+{
+  "performance_evidence": false,
+  "root_reuse": {
+    "operations": 32,
+    "counts_per_removal": {
+      "notify": {
+        "__rcu_read_lock": 156,
+        "__rcu_read_unlock": 156,
+        "clear_nlink": 1,
+        "down_write": 52,
+        "ilookup": 26,
+        "iput": 1,
+        "lookup_rcu": 26,
+        "nodes": 26,
+        "up_write": 52,
+        "wrapper_calls": 26,
+        "wrapper_read_locks": 26,
+        "wrapper_read_unlocks": 26,
+        "wrappers_rcu": 78
+      },
+      "prototype": {
+        "__rcu_read_lock": 52,
+        "__rcu_read_unlock": 52,
+        "clear_nlink": 1,
+        "down_write": 52,
+        "ilookup": 26,
+        "iput": 1,
+        "lookup_rcu": 26,
+        "nodes": 26,
+        "up_write": 52,
+        "wrapper_calls": 26,
+        "wrapper_read_locks": 26,
+        "wrapper_read_unlocks": 26,
+        "wrappers_rcu": 26
+      }
+    }
+  },
+  "mainline": {
+    "operations": 8,
+    "operation_chain": {
+      "v7.2": [
+        {
+          "nodes": 26,
+          "remove_by_name": 25,
+          "ilookup": 26,
+          "remove_to_ilookup": 26,
+          "remove_write_locks": 52,
+          "wrapper_read_locks": 26
+        },
+        {
+          "nodes": 26,
+          "remove_by_name": 25,
+          "ilookup": 26,
+          "remove_to_ilookup": 26,
+          "remove_write_locks": 52,
+          "wrapper_read_locks": 26
+        },
+        {
+          "nodes": 26,
+          "remove_by_name": 25,
+          "ilookup": 26,
+          "remove_to_ilookup": 26,
+          "remove_write_locks": 52,
+          "wrapper_read_locks": 26
+        },
+        {
+          "nodes": 26,
+          "remove_by_name": 25,
+          "ilookup": 26,
+          "remove_to_ilookup": 26,
+          "remove_write_locks": 52,
+          "wrapper_read_locks": 26
+        }
+      ],
+      "latest": [
+        {
+          "nodes": 26,
+          "remove_by_name": 25,
+          "ilookup": 26,
+          "remove_to_ilookup": 26,
+          "remove_write_locks": 52,
+          "wrapper_read_locks": 26
+        },
+        {
+          "nodes": 26,
+          "remove_by_name": 25,
+          "ilookup": 26,
+          "remove_to_ilookup": 26,
+          "remove_write_locks": 52,
+          "wrapper_read_locks": 26
+        },
+        {
+          "nodes": 26,
+          "remove_by_name": 25,
+          "ilookup": 26,
+          "remove_to_ilookup": 26,
+          "remove_write_locks": 52,
+          "wrapper_read_locks": 26
+        },
+        {
+          "nodes": 26,
+          "remove_by_name": 25,
+          "ilookup": 26,
+          "remove_to_ilookup": 26,
+          "remove_write_locks": 52,
+          "wrapper_read_locks": 26
+        }
+      ]
+    }
+  },
+  "inode_returns": {
+    "control-disabled": [
+      {
+        "op": 1,
+        "node_count": 26,
+        "hits": 1,
+        "misses": 25
+      },
+      {
+        "op": 2,
+        "node_count": 26,
+        "hits": 1,
+        "misses": 25
+      },
+      {
+        "op": 3,
+        "node_count": 26,
+        "hits": 1,
+        "misses": 25
+      },
+      {
+        "op": 4,
+        "node_count": 26,
+        "hits": 1,
+        "misses": 25
+      }
+    ],
+    "control-scx": [
+      {
+        "op": 1,
+        "node_count": 26,
+        "hits": 1,
+        "misses": 25
+      },
+      {
+        "op": 2,
+        "node_count": 26,
+        "hits": 1,
+        "misses": 25
+      },
+      {
+        "op": 3,
+        "node_count": 26,
+        "hits": 1,
+        "misses": 25
+      },
+      {
+        "op": 4,
+        "node_count": 26,
+        "hits": 1,
+        "misses": 25
+      }
+    ],
+    "held-two-files": [
+      {
+        "op": 1,
+        "node_count": 26,
+        "hits": 3,
+        "misses": 23
+      },
+      {
+        "op": 2,
+        "node_count": 26,
+        "hits": 3,
+        "misses": 23
+      },
+      {
+        "op": 3,
+        "node_count": 26,
+        "hits": 3,
+        "misses": 23
+      },
+      {
+        "op": 4,
+        "node_count": 26,
+        "hits": 3,
+        "misses": 23
+      }
+    ],
+    "original-cb0": [
+      {
+        "op": 1,
+        "node_count": 26,
+        "hits": 1,
+        "misses": 25
+      },
+      {
+        "op": 2,
+        "node_count": 26,
+        "hits": 1,
+        "misses": 25
+      },
+      {
+        "op": 3,
+        "node_count": 26,
+        "hits": 1,
+        "misses": 25
+      },
+      {
+        "op": 4,
+        "node_count": 26,
+        "hits": 1,
+        "misses": 25
+      }
+    ],
+    "original-cb1": [
+      {
+        "op": 1,
+        "node_count": 26,
+        "hits": 1,
+        "misses": 25
+      },
+      {
+        "op": 2,
+        "node_count": 26,
+        "hits": 1,
+        "misses": 25
+      },
+      {
+        "op": 3,
+        "node_count": 26,
+        "hits": 1,
+        "misses": 25
+      },
+      {
+        "op": 4,
+        "node_count": 26,
+        "hits": 1,
+        "misses": 25
+      }
+    ]
+  },
+  "limits": "Operation-scoped counts, not cost shares; NULL does not prove a lookup can safely be skipped."
+}

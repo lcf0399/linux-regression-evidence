@@ -1,0 +1,405 @@
+{
+  "schema": "kernfs-report-identity-v1",
+  "platform": {
+    "cpu": "Intel Core i7-12700KF",
+    "ram_gib": 32,
+    "caller_cpu": 0,
+    "policy": "SCHED_OTHER"
+  },
+  "workload": {
+    "measured_binary_sha256": "ece6d9e0f3506079a4222826ccc566baaa022dddad68eb7b57177b7fb691abbe",
+    "source_sha256": "36605594f7796b96555194104070233bfa95a4cb8340d974f7b465d767b0655f",
+    "compiler": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+    "libbpf_version": "1.6.3",
+    "compiled_flags": "-O2 -g -std=gnu11 -Wall -Wextra -Werror -pthread",
+    "operations_per_sample": 128,
+    "warmups_per_sample": 16,
+    "samples_per_arm_per_boot": 9
+  },
+  "kernel_builds": {
+    "base": {
+      "commit": "f917dc56060a10f401dd8ca46a1c5df237b35d84",
+      "tree": "1209b1ab3bcf85802dd15a9caf1fbbaf6b9e763b",
+      "kernelrelease": "7.0.0-rc3-cgk-a-f917dc56060a",
+      "config_sha256": "a7e5c4d62dd124afabddff83c0bdb39b500ffe8e4cff73bed2535841ac155d93",
+      "canonical_config_sha256": "9fc518e5c37e724f572418c3e8acbed41e50f71284ecd0904f6c1bb9e50e5f48",
+      "compiler": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+      "artifacts": {
+        "arch/x86/boot/bzImage": "a51f754c100e763067228749f592765cc0d45aa108aa7ed805320b308cf0d74b",
+        "vmlinux": "aa99d3e09f7f70d7edcd78b2261de8c0bb3ccdaab9fa707c2f5ae133109a9c35"
+      }
+    },
+    "guard": {
+      "commit": "507d8ce13f5b91d5b4dca7bd4b4e4249e8021cca",
+      "tree": "d6f87fb271fcc1d96a0908f077a64df6976b26da",
+      "kernelrelease": "7.0.0-rc3-cgk-b-507d8ce13f5b",
+      "config_sha256": "1d4de7e25dcb0d254575a32cf10b58f045539b64e20cb4bfd336405839e1ac28",
+      "canonical_config_sha256": "9fc518e5c37e724f572418c3e8acbed41e50f71284ecd0904f6c1bb9e50e5f48",
+      "compiler": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+      "artifacts": {
+        "arch/x86/boot/bzImage": "5ac44035355f63cd71e958bec96fad3a045ac0074e80d80ef5fb3c347958ed50",
+        "vmlinux": "fda01e1dae37f9b8e90df1fbe545f3d8cea0ac106ddccda478e98977f90c45d4"
+      }
+    },
+    "notify": {
+      "commit": "eea5d2bb34ba11dccd9c53f392dc50cf060150a9",
+      "tree": "e2368bca2521f1371e1c7f11a6dfa712b1f05c87",
+      "kernelrelease": "7.0.0-rc3-cgk-c-eea5d2bb34ba",
+      "config_sha256": "ac687757ede0e82bff7984b8a0da6b1bf0dc2d260fb5d634c41410a47a437309",
+      "canonical_config_sha256": "9fc518e5c37e724f572418c3e8acbed41e50f71284ecd0904f6c1bb9e50e5f48",
+      "compiler": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+      "artifacts": {
+        "arch/x86/boot/bzImage": "7c0a4243a007a6c268723bc75a304aa1fcac91b2d01a501eb8251f0447c2b062",
+        "vmlinux": "6d01e1ded88b3d3bc93e69bf395b2ea772e371b4ce8c7251507f369a41f68077"
+      }
+    },
+    "latest": {
+      "commit": "2f0c1cf72f4682178506f513bbf015e591b1aa4a",
+      "tree": "6a0d9322c1c028e257c2ce6403c65f2f2bcc748d",
+      "kernelrelease": "7.3.0-rc2-bm-7.3-rc2-kernfs",
+      "config_sha256": "2e4a010e2fb53e1d4d6b0d784992986023e5e2a4966fcfb72f6fee32e26fc198",
+      "bzimage_sha256": "d0a8cd3b649e1ce18f209e09e2c42bbec3a1cd8c136c7703392ee11f430618f1",
+      "vmlinux_sha256": "9790bfd24b6ce5afd262054b0a068c70c0b930bd1ca9f1e1300edcc9b231c1b3",
+      "btf_sha256": "befe1e109534833c6d914afb7b001ed46569d9127b68b3ba534c08312430ea84"
+    },
+    "v7.2": {
+      "kernelrelease": "7.2.0-bm-7.2-scx",
+      "config_sha256": "a69a6f68f0338d4dafbd7874279b961c32415e4afae98b7f8e38dd133ef88ce2",
+      "bzimage_sha256": "6fb831fd598bb53d4376ab842ef1c1f0e30dc6387b09e3ef1268076e198dae66",
+      "vmlinux_sha256": "f595c7a1f0fe5fdd163a8c97b5cd99ce03b78bf95f7220ad9a78737af5237627",
+      "btf_sha256": "8afff7457e4536f6574d96002925885afa3a4bcb7ebf18a975519becfeabcc9b",
+      "source_reference": "v7.2; retained artifact, exact image and runtime BTF hashes above"
+    },
+    "prototype": {
+      "source_base_commit": "eea5d2bb34ba11dccd9c53f392dc50cf060150a9",
+      "source_tree": "6bc9d9e5519688749cd37f58dca937f77bd9ba45",
+      "local_patch_sha256": "95eb05b20b91886f9b889a06cdc51742b25d6a290ee331b86d40e06fa8d9c6ae",
+      "kernel": "7.0.0-rc3-cgk-d-rootreuse001",
+      "config_sha256": "3b41ad981a02798d583a91e028c7d779436c9aeec77c8e6bcf47b320fced461b",
+      "runtime_btf_sha256": "e9fddcc37377370b492f614d03f258577e6b93d8d2af248ab72ea03364dcfe0f"
+    }
+  },
+  "boots": [
+    {
+      "boot_id": "8db98801-687c-4d7f-91fe-971395550809",
+      "kernel": "7.0.0-rc3-cgk-a-f917dc56060a",
+      "config_sha256": "a7e5c4d62dd124afabddff83c0bdb39b500ffe8e4cff73bed2535841ac155d93",
+      "runtime_btf_sha256": "bba9a69a1c8ffe5dffb739b7dbc9de557497dc55b86211e62536ed059a2e5243",
+      "leaf_control_sha256": "ece6d9e0f3506079a4222826ccc566baaa022dddad68eb7b57177b7fb691abbe",
+      "preempt": "(full) lazy",
+      "no_turbo": "1",
+      "kernel_taint": 0,
+      "experiment": "exact-r1",
+      "point": "base-A",
+      "governors": [
+        "performance"
+      ],
+      "exact_commit": "f917dc56060a10f401dd8ca46a1c5df237b35d84",
+      "exact_tree": "1209b1ab3bcf85802dd15a9caf1fbbaf6b9e763b"
+    },
+    {
+      "boot_id": "d45aba29-1569-4168-a6e9-569f12071fce",
+      "kernel": "7.0.0-rc3-cgk-b-507d8ce13f5b",
+      "config_sha256": "1d4de7e25dcb0d254575a32cf10b58f045539b64e20cb4bfd336405839e1ac28",
+      "runtime_btf_sha256": "bba9a69a1c8ffe5dffb739b7dbc9de557497dc55b86211e62536ed059a2e5243",
+      "leaf_control_sha256": "ece6d9e0f3506079a4222826ccc566baaa022dddad68eb7b57177b7fb691abbe",
+      "preempt": "(full) lazy",
+      "no_turbo": "1",
+      "kernel_taint": 0,
+      "experiment": "exact-r1",
+      "point": "guard-A",
+      "governors": [
+        "performance"
+      ],
+      "exact_commit": "507d8ce13f5b91d5b4dca7bd4b4e4249e8021cca",
+      "exact_tree": "d6f87fb271fcc1d96a0908f077a64df6976b26da"
+    },
+    {
+      "boot_id": "89f29f08-f5cc-4b66-88e0-ab1e571fe946",
+      "kernel": "7.0.0-rc3-cgk-c-eea5d2bb34ba",
+      "config_sha256": "ac687757ede0e82bff7984b8a0da6b1bf0dc2d260fb5d634c41410a47a437309",
+      "runtime_btf_sha256": "e9fddcc37377370b492f614d03f258577e6b93d8d2af248ab72ea03364dcfe0f",
+      "leaf_control_sha256": "ece6d9e0f3506079a4222826ccc566baaa022dddad68eb7b57177b7fb691abbe",
+      "preempt": "(full) lazy",
+      "no_turbo": "1",
+      "kernel_taint": 0,
+      "experiment": "exact-r1",
+      "point": "notify-A",
+      "governors": [
+        "performance"
+      ],
+      "exact_commit": "eea5d2bb34ba11dccd9c53f392dc50cf060150a9",
+      "exact_tree": "e2368bca2521f1371e1c7f11a6dfa712b1f05c87"
+    },
+    {
+      "boot_id": "dfc83934-10bd-462b-adbc-c0648e6b4cc6",
+      "kernel": "7.0.0-rc3-cgk-c-eea5d2bb34ba",
+      "config_sha256": "ac687757ede0e82bff7984b8a0da6b1bf0dc2d260fb5d634c41410a47a437309",
+      "runtime_btf_sha256": "e9fddcc37377370b492f614d03f258577e6b93d8d2af248ab72ea03364dcfe0f",
+      "leaf_control_sha256": "ece6d9e0f3506079a4222826ccc566baaa022dddad68eb7b57177b7fb691abbe",
+      "preempt": "(full) lazy",
+      "no_turbo": "1",
+      "kernel_taint": 0,
+      "experiment": "exact-r1",
+      "point": "notify-B",
+      "governors": [
+        "performance"
+      ],
+      "exact_commit": "eea5d2bb34ba11dccd9c53f392dc50cf060150a9",
+      "exact_tree": "e2368bca2521f1371e1c7f11a6dfa712b1f05c87"
+    },
+    {
+      "boot_id": "b1df5de4-0d80-43c8-8a08-1bd04d77210d",
+      "kernel": "7.0.0-rc3-cgk-b-507d8ce13f5b",
+      "config_sha256": "1d4de7e25dcb0d254575a32cf10b58f045539b64e20cb4bfd336405839e1ac28",
+      "runtime_btf_sha256": "bba9a69a1c8ffe5dffb739b7dbc9de557497dc55b86211e62536ed059a2e5243",
+      "leaf_control_sha256": "ece6d9e0f3506079a4222826ccc566baaa022dddad68eb7b57177b7fb691abbe",
+      "preempt": "(full) lazy",
+      "no_turbo": "1",
+      "kernel_taint": 0,
+      "experiment": "exact-r1",
+      "point": "guard-B",
+      "governors": [
+        "performance"
+      ],
+      "exact_commit": "507d8ce13f5b91d5b4dca7bd4b4e4249e8021cca",
+      "exact_tree": "d6f87fb271fcc1d96a0908f077a64df6976b26da"
+    },
+    {
+      "boot_id": "ffce0df1-09be-459d-a582-c8e7b1f7c8ee",
+      "kernel": "7.0.0-rc3-cgk-a-f917dc56060a",
+      "config_sha256": "a7e5c4d62dd124afabddff83c0bdb39b500ffe8e4cff73bed2535841ac155d93",
+      "runtime_btf_sha256": "bba9a69a1c8ffe5dffb739b7dbc9de557497dc55b86211e62536ed059a2e5243",
+      "leaf_control_sha256": "ece6d9e0f3506079a4222826ccc566baaa022dddad68eb7b57177b7fb691abbe",
+      "preempt": "(full) lazy",
+      "no_turbo": "1",
+      "kernel_taint": 0,
+      "experiment": "exact-r1",
+      "point": "base-B",
+      "governors": [
+        "performance"
+      ],
+      "exact_commit": "f917dc56060a10f401dd8ca46a1c5df237b35d84",
+      "exact_tree": "1209b1ab3bcf85802dd15a9caf1fbbaf6b9e763b"
+    },
+    {
+      "boot_id": "00475016-0c44-41da-a468-7ab41c5bdce8",
+      "kernel": "7.0.0-rc3-cgk-a-f917dc56060a",
+      "config_sha256": "a7e5c4d62dd124afabddff83c0bdb39b500ffe8e4cff73bed2535841ac155d93",
+      "runtime_btf_sha256": "bba9a69a1c8ffe5dffb739b7dbc9de557497dc55b86211e62536ed059a2e5243",
+      "leaf_control_sha256": "ece6d9e0f3506079a4222826ccc566baaa022dddad68eb7b57177b7fb691abbe",
+      "preempt": "(full) lazy",
+      "no_turbo": "1",
+      "kernel_taint": 0,
+      "experiment": "exact-r2",
+      "point": "base-A",
+      "governors": [
+        "performance"
+      ],
+      "exact_commit": "f917dc56060a10f401dd8ca46a1c5df237b35d84",
+      "exact_tree": "1209b1ab3bcf85802dd15a9caf1fbbaf6b9e763b"
+    },
+    {
+      "boot_id": "bb679ee1-2dc2-4408-92b8-2e15b39e178c",
+      "kernel": "7.0.0-rc3-cgk-b-507d8ce13f5b",
+      "config_sha256": "1d4de7e25dcb0d254575a32cf10b58f045539b64e20cb4bfd336405839e1ac28",
+      "runtime_btf_sha256": "bba9a69a1c8ffe5dffb739b7dbc9de557497dc55b86211e62536ed059a2e5243",
+      "leaf_control_sha256": "ece6d9e0f3506079a4222826ccc566baaa022dddad68eb7b57177b7fb691abbe",
+      "preempt": "(full) lazy",
+      "no_turbo": "1",
+      "kernel_taint": 0,
+      "experiment": "exact-r2",
+      "point": "guard-A",
+      "governors": [
+        "performance"
+      ],
+      "exact_commit": "507d8ce13f5b91d5b4dca7bd4b4e4249e8021cca",
+      "exact_tree": "d6f87fb271fcc1d96a0908f077a64df6976b26da"
+    },
+    {
+      "boot_id": "467d1fd0-d1be-4bed-b1b7-56450a411c60",
+      "kernel": "7.0.0-rc3-cgk-c-eea5d2bb34ba",
+      "config_sha256": "ac687757ede0e82bff7984b8a0da6b1bf0dc2d260fb5d634c41410a47a437309",
+      "runtime_btf_sha256": "e9fddcc37377370b492f614d03f258577e6b93d8d2af248ab72ea03364dcfe0f",
+      "leaf_control_sha256": "ece6d9e0f3506079a4222826ccc566baaa022dddad68eb7b57177b7fb691abbe",
+      "preempt": "(full) lazy",
+      "no_turbo": "1",
+      "kernel_taint": 0,
+      "experiment": "exact-r2",
+      "point": "notify-A",
+      "governors": [
+        "performance"
+      ],
+      "exact_commit": "eea5d2bb34ba11dccd9c53f392dc50cf060150a9",
+      "exact_tree": "e2368bca2521f1371e1c7f11a6dfa712b1f05c87"
+    },
+    {
+      "boot_id": "18dea7e1-a58e-4024-b597-e1467a04b3db",
+      "kernel": "7.0.0-rc3-cgk-c-eea5d2bb34ba",
+      "config_sha256": "ac687757ede0e82bff7984b8a0da6b1bf0dc2d260fb5d634c41410a47a437309",
+      "runtime_btf_sha256": "e9fddcc37377370b492f614d03f258577e6b93d8d2af248ab72ea03364dcfe0f",
+      "leaf_control_sha256": "ece6d9e0f3506079a4222826ccc566baaa022dddad68eb7b57177b7fb691abbe",
+      "preempt": "(full) lazy",
+      "no_turbo": "1",
+      "kernel_taint": 0,
+      "experiment": "exact-r2",
+      "point": "notify-B",
+      "governors": [
+        "performance"
+      ],
+      "exact_commit": "eea5d2bb34ba11dccd9c53f392dc50cf060150a9",
+      "exact_tree": "e2368bca2521f1371e1c7f11a6dfa712b1f05c87"
+    },
+    {
+      "boot_id": "89a063e4-32fa-4bcd-b37b-1c2739d9f958",
+      "kernel": "7.0.0-rc3-cgk-b-507d8ce13f5b",
+      "config_sha256": "1d4de7e25dcb0d254575a32cf10b58f045539b64e20cb4bfd336405839e1ac28",
+      "runtime_btf_sha256": "bba9a69a1c8ffe5dffb739b7dbc9de557497dc55b86211e62536ed059a2e5243",
+      "leaf_control_sha256": "ece6d9e0f3506079a4222826ccc566baaa022dddad68eb7b57177b7fb691abbe",
+      "preempt": "(full) lazy",
+      "no_turbo": "1",
+      "kernel_taint": 0,
+      "experiment": "exact-r2",
+      "point": "guard-B",
+      "governors": [
+        "performance"
+      ],
+      "exact_commit": "507d8ce13f5b91d5b4dca7bd4b4e4249e8021cca",
+      "exact_tree": "d6f87fb271fcc1d96a0908f077a64df6976b26da"
+    },
+    {
+      "boot_id": "ebf8b088-32e5-4e5f-9f24-dd120c033353",
+      "kernel": "7.0.0-rc3-cgk-a-f917dc56060a",
+      "config_sha256": "a7e5c4d62dd124afabddff83c0bdb39b500ffe8e4cff73bed2535841ac155d93",
+      "runtime_btf_sha256": "bba9a69a1c8ffe5dffb739b7dbc9de557497dc55b86211e62536ed059a2e5243",
+      "leaf_control_sha256": "ece6d9e0f3506079a4222826ccc566baaa022dddad68eb7b57177b7fb691abbe",
+      "preempt": "(full) lazy",
+      "no_turbo": "1",
+      "kernel_taint": 0,
+      "experiment": "exact-r2",
+      "point": "base-B",
+      "governors": [
+        "performance"
+      ],
+      "exact_commit": "f917dc56060a10f401dd8ca46a1c5df237b35d84",
+      "exact_tree": "1209b1ab3bcf85802dd15a9caf1fbbaf6b9e763b"
+    },
+    {
+      "boot_id": "1d223af9-bb53-4a95-ba37-ad1d71940a64",
+      "kernel": "7.0.0-rc3-cgk-c-eea5d2bb34ba",
+      "config_sha256": "ac687757ede0e82bff7984b8a0da6b1bf0dc2d260fb5d634c41410a47a437309",
+      "runtime_btf_sha256": "e9fddcc37377370b492f614d03f258577e6b93d8d2af248ab72ea03364dcfe0f",
+      "leaf_control_sha256": "ece6d9e0f3506079a4222826ccc566baaa022dddad68eb7b57177b7fb691abbe",
+      "preempt": "(full) lazy",
+      "no_turbo": "1",
+      "kernel_taint": 0,
+      "experiment": "root-reuse-r1",
+      "point": "notify-A",
+      "governors": [
+        "performance"
+      ],
+      "source_base_commit": "eea5d2bb34ba11dccd9c53f392dc50cf060150a9",
+      "source_tree": "e2368bca2521f1371e1c7f11a6dfa712b1f05c87",
+      "local_patch_sha256": "none"
+    },
+    {
+      "boot_id": "fafe6c53-8114-4ac3-8d24-1db1def5ab98",
+      "kernel": "7.0.0-rc3-cgk-d-rootreuse001",
+      "config_sha256": "3b41ad981a02798d583a91e028c7d779436c9aeec77c8e6bcf47b320fced461b",
+      "runtime_btf_sha256": "e9fddcc37377370b492f614d03f258577e6b93d8d2af248ab72ea03364dcfe0f",
+      "leaf_control_sha256": "ece6d9e0f3506079a4222826ccc566baaa022dddad68eb7b57177b7fb691abbe",
+      "preempt": "(full) lazy",
+      "no_turbo": "1",
+      "kernel_taint": 0,
+      "experiment": "root-reuse-r1",
+      "point": "prototype-A",
+      "governors": [
+        "performance"
+      ],
+      "source_base_commit": "eea5d2bb34ba11dccd9c53f392dc50cf060150a9",
+      "source_tree": "6bc9d9e5519688749cd37f58dca937f77bd9ba45",
+      "local_patch_sha256": "95eb05b20b91886f9b889a06cdc51742b25d6a290ee331b86d40e06fa8d9c6ae"
+    },
+    {
+      "boot_id": "64900562-859b-499a-b36c-fb9601660c3a",
+      "kernel": "7.0.0-rc3-cgk-d-rootreuse001",
+      "config_sha256": "3b41ad981a02798d583a91e028c7d779436c9aeec77c8e6bcf47b320fced461b",
+      "runtime_btf_sha256": "e9fddcc37377370b492f614d03f258577e6b93d8d2af248ab72ea03364dcfe0f",
+      "leaf_control_sha256": "ece6d9e0f3506079a4222826ccc566baaa022dddad68eb7b57177b7fb691abbe",
+      "preempt": "(full) lazy",
+      "no_turbo": "1",
+      "kernel_taint": 0,
+      "experiment": "root-reuse-r1",
+      "point": "prototype-B",
+      "governors": [
+        "performance"
+      ],
+      "source_base_commit": "eea5d2bb34ba11dccd9c53f392dc50cf060150a9",
+      "source_tree": "6bc9d9e5519688749cd37f58dca937f77bd9ba45",
+      "local_patch_sha256": "95eb05b20b91886f9b889a06cdc51742b25d6a290ee331b86d40e06fa8d9c6ae"
+    },
+    {
+      "boot_id": "67512d4c-1a86-4ae3-954f-8b750b774a3f",
+      "kernel": "7.0.0-rc3-cgk-c-eea5d2bb34ba",
+      "config_sha256": "ac687757ede0e82bff7984b8a0da6b1bf0dc2d260fb5d634c41410a47a437309",
+      "runtime_btf_sha256": "e9fddcc37377370b492f614d03f258577e6b93d8d2af248ab72ea03364dcfe0f",
+      "leaf_control_sha256": "ece6d9e0f3506079a4222826ccc566baaa022dddad68eb7b57177b7fb691abbe",
+      "preempt": "(full) lazy",
+      "no_turbo": "1",
+      "kernel_taint": 0,
+      "experiment": "root-reuse-r1",
+      "point": "notify-B",
+      "governors": [
+        "performance"
+      ],
+      "source_base_commit": "eea5d2bb34ba11dccd9c53f392dc50cf060150a9",
+      "source_tree": "e2368bca2521f1371e1c7f11a6dfa712b1f05c87",
+      "local_patch_sha256": "none"
+    },
+    {
+      "boot_id": "4c08df27-64fd-45fe-bec5-0366e9fb1f2c",
+      "kernel": "7.2.0-bm-7.2-scx",
+      "config_sha256": "a69a6f68f0338d4dafbd7874279b961c32415e4afae98b7f8e38dd133ef88ce2",
+      "runtime_btf_sha256": "8afff7457e4536f6574d96002925885afa3a4bcb7ebf18a975519becfeabcc9b",
+      "leaf_control_sha256": "ece6d9e0f3506079a4222826ccc566baaa022dddad68eb7b57177b7fb691abbe",
+      "preempt": "(full) lazy",
+      "no_turbo": "1",
+      "kernel_taint": 0,
+      "experiment": "mainline-r1",
+      "point": "old-A",
+      "governors": [
+        "performance"
+      ]
+    },
+    {
+      "boot_id": "f8754657-547f-4933-90bb-8a2c60e3c229",
+      "kernel": "7.3.0-rc2-bm-7.3-rc2-kernfs",
+      "config_sha256": "2e4a010e2fb53e1d4d6b0d784992986023e5e2a4966fcfb72f6fee32e26fc198",
+      "runtime_btf_sha256": "befe1e109534833c6d914afb7b001ed46569d9127b68b3ba534c08312430ea84",
+      "leaf_control_sha256": "ece6d9e0f3506079a4222826ccc566baaa022dddad68eb7b57177b7fb691abbe",
+      "preempt": "(full) lazy",
+      "no_turbo": "1",
+      "kernel_taint": 0,
+      "experiment": "mainline-r1",
+      "point": "latest",
+      "governors": [
+        "performance"
+      ]
+    },
+    {
+      "boot_id": "d220159f-ff21-4eec-8fea-063022541905",
+      "kernel": "7.2.0-bm-7.2-scx",
+      "config_sha256": "a69a6f68f0338d4dafbd7874279b961c32415e4afae98b7f8e38dd133ef88ce2",
+      "runtime_btf_sha256": "8afff7457e4536f6574d96002925885afa3a4bcb7ebf18a975519becfeabcc9b",
+      "leaf_control_sha256": "ece6d9e0f3506079a4222826ccc566baaa022dddad68eb7b57177b7fb691abbe",
+      "preempt": "(full) lazy",
+      "no_turbo": "1",
+      "kernel_taint": 0,
+      "experiment": "mainline-r1",
+      "point": "old-B",
+      "governors": [
+        "performance"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+diff --git a/fs/kernfs/dir.c b/fs/kernfs/dir.c
+--- a/fs/kernfs/dir.c
++++ b/fs/kernfs/dir.c
+@@ -1492,9 +1492,9 @@
+-static void kernfs_clear_inode_nlink(struct kernfs_node *kn)
++static void kernfs_clear_inode_nlink(struct kernfs_node *kn,
++				   struct kernfs_root *root)
+ {
+-	struct kernfs_root *root = kernfs_root(kn);
+ 	struct kernfs_super_info *info;
+ 
+ 	lockdep_assert_held_read(&root->kernfs_supers_rwsem);
+ 
+ 	list_for_each_entry(info, &root->supers, node) {
+ 		struct inode *inode = ilookup(info->sb, kernfs_ino(kn));
+@@ -1509,15 +1509,18 @@
+ static void __kernfs_remove(struct kernfs_node *kn)
+ {
+ 	struct kernfs_node *pos, *parent;
++	struct kernfs_root *root;
+ 
+ 	/* Short-circuit if non-root @kn has already finished removal. */
+ 	if (!kn)
+ 		return;
+ 
+-	lockdep_assert_held_read(&kernfs_root(kn)->kernfs_supers_rwsem);
+-	lockdep_assert_held_write(&kernfs_root(kn)->kernfs_rwsem);
++	root = kernfs_root(kn);
++
++	lockdep_assert_held_read(&root->kernfs_supers_rwsem);
++	lockdep_assert_held_write(&root->kernfs_rwsem);
+ 
+ 	/*
+ 	 * This is for kernfs_remove_self() which plays with active ref
+ 	 * after removal.
+ 	 */
+@@ -1528,14 +1531,14 @@
+ 	pr_debug("kernfs %s: removing\n", kernfs_rcu_name(kn));
+ 
+ 	/* prevent new usage by marking all nodes removing and deactivating */
+-	down_write(&kernfs_root(kn)->kernfs_iattr_rwsem);
++	down_write(&root->kernfs_iattr_rwsem);
+ 	pos = NULL;
+ 	while ((pos = kernfs_next_descendant_post(pos, kn))) {
+ 		pos->flags |= KERNFS_REMOVING;
+ 		if (kernfs_active(pos))
+ 			atomic_add(KN_DEACTIVATED_BIAS, &pos->active);
+ 	}
+-	up_write(&kernfs_root(kn)->kernfs_iattr_rwsem);
++	up_write(&root->kernfs_iattr_rwsem);
+ 
+ 	/* deactivate and unlink the subtree node-by-node */
+ 	do {
+@@ -1561,9 +1564,9 @@
+ 			struct kernfs_iattrs *ps_iattr =
+ 				parent ? parent->iattr : NULL;
+ 
+-			down_write(&kernfs_root(kn)->kernfs_iattr_rwsem);
++			down_write(&root->kernfs_iattr_rwsem);
+ 
+-			kernfs_clear_inode_nlink(pos);
++			kernfs_clear_inode_nlink(pos, root);
+ 
+ 			/* update timestamps on the parent */
+ 			if (ps_iattr) {
+@@ -1571,7 +1574,7 @@
+ 				ps_iattr->ia_mtime = ps_iattr->ia_ctime;
+ 			}
+ 
+-			up_write(&kernfs_root(kn)->kernfs_iattr_rwsem);
++			up_write(&root->kernfs_iattr_rwsem);
+ 			kernfs_put(pos);
+ 		}
+ 

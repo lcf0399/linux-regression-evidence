@@ -1,9 +1,18 @@
 # Upstream report status
 
-Evidence/audit date: 2026-09-13. Selected for upstream submission; not sent.
-There is no report Message-ID, public report archive, maintainer response or
-accepted fix to record. The local optimization prototype has not been submitted.
-Technical evidence and submission status are independent.
+Status update: 2026-09-14, from the author's sending confirmation and saved
+thread records. The original report was sent on September 13. Tejun asked
+about practical impact; T.J. Mercier supplied the INODE_INITED change.
+[Local validation](../bare-metal/inode-inited/README.md) is complete and its
+reply is being prepared. No accepted fix, complete concurrency proof or merge
+is claimed. This update does not assert a fresh mailbox/public-archive search.
+
+Original Message-ID:
+`<CANGjgdn=H50AaA-+O_GA-hkE9UwLANmkjx1zRsKUzxF5za8VfQ@mail.gmail.com>`.
+Patch reply Message-ID:
+`<CABdmKX2Oer9wrxWdR8s48Czro8H51HY+S_mfnUj-RvhjCM1RgA@mail.gmail.com>`.
+
+## Historical source audit: September 13
 
 Public source references were rechecked on 2026-09-13. The mail search below
 is the recorded audit from that date, not a fresh mailbox check or an
@@ -43,15 +52,17 @@ Related work was kept separate:
   is not in the tested mainline. It batches publication of previously hidden
   device subtrees. This workload instead removes an already published cgroup.
 
-Thus the pinned 7.3-rc2 test includes the name-hash change, but not those three
-proposals. None directly removes the per-node work measured here. They were
-not benchmarked in this setup, so no claim of zero timing impact is made.
+Thus the unmodified pinned 7.3-rc2 test includes the name-hash change, but not
+those three proposals. They were not benchmarked at that audit date, so no
+claim of zero timing impact was made. The September 14 follow-up explicitly
+adds the file-handle read-lock fix to both compared kernels as a prerequisite;
+it does not isolate that fix's performance effect.
 
 The bounded search found no matching report of this exact empty-leaf cost.
 Some lore pages were unavailable and mirrors were used; access failure is
 not evidence that a report does not exist.
 
-The planned report is a new, narrowly titled regression thread citing the
-introducing commits, asking about safe optimization while retaining the fixes.
-Publication of this evidence, a fixed repository commit URL and actual email
-delivery are separate steps. Private mail files are excluded by `.gitignore`.
+The original report opened a narrowly titled regression thread citing the
+introducing commits. Follow-up replies stay in that thread. Publication of
+evidence and actual email delivery are separate steps. Private mail files
+are excluded by `.gitignore`.

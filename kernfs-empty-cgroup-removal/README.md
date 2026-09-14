@@ -1,6 +1,7 @@
 # kernfs: empty cgroup removal cost
 
-Prepared for upstream submission on 2026-09-13; the report has not been sent.
+Original report sent on 2026-09-13. A separate INODE_INITED patch validation
+was completed on 2026-09-14; see the follow-up below.
 This bundle is a scoped cost report, not a proposed revert or a claim that all
 of the added work is avoidable.
 
@@ -37,6 +38,7 @@ and deletion are timed separately; state checks are outside timing.
 | Exact changes, two independent six-boot runs | All four deletion conditions pass the 3% CV, 2% drift and 5% effect checks, including drop-first | Confirms added cost, not that correctness can be preserved at the old cost |
 | Local root-reuse prototype, one four-boot run | About 4–5% lower deletion latency while retaining locks, lookups and notifications | Not consistently at least 5%; concurrency validation is incomplete; not a submitted fix |
 | v7.2 → pinned 7.3-rc2 → v7.2 | 9.919 / 9.719 / 9.953 µs; 2.019% / 2.355% improvement | One separate version comparison; not a new measurement of the exact 46–48% gap |
+| [INODE_INITED patch validation](bare-metal/inode-inited/README.md), two distinct four-boot experiments | Original binary: rmdir 21.87–22.86% faster. Stage follow-up: continuous rmdir 22.17–22.37% faster | Continuous overall timing remains noisy; paced overall improvement 1.38–2.72%. Basic semantics passed, not exhaustive concurrency safety or a complete fix |
 
 Creation results and unstable secondary observations are retained in the data.
 The samples from these experiments are never pooled.

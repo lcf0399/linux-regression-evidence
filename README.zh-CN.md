@@ -24,14 +24,13 @@ I/O 源文件主动探索阶段已经结束，目前没有排队的新 target �
 | [`io-uring-futex-inflight-wait-wake/`](io-uring-futex-inflight-wait-wake/) | 上游已解决：`73e701909747` 带有本报告署名；2026-08-24，Greg Kroah-Hartman 又将它加入 6.18、7.1、7.2 stable queue。进入队列不等于 stable 正式版本已经包含。 | direct-parent A/B 仍为 `+9.268%`。patch 1 让较新 master 上的 private workload 快 `3.392%`；patch 2 对 private 中性，并让 matched shared workload 快 `1.578%`。同步 WAKE 上不必要的 tracking 已修复，因此除非正式版本验证失败，这条线已经收口。 |
 | [`io-uring-futex-waitv-accounted-allocation/`](io-uring-futex-waitv-accounted-allocation/) | 回复原 allocation 补丁线程的邮件已于 2026-08-30 发出。当天源码刷新未发现等效优化；当时 current master/for-next 仍保留 accounted allocation。 | 精确 direct-parent A/B 为 `+8.091%`，另一份 standalone 为 `+6.488%`，标量对照为 `-0.555%`。另一组 v7.2 诊断仍把约 `8–9%` 窄成本隔离到 accounted WAITV allocation，但不建议取消 memcg accounting。 |
 
-## 已整理、准备发送上游
+## 限定成本报告与补丁跟进
 
-2026-09-13 新增。以下报告已整理、准备发送，但尚未发出；
-这次入库不代表上面其他线程的状态重新核对。
+2026-09-14 更新，不代表上面其他线程的状态重新核对。
 
 | 证据 | 报告状态 | 当前技术状态 |
 | --- | --- | --- |
-| [`kernfs-empty-cgroup-removal/`](kernfs-empty-cgroup-removal/) | 已整理，准备发送；尚无已发 Message-ID 或维护者回复 | 两轮精确源码对照复现链接计数保护与通知修改使空 cgroup 删除慢约 46%～48%，关闭 sched_ext 仍成立。本地原型快约 4%～5%，固定 7.3-rc2 相对 v7.2 另有约 2% 小幅改善；均非完整修复或应用级影响结论。 |
+| [`kernfs-empty-cgroup-removal/`](kernfs-empty-cgroup-removal/) | 原报告 9 月 13 日已发送；正准备补丁验证回复，不声称修复已被接受或合入 | 原精确删除增幅约 46%～48%；[INODE_INITED 验证](kernfs-empty-cgroup-removal/bare-metal/inode-inited/README.zh-CN.md)固定入口读锁基线，删除快 21.87%～22.86%。独立分阶段补测确认删除改善，但连续整段计时仍不稳定；无应用级影响或完整修复结论。 |
 
 ## 尚未发送的候选与已关闭诊断项
 

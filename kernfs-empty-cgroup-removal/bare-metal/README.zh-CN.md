@@ -1,5 +1,8 @@
 # 裸机结果
 
+[9 月 14 日 INODE_INITED 补测](inode-inited/README.zh-CN.md)另存 108 份运行样本，
+使用独立复算脚本。下文的 603 份样本与校验仍对应原来四项实验，不与补测合池。
+
 平台为 i7-12700KF、32 GiB RAM，单 caller 固定 CPU0、SCHED_OTHER，实际 full 抢占，
 performance governor，Turbo 关闭。每份样本先预热 16 次，再测 128 对创建/删除；
 每个条件每次启动九份样本，使用 CLOCK_MONOTONIC_RAW。干净计时不运行构建或探针。

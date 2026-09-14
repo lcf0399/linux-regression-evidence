@@ -1,5 +1,9 @@
 # Bare-metal results
 
+The [September 14 INODE_INITED follow-up](inode-inited/README.md) adds 108
+invocations in a separate bundle with its own verifier. The 603 samples and
+verification below remain the original four experiments.
+
 All experiments used one caller pinned to CPU0 on an Intel Core i7-12700KF
 with 32 GiB RAM, SCHED_OTHER, actual full preemption, the performance governor
 and Turbo disabled. Each sample contains 16 warmups followed by 128 measured

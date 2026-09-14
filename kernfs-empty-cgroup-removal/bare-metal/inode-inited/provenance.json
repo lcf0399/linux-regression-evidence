@@ -1,0 +1,52 @@
+{
+  "schema": "kernfs-inode-inited-public-v1",
+  "evidence_date": "2026-09-14",
+  "raw_replay_verified": true,
+  "invocation_samples": {
+    "original": 36,
+    "followup": 72
+  },
+  "metric_rows": 504,
+  "source_files_sha256": {
+    "cgroup-kernfs-inode-inited-perf-v1/results/inited-preflight-20260914-r1/summary.json": "6aba205071e2d6c835dc5d0f7410b33c0cc6c74d44af47cddee9222c59d032ae",
+    "cgroup-kernfs-inode-inited-perf-v1/results/inited-clean-20260914-r1/summary.json": "1f3dc662630bab0d962b6f72c004d642155825e49fab6dc81f4c734f878d9685",
+    "cgroup-kernfs-inode-inited-perf-v1/results/inited-clean-20260914-r1/points/A1/environment-before.json": "5638bb129be23cbd1a0e14eae311d7ea350f02ba6068b7ca2b396ecfd3c9e4a1",
+    "cgroup-kernfs-inode-inited-perf-v1/results/inited-clean-20260914-r1/points/B1/environment-before.json": "2d61900aac2d72d4a38bee17f4cdf211ed5bf8e1af3c5e9d7dd2868545d537a8",
+    "cgroup-kernfs-inode-inited-perf-v1/results/inited-clean-20260914-r1/points/B2/environment-before.json": "04a3b7f8b2926df94339bb981579dbf84a3465d6232b5e21d9e19382e25edce7",
+    "cgroup-kernfs-inode-inited-perf-v1/results/inited-clean-20260914-r1/points/A2/environment-before.json": "d075691ea30444194bc1ee165e19f93e9a7d0e798b30912653075058f1ac05ae",
+    "cgroup-kernfs-inode-inited-cycle-v1/results/cycle-preflight-20260914-r1/summary.json": "d7bf716a2837c1b012c35e3725245e7402e52ee49f1b0089a89b7d959bdd7b4e",
+    "cgroup-kernfs-inode-inited-cycle-v1/results/cycle-clean-20260914-r1/summary.json": "7fdbc9d4782fa931874507becb552a4e67fa72b600aec52487aadc9d9eaff0f6",
+    "cgroup-kernfs-inode-inited-cycle-v1/results/cycle-clean-20260914-r1/points/A1/environment-before.json": "efd4abbc46328e3f77cd0c707e97694821bdb2d84a7396b0ac26501d626c6b94",
+    "cgroup-kernfs-inode-inited-cycle-v1/results/cycle-clean-20260914-r1/points/B1/environment-before.json": "e4b416e5eadf013ab1fbb36430124a907f69c6fcc86e7d7208cc990bad991457",
+    "cgroup-kernfs-inode-inited-cycle-v1/results/cycle-clean-20260914-r1/points/B2/environment-before.json": "ab3fb3f5e770d87641daf5964fcd56a39e50897af9bb9c5fd62c3347cb2bd611",
+    "cgroup-kernfs-inode-inited-cycle-v1/results/cycle-clean-20260914-r1/points/A2/environment-before.json": "b16d4f3d7fa74ca5eba656f563ce5060f345fe8bc621ceea1605d5f065a626f1",
+    "cgroup-kernfs-inode-inited-perf-v1/build-records/guard.json": "91accc0cc05f4938d6b37227e101430fa12061a7a1341e7c98f6be684cac5313",
+    "cgroup-kernfs-inode-inited-perf-v1/build-records/inited.json": "15a57c2abcbef128f50c4e76a84098532a89dd260cc196fba264ea73b9fa5c2d",
+    "cgroup-kernfs-inode-inited-perf-v1/build-input-v2/plan.json": "78607f5d96bb3dd00b13f094b302ec6bc7af2c8a83c49a3ffa93276ef3c328a3",
+    "cgroup-kernfs-inode-inited-cycle-v1/runtime/binary.json": "0aaf7917553ced373b75d333894dcdf8dc73a512be7d8bc16b2161b904d36aeb",
+    "cgroup-kernfs-inode-inited-perf-v1/runtime/runtime-kernels.json": "db5f7f6fdbc56e3bf0a7eb045b2cc9542ece0da448c0deb89ecfcf5287cc451b",
+    "cgroup-kernfs-inode-inited-cycle-v1/generated/control.c": "4d67663d492106d2ab25d4e2cfc24cd31019fb3247ddccbcc7b264536a670429",
+    "cgroup-kernfs-inode-inited-perf-v1/build-input-v2/sources/base/fs/kernfs/dir.c": "5528993060edba705657c366f6ee0a5f9caeee042b975a44fe6ad8d6670c1f92",
+    "cgroup-kernfs-inode-inited-perf-v1/build-input-v2/sources/guard/fs/kernfs/dir.c": "5528993060edba705657c366f6ee0a5f9caeee042b975a44fe6ad8d6670c1f92",
+    "cgroup-kernfs-inode-inited-perf-v1/build-input-v2/sources/base/fs/kernfs/inode.c": "90642b821e8ab5398b8241729d648ceb824ca6cf984d40efc6c5d7c2d2b0e056",
+    "cgroup-kernfs-inode-inited-perf-v1/build-input-v2/sources/guard/fs/kernfs/inode.c": "90642b821e8ab5398b8241729d648ceb824ca6cf984d40efc6c5d7c2d2b0e056",
+    "cgroup-kernfs-inode-inited-perf-v1/build-input-v2/sources/base/fs/kernfs/mount.c": "9b2cf667a9c654b3a1e2a793816f4e2300c7e88f501da2c993c09f3aeae28181",
+    "cgroup-kernfs-inode-inited-perf-v1/build-input-v2/sources/guard/fs/kernfs/mount.c": "dcb27fafb8363dff2cfcb6c12e5a049e7c5cbf0b1cb354821610dd34bdc9f60c",
+    "cgroup-kernfs-inode-inited-perf-v1/build-input-v2/sources/base/include/linux/kernfs.h": "95b98d04c5c56692329bc62160f3f3616995828ccbe2408bdcf16813d5a5fff2",
+    "cgroup-kernfs-inode-inited-perf-v1/build-input-v2/sources/guard/include/linux/kernfs.h": "95b98d04c5c56692329bc62160f3f3616995828ccbe2408bdcf16813d5a5fff2",
+    "cgroup-kernfs-inode-inited-perf-v1/build-input-v2/sources/inited/fs/kernfs/dir.c": "21872bf92dd345e3bf70aca4dad4141423daa51753155291fd520283f8bae608",
+    "cgroup-kernfs-inode-inited-perf-v1/build-input-v2/sources/inited/fs/kernfs/inode.c": "1e3adfd0bd6894ac189d957d2d627c957156c0886e40e13e20a032424b9767dd",
+    "cgroup-kernfs-inode-inited-perf-v1/build-input-v2/sources/inited/fs/kernfs/mount.c": "dcb27fafb8363dff2cfcb6c12e5a049e7c5cbf0b1cb354821610dd34bdc9f60c",
+    "cgroup-kernfs-inode-inited-perf-v1/build-input-v2/sources/inited/include/linux/kernfs.h": "b9bb50797fa90c2c2e0adeea1c2136cd8d4556f55e8bd208a1db170105627b95"
+  },
+  "files_sha256": {
+    "measured-rounds.tsv": "3aad2acdbc554377245436e7365fcee5f63b15262e88d6a1cd116edf34534e37",
+    "summary.json": "44f463ef0712d24da7bb69fd8264a1a01d0c55f8575ac8d15e2a59c57729e2c8",
+    "mechanism.json": "0ada67b6dc149f05a8f2973a19aff9334f0441a19f093218d4f4e36fdf2b0158",
+    "identity.json": "c33c50138e51ec1b2baa6aabb35437e1f209584703995b4c01aaa3a91b2e26f5",
+    "reproducer/control.c": "4d67663d492106d2ab25d4e2cfc24cd31019fb3247ddccbcc7b264536a670429",
+    "patches/shakeel-read-lock.patch": "f7a8efcd34d07bcbe987e9923412b15f1aa0c8b31810b7d2ca72024c9d3c1329",
+    "patches/tj-inode-inited.patch": "0c4240b656a6a681efc2fd191e9b330bb21b5c341d27ac925003f03c96f8bcad"
+  },
+  "scope": "Two distinct binary identities and four-boot matrices. No private mail, credentials or raw traces exported."
+}

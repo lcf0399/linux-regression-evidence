@@ -1,8 +1,11 @@
 # INODE_INITED patch validation
 
 2026-09-14. T.J. Mercier's change reduced empty-cgroup removal latency by
-21.87–22.86% on the original binary. A separate stage-timing follow-up
+21.87–22.86% on the original binary. The 128-operation stage follow-up
 confirmed faster removal, but continuous whole-sequence timing remained noisy.
+A separate [32-operation pacing diagnostic](pacing/README.md) found a stable
+5.77–8.76% whole-sequence reduction with 16 warmups and continuous operation.
+It retains all six conditions and does not replace the earlier noisy result.
 These are patch-validation results, not proof of complete concurrency safety
 or a claim that the original regression is fully fixed.
 
@@ -25,6 +28,7 @@ LOCALVERSION. Each experiment used fresh boots in order A1 → B1 → B2 → A2,
 with nine samples per condition per boot, 16 warmups and 128 measured
 operations per sample. Both matrices completed and restored generic.
 The original and follow-up binaries differ; their samples are never pooled.
+The additional 32-operation diagnostic has its own [identity and results](pacing/README.md).
 
 ## Original binary: deletion improvement
 

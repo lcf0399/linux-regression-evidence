@@ -1,0 +1,36 @@
+{
+  "schema": "kernfs-inode-inited-pacing-public-v1",
+  "evidence_date": "2026-09-14",
+  "raw_replay_verified": true,
+  "invocation_samples": 216,
+  "measured_operations": 6912,
+  "metrics_per_invocation": 18,
+  "metric_groups": 432,
+  "source_hashes": {
+    "timing_summary": "6f2c3a3e8869a12ff71da371a5922a73b17924d2b9d66c23af526bfff5292d7b",
+    "preflight_summary": "a8c4703e44998625092cffc157fc9ca159532dd66c52cfa0244c7c4dce2a442f",
+    "contract": "da0e13889a115a23c2b6e061b02e2d19688a4c6d1807404839e63d7dff4c9861",
+    "binary_record": "f1cfdafedff30917b7a4b9a88bee27b66e1790e1cb977dff9136eda734e1caf1",
+    "source": "068e2792f4c6c4d9049fa1132835389bd3386232873026bb1863a5a830c512c8",
+    "local_verifier": "0a4cd87afef3153de4ff355880b8807658376216249512850d64d110223e430e",
+    "exporter": "0a9afc3b02f4a43aca849125039c18a09e49924539bf8af4f7971abed081ad4e"
+  },
+  "files_sha256": {
+    "measured-rounds.tsv": "bcaad4eda6ae1b57e52dcd8ae61ed677730f1e6edba27285784517e885b24129",
+    "summary.json": "bbe64c3b84e6c0082d107e386afb8d5d6b48a4f71c197e8c626c3e0776e68143",
+    "identity.json": "52318e19c3ac0bffd0feea4e294c775d1a78963f85529780d5ce2c0f14a516aa",
+    "mechanism.json": "8afc13e2aa241397abce4f63681fbb4eda5d186f8be7303e9bc0b021ccc94a7f",
+    "reproducer/control.c": "068e2792f4c6c4d9049fa1132835389bd3386232873026bb1863a5a830c512c8",
+    "verify.py": "7f6ce4f2f728b69478fd601b74c7d8c9e41717c4affb76dba9b752996f4c12f3",
+    "reproducer/Makefile": "76c23e3fd7e9fefcc8cab287ffe7fbb7210165116d19fd868c6015332517a55e"
+  },
+  "shared_files_sha256": {
+    "../identity.json": "c33c50138e51ec1b2baa6aabb35437e1f209584703995b4c01aaa3a91b2e26f5",
+    "../verify.py": "b085a4572fe259cabcb8de060fab8675d72c3c3f0949f33ac4b43151fcffef43",
+    "../patches/shakeel-read-lock.patch": "f7a8efcd34d07bcbe987e9923412b15f1aa0c8b31810b7d2ca72024c9d3c1329",
+    "../patches/tj-inode-inited.patch": "0c4240b656a6a681efc2fd191e9b330bb21b5c341d27ac925003f03c96f8bcad",
+    "../../../reproducer/cg_shared.h": "fb7d119487b9bfd9f9c738ce523d610b6c6ced72caf6c4dd874cc5e4956ac988",
+    "../../../reproducer/partial_scope.h": "bb505799da15234c373decbe10286f0868d1e6672e645b3c8409c0d29fd1226f"
+  },
+  "scope": "One bounded six-condition four-boot diagnostic. All cases retained. The wide table contains invocation means and initial/tail statistics, not raw traces. No private mail, absolute local paths, credentials or raw environment logs exported."
+}

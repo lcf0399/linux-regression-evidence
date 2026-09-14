@@ -34,7 +34,7 @@ Updated on 2026-09-14. This does not refresh the older thread audit dates above.
 
 | Evidence | Report state | Current technical state |
 | --- | --- | --- |
-| [`kernfs-empty-cgroup-removal/`](kernfs-empty-cgroup-removal/) | Original report sent September 13; a patch-validation reply is being prepared. No accepted/merged fix claimed. | Exact-source deletion increase remains about 46–48%. [INODE_INITED validation](kernfs-empty-cgroup-removal/bare-metal/inode-inited/README.md) on a fixed read-lock baseline reduces rmdir by 21.87–22.86%; a separate stage follow-up confirms deletion benefit but continuous overall timing remains noisy. No application-impact or complete-fix claim. |
+| [`kernfs-empty-cgroup-removal/`](kernfs-empty-cgroup-removal/) | Original report sent September 13; a patch-validation reply is being prepared. No accepted/merged fix claimed. | Exact-source deletion increase remains about 46–48%. [INODE_INITED validation](kernfs-empty-cgroup-removal/bare-metal/inode-inited/README.md) reduces rmdir by 21.87–22.86%. A separate [32-operation diagnostic](kernfs-empty-cgroup-removal/bare-metal/inode-inited/pacing/README.md) finds 5.77–8.76% shorter full sequences with 16 warmups and continuous operation; earlier noisy 128-operation results remain separate. No application-impact or complete-fix claim. |
 
 ## Unsent candidates and closed diagnostic
 

@@ -30,7 +30,7 @@ I/O 源文件主动探索阶段已经结束，目前没有排队的新 target �
 
 | 证据 | 报告状态 | 当前技术状态 |
 | --- | --- | --- |
-| [`kernfs-empty-cgroup-removal/`](kernfs-empty-cgroup-removal/) | 原报告 9 月 13 日已发送；正准备补丁验证回复，不声称修复已被接受或合入 | 原精确删除增幅约 46%～48%；[INODE_INITED 验证](kernfs-empty-cgroup-removal/bare-metal/inode-inited/README.zh-CN.md)固定入口读锁基线，删除快 21.87%～22.86%。独立分阶段补测确认删除改善，但连续整段计时仍不稳定；无应用级影响或完整修复结论。 |
+| [`kernfs-empty-cgroup-removal/`](kernfs-empty-cgroup-removal/) | 原报告 9 月 13 日已发送；正准备补丁验证回复，不声称修复已被接受或合入 | 原精确删除增幅约 46%～48%；[INODE_INITED 验证](kernfs-empty-cgroup-removal/bare-metal/inode-inited/README.zh-CN.md)使删除快 21.87%～22.86%。另立的[32 次诊断](kernfs-empty-cgroup-removal/bare-metal/inode-inited/pacing/README.zh-CN.md)在预热 16 次、连续条件下整段快 5.77%～8.76%，旧 128 次不稳定结果单独保留；无应用级影响或完整修复结论。 |
 
 ## 尚未发送的候选与已关闭诊断项
 

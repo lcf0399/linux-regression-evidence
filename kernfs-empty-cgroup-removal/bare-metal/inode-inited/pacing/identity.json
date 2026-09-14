@@ -1,0 +1,150 @@
+{
+  "source_base": "2f0c1cf72f4682178506f513bbf015e591b1aa4a",
+  "shared_build_identity": "../identity.json",
+  "platform": {
+    "cpu": "Intel Core i7-12700KF",
+    "caller_cpu": 0,
+    "scx": "disabled"
+  },
+  "boots": [
+    {
+      "point": "A1",
+      "role": "guard",
+      "boot_id": "bebb3276-5b3f-46e4-b5f5-976c3866948e",
+      "kernel": "7.3.0-rc2-bm-kernfs-s-001",
+      "config_sha256": "354f61e9f4278d53967f9600a7dbc2a7567bc7fc00284c9406fc9102a577b64f",
+      "runtime_btf_sha256": "50a1361a3e0e9d94271236ef360298a5dc733c16d4ce27f8300086009a1315e3",
+      "cycle_binary_sha256": "96fd0ea2b2fce760af9556ace64890c920feefe54f3de4f67f3aea4176ca95b1",
+      "cycle_bundle_sha256": "925b8c54f2f127d12cd7c4e46e9aea15a0c476ceedf1442936683ffc72316219",
+      "cycle_contract_sha256": "da0e13889a115a23c2b6e061b02e2d19688a4c6d1807404839e63d7dff4c9861",
+      "preempt": "(full) lazy",
+      "no_turbo": "1",
+      "kernel_taint": 0,
+      "clocksource": "tsc",
+      "sched_schedstats": "0",
+      "governors": [
+        "performance"
+      ]
+    },
+    {
+      "point": "B1",
+      "role": "inited",
+      "boot_id": "5f073d92-78a9-465d-a56f-e012e76a4a6e",
+      "kernel": "7.3.0-rc2-bm-kernfs-t-001",
+      "config_sha256": "a739c997d048f16a7b24e2f9a60d1173004e611b151a5be02428f788bed237ee",
+      "runtime_btf_sha256": "d349df10ee4e4ac79f07f00f18be826577a38c611c66b1d9a9e1b4faeb8b9d44",
+      "cycle_binary_sha256": "96fd0ea2b2fce760af9556ace64890c920feefe54f3de4f67f3aea4176ca95b1",
+      "cycle_bundle_sha256": "925b8c54f2f127d12cd7c4e46e9aea15a0c476ceedf1442936683ffc72316219",
+      "cycle_contract_sha256": "da0e13889a115a23c2b6e061b02e2d19688a4c6d1807404839e63d7dff4c9861",
+      "preempt": "(full) lazy",
+      "no_turbo": "1",
+      "kernel_taint": 0,
+      "clocksource": "tsc",
+      "sched_schedstats": "0",
+      "governors": [
+        "performance"
+      ]
+    },
+    {
+      "point": "B2",
+      "role": "inited",
+      "boot_id": "dbc4ac2d-56a8-4a61-b306-cee9bbc0643d",
+      "kernel": "7.3.0-rc2-bm-kernfs-t-001",
+      "config_sha256": "a739c997d048f16a7b24e2f9a60d1173004e611b151a5be02428f788bed237ee",
+      "runtime_btf_sha256": "d349df10ee4e4ac79f07f00f18be826577a38c611c66b1d9a9e1b4faeb8b9d44",
+      "cycle_binary_sha256": "96fd0ea2b2fce760af9556ace64890c920feefe54f3de4f67f3aea4176ca95b1",
+      "cycle_bundle_sha256": "925b8c54f2f127d12cd7c4e46e9aea15a0c476ceedf1442936683ffc72316219",
+      "cycle_contract_sha256": "da0e13889a115a23c2b6e061b02e2d19688a4c6d1807404839e63d7dff4c9861",
+      "preempt": "(full) lazy",
+      "no_turbo": "1",
+      "kernel_taint": 0,
+      "clocksource": "tsc",
+      "sched_schedstats": "0",
+      "governors": [
+        "performance"
+      ]
+    },
+    {
+      "point": "A2",
+      "role": "guard",
+      "boot_id": "170bda96-d397-4400-bb0b-026289150bb8",
+      "kernel": "7.3.0-rc2-bm-kernfs-s-001",
+      "config_sha256": "354f61e9f4278d53967f9600a7dbc2a7567bc7fc00284c9406fc9102a577b64f",
+      "runtime_btf_sha256": "50a1361a3e0e9d94271236ef360298a5dc733c16d4ce27f8300086009a1315e3",
+      "cycle_binary_sha256": "96fd0ea2b2fce760af9556ace64890c920feefe54f3de4f67f3aea4176ca95b1",
+      "cycle_bundle_sha256": "925b8c54f2f127d12cd7c4e46e9aea15a0c476ceedf1442936683ffc72316219",
+      "cycle_contract_sha256": "da0e13889a115a23c2b6e061b02e2d19688a4c6d1807404839e63d7dff4c9861",
+      "preempt": "(full) lazy",
+      "no_turbo": "1",
+      "kernel_taint": 0,
+      "clocksource": "tsc",
+      "sched_schedstats": "0",
+      "governors": [
+        "performance"
+      ]
+    }
+  ],
+  "workload": {
+    "sha256": "96fd0ea2b2fce760af9556ace64890c920feefe54f3de4f67f3aea4176ca95b1",
+    "source_sha256": "068e2792f4c6c4d9049fa1132835389bd3386232873026bb1863a5a830c512c8",
+    "build_command_sha256": "eeb9c2a0b43976831d53691347f7f13b979eeed50d2c42cce33f2721a71d6986"
+  },
+  "cases": {
+    "w0-p0": {
+      "pace_ms": 0,
+      "warmup": 0
+    },
+    "w0-p200": {
+      "pace_ms": 200,
+      "warmup": 0
+    },
+    "w0-p50": {
+      "pace_ms": 50,
+      "warmup": 0
+    },
+    "w16-p0": {
+      "pace_ms": 0,
+      "warmup": 16
+    },
+    "w16-p200": {
+      "pace_ms": 200,
+      "warmup": 16
+    },
+    "w16-p50": {
+      "pace_ms": 50,
+      "warmup": 16
+    }
+  },
+  "sequence": [
+    [
+      "A1",
+      "guard"
+    ],
+    [
+      "B1",
+      "inited"
+    ],
+    [
+      "B2",
+      "inited"
+    ],
+    [
+      "A2",
+      "guard"
+    ]
+  ],
+  "timing": {
+    "between_seconds": 2,
+    "repetitions": 9,
+    "rounds": 32,
+    "settle_seconds": 45,
+    "warmup": 16
+  },
+  "gates": {
+    "drop_first_required": true,
+    "max_cv_percent": 3,
+    "max_endpoint_drift_percent": 2,
+    "min_effect_percent": 5
+  },
+  "restored_generic": true
+}

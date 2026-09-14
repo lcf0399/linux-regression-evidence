@@ -1,0 +1,925 @@
+{
+  "performance_evidence": false,
+  "smoke_and_trace_invocations": 24,
+  "trace_operations": 48,
+  "stat_lock_increment_verified": true,
+  "results": {
+    "guard": {
+      "w0-p0": [
+        {
+          "op": 1,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 0,
+          "stat_up_write": 0,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 26,
+          "stat_lock_edges": []
+        },
+        {
+          "op": 2,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 0,
+          "stat_up_write": 0,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 26,
+          "stat_lock_edges": []
+        },
+        {
+          "op": 3,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 0,
+          "stat_up_write": 0,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 26,
+          "stat_lock_edges": []
+        },
+        {
+          "op": 4,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 0,
+          "stat_up_write": 0,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 26,
+          "stat_lock_edges": []
+        }
+      ],
+      "w0-p200": [
+        {
+          "op": 1,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 0,
+          "stat_up_write": 0,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 26,
+          "stat_lock_edges": []
+        },
+        {
+          "op": 2,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 0,
+          "stat_up_write": 0,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 26,
+          "stat_lock_edges": []
+        },
+        {
+          "op": 3,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 0,
+          "stat_up_write": 0,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 26,
+          "stat_lock_edges": []
+        },
+        {
+          "op": 4,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 0,
+          "stat_up_write": 0,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 26,
+          "stat_lock_edges": []
+        }
+      ],
+      "w0-p50": [
+        {
+          "op": 1,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 0,
+          "stat_up_write": 0,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 26,
+          "stat_lock_edges": []
+        },
+        {
+          "op": 2,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 0,
+          "stat_up_write": 0,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 26,
+          "stat_lock_edges": []
+        },
+        {
+          "op": 3,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 0,
+          "stat_up_write": 0,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 26,
+          "stat_lock_edges": []
+        },
+        {
+          "op": 4,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 0,
+          "stat_up_write": 0,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 26,
+          "stat_lock_edges": []
+        }
+      ],
+      "w16-p0": [
+        {
+          "op": 1,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 0,
+          "stat_up_write": 0,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 26,
+          "stat_lock_edges": []
+        },
+        {
+          "op": 2,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 0,
+          "stat_up_write": 0,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 26,
+          "stat_lock_edges": []
+        },
+        {
+          "op": 3,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 0,
+          "stat_up_write": 0,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 26,
+          "stat_lock_edges": []
+        },
+        {
+          "op": 4,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 0,
+          "stat_up_write": 0,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 26,
+          "stat_lock_edges": []
+        }
+      ],
+      "w16-p200": [
+        {
+          "op": 1,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 0,
+          "stat_up_write": 0,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 26,
+          "stat_lock_edges": []
+        },
+        {
+          "op": 2,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 0,
+          "stat_up_write": 0,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 26,
+          "stat_lock_edges": []
+        },
+        {
+          "op": 3,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 0,
+          "stat_up_write": 0,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 26,
+          "stat_lock_edges": []
+        },
+        {
+          "op": 4,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 0,
+          "stat_up_write": 0,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 26,
+          "stat_lock_edges": []
+        }
+      ],
+      "w16-p50": [
+        {
+          "op": 1,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 0,
+          "stat_up_write": 0,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 26,
+          "stat_lock_edges": []
+        },
+        {
+          "op": 2,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 0,
+          "stat_up_write": 0,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 26,
+          "stat_lock_edges": []
+        },
+        {
+          "op": 3,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 0,
+          "stat_up_write": 0,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 26,
+          "stat_lock_edges": []
+        },
+        {
+          "op": 4,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 0,
+          "stat_up_write": 0,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 26,
+          "stat_lock_edges": []
+        }
+      ]
+    },
+    "inited": {
+      "w0-p0": [
+        {
+          "op": 1,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 1,
+          "stat_up_write": 1,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 1,
+          "stat_lock_edges": [
+            [
+              "kernfs_get_inode",
+              "down_write",
+              1,
+              false
+            ],
+            [
+              "kernfs_get_inode",
+              "up_write",
+              1,
+              false
+            ]
+          ]
+        },
+        {
+          "op": 2,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 1,
+          "stat_up_write": 1,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 1,
+          "stat_lock_edges": [
+            [
+              "kernfs_get_inode",
+              "down_write",
+              1,
+              false
+            ],
+            [
+              "kernfs_get_inode",
+              "up_write",
+              1,
+              false
+            ]
+          ]
+        },
+        {
+          "op": 3,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 1,
+          "stat_up_write": 1,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 1,
+          "stat_lock_edges": [
+            [
+              "kernfs_get_inode",
+              "down_write",
+              1,
+              false
+            ],
+            [
+              "kernfs_get_inode",
+              "up_write",
+              1,
+              false
+            ]
+          ]
+        },
+        {
+          "op": 4,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 1,
+          "stat_up_write": 1,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 1,
+          "stat_lock_edges": [
+            [
+              "kernfs_get_inode",
+              "down_write",
+              1,
+              false
+            ],
+            [
+              "kernfs_get_inode",
+              "up_write",
+              1,
+              false
+            ]
+          ]
+        }
+      ],
+      "w0-p200": [
+        {
+          "op": 1,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 1,
+          "stat_up_write": 1,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 1,
+          "stat_lock_edges": [
+            [
+              "kernfs_get_inode",
+              "down_write",
+              1,
+              false
+            ],
+            [
+              "kernfs_get_inode",
+              "up_write",
+              1,
+              false
+            ]
+          ]
+        },
+        {
+          "op": 2,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 1,
+          "stat_up_write": 1,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 1,
+          "stat_lock_edges": [
+            [
+              "kernfs_get_inode",
+              "down_write",
+              1,
+              false
+            ],
+            [
+              "kernfs_get_inode",
+              "up_write",
+              1,
+              false
+            ]
+          ]
+        },
+        {
+          "op": 3,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 1,
+          "stat_up_write": 1,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 1,
+          "stat_lock_edges": [
+            [
+              "kernfs_get_inode",
+              "down_write",
+              1,
+              false
+            ],
+            [
+              "kernfs_get_inode",
+              "up_write",
+              1,
+              false
+            ]
+          ]
+        },
+        {
+          "op": 4,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 1,
+          "stat_up_write": 1,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 1,
+          "stat_lock_edges": [
+            [
+              "kernfs_get_inode",
+              "down_write",
+              1,
+              false
+            ],
+            [
+              "kernfs_get_inode",
+              "up_write",
+              1,
+              false
+            ]
+          ]
+        }
+      ],
+      "w0-p50": [
+        {
+          "op": 1,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 1,
+          "stat_up_write": 1,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 1,
+          "stat_lock_edges": [
+            [
+              "kernfs_get_inode",
+              "down_write",
+              1,
+              false
+            ],
+            [
+              "kernfs_get_inode",
+              "up_write",
+              1,
+              false
+            ]
+          ]
+        },
+        {
+          "op": 2,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 1,
+          "stat_up_write": 1,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 1,
+          "stat_lock_edges": [
+            [
+              "kernfs_get_inode",
+              "down_write",
+              1,
+              false
+            ],
+            [
+              "kernfs_get_inode",
+              "up_write",
+              1,
+              false
+            ]
+          ]
+        },
+        {
+          "op": 3,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 1,
+          "stat_up_write": 1,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 1,
+          "stat_lock_edges": [
+            [
+              "kernfs_get_inode",
+              "down_write",
+              1,
+              false
+            ],
+            [
+              "kernfs_get_inode",
+              "up_write",
+              1,
+              false
+            ]
+          ]
+        },
+        {
+          "op": 4,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 1,
+          "stat_up_write": 1,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 1,
+          "stat_lock_edges": [
+            [
+              "kernfs_get_inode",
+              "down_write",
+              1,
+              false
+            ],
+            [
+              "kernfs_get_inode",
+              "up_write",
+              1,
+              false
+            ]
+          ]
+        }
+      ],
+      "w16-p0": [
+        {
+          "op": 1,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 1,
+          "stat_up_write": 1,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 1,
+          "stat_lock_edges": [
+            [
+              "kernfs_get_inode",
+              "down_write",
+              1,
+              false
+            ],
+            [
+              "kernfs_get_inode",
+              "up_write",
+              1,
+              false
+            ]
+          ]
+        },
+        {
+          "op": 2,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 1,
+          "stat_up_write": 1,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 1,
+          "stat_lock_edges": [
+            [
+              "kernfs_get_inode",
+              "down_write",
+              1,
+              false
+            ],
+            [
+              "kernfs_get_inode",
+              "up_write",
+              1,
+              false
+            ]
+          ]
+        },
+        {
+          "op": 3,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 1,
+          "stat_up_write": 1,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 1,
+          "stat_lock_edges": [
+            [
+              "kernfs_get_inode",
+              "down_write",
+              1,
+              false
+            ],
+            [
+              "kernfs_get_inode",
+              "up_write",
+              1,
+              false
+            ]
+          ]
+        },
+        {
+          "op": 4,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 1,
+          "stat_up_write": 1,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 1,
+          "stat_lock_edges": [
+            [
+              "kernfs_get_inode",
+              "down_write",
+              1,
+              false
+            ],
+            [
+              "kernfs_get_inode",
+              "up_write",
+              1,
+              false
+            ]
+          ]
+        }
+      ],
+      "w16-p200": [
+        {
+          "op": 1,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 1,
+          "stat_up_write": 1,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 1,
+          "stat_lock_edges": [
+            [
+              "kernfs_get_inode",
+              "down_write",
+              1,
+              false
+            ],
+            [
+              "kernfs_get_inode",
+              "up_write",
+              1,
+              false
+            ]
+          ]
+        },
+        {
+          "op": 2,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 1,
+          "stat_up_write": 1,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 1,
+          "stat_lock_edges": [
+            [
+              "kernfs_get_inode",
+              "down_write",
+              1,
+              false
+            ],
+            [
+              "kernfs_get_inode",
+              "up_write",
+              1,
+              false
+            ]
+          ]
+        },
+        {
+          "op": 3,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 1,
+          "stat_up_write": 1,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 1,
+          "stat_lock_edges": [
+            [
+              "kernfs_get_inode",
+              "down_write",
+              1,
+              false
+            ],
+            [
+              "kernfs_get_inode",
+              "up_write",
+              1,
+              false
+            ]
+          ]
+        },
+        {
+          "op": 4,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 1,
+          "stat_up_write": 1,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 1,
+          "stat_lock_edges": [
+            [
+              "kernfs_get_inode",
+              "down_write",
+              1,
+              false
+            ],
+            [
+              "kernfs_get_inode",
+              "up_write",
+              1,
+              false
+            ]
+          ]
+        }
+      ],
+      "w16-p50": [
+        {
+          "op": 1,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 1,
+          "stat_up_write": 1,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 1,
+          "stat_lock_edges": [
+            [
+              "kernfs_get_inode",
+              "down_write",
+              1,
+              false
+            ],
+            [
+              "kernfs_get_inode",
+              "up_write",
+              1,
+              false
+            ]
+          ]
+        },
+        {
+          "op": 2,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 1,
+          "stat_up_write": 1,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 1,
+          "stat_lock_edges": [
+            [
+              "kernfs_get_inode",
+              "down_write",
+              1,
+              false
+            ],
+            [
+              "kernfs_get_inode",
+              "up_write",
+              1,
+              false
+            ]
+          ]
+        },
+        {
+          "op": 3,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 1,
+          "stat_up_write": 1,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 1,
+          "stat_lock_edges": [
+            [
+              "kernfs_get_inode",
+              "down_write",
+              1,
+              false
+            ],
+            [
+              "kernfs_get_inode",
+              "up_write",
+              1,
+              false
+            ]
+          ]
+        },
+        {
+          "op": 4,
+          "mkdir_iget_locked": 0,
+          "stat_iget_locked": 1,
+          "stat_down_write": 1,
+          "stat_up_write": 1,
+          "stat_kernfs_get_inode": 1,
+          "stat_kernfs_init_inode": 0,
+          "removed_nodes": 26,
+          "remove_ilookup": 1,
+          "stat_lock_edges": [
+            [
+              "kernfs_get_inode",
+              "down_write",
+              1,
+              false
+            ],
+            [
+              "kernfs_get_inode",
+              "up_write",
+              1,
+              false
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  "limits": "Each preflight invocation used 4 operations and no warmup. Counts are not timings. kernfs_init_inode is folded into kernfs_get_inode. This is not a concurrency-safety proof."
+}

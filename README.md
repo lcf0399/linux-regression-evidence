@@ -34,7 +34,7 @@ Updated on 2026-09-17. This does not refresh the older thread audit dates above.
 
 | Evidence | Report state | Current technical state |
 | --- | --- | --- |
-| [`kernfs-empty-cgroup-removal/`](kernfs-empty-cgroup-removal/) | Original report and INODE_INITED validation reply sent; an independent-marker prototype reply is being prepared. No accepted/merged fix claimed. | Exact-source deletion increase about 46–48%. The new [inode-request marker](kernfs-empty-cgroup-removal/bare-metal/inode-requested/README.md) reduces rmdir latency 22.36–22.72% and continuous whole-sequence latency 7.35–9.01% in one matrix, at 8 extra bytes per node. Old experiments remain separate; unresolved correctness coverage and no measured application impact. |
+| [`kernfs-empty-cgroup-removal/`](kernfs-empty-cgroup-removal/) | Original report and INODE_INITED validation reply sent; the independent-marker prototype reply and intact patch attachment were sent on September 17. Awaiting review, not an accepted/merged fix. | Exact-source deletion increase about 46–48%. The new [inode-request marker](kernfs-empty-cgroup-removal/bare-metal/inode-requested/README.md) reduces rmdir latency 22.36–22.72% and continuous whole-sequence latency 7.35–9.01% in one matrix, at 8 extra bytes per node. Old experiments remain separate; unresolved correctness coverage and no measured application impact. |
 
 ## Unsent candidates and closed diagnostic
 

@@ -51,17 +51,17 @@
   "raw_replay_required_before_handoff": true,
   "scope": "Four separate experiments; ordered invocation means, no pooled experiments, no raw traces or private mail.",
   "files_sha256": {
-    "bare-metal/measured-rounds.tsv": "c81bd16d6397af45486fad3f08208834af430d0a4709fe3163990e79107b03ea",
-    "bare-metal/point-summary.tsv": "74a7047bf0bf368e12506e6b1cfda9c22aa46263ce8745b093f0b6108c4e55ad",
-    "bare-metal/comparison-summary.tsv": "75913e0f63ae796a009b6c0f9fdc02ea7bd6133a4945a5ad736ed319e468088f",
-    "bare-metal/identity.json": "5f8ac5e5b682a74867daea65a7a5b0f0de223d7eddabb3217a4f3eed71a2533f",
+    "bare-metal/original-regression/measured-rounds.tsv": "c81bd16d6397af45486fad3f08208834af430d0a4709fe3163990e79107b03ea",
+    "bare-metal/original-regression/point-summary.tsv": "74a7047bf0bf368e12506e6b1cfda9c22aa46263ce8745b093f0b6108c4e55ad",
+    "bare-metal/original-regression/comparison-summary.tsv": "75913e0f63ae796a009b6c0f9fdc02ea7bd6133a4945a5ad736ed319e468088f",
+    "bare-metal/original-regression/identity.json": "5f8ac5e5b682a74867daea65a7a5b0f0de223d7eddabb3217a4f3eed71a2533f",
     "reproducer/control.c": "36605594f7796b96555194104070233bfa95a4cb8340d974f7b465d767b0655f",
     "reproducer/cg_shared.h": "fb7d119487b9bfd9f9c738ce523d610b6c6ced72caf6c4dd874cc5e4956ac988",
     "reproducer/partial_scope.h": "bb505799da15234c373decbe10286f0868d1e6672e645b3c8409c0d29fd1226f",
     "attribution/root-reuse.patch": "95eb05b20b91886f9b889a06cdc51742b25d6a290ee331b86d40e06fa8d9c6ae",
     "upstream-status/guard.commit": "1d588289127358b8d1132bf4a89544fa918d566d2fa3f15c7382568167d5db3d",
     "upstream-status/notify.commit": "cb387e60f09674c78198dd0cb74e8fedfc299171de838590a0000a1beb33b18f",
-    "bare-metal/mechanism.tsv": "699f5ad05bb07a608bbc950414ad594f9b34d9f1afda3c98d98763de8a27768b",
-    "bare-metal/diagnostics.json": "ce065440f998b23149a20766dd67000cc82a35585280b80eb586c6947cea088b"
+    "bare-metal/original-regression/mechanism.tsv": "699f5ad05bb07a608bbc950414ad594f9b34d9f1afda3c98d98763de8a27768b",
+    "bare-metal/original-regression/diagnostics.json": "ce065440f998b23149a20766dd67000cc82a35585280b80eb586c6947cea088b"
   }
 }

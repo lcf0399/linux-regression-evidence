@@ -9,6 +9,7 @@ from pathlib import Path
 import statistics
 
 HERE = Path(__file__).resolve().parent
+BUNDLE_ROOT = HERE.parents[1]
 ARMS = ('original-cb0', 'original-cb1', 'control-scx', 'control-disabled')
 EXPERIMENTS = {
     'exact-r1': (('base-A', 'guard-A', 'notify-A', 'notify-B', 'guard-B', 'base-B'), ARMS),
@@ -108,8 +109,8 @@ def summarize(rows):
 def main():
     manifest = json.loads((HERE / 'provenance.json').read_text())
     for relative, digest in manifest['files_sha256'].items():
-        path = (HERE.parent / relative).resolve()
-        require(path.is_relative_to(HERE.parent.resolve()), 'manifest path escapes bundle')
+        path = (BUNDLE_ROOT / relative).resolve()
+        require(path.is_relative_to(BUNDLE_ROOT.resolve()), 'manifest path escapes bundle')
         require(hashlib.sha256(path.read_bytes()).hexdigest() == digest, 'SHA mismatch: ' + relative)
     with (HERE / 'measured-rounds.tsv').open() as stream:
         rows = list(csv.DictReader(stream, delimiter='\t'))

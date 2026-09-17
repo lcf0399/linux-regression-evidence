@@ -8,9 +8,13 @@ impact; T.J. Mercier supplied the INODE_INITED change. The author's
 suggested a watcher-based alternative, while questioning the practical benefit.
 
 An [independent inode-request marker prototype](../bare-metal/inode-requested/README.md)
-was tested on September 16. Its results are published; its reply remains a
-local, unsent draft. No accepted fix, complete concurrency proof or merge is
-claimed. This is a mailbox check, not a new exhaustive public-archive or
+was tested on September 16. The reply was sent on September 17 at 18:06:52
+UTC+8, replying to T.J.'s latest message with the original recipients and
+the prototype attached. Gmail's SENT label and reply headers were checked.
+The 1,321-byte attachment matches the [published patch](../bare-metal/inode-requested/patches/inode-requested.patch)
+byte for byte (SHA-256 `15d088b15e4bf290cd894493b6b5a9ea7f5b0f33f9d49b642daf49aa838fae47`).
+No subsequent reply was present in the checked thread. No accepted fix,
+complete concurrency proof or merge is claimed. This is a mailbox check, not a new exhaustive public-archive or
 mainline merge search. Private messages and drafts are not published here.
 
 Original Message-ID:
@@ -22,6 +26,11 @@ Author's sent validation reply Message-ID:
 `<CANGjgdmKg1_QyzhCSh03T4RStw5_znnhqmFFS8TVwQbm-sZZbA@mail.gmail.com>`.
 Latest checked T.J. reply Message-ID:
 `<CABdmKX3g7+GTfSBKB42Tr2CDusCNXb5+oPc7TcC1RpVndUzVpw@mail.gmail.com>`.
+
+Author's sent inode-requested reply Message-ID:
+`<CANGjgdkwEsP8ahDX5sVORfKLF52JmvEev9BcWPeTJT2XzyWJAQ@mail.gmail.com>`.
+Its `In-Reply-To` is the T.J. message above. Public archival of this new
+reply has not been independently checked.
 
 ## Historical source audit: September 13
 

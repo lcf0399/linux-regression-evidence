@@ -6,7 +6,10 @@ Tejun 询问现实影响，T.J. Mercier 随后提出 INODE_INITED 改动。
 T.J. 在 9 月 15 日的后续回复中指出同步问题，提出 watcher 判断的替代思路，仍质疑现实收益。
 
 9 月 16 日完成的[独立 inode 请求标记原型](../bare-metal/inode-requested/README.zh-CN.md)
-结果现已公开，对应回复仍为本地未发送草稿。不声称修复已被接受、并发安全已完整证明或已经合入。
+结果现已公开，对应回复已于 9 月 17 日 18:06:52（UTC+8）发送，回复 T.J. 最新邮件并保留原收件人。
+已核对 Gmail 的 SENT 标记、回复头及附件；1,321-byte 附件与[公开补丁](../bare-metal/inode-requested/patches/inode-requested.patch)
+逐字节一致（SHA-256 `15d088b15e4bf290cd894493b6b5a9ea7f5b0f33f9d49b642daf49aa838fae47`）。
+此次核对的线程内尚无后续回复。不声称修复已被接受、并发安全已完整证明或已经合入。
 此次是邮箱核对，不是重新穷尽检索公开归档或核验最新主线合入状态；私人邮件与草稿不公开。
 
 原报告 Message-ID：
@@ -18,6 +21,10 @@ T.J. 在 9 月 15 日的后续回复中指出同步问题，提出 watcher 判�
 `<CANGjgdmKg1_QyzhCSh03T4RStw5_znnhqmFFS8TVwQbm-sZZbA@mail.gmail.com>`。
 此次核对的最新 T.J. 回复 Message-ID：
 `<CABdmKX3g7+GTfSBKB42Tr2CDusCNXb5+oPc7TcC1RpVndUzVpw@mail.gmail.com>`。
+
+作者已发送的 inode-requested 回复 Message-ID：
+`<CANGjgdkwEsP8ahDX5sVORfKLF52JmvEev9BcWPeTJT2XzyWJAQ@mail.gmail.com>`。
+`In-Reply-To` 指向上面的 T.J. 邮件；尚未独立确认这封新回复的公开归档。
 
 ## 9 月 13 日源码审计（历史快照）
 

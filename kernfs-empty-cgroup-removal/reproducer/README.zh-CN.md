@@ -3,7 +3,8 @@
 `control.c`、`cg_shared.h`、`partial_scope.h` 与实测构建输入逐字节一致。
 这是已测的派生叶子控制程序，没有为了整理仓库重新简化 workload。
 历史 binary SHA-256：`ece6d9e0f3506079a4222826ccc566baaa022dddad68eb7b57177b7fb691abbe`。
-源码 SHA 与构建版本见 `../bare-metal/identity.json`、`../bare-metal/provenance.json`。
+源码 SHA 与构建版本见 `../bare-metal/original-regression/identity.json`、
+`../bare-metal/original-regression/provenance.json`。
 重新构建后必须记录新 binary SHA，不能直接沿用历史值。
 
 ## 条件与构建

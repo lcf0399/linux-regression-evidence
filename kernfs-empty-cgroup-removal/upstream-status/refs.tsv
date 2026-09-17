@@ -1,7 +1,7 @@
 kind	identity	url	note
 guard	507d8ce13f5b91d5b4dca7bd4b4e4249e8021cca	https://github.com/torvalds/linux/commit/507d8ce13f5b91d5b4dca7bd4b4e4249e8021cca	Link-count race protection; exact measured increment
 notify	eea5d2bb34ba11dccd9c53f392dc50cf060150a9	https://github.com/torvalds/linux/commit/eea5d2bb34ba11dccd9c53f392dc50cf060150a9	Deletion notification support; exact measured increment
-original-thread	20260225223404.783173-3-tjmercier@google.com	https://patch.msgid.link/20260225223404.783173-3-tjmercier@google.com	Original patch identity, not this unsent report's Message-ID
+original-thread	20260225223404.783173-3-tjmercier@google.com	https://patch.msgid.link/20260225223404.783173-3-tjmercier@google.com	Original patch identity, not this regression report's Message-ID
 mainline	2f0c1cf72f4682178506f513bbf015e591b1aa4a	https://github.com/torvalds/linux/commit/2f0c1cf72f4682178506f513bbf015e591b1aa4a	Separate pinned 7.3-rc2 performance follow-up
 name-hash	d996995a0ffb86fa0ff0f953221892dced6143a1	https://github.com/torvalds/linux/commit/d996995a0ffb86fa0ff0f953221892dced6143a1	Path exercised, gain not isolated to this commit
 file-handle-fix	2026-09-05	https://lists.openwall.net/linux-kernel/2026/09/05/828	Related notification race; different trigger

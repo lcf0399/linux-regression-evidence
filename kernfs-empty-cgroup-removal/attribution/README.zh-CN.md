@@ -13,7 +13,7 @@
 
 非计时检查仍为 26 次 inode 查找、52 次属性写锁、26 次包装层读锁。
 删除函数和包装层合计 RCU 成对入口从 234 降为 78，但不能按次数比例推算性能。
-独立干净计时只见约 4%～5% 小幅收益，见[裸机数据](../bare-metal/README.zh-CN.md)
+独立干净计时只见约 4%～5% 小幅收益，见[裸机数据](../bare-metal/original-regression/README.zh-CN.md)
 中的 `root-reuse-r1`，不把不同实验的绝对值相减来声称追回多少总回归。
 
 已测通知、打开 FD 的链接计数清零、同 superblock 的 namespace 别名及有界并发读删；

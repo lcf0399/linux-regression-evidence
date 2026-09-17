@@ -19,7 +19,7 @@ Untimed checks retained 26 inode lookups, 52 attribute write-lock entries
 and 26 wrapper read-lock entries. Paired RCU entries in the removal functions
 and wrappers fell from 234 to 78. That count reduction is not a proportional
 latency prediction. The separate clean run found only about 4–5% improvement;
-see the `root-reuse-r1` rows in [bare-metal data](../bare-metal/README.md).
+see the `root-reuse-r1` rows in [bare-metal data](../bare-metal/original-regression/README.md).
 
 Notification delivery, open-FD link-count clearing, namespace aliases on the
 same superblock and bounded concurrent access/removal were tested. True

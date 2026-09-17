@@ -2,6 +2,7 @@
 
 原报告已于 2026-09-13 发送，2026-09-14 完成独立的 INODE_INITED 补丁验证，见下表。
 9 月 16 日的独立 inode 请求标记原型另有[结果与未覆盖项](bare-metal/inode-requested/README.zh-CN.md)。
+原型回复及原始补丁附件已于 9 月 17 日发送，见[上游状态](upstream-status/README.zh-CN.md)；仍是待审阅方案。
 这是一份性能成本报告，不建议撤销原修复，
 也不代表新增成本全部可以消除。
 
@@ -40,7 +41,8 @@
 
 ## 材料入口
 
-- [裸机结果与复核](bare-metal/README.zh-CN.md)：603 份运行样本、源码/构建/运行身份及独立机制证据。
+- [原始回归结果与复核](bare-metal/original-regression/README.zh-CN.md)：603 份运行样本、源码/构建/运行身份及独立机制证据。
+- [全部裸机实验索引](bare-metal/README.zh-CN.md)：后续补丁实验分别列出。
 - [实测控制程序与复现](reproducer/README.zh-CN.md)：未改动的 SCX 关闭控制源码及必要头文件。
 - [小优化原型与边界](attribution/README.zh-CN.md)。
 - [有日期的上游审计与报告状态](upstream-status/README.zh-CN.md)。

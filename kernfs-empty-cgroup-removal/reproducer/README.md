@@ -4,8 +4,8 @@
 recorded control build inputs. This is the tested derived leaf control, not a
 newly simplified reproducer. Its historical binary SHA-256 is
 `ece6d9e0f3506079a4222826ccc566baaa022dddad68eb7b57177b7fb691abbe`.
-Source hashes and GCC/libbpf versions are in `../bare-metal/identity.json` and
-`../bare-metal/provenance.json`. Record a new binary hash after rebuilding;
+Source hashes and GCC/libbpf versions are in `../bare-metal/original-regression/identity.json` and
+`../bare-metal/original-regression/provenance.json`. Record a new binary hash after rebuilding;
 do not assume it matches the historical artifact.
 
 ## Prerequisites and build

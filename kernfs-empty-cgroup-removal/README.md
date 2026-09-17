@@ -3,6 +3,8 @@
 Original report sent on 2026-09-13. A separate INODE_INITED patch validation
 was completed on 2026-09-14. The September 16 independent inode-request marker
 prototype has its own [results and remaining limits](bare-metal/inode-requested/README.md).
+The prototype reply and original patch attachment were sent on September 17;
+see [upstream status](upstream-status/README.md). It remains a proposal for review.
 This bundle is a scoped cost report, not a proposed revert or a claim that all
 of the added work is avoidable.
 
@@ -48,8 +50,9 @@ The samples from these experiments are never pooled.
 
 ## Evidence
 
-- [Bare-metal results and verification](bare-metal/README.md): 603 invocation
+- [Original regression results and verification](bare-metal/original-regression/README.md): 603 invocation
   samples, exact build/runtime identities and separate non-timing evidence.
+- [All bare-metal experiments](bare-metal/README.md), with later patch tests kept separate.
 - [Tested control source and reproduction](reproducer/README.md): the unchanged
   control used with sched_ext disabled, with its required headers.
 - [Optimization prototype and limits](attribution/README.md).

@@ -1,0 +1,32 @@
+struct kernfs_node {
+	atomic_t                   count __attribute__((__aligned__(4))); /*     0     4 */
+	atomic_t                   active __attribute__((__aligned__(4))); /*     4     4 */
+	struct kernfs_node *       __parent;             /*     8     8 */
+	const char  *              name;                 /*    16     8 */
+	struct rb_node             rb __attribute__((__aligned__(8))); /*    24    24 */
+	const struct ns_common  *  ns;                   /*    48     8 */
+	unsigned int               hash;                 /*    56     4 */
+	short unsigned int         flags;                /*    60     2 */
+	umode_t                    mode;                 /*    62     2 */
+	/* --- cacheline 1 boundary (64 bytes) --- */
+	bool                       inode_ever_requested; /*    64     1 */
+
+	/* XXX 7 bytes hole, try to pack */
+
+	union {
+		struct kernfs_elem_dir dir;              /*    72    32 */
+		struct kernfs_elem_symlink symlink;      /*    72     8 */
+		struct kernfs_elem_attr attr;            /*    72    32 */
+	};                                               /*    72    32 */
+	u64                        id;                   /*   104     8 */
+	void *                     priv;                 /*   112     8 */
+	struct kernfs_iattrs *     iattr;                /*   120     8 */
+	/* --- cacheline 2 boundary (128 bytes) --- */
+	struct callback_head       rcu __attribute__((__aligned__(8))); /*   128    16 */
+
+	/* size: 144, cachelines: 3, members: 15 */
+	/* sum members: 137, holes: 1, sum holes: 7 */
+	/* forced alignments: 4 */
+	/* last cacheline: 16 bytes */
+} __attribute__((__aligned__(8)));
+

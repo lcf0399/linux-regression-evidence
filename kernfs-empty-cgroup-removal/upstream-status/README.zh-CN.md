@@ -1,14 +1,23 @@
 # 上游报告状态
 
-2026-09-14 状态更新，依据作者发送确认及已保存线程：原报告 9 月 13 日已发送。
+2026-09-17 状态更新，已核对作者邮箱中的原线程：原报告 9 月 13 日已发送。
 Tejun 询问现实影响，T.J. Mercier 随后提出 INODE_INITED 改动。
-[补丁验证](../bare-metal/inode-inited/README.zh-CN.md)已完成，回复正在准备；
-不声称修复已被接受、并发正确性已完整证明或已经合入。本次未重新搜索邮箱或公开归档。
+作者的[补丁验证](../bare-metal/inode-inited/README.zh-CN.md)回复已于 9 月 15 日（UTC+8）发送。
+T.J. 在 9 月 15 日的后续回复中指出同步问题，提出 watcher 判断的替代思路，仍质疑现实收益。
+
+9 月 16 日完成的[独立 inode 请求标记原型](../bare-metal/inode-requested/README.zh-CN.md)
+结果现已公开，对应回复仍为本地未发送草稿。不声称修复已被接受、并发安全已完整证明或已经合入。
+此次是邮箱核对，不是重新穷尽检索公开归档或核验最新主线合入状态；私人邮件与草稿不公开。
 
 原报告 Message-ID：
 `<CANGjgdn=H50AaA-+O_GA-hkE9UwLANmkjx1zRsKUzxF5za8VfQ@mail.gmail.com>`。
 补丁回复 Message-ID：
 `<CABdmKX2Oer9wrxWdR8s48Czro8H51HY+S_mfnUj-RvhjCM1RgA@mail.gmail.com>`。
+
+作者已发送的验证回复 Message-ID：
+`<CANGjgdmKg1_QyzhCSh03T4RStw5_znnhqmFFS8TVwQbm-sZZbA@mail.gmail.com>`。
+此次核对的最新 T.J. 回复 Message-ID：
+`<CABdmKX3g7+GTfSBKB42Tr2CDusCNXb5+oPc7TcC1RpVndUzVpw@mail.gmail.com>`。
 
 ## 9 月 13 日源码审计（历史快照）
 

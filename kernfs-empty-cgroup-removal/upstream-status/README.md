@@ -1,16 +1,27 @@
 # Upstream report status
 
-Status update: 2026-09-14, from the author's sending confirmation and saved
-thread records. The original report was sent on September 13. Tejun asked
-about practical impact; T.J. Mercier supplied the INODE_INITED change.
-[Local validation](../bare-metal/inode-inited/README.md) is complete and its
-reply is being prepared. No accepted fix, complete concurrency proof or merge
-is claimed. This update does not assert a fresh mailbox/public-archive search.
+Status update: 2026-09-17, checked against the author's mailbox thread.
+The original report was sent on September 13. Tejun asked about practical
+impact; T.J. Mercier supplied the INODE_INITED change. The author's
+[validation](../bare-metal/inode-inited/README.md) reply was sent on September 15
+(UTC+8). T.J.'s September 15 reply identified synchronization problems and
+suggested a watcher-based alternative, while questioning the practical benefit.
+
+An [independent inode-request marker prototype](../bare-metal/inode-requested/README.md)
+was tested on September 16. Its results are published; its reply remains a
+local, unsent draft. No accepted fix, complete concurrency proof or merge is
+claimed. This is a mailbox check, not a new exhaustive public-archive or
+mainline merge search. Private messages and drafts are not published here.
 
 Original Message-ID:
 `<CANGjgdn=H50AaA-+O_GA-hkE9UwLANmkjx1zRsKUzxF5za8VfQ@mail.gmail.com>`.
 Patch reply Message-ID:
 `<CABdmKX2Oer9wrxWdR8s48Czro8H51HY+S_mfnUj-RvhjCM1RgA@mail.gmail.com>`.
+
+Author's sent validation reply Message-ID:
+`<CANGjgdmKg1_QyzhCSh03T4RStw5_znnhqmFFS8TVwQbm-sZZbA@mail.gmail.com>`.
+Latest checked T.J. reply Message-ID:
+`<CABdmKX3g7+GTfSBKB42Tr2CDusCNXb5+oPc7TcC1RpVndUzVpw@mail.gmail.com>`.
 
 ## Historical source audit: September 13
 

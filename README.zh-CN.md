@@ -26,11 +26,11 @@ I/O 源文件主动探索阶段已经结束，目前没有排队的新 target �
 
 ## 限定成本报告与补丁跟进
 
-2026-09-14 更新，不代表上面其他线程的状态重新核对。
+2026-09-17 更新，不代表上面其他线程的状态重新核对。
 
 | 证据 | 报告状态 | 当前技术状态 |
 | --- | --- | --- |
-| [`kernfs-empty-cgroup-removal/`](kernfs-empty-cgroup-removal/) | 原报告 9 月 13 日已发送；正准备补丁验证回复，不声称修复已被接受或合入 | 原精确删除增幅约 46%～48%；[INODE_INITED 验证](kernfs-empty-cgroup-removal/bare-metal/inode-inited/README.zh-CN.md)使删除快 21.87%～22.86%。另立的[32 次诊断](kernfs-empty-cgroup-removal/bare-metal/inode-inited/pacing/README.zh-CN.md)在预热 16 次、连续条件下整段快 5.77%～8.76%，旧 128 次不稳定结果单独保留；无应用级影响或完整修复结论。 |
+| [`kernfs-empty-cgroup-removal/`](kernfs-empty-cgroup-removal/) | 原报告及 INODE_INITED 验证回复已发送；独立标记原型回复正在准备，不声称修复已被接受或合入 | 原精确删除增幅约 46%～48%。新[独立请求标记](kernfs-empty-cgroup-removal/bare-metal/inode-requested/README.zh-CN.md)在一轮矩阵中使删除耗时降低 22.36%～22.72%、连续整段降低 7.35%～9.01%，代价是每节点增加 8 字节。旧实验分开保留；正确性覆盖仍未齐，无应用级影响测量。 |
 
 ## 尚未发送的候选与已关闭诊断项
 

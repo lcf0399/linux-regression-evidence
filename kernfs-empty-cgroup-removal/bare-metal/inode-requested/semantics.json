@@ -1,0 +1,343 @@
+{
+  "performance_evidence": false,
+  "bounded_checks": {
+    "identity": "inode-requested-real-kernel-semantics-v2",
+    "status": "bounded-correctness-pass",
+    "performance_evidence": false,
+    "restored_generic": true,
+    "points": {
+      "A": {
+        "kernel": "7.3.0-rc2-bm-kernfs-s-001",
+        "boot_id": "7b5920c1-c34d-46a5-828d-be32be3773c6",
+        "result_sha256": "2c0f0da9876238a3631c1fc17ce9c962b9bc503a8e625352b1a7715fb740e4d8",
+        "rows": 226,
+        "plain_removals": 16,
+        "held_fd_basic_rounds": 8,
+        "watch_only_positive_rounds": 8,
+        "closed_before_positive_rounds": 16,
+        "namespace_alias_rounds": 1,
+        "namespace_alias_watch_instances": 2,
+        "concurrent_rounds": 192,
+        "concurrent_open_attempts": 768,
+        "groups": [
+          {
+            "entry": "path",
+            "schedule": "before",
+            "rounds": 32,
+            "attempts": 128,
+            "opened": 128,
+            "errno_counts": {},
+            "nonzero_after_nlink": 0,
+            "observed_complete_pairs_rounds": 0,
+            "empty_notification_rounds": 32
+          },
+          {
+            "entry": "path",
+            "schedule": "race",
+            "rounds": 32,
+            "attempts": 128,
+            "opened": 0,
+            "errno_counts": {
+              "2": 128
+            },
+            "nonzero_after_nlink": 0,
+            "observed_complete_pairs_rounds": 32,
+            "empty_notification_rounds": 0
+          },
+          {
+            "entry": "path",
+            "schedule": "after",
+            "rounds": 32,
+            "attempts": 128,
+            "opened": 0,
+            "errno_counts": {
+              "2": 128
+            },
+            "nonzero_after_nlink": 0,
+            "observed_complete_pairs_rounds": 32,
+            "empty_notification_rounds": 0
+          },
+          {
+            "entry": "handle",
+            "schedule": "before",
+            "rounds": 32,
+            "attempts": 128,
+            "opened": 128,
+            "errno_counts": {},
+            "nonzero_after_nlink": 0,
+            "observed_complete_pairs_rounds": 0,
+            "empty_notification_rounds": 32
+          },
+          {
+            "entry": "handle",
+            "schedule": "race",
+            "rounds": 32,
+            "attempts": 128,
+            "opened": 20,
+            "errno_counts": {
+              "116": 105,
+              "19": 3
+            },
+            "nonzero_after_nlink": 0,
+            "observed_complete_pairs_rounds": 18,
+            "empty_notification_rounds": 4
+          },
+          {
+            "entry": "handle",
+            "schedule": "after",
+            "rounds": 32,
+            "attempts": 128,
+            "opened": 0,
+            "errno_counts": {
+              "116": 128
+            },
+            "nonzero_after_nlink": 0,
+            "observed_complete_pairs_rounds": 32,
+            "empty_notification_rounds": 0
+          }
+        ],
+        "slab_layout": {
+          "object_size": "136",
+          "slab_size": "136",
+          "objs_per_slab": "30",
+          "order": "0",
+          "align": "8"
+        },
+        "not_covered": [
+          "proven-inode-eviction-recreation",
+          "distinct-superblocks",
+          "KCSAN-and-lockdep",
+          "weak-memory-proof",
+          "all-interleavings",
+          "handle-decode-after-proven-inode-eviction",
+          "eventual-notification-delivery-for-held-FD-cases"
+        ]
+      },
+      "B": {
+        "kernel": "7.3.0-rc2-bm-kernfs-r-001",
+        "boot_id": "ec64d63a-aa5c-4bf3-af1c-49df8d06d24b",
+        "result_sha256": "06d6fd5c4044893b46cb836a37180e89a635d4b20831f6dfd460df2d6ad89acb",
+        "rows": 226,
+        "plain_removals": 16,
+        "held_fd_basic_rounds": 8,
+        "watch_only_positive_rounds": 8,
+        "closed_before_positive_rounds": 16,
+        "namespace_alias_rounds": 1,
+        "namespace_alias_watch_instances": 2,
+        "concurrent_rounds": 192,
+        "concurrent_open_attempts": 768,
+        "groups": [
+          {
+            "entry": "path",
+            "schedule": "before",
+            "rounds": 32,
+            "attempts": 128,
+            "opened": 128,
+            "errno_counts": {},
+            "nonzero_after_nlink": 0,
+            "observed_complete_pairs_rounds": 0,
+            "empty_notification_rounds": 32
+          },
+          {
+            "entry": "path",
+            "schedule": "race",
+            "rounds": 32,
+            "attempts": 128,
+            "opened": 0,
+            "errno_counts": {
+              "2": 128
+            },
+            "nonzero_after_nlink": 0,
+            "observed_complete_pairs_rounds": 32,
+            "empty_notification_rounds": 0
+          },
+          {
+            "entry": "path",
+            "schedule": "after",
+            "rounds": 32,
+            "attempts": 128,
+            "opened": 0,
+            "errno_counts": {
+              "2": 128
+            },
+            "nonzero_after_nlink": 0,
+            "observed_complete_pairs_rounds": 32,
+            "empty_notification_rounds": 0
+          },
+          {
+            "entry": "handle",
+            "schedule": "before",
+            "rounds": 32,
+            "attempts": 128,
+            "opened": 128,
+            "errno_counts": {},
+            "nonzero_after_nlink": 0,
+            "observed_complete_pairs_rounds": 0,
+            "empty_notification_rounds": 32
+          },
+          {
+            "entry": "handle",
+            "schedule": "race",
+            "rounds": 32,
+            "attempts": 128,
+            "opened": 24,
+            "errno_counts": {
+              "116": 103,
+              "19": 1
+            },
+            "nonzero_after_nlink": 0,
+            "observed_complete_pairs_rounds": 19,
+            "empty_notification_rounds": 5
+          },
+          {
+            "entry": "handle",
+            "schedule": "after",
+            "rounds": 32,
+            "attempts": 128,
+            "opened": 0,
+            "errno_counts": {
+              "116": 128
+            },
+            "nonzero_after_nlink": 0,
+            "observed_complete_pairs_rounds": 32,
+            "empty_notification_rounds": 0
+          }
+        ],
+        "slab_layout": {
+          "object_size": "144",
+          "slab_size": "144",
+          "objs_per_slab": "28",
+          "order": "0",
+          "align": "8"
+        },
+        "not_covered": [
+          "proven-inode-eviction-recreation",
+          "distinct-superblocks",
+          "KCSAN-and-lockdep",
+          "weak-memory-proof",
+          "all-interleavings",
+          "handle-decode-after-proven-inode-eviction",
+          "eventual-notification-delivery-for-held-FD-cases"
+        ]
+      }
+    }
+  },
+  "first_creation_race": {
+    "A": {
+      "boot_id": "0e655e8e-3f43-49f4-860b-c4e16c86ba7c",
+      "kernel": "7.3.0-rc2-bm-kernfs-s-001",
+      "helper_sha256": "db567a731febc199d35a8f1260846218fcbc2feb6c2b99ace4cdf74274b3ecdb",
+      "status": "pass",
+      "untraced": {
+        "rounds": 176,
+        "successful_opens": 80,
+        "errors": {
+          "2": 96
+        },
+        "modes": {
+          "0": {
+            "rounds": 144,
+            "successful_opens": 64
+          },
+          "1": {
+            "rounds": 16,
+            "successful_opens": 16
+          },
+          "2": {
+            "rounds": 16,
+            "successful_opens": 0
+          }
+        },
+        "traced": false
+      },
+      "traced": {
+        "rounds": 176,
+        "successful_opens": 96,
+        "errors": {
+          "2": 80
+        },
+        "modes": {
+          "0": {
+            "rounds": 144,
+            "successful_opens": 80
+          },
+          "1": {
+            "rounds": 16,
+            "successful_opens": 16
+          },
+          "2": {
+            "rounds": 16,
+            "successful_opens": 0
+          }
+        },
+        "traced": true,
+        "first_creations": 96,
+        "rmdir_entered_during_get": 1,
+        "rmdir_entered_before_iget": 0,
+        "observed_write_lock_wait_rounds": 0,
+        "first_create_after_rmdir_entry": 32
+      }
+    },
+    "B": {
+      "boot_id": "ee93834e-21b0-40c7-b2d0-751830e5bae3",
+      "kernel": "7.3.0-rc2-bm-kernfs-r-001",
+      "helper_sha256": "db567a731febc199d35a8f1260846218fcbc2feb6c2b99ace4cdf74274b3ecdb",
+      "status": "pass",
+      "untraced": {
+        "rounds": 176,
+        "successful_opens": 80,
+        "errors": {
+          "2": 96
+        },
+        "modes": {
+          "0": {
+            "rounds": 144,
+            "successful_opens": 64
+          },
+          "1": {
+            "rounds": 16,
+            "successful_opens": 16
+          },
+          "2": {
+            "rounds": 16,
+            "successful_opens": 0
+          }
+        },
+        "traced": false
+      },
+      "traced": {
+        "rounds": 176,
+        "successful_opens": 96,
+        "errors": {
+          "2": 80
+        },
+        "modes": {
+          "0": {
+            "rounds": 144,
+            "successful_opens": 80
+          },
+          "1": {
+            "rounds": 16,
+            "successful_opens": 16
+          },
+          "2": {
+            "rounds": 16,
+            "successful_opens": 0
+          }
+        },
+        "traced": true,
+        "first_creations": 96,
+        "rmdir_entered_during_get": 1,
+        "rmdir_entered_before_iget": 0,
+        "observed_write_lock_wait_rounds": 0,
+        "first_create_after_rmdir_entry": 32
+      }
+    }
+  },
+  "limits": [
+    "No remover observed waiting across first creation on the same rwsem.",
+    "No proven eviction/recreation, distinct superblocks, other kernfs users, weak-memory architectures or KCSAN/lockdep.",
+    "A held FD does not imply prompt IN_DELETE_SELF/IN_IGNORED; do not turn observation timeouts into a patch failure.",
+    "These checks do not prove all interleavings or application benefit."
+  ]
+}

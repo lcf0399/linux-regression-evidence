@@ -1,7 +1,8 @@
 # kernfs: empty cgroup removal cost
 
 Original report sent on 2026-09-13. A separate INODE_INITED patch validation
-was completed on 2026-09-14; see the follow-up below.
+was completed on 2026-09-14. The September 16 independent inode-request marker
+prototype has its own [results and remaining limits](bare-metal/inode-requested/README.md).
 This bundle is a scoped cost report, not a proposed revert or a claim that all
 of the added work is avoidable.
 
@@ -40,6 +41,7 @@ and deletion are timed separately; state checks are outside timing.
 | v7.2 → pinned 7.3-rc2 → v7.2 | 9.919 / 9.719 / 9.953 µs; 2.019% / 2.355% improvement | One separate version comparison; not a new measurement of the exact 46–48% gap |
 | [INODE_INITED patch validation](bare-metal/inode-inited/README.md), two distinct 128-operation four-boot experiments | Original binary: rmdir 21.87–22.86% faster. Stage follow-up: continuous rmdir 22.17–22.37% faster | These continuous overall timings remain noisy; paced overall improvement 1.38–2.72%. Basic semantics passed, not exhaustive concurrency safety or a complete fix |
 | [INODE_INITED pacing diagnostic](bare-metal/inode-inited/pacing/README.md), separate 32-operation four-boot matrix | With 16 warmups, continuous full sequence 5.77–8.76% shorter; maximum CV 1.76%, boot drift below 2%. All six conditions retain 2.10–2.58 µs removal savings | Earlier noisy data and no-warmup conditions retained; timing sensitivity, not application benefit or a complete fix |
+| [Independent inode-request marker](bare-metal/inode-requested/README.md), September 16, one four-boot matrix | Original rmdir latency 22.36–22.72% lower; continuous full sequence 7.35–9.01% shorter; bounded FD/notification/first-creation checks passed | Adds 8 bytes per node; first-file query timing is unstable; key lock interleavings and other users/architectures remain untested; not a finished fix |
 
 Creation results and unstable secondary observations are retained in the data.
 The samples from these experiments are never pooled.

@@ -1,0 +1,185 @@
+{
+  "source_base": "2f0c1cf72f4682178506f513bbf015e591b1aa4a",
+  "kernel_builds": {
+    "guard": {
+      "compiler": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0\nCopyright (C) 2025 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+      "pahole": "v1.31",
+      "kernelrelease": "7.3.0-rc2-bm-kernfs-s-001",
+      "source_commit": "2f0c1cf72f4682178506f513bbf015e591b1aa4a",
+      "canonical_config_sha256": "35d6322d88629e5fc0c40b2adf9d4d194f6776518280d42b00ec06756fb0de69",
+      "config_sha256": "354f61e9f4278d53967f9600a7dbc2a7567bc7fc00284c9406fc9102a577b64f",
+      "full_tree_after": "26298d0c27ff4aeff17860a17781aa2ef0e93102",
+      "source_files": {
+        "fs/kernfs/dir.c": "5528993060edba705657c366f6ee0a5f9caeee042b975a44fe6ad8d6670c1f92",
+        "fs/kernfs/inode.c": "90642b821e8ab5398b8241729d648ceb824ca6cf984d40efc6c5d7c2d2b0e056",
+        "fs/kernfs/mount.c": "dcb27fafb8363dff2cfcb6c12e5a049e7c5cbf0b1cb354821610dd34bdc9f60c",
+        "include/linux/kernfs.h": "95b98d04c5c56692329bc62160f3f3616995828ccbe2408bdcf16813d5a5fff2"
+      },
+      "artifacts": {
+        "arch/x86/boot/bzImage": "9184578dbb8c3bb59a935377d9136d57d4f5f932e285a7c135f2a83a5085f74b",
+        "vmlinux": "9c87a6ca3bdd2cb66679ba546eec9927346f014e524a36ed74fcee69ef48eafc",
+        ".config": "354f61e9f4278d53967f9600a7dbc2a7567bc7fc00284c9406fc9102a577b64f"
+      }
+    },
+    "requested": {
+      "compiler": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0\nCopyright (C) 2025 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+      "pahole": "v1.31",
+      "kernelrelease": "7.3.0-rc2-bm-kernfs-r-001",
+      "source_commit": "2f0c1cf72f4682178506f513bbf015e591b1aa4a",
+      "canonical_config_sha256": "35d6322d88629e5fc0c40b2adf9d4d194f6776518280d42b00ec06756fb0de69",
+      "config_sha256": "5f567fddc265b396dfedd49b640d75f7412b4b9651ecb91f7bb7c13e171a1299",
+      "full_tree_after": "558ababe540c9135e50c42a91ccb1798289983a0",
+      "source_files": {
+        "fs/kernfs/dir.c": "67bf20ef4114ea09a42874c4d27e903fd6cae9f18a69968ec3a35cbdd1ae9efc",
+        "fs/kernfs/inode.c": "7e5172818cf855759c8dded80583f71a4b4feffa019a656bf837f75a8a20bc41",
+        "fs/kernfs/mount.c": "dcb27fafb8363dff2cfcb6c12e5a049e7c5cbf0b1cb354821610dd34bdc9f60c",
+        "include/linux/kernfs.h": "168b68ac5e05f5d6c4da6e97c5a014fdc5fba414feb72aede05caf9d428f4cf1"
+      },
+      "artifacts": {
+        "arch/x86/boot/bzImage": "06299539ba7560c364cbe959fb733a88a271033657a746b4010323cf9788d52d",
+        "vmlinux": "69c97a5872fc064a553d932fb91a0805096652a8391c288beb4c575ba846c472",
+        ".config": "5f567fddc265b396dfedd49b640d75f7412b4b9651ecb91f7bb7c13e171a1299"
+      }
+    }
+  },
+  "runtime_kernels": {
+    "guard": {
+      "btf_sha256": "50a1361a3e0e9d94271236ef360298a5dc733c16d4ce27f8300086009a1315e3",
+      "build_receipt_sha256": "91accc0cc05f4938d6b37227e101430fa12061a7a1341e7c98f6be684cac5313",
+      "bzimage_sha256": "9184578dbb8c3bb59a935377d9136d57d4f5f932e285a7c135f2a83a5085f74b",
+      "config_sha256": "354f61e9f4278d53967f9600a7dbc2a7567bc7fc00284c9406fc9102a577b64f",
+      "kernelrelease": "7.3.0-rc2-bm-kernfs-s-001",
+      "required_kernel_cmdline": "preempt=full crashkernel=0",
+      "source_tree": "26298d0c27ff4aeff17860a17781aa2ef0e93102",
+      "vmlinux_sha256": "9c87a6ca3bdd2cb66679ba546eec9927346f014e524a36ed74fcee69ef48eafc"
+    },
+    "requested": {
+      "btf_sha256": "15abf7545de9876f5379947467722cc29f36697002dedf4b7e15ab76da0b8802",
+      "build_receipt_sha256": "84085747a6992020b4d81f3562f9ada40ead048c74c827980dc50f4461e7abb0",
+      "bzimage_sha256": "06299539ba7560c364cbe959fb733a88a271033657a746b4010323cf9788d52d",
+      "config_sha256": "5f567fddc265b396dfedd49b640d75f7412b4b9651ecb91f7bb7c13e171a1299",
+      "kernelrelease": "7.3.0-rc2-bm-kernfs-r-001",
+      "required_kernel_cmdline": "preempt=full crashkernel=0",
+      "source_tree": "558ababe540c9135e50c42a91ccb1798289983a0",
+      "vmlinux_sha256": "69c97a5872fc064a553d932fb91a0805096652a8391c288beb4c575ba846c472"
+    }
+  },
+  "boots": [
+    {
+      "point": "A1",
+      "boot_id": "56762e20-193d-4e67-9548-65994dbd155d",
+      "kernel": "7.3.0-rc2-bm-kernfs-s-001",
+      "runtime_btf_sha256": "50a1361a3e0e9d94271236ef360298a5dc733c16d4ce27f8300086009a1315e3",
+      "config_sha256": "354f61e9f4278d53967f9600a7dbc2a7567bc7fc00284c9406fc9102a577b64f",
+      "leaf_control_sha256": "ece6d9e0f3506079a4222826ccc566baaa022dddad68eb7b57177b7fb691abbe",
+      "cycle_binary_sha256": "882197ab32cd5030cb56528e19f2be4c24c15ee12ea7198c8c6ab3f489b48d38",
+      "lookup_binary_sha256": "194c58096098bcff05b35e807d5a77ea51eb9eda3ef6fb6dbc2148ca375cdf99",
+      "preempt": "(full) lazy",
+      "no_turbo": "1",
+      "kernel_taint": 0,
+      "clocksource": "tsc",
+      "sched_schedstats": "0",
+      "slab_layout": {
+        "object_size": "136",
+        "slab_size": "136",
+        "objs_per_slab": "30",
+        "order": "0",
+        "align": "8"
+      },
+      "governors": [
+        "performance"
+      ]
+    },
+    {
+      "point": "B1",
+      "boot_id": "90a846f7-b5ec-4dac-ac9e-5b973c783133",
+      "kernel": "7.3.0-rc2-bm-kernfs-r-001",
+      "runtime_btf_sha256": "15abf7545de9876f5379947467722cc29f36697002dedf4b7e15ab76da0b8802",
+      "config_sha256": "5f567fddc265b396dfedd49b640d75f7412b4b9651ecb91f7bb7c13e171a1299",
+      "leaf_control_sha256": "ece6d9e0f3506079a4222826ccc566baaa022dddad68eb7b57177b7fb691abbe",
+      "cycle_binary_sha256": "882197ab32cd5030cb56528e19f2be4c24c15ee12ea7198c8c6ab3f489b48d38",
+      "lookup_binary_sha256": "194c58096098bcff05b35e807d5a77ea51eb9eda3ef6fb6dbc2148ca375cdf99",
+      "preempt": "(full) lazy",
+      "no_turbo": "1",
+      "kernel_taint": 0,
+      "clocksource": "tsc",
+      "sched_schedstats": "0",
+      "slab_layout": {
+        "object_size": "144",
+        "slab_size": "144",
+        "objs_per_slab": "28",
+        "order": "0",
+        "align": "8"
+      },
+      "governors": [
+        "performance"
+      ]
+    },
+    {
+      "point": "B2",
+      "boot_id": "e2d48581-05c7-427b-9e2f-f92cc4cae966",
+      "kernel": "7.3.0-rc2-bm-kernfs-r-001",
+      "runtime_btf_sha256": "15abf7545de9876f5379947467722cc29f36697002dedf4b7e15ab76da0b8802",
+      "config_sha256": "5f567fddc265b396dfedd49b640d75f7412b4b9651ecb91f7bb7c13e171a1299",
+      "leaf_control_sha256": "ece6d9e0f3506079a4222826ccc566baaa022dddad68eb7b57177b7fb691abbe",
+      "cycle_binary_sha256": "882197ab32cd5030cb56528e19f2be4c24c15ee12ea7198c8c6ab3f489b48d38",
+      "lookup_binary_sha256": "194c58096098bcff05b35e807d5a77ea51eb9eda3ef6fb6dbc2148ca375cdf99",
+      "preempt": "(full) lazy",
+      "no_turbo": "1",
+      "kernel_taint": 0,
+      "clocksource": "tsc",
+      "sched_schedstats": "0",
+      "slab_layout": {
+        "object_size": "144",
+        "slab_size": "144",
+        "objs_per_slab": "28",
+        "order": "0",
+        "align": "8"
+      },
+      "governors": [
+        "performance"
+      ]
+    },
+    {
+      "point": "A2",
+      "boot_id": "d3c3777b-3a51-4e5f-8283-02bf303e7d75",
+      "kernel": "7.3.0-rc2-bm-kernfs-s-001",
+      "runtime_btf_sha256": "50a1361a3e0e9d94271236ef360298a5dc733c16d4ce27f8300086009a1315e3",
+      "config_sha256": "354f61e9f4278d53967f9600a7dbc2a7567bc7fc00284c9406fc9102a577b64f",
+      "leaf_control_sha256": "ece6d9e0f3506079a4222826ccc566baaa022dddad68eb7b57177b7fb691abbe",
+      "cycle_binary_sha256": "882197ab32cd5030cb56528e19f2be4c24c15ee12ea7198c8c6ab3f489b48d38",
+      "lookup_binary_sha256": "194c58096098bcff05b35e807d5a77ea51eb9eda3ef6fb6dbc2148ca375cdf99",
+      "preempt": "(full) lazy",
+      "no_turbo": "1",
+      "kernel_taint": 0,
+      "clocksource": "tsc",
+      "sched_schedstats": "0",
+      "slab_layout": {
+        "object_size": "136",
+        "slab_size": "136",
+        "objs_per_slab": "30",
+        "order": "0",
+        "align": "8"
+      },
+      "governors": [
+        "performance"
+      ]
+    }
+  ],
+  "platform": {
+    "cpu": "Intel Core i7-12700KF",
+    "caller_cpu": 0,
+    "sched_ext": "disabled"
+  },
+  "workload": {
+    "original_binary_sha256": "ece6d9e0f3506079a4222826ccc566baaa022dddad68eb7b57177b7fb691abbe",
+    "cycle_binary_sha256": "882197ab32cd5030cb56528e19f2be4c24c15ee12ea7198c8c6ab3f489b48d38",
+    "cycle_source_sha256": "4d67663d492106d2ab25d4e2cfc24cd31019fb3247ddccbcc7b264536a670429",
+    "lookup_binary_sha256": "194c58096098bcff05b35e807d5a77ea51eb9eda3ef6fb6dbc2148ca375cdf99",
+    "lookup_source_sha256": "bd71e2717256b08a74d5d56db9bbed1a6f116b969f53c7cdc6077c9ec7de3977"
+  },
+  "input_patch_sha256": {
+    "shakeel": "bacf5c123cded53bc81600ea2fc9f16113a3eb201e3afe9ae30f88c0decc8a66",
+    "prototype": "15d088b15e4bf290cd894493b6b5a9ea7f5b0f33f9d49b642daf49aa838fae47"
+  }
+}

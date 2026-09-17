@@ -1,0 +1,44 @@
+--- a/fs/kernfs/dir.c
++++ b/fs/kernfs/dir.c
+@@ -1524,6 +1524,10 @@
+ 
+ 	lockdep_assert_held_read(&root->kernfs_supers_rwsem);
+ 
++	/* No inode can exist if creation has never been requested. */
++	if (!READ_ONCE(kn->inode_ever_requested))
++		return;
++
+ 	list_for_each_entry(info, &root->supers, node) {
+ 		struct inode *inode = ilookup(info->sb, kernfs_ino(kn));
+ 
+--- a/fs/kernfs/inode.c
++++ b/fs/kernfs/inode.c
+@@ -247,6 +247,16 @@
+ {
+ 	struct inode *inode;
+ 
++	/*
++	 * Callers must serialize inode creation against node removal,
++	 * using kernfs_rwsem or the owning subsystem's lifetime lock.
++	 * Concurrent readers may set this independent hint to true.
++	 * Set it before iget_locked(), and keep it set on failure or
++	 * eviction: a false positive only causes an extra lookup.
++	 */
++	if (!READ_ONCE(kn->inode_ever_requested))
++		WRITE_ONCE(kn->inode_ever_requested, true);
++
+ 	inode = iget_locked(sb, kernfs_ino(kn));
+ 	if (inode && (inode_state_read_once(inode) & I_NEW))
+ 		kernfs_init_inode(kn, inode);
+--- a/include/linux/kernfs.h
++++ b/include/linux/kernfs.h
+@@ -217,6 +217,9 @@
+ 	unsigned int		hash;	/* ns + name hash */
+ 	unsigned short		flags;
+ 	umode_t			mode;
++
++	/* Conservative hint; never reset during this node's lifetime. */
++	bool			inode_ever_requested;
+ 
+ 	union {
+ 		struct kernfs_elem_dir		dir;

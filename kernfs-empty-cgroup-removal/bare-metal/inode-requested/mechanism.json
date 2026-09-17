@@ -1,0 +1,873 @@
+{
+  "performance_evidence": false,
+  "operation_windows": 40,
+  "smoke_invocations": 6,
+  "trace_invocations": 10,
+  "mechanisms": {
+    "guard": {
+      "original": [
+        {
+          "op": 1,
+          "nodes": 26,
+          "ilookup": 26,
+          "clear_nlink": 1,
+          "lookup_edges": 26,
+          "remove_write_locks": 52,
+          "wrapper_read_locks": 26,
+          "mkdir_iget_locked": 0
+        },
+        {
+          "op": 2,
+          "nodes": 26,
+          "ilookup": 26,
+          "clear_nlink": 1,
+          "lookup_edges": 26,
+          "remove_write_locks": 52,
+          "wrapper_read_locks": 26,
+          "mkdir_iget_locked": 0
+        },
+        {
+          "op": 3,
+          "nodes": 26,
+          "ilookup": 26,
+          "clear_nlink": 1,
+          "lookup_edges": 26,
+          "remove_write_locks": 52,
+          "wrapper_read_locks": 26,
+          "mkdir_iget_locked": 0
+        },
+        {
+          "op": 4,
+          "nodes": 26,
+          "ilookup": 26,
+          "clear_nlink": 1,
+          "lookup_edges": 26,
+          "remove_write_locks": 52,
+          "wrapper_read_locks": 26,
+          "mkdir_iget_locked": 0
+        }
+      ],
+      "cycle": [
+        {
+          "op": 1,
+          "nodes": 26,
+          "ilookup": 26,
+          "clear_nlink": 1,
+          "lookup_edges": [
+            [
+              "kernfs_get_inode",
+              "iget_locked",
+              1
+            ],
+            [
+              "iget_locked",
+              "alloc_inode",
+              1
+            ],
+            [
+              "kernfs_get_inode",
+              "unlock_new_inode",
+              1
+            ]
+          ],
+          "remove_write_locks": 52,
+          "wrapper_read_locks": 26,
+          "kernfs_get_inode": 1,
+          "iget_locked": 1,
+          "kernfs_init_inode": 0,
+          "alloc_inode": 1,
+          "unlock_new_inode": 1,
+          "down_write": 0,
+          "mkdir_iget_locked": 0
+        },
+        {
+          "op": 2,
+          "nodes": 26,
+          "ilookup": 26,
+          "clear_nlink": 1,
+          "lookup_edges": [
+            [
+              "kernfs_get_inode",
+              "iget_locked",
+              1
+            ],
+            [
+              "iget_locked",
+              "alloc_inode",
+              1
+            ],
+            [
+              "kernfs_get_inode",
+              "unlock_new_inode",
+              1
+            ]
+          ],
+          "remove_write_locks": 52,
+          "wrapper_read_locks": 26,
+          "kernfs_get_inode": 1,
+          "iget_locked": 1,
+          "kernfs_init_inode": 0,
+          "alloc_inode": 1,
+          "unlock_new_inode": 1,
+          "down_write": 0,
+          "mkdir_iget_locked": 0
+        },
+        {
+          "op": 3,
+          "nodes": 26,
+          "ilookup": 26,
+          "clear_nlink": 1,
+          "lookup_edges": [
+            [
+              "kernfs_get_inode",
+              "iget_locked",
+              1
+            ],
+            [
+              "iget_locked",
+              "alloc_inode",
+              1
+            ],
+            [
+              "kernfs_get_inode",
+              "unlock_new_inode",
+              1
+            ]
+          ],
+          "remove_write_locks": 52,
+          "wrapper_read_locks": 26,
+          "kernfs_get_inode": 1,
+          "iget_locked": 1,
+          "kernfs_init_inode": 0,
+          "alloc_inode": 1,
+          "unlock_new_inode": 1,
+          "down_write": 0,
+          "mkdir_iget_locked": 0
+        },
+        {
+          "op": 4,
+          "nodes": 26,
+          "ilookup": 26,
+          "clear_nlink": 1,
+          "lookup_edges": [
+            [
+              "kernfs_get_inode",
+              "iget_locked",
+              1
+            ],
+            [
+              "iget_locked",
+              "alloc_inode",
+              1
+            ],
+            [
+              "kernfs_get_inode",
+              "unlock_new_inode",
+              1
+            ]
+          ],
+          "remove_write_locks": 52,
+          "wrapper_read_locks": 26,
+          "kernfs_get_inode": 1,
+          "iget_locked": 1,
+          "kernfs_init_inode": 0,
+          "alloc_inode": 1,
+          "unlock_new_inode": 1,
+          "down_write": 0,
+          "mkdir_iget_locked": 0
+        }
+      ],
+      "lookup-first": [
+        {
+          "op": 1,
+          "kernfs_get_inode": 1,
+          "iget_locked": 1,
+          "kernfs_init_inode": 0,
+          "alloc_inode": 1,
+          "unlock_new_inode": 1,
+          "down_write": 0,
+          "lookup_edges": [
+            [
+              "kernfs_get_inode",
+              "iget_locked",
+              1
+            ],
+            [
+              "iget_locked",
+              "alloc_inode",
+              1
+            ],
+            [
+              "kernfs_get_inode",
+              "unlock_new_inode",
+              1
+            ]
+          ]
+        },
+        {
+          "op": 2,
+          "kernfs_get_inode": 1,
+          "iget_locked": 1,
+          "kernfs_init_inode": 0,
+          "alloc_inode": 1,
+          "unlock_new_inode": 1,
+          "down_write": 0,
+          "lookup_edges": [
+            [
+              "kernfs_get_inode",
+              "iget_locked",
+              1
+            ],
+            [
+              "iget_locked",
+              "alloc_inode",
+              1
+            ],
+            [
+              "kernfs_get_inode",
+              "unlock_new_inode",
+              1
+            ]
+          ]
+        },
+        {
+          "op": 3,
+          "kernfs_get_inode": 1,
+          "iget_locked": 1,
+          "kernfs_init_inode": 0,
+          "alloc_inode": 1,
+          "unlock_new_inode": 1,
+          "down_write": 0,
+          "lookup_edges": [
+            [
+              "kernfs_get_inode",
+              "iget_locked",
+              1
+            ],
+            [
+              "iget_locked",
+              "alloc_inode",
+              1
+            ],
+            [
+              "kernfs_get_inode",
+              "unlock_new_inode",
+              1
+            ]
+          ]
+        },
+        {
+          "op": 4,
+          "kernfs_get_inode": 1,
+          "iget_locked": 1,
+          "kernfs_init_inode": 0,
+          "alloc_inode": 1,
+          "unlock_new_inode": 1,
+          "down_write": 0,
+          "lookup_edges": [
+            [
+              "kernfs_get_inode",
+              "iget_locked",
+              1
+            ],
+            [
+              "iget_locked",
+              "alloc_inode",
+              1
+            ],
+            [
+              "kernfs_get_inode",
+              "unlock_new_inode",
+              1
+            ]
+          ]
+        }
+      ],
+      "lookup-cached": [
+        {
+          "op": 1,
+          "kernfs_get_inode": 0,
+          "iget_locked": 0,
+          "kernfs_init_inode": 0,
+          "alloc_inode": 0,
+          "unlock_new_inode": 0,
+          "down_write": 0,
+          "lookup_edges": [
+            [
+              "kernfs_get_inode",
+              "iget_locked",
+              0
+            ],
+            [
+              "iget_locked",
+              "alloc_inode",
+              0
+            ],
+            [
+              "kernfs_get_inode",
+              "unlock_new_inode",
+              0
+            ]
+          ]
+        },
+        {
+          "op": 2,
+          "kernfs_get_inode": 0,
+          "iget_locked": 0,
+          "kernfs_init_inode": 0,
+          "alloc_inode": 0,
+          "unlock_new_inode": 0,
+          "down_write": 0,
+          "lookup_edges": [
+            [
+              "kernfs_get_inode",
+              "iget_locked",
+              0
+            ],
+            [
+              "iget_locked",
+              "alloc_inode",
+              0
+            ],
+            [
+              "kernfs_get_inode",
+              "unlock_new_inode",
+              0
+            ]
+          ]
+        },
+        {
+          "op": 3,
+          "kernfs_get_inode": 0,
+          "iget_locked": 0,
+          "kernfs_init_inode": 0,
+          "alloc_inode": 0,
+          "unlock_new_inode": 0,
+          "down_write": 0,
+          "lookup_edges": [
+            [
+              "kernfs_get_inode",
+              "iget_locked",
+              0
+            ],
+            [
+              "iget_locked",
+              "alloc_inode",
+              0
+            ],
+            [
+              "kernfs_get_inode",
+              "unlock_new_inode",
+              0
+            ]
+          ]
+        },
+        {
+          "op": 4,
+          "kernfs_get_inode": 0,
+          "iget_locked": 0,
+          "kernfs_init_inode": 0,
+          "alloc_inode": 0,
+          "unlock_new_inode": 0,
+          "down_write": 0,
+          "lookup_edges": [
+            [
+              "kernfs_get_inode",
+              "iget_locked",
+              0
+            ],
+            [
+              "iget_locked",
+              "alloc_inode",
+              0
+            ],
+            [
+              "kernfs_get_inode",
+              "unlock_new_inode",
+              0
+            ]
+          ]
+        }
+      ],
+      "lookup-remove": [
+        {
+          "op": 1,
+          "nodes": 26,
+          "ilookup": 26,
+          "clear_nlink": 2,
+          "lookup_edges": 26,
+          "remove_write_locks": 52,
+          "wrapper_read_locks": 26
+        },
+        {
+          "op": 2,
+          "nodes": 26,
+          "ilookup": 26,
+          "clear_nlink": 2,
+          "lookup_edges": 26,
+          "remove_write_locks": 52,
+          "wrapper_read_locks": 26
+        },
+        {
+          "op": 3,
+          "nodes": 26,
+          "ilookup": 26,
+          "clear_nlink": 2,
+          "lookup_edges": 26,
+          "remove_write_locks": 52,
+          "wrapper_read_locks": 26
+        },
+        {
+          "op": 4,
+          "nodes": 26,
+          "ilookup": 26,
+          "clear_nlink": 2,
+          "lookup_edges": 26,
+          "remove_write_locks": 52,
+          "wrapper_read_locks": 26
+        }
+      ]
+    },
+    "requested": {
+      "original": [
+        {
+          "op": 1,
+          "nodes": 26,
+          "ilookup": 1,
+          "clear_nlink": 1,
+          "lookup_edges": 1,
+          "remove_write_locks": 52,
+          "wrapper_read_locks": 26,
+          "mkdir_iget_locked": 0
+        },
+        {
+          "op": 2,
+          "nodes": 26,
+          "ilookup": 1,
+          "clear_nlink": 1,
+          "lookup_edges": 1,
+          "remove_write_locks": 52,
+          "wrapper_read_locks": 26,
+          "mkdir_iget_locked": 0
+        },
+        {
+          "op": 3,
+          "nodes": 26,
+          "ilookup": 1,
+          "clear_nlink": 1,
+          "lookup_edges": 1,
+          "remove_write_locks": 52,
+          "wrapper_read_locks": 26,
+          "mkdir_iget_locked": 0
+        },
+        {
+          "op": 4,
+          "nodes": 26,
+          "ilookup": 1,
+          "clear_nlink": 1,
+          "lookup_edges": 1,
+          "remove_write_locks": 52,
+          "wrapper_read_locks": 26,
+          "mkdir_iget_locked": 0
+        }
+      ],
+      "cycle": [
+        {
+          "op": 1,
+          "nodes": 26,
+          "ilookup": 1,
+          "clear_nlink": 1,
+          "lookup_edges": [
+            [
+              "kernfs_get_inode",
+              "iget_locked",
+              1
+            ],
+            [
+              "iget_locked",
+              "alloc_inode",
+              1
+            ],
+            [
+              "kernfs_get_inode",
+              "unlock_new_inode",
+              1
+            ]
+          ],
+          "remove_write_locks": 52,
+          "wrapper_read_locks": 26,
+          "kernfs_get_inode": 1,
+          "iget_locked": 1,
+          "kernfs_init_inode": 0,
+          "alloc_inode": 1,
+          "unlock_new_inode": 1,
+          "down_write": 0,
+          "mkdir_iget_locked": 0
+        },
+        {
+          "op": 2,
+          "nodes": 26,
+          "ilookup": 1,
+          "clear_nlink": 1,
+          "lookup_edges": [
+            [
+              "kernfs_get_inode",
+              "iget_locked",
+              1
+            ],
+            [
+              "iget_locked",
+              "alloc_inode",
+              1
+            ],
+            [
+              "kernfs_get_inode",
+              "unlock_new_inode",
+              1
+            ]
+          ],
+          "remove_write_locks": 52,
+          "wrapper_read_locks": 26,
+          "kernfs_get_inode": 1,
+          "iget_locked": 1,
+          "kernfs_init_inode": 0,
+          "alloc_inode": 1,
+          "unlock_new_inode": 1,
+          "down_write": 0,
+          "mkdir_iget_locked": 0
+        },
+        {
+          "op": 3,
+          "nodes": 26,
+          "ilookup": 1,
+          "clear_nlink": 1,
+          "lookup_edges": [
+            [
+              "kernfs_get_inode",
+              "iget_locked",
+              1
+            ],
+            [
+              "iget_locked",
+              "alloc_inode",
+              1
+            ],
+            [
+              "kernfs_get_inode",
+              "unlock_new_inode",
+              1
+            ]
+          ],
+          "remove_write_locks": 52,
+          "wrapper_read_locks": 26,
+          "kernfs_get_inode": 1,
+          "iget_locked": 1,
+          "kernfs_init_inode": 0,
+          "alloc_inode": 1,
+          "unlock_new_inode": 1,
+          "down_write": 0,
+          "mkdir_iget_locked": 0
+        },
+        {
+          "op": 4,
+          "nodes": 26,
+          "ilookup": 1,
+          "clear_nlink": 1,
+          "lookup_edges": [
+            [
+              "kernfs_get_inode",
+              "iget_locked",
+              1
+            ],
+            [
+              "iget_locked",
+              "alloc_inode",
+              1
+            ],
+            [
+              "kernfs_get_inode",
+              "unlock_new_inode",
+              1
+            ]
+          ],
+          "remove_write_locks": 52,
+          "wrapper_read_locks": 26,
+          "kernfs_get_inode": 1,
+          "iget_locked": 1,
+          "kernfs_init_inode": 0,
+          "alloc_inode": 1,
+          "unlock_new_inode": 1,
+          "down_write": 0,
+          "mkdir_iget_locked": 0
+        }
+      ],
+      "lookup-first": [
+        {
+          "op": 1,
+          "kernfs_get_inode": 1,
+          "iget_locked": 1,
+          "kernfs_init_inode": 0,
+          "alloc_inode": 1,
+          "unlock_new_inode": 1,
+          "down_write": 0,
+          "lookup_edges": [
+            [
+              "kernfs_get_inode",
+              "iget_locked",
+              1
+            ],
+            [
+              "iget_locked",
+              "alloc_inode",
+              1
+            ],
+            [
+              "kernfs_get_inode",
+              "unlock_new_inode",
+              1
+            ]
+          ]
+        },
+        {
+          "op": 2,
+          "kernfs_get_inode": 1,
+          "iget_locked": 1,
+          "kernfs_init_inode": 0,
+          "alloc_inode": 1,
+          "unlock_new_inode": 1,
+          "down_write": 0,
+          "lookup_edges": [
+            [
+              "kernfs_get_inode",
+              "iget_locked",
+              1
+            ],
+            [
+              "iget_locked",
+              "alloc_inode",
+              1
+            ],
+            [
+              "kernfs_get_inode",
+              "unlock_new_inode",
+              1
+            ]
+          ]
+        },
+        {
+          "op": 3,
+          "kernfs_get_inode": 1,
+          "iget_locked": 1,
+          "kernfs_init_inode": 0,
+          "alloc_inode": 1,
+          "unlock_new_inode": 1,
+          "down_write": 0,
+          "lookup_edges": [
+            [
+              "kernfs_get_inode",
+              "iget_locked",
+              1
+            ],
+            [
+              "iget_locked",
+              "alloc_inode",
+              1
+            ],
+            [
+              "kernfs_get_inode",
+              "unlock_new_inode",
+              1
+            ]
+          ]
+        },
+        {
+          "op": 4,
+          "kernfs_get_inode": 1,
+          "iget_locked": 1,
+          "kernfs_init_inode": 0,
+          "alloc_inode": 1,
+          "unlock_new_inode": 1,
+          "down_write": 0,
+          "lookup_edges": [
+            [
+              "kernfs_get_inode",
+              "iget_locked",
+              1
+            ],
+            [
+              "iget_locked",
+              "alloc_inode",
+              1
+            ],
+            [
+              "kernfs_get_inode",
+              "unlock_new_inode",
+              1
+            ]
+          ]
+        }
+      ],
+      "lookup-cached": [
+        {
+          "op": 1,
+          "kernfs_get_inode": 0,
+          "iget_locked": 0,
+          "kernfs_init_inode": 0,
+          "alloc_inode": 0,
+          "unlock_new_inode": 0,
+          "down_write": 0,
+          "lookup_edges": [
+            [
+              "kernfs_get_inode",
+              "iget_locked",
+              0
+            ],
+            [
+              "iget_locked",
+              "alloc_inode",
+              0
+            ],
+            [
+              "kernfs_get_inode",
+              "unlock_new_inode",
+              0
+            ]
+          ]
+        },
+        {
+          "op": 2,
+          "kernfs_get_inode": 0,
+          "iget_locked": 0,
+          "kernfs_init_inode": 0,
+          "alloc_inode": 0,
+          "unlock_new_inode": 0,
+          "down_write": 0,
+          "lookup_edges": [
+            [
+              "kernfs_get_inode",
+              "iget_locked",
+              0
+            ],
+            [
+              "iget_locked",
+              "alloc_inode",
+              0
+            ],
+            [
+              "kernfs_get_inode",
+              "unlock_new_inode",
+              0
+            ]
+          ]
+        },
+        {
+          "op": 3,
+          "kernfs_get_inode": 0,
+          "iget_locked": 0,
+          "kernfs_init_inode": 0,
+          "alloc_inode": 0,
+          "unlock_new_inode": 0,
+          "down_write": 0,
+          "lookup_edges": [
+            [
+              "kernfs_get_inode",
+              "iget_locked",
+              0
+            ],
+            [
+              "iget_locked",
+              "alloc_inode",
+              0
+            ],
+            [
+              "kernfs_get_inode",
+              "unlock_new_inode",
+              0
+            ]
+          ]
+        },
+        {
+          "op": 4,
+          "kernfs_get_inode": 0,
+          "iget_locked": 0,
+          "kernfs_init_inode": 0,
+          "alloc_inode": 0,
+          "unlock_new_inode": 0,
+          "down_write": 0,
+          "lookup_edges": [
+            [
+              "kernfs_get_inode",
+              "iget_locked",
+              0
+            ],
+            [
+              "iget_locked",
+              "alloc_inode",
+              0
+            ],
+            [
+              "kernfs_get_inode",
+              "unlock_new_inode",
+              0
+            ]
+          ]
+        }
+      ],
+      "lookup-remove": [
+        {
+          "op": 1,
+          "nodes": 26,
+          "ilookup": 2,
+          "clear_nlink": 2,
+          "lookup_edges": 2,
+          "remove_write_locks": 52,
+          "wrapper_read_locks": 26
+        },
+        {
+          "op": 2,
+          "nodes": 26,
+          "ilookup": 2,
+          "clear_nlink": 2,
+          "lookup_edges": 2,
+          "remove_write_locks": 52,
+          "wrapper_read_locks": 26
+        },
+        {
+          "op": 3,
+          "nodes": 26,
+          "ilookup": 2,
+          "clear_nlink": 2,
+          "lookup_edges": 2,
+          "remove_write_locks": 52,
+          "wrapper_read_locks": 26
+        },
+        {
+          "op": 4,
+          "nodes": 26,
+          "ilookup": 2,
+          "clear_nlink": 2,
+          "lookup_edges": 2,
+          "remove_write_locks": 52,
+          "wrapper_read_locks": 26
+        }
+      ]
+    }
+  },
+  "slab_layout": {
+    "A": {
+      "object_size": "136",
+      "slab_size": "136",
+      "objs_per_slab": "30",
+      "order": "0",
+      "align": "8"
+    },
+    "B": {
+      "object_size": "144",
+      "slab_size": "144",
+      "objs_per_slab": "28",
+      "order": "0",
+      "align": "8"
+    }
+  },
+  "scope": "Operation-scoped counts, not timing or a complete safety proof."
+}

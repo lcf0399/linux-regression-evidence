@@ -1,0 +1,268 @@
+{
+  "schema": "apparmor-followup-evidence-v1",
+  "dates": [
+    "2026-09-21",
+    "2026-09-22"
+  ],
+  "machine": {
+    "cpu": "Intel Core i7-12700KF",
+    "ram_gib": 32,
+    "logical_cpus": 20,
+    "sender_cpu": 2,
+    "two_process_receiver_cpu": 4,
+    "governor": "performance",
+    "epp": "performance",
+    "turbo": false,
+    "actual_preemption": "full"
+  },
+  "workload": {
+    "syscall": "sendmmsg",
+    "messages_per_round": 65536,
+    "batch": 32,
+    "payload_bytes": 128,
+    "warmup_rounds_per_invocation": 3,
+    "measured_rounds_per_invocation": 15,
+    "invocations_per_point_condition": 3,
+    "timed": "sendmmsg calls only; message preparation, peer drain, payload validation and pipe coordination excluded",
+    "socketpair_source": "../../reproducer/af_unix_sendmmsg_standalone.c",
+    "socketpair_source_sha256": "71544093a1b948404ed186f36870515867602b2c9696207dea6e6238c5904704",
+    "two_process_source_sha256": "4a9c7b559e726374ab63869e307ddb90bfcbb988f5d64fc2916fd5df1d84460e",
+    "uid_two_process": 1000
+  },
+  "packaged_checks_sha256": {
+    "checks.py": "0cff689a7891074921f9b9eb006b31bb524d5a2300edbbd67daf0ae8ebb4fa25",
+    "permission_checks.py": "f912f9e687d7b655534dad3919a43e7015eb42107c389cb12fd700735a7d9e29"
+  },
+  "builds": {
+    "reference": {
+      "version": "7.3-rc4",
+      "kernelrelease": "7.3.0-rc4-sf-latest",
+      "config_sha256": "778ab364b6e32ca84b27c97b15914ff0d61ba02c70e006da217ffd4a9c7b0dfc",
+      "bzimage_sha256": "eb3b4c40d5f68e905b992844ce3123974a09f85f6f8a14461f64e9ffaa95d97e",
+      "vmlinux_sha256": "4236c47986f24271fa70707dbfc912915a98d2e31cd9710b08375d3985e1c452",
+      "source_commit": "93f51579e7df248780214094418f205253383cc5",
+      "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0"
+    },
+    "prototype": {
+      "version": "7.3-rc4",
+      "kernelrelease": "7.3.0-rc4-aa-early1",
+      "config_sha256": "e25b8bd366723977f4b440324d9673a393dfbfef072c8473462c788cb9f1717e",
+      "bzimage_sha256": "feb6cd5085a305af3de3988654622f7b181b2fd2b1355e4791b234cfddfa22d5",
+      "vmlinux_sha256": "d4affa35bfddd2ecadeb7fe7c523467b805fbf8e7c6ce1674266eeb1fceae0bf",
+      "source_commit": "93f51579e7df248780214094418f205253383cc5",
+      "patch_sha256": "9ee27ff84d0fa250d8784507850fe129baf302370abdc42f1dd6f733fa27432f",
+      "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0"
+    },
+    "old-fast": {
+      "kernelrelease": "6.16.0-ionetap19-good-0bfa1c2da7a8-xxxxxxxxxxxx+",
+      "source_commit": "0bfa1c2da7a88d4e5fcd65044a3076f8d672f3a4",
+      "config_sha256": "04cb1ee38220efeab75d4c8d5ddc31109371e28ccffc19b58d1c5946c3c481b7",
+      "bzimage_sha256": "003ffc8f7620146cbf7ab0804b1bea89364f7f49523130224d7cb083ea0c1c5d"
+    },
+    "old-slow": {
+      "kernelrelease": "6.16.0-ionetap19-bad-30cb02a874b4-xxxxxxxxxxxxx+",
+      "source_commit": "30cb02a874b4c62191decf55c3971e45a5173d50",
+      "config_sha256": "61e2c352b04d0d634c09ed13269460f73b05336f5ecf9a320025548dbb9aff0b",
+      "bzimage_sha256": "abd67b96d399e95f1ed10a4b3749d8c27ec147316d953708be5988ca39cce69d"
+    }
+  },
+  "comparability": {
+    "prototype": "same source baseline plus only the prototype patch; same GCC and config except CONFIG_LOCALVERSION; same workload binaries within each comparison",
+    "controlled_delta": "synthetic old-fast baseline plus only the source delta of 6456ccbd2ff72814b3c1b2e2a3a2145a2ced858d",
+    "whole_release": "source/config changes beyond that commit; not exact-commit attribution",
+    "old_report": "archived preempt=none result is not mixed with this full-preemption follow-up"
+  },
+  "source_runs": {
+    "socketpair_prototype": "20260921-apparmor-early-unconfined-kernel-r2",
+    "two_process_prototype": "20260922-apparmor-confined-live-r2",
+    "regression_retest": "20260921-apparmor-latest-r2"
+  },
+  "points": [
+    {
+      "series": "socketpair-prototype",
+      "point": "a",
+      "kernel": "7.3.0-rc4-sf-latest",
+      "boot_id": "323a3911-792c-4b6c-93c5-9a984894d32e",
+      "started_utc": "2026-09-21T16:39:48Z",
+      "finished_utc": "2026-09-21T16:39:55Z",
+      "actual_preempt": "(full) lazy",
+      "online_cpus": "0-19",
+      "power": {
+        "/sys/devices/system/cpu/cpu2/cpufreq/scaling_governor": "performance",
+        "/sys/devices/system/cpu/cpu2/cpufreq/energy_performance_preference": "performance",
+        "/sys/devices/system/cpu/intel_pstate/no_turbo": "1"
+      },
+      "binary_sha256": "37a9410ea2ed5e3b93f7826b9b78d1ceac453a26b60003dcf2e2052dd06121ef",
+      "status": "pass",
+      "cleanup": "pass"
+    },
+    {
+      "series": "socketpair-prototype",
+      "point": "b",
+      "kernel": "7.3.0-rc4-aa-early1",
+      "boot_id": "350f2e6b-6be4-4517-982e-8dc5ea47d1a2",
+      "started_utc": "2026-09-21T16:41:03Z",
+      "finished_utc": "2026-09-21T16:41:11Z",
+      "actual_preempt": "(full) lazy",
+      "online_cpus": "0-19",
+      "power": {
+        "/sys/devices/system/cpu/cpu2/cpufreq/scaling_governor": "performance",
+        "/sys/devices/system/cpu/cpu2/cpufreq/energy_performance_preference": "performance",
+        "/sys/devices/system/cpu/intel_pstate/no_turbo": "1"
+      },
+      "binary_sha256": "37a9410ea2ed5e3b93f7826b9b78d1ceac453a26b60003dcf2e2052dd06121ef",
+      "status": "pass",
+      "cleanup": "pass"
+    },
+    {
+      "series": "socketpair-prototype",
+      "point": "a2",
+      "kernel": "7.3.0-rc4-sf-latest",
+      "boot_id": "c7e21a7d-efa6-43cd-845f-f6a650edbf5d",
+      "started_utc": "2026-09-21T16:42:37Z",
+      "finished_utc": "2026-09-21T16:42:45Z",
+      "actual_preempt": "(full) lazy",
+      "online_cpus": "0-19",
+      "power": {
+        "/sys/devices/system/cpu/cpu2/cpufreq/scaling_governor": "performance",
+        "/sys/devices/system/cpu/cpu2/cpufreq/energy_performance_preference": "performance",
+        "/sys/devices/system/cpu/intel_pstate/no_turbo": "1"
+      },
+      "binary_sha256": "37a9410ea2ed5e3b93f7826b9b78d1ceac453a26b60003dcf2e2052dd06121ef",
+      "status": "pass",
+      "cleanup": "pass"
+    },
+    {
+      "series": "two-process-prototype",
+      "point": "a",
+      "kernel": "7.3.0-rc4-sf-latest",
+      "boot_id": "4b4e58ae-38c8-40d3-91c9-621636fe06be",
+      "started_utc": "2026-09-22T09:42:21.514Z",
+      "finished_utc": "2026-09-22T09:42:49.959Z",
+      "actual_preempt": "(full) lazy",
+      "online_cpus": "0-19",
+      "power": {
+        "/sys/devices/system/cpu/cpu2/cpufreq/scaling_governor": "performance",
+        "/sys/devices/system/cpu/cpu2/cpufreq/energy_performance_preference": "performance",
+        "/sys/devices/system/cpu/cpu4/cpufreq/scaling_governor": "performance",
+        "/sys/devices/system/cpu/cpu4/cpufreq/energy_performance_preference": "performance",
+        "/sys/devices/system/cpu/intel_pstate/no_turbo": "1"
+      },
+      "binary_sha256": "2ced43b5455463d7c925b4eb8b86abe9c7c43d7410614f90db0fb5e261c57f19",
+      "status": "pass",
+      "cleanup": "pass"
+    },
+    {
+      "series": "two-process-prototype",
+      "point": "b",
+      "kernel": "7.3.0-rc4-aa-early1",
+      "boot_id": "b057e1c5-82d1-4860-936b-403aefe32ec9",
+      "started_utc": "2026-09-22T09:43:57.666Z",
+      "finished_utc": "2026-09-22T09:44:26.260Z",
+      "actual_preempt": "(full) lazy",
+      "online_cpus": "0-19",
+      "power": {
+        "/sys/devices/system/cpu/cpu2/cpufreq/scaling_governor": "performance",
+        "/sys/devices/system/cpu/cpu2/cpufreq/energy_performance_preference": "performance",
+        "/sys/devices/system/cpu/cpu4/cpufreq/scaling_governor": "performance",
+        "/sys/devices/system/cpu/cpu4/cpufreq/energy_performance_preference": "performance",
+        "/sys/devices/system/cpu/intel_pstate/no_turbo": "1"
+      },
+      "binary_sha256": "2ced43b5455463d7c925b4eb8b86abe9c7c43d7410614f90db0fb5e261c57f19",
+      "status": "pass",
+      "cleanup": "pass"
+    },
+    {
+      "series": "two-process-prototype",
+      "point": "a2",
+      "kernel": "7.3.0-rc4-sf-latest",
+      "boot_id": "7e8572a6-1a07-40e3-858a-fbd4a0780b67",
+      "started_utc": "2026-09-22T09:45:35.535Z",
+      "finished_utc": "2026-09-22T09:46:03.631Z",
+      "actual_preempt": "(full) lazy",
+      "online_cpus": "0-19",
+      "power": {
+        "/sys/devices/system/cpu/cpu2/cpufreq/scaling_governor": "performance",
+        "/sys/devices/system/cpu/cpu2/cpufreq/energy_performance_preference": "performance",
+        "/sys/devices/system/cpu/cpu4/cpufreq/scaling_governor": "performance",
+        "/sys/devices/system/cpu/cpu4/cpufreq/energy_performance_preference": "performance",
+        "/sys/devices/system/cpu/intel_pstate/no_turbo": "1"
+      },
+      "binary_sha256": "2ced43b5455463d7c925b4eb8b86abe9c7c43d7410614f90db0fb5e261c57f19",
+      "status": "pass",
+      "cleanup": "pass"
+    },
+    {
+      "series": "regression-retest",
+      "point": "aa-parent-a",
+      "kernel": "6.16.0-ionetap19-good-0bfa1c2da7a8-xxxxxxxxxxxx+",
+      "boot_id": "30d70dbf-c84f-4dfd-8391-e61838b6a038",
+      "started_utc": "2026-09-21T12:45:46Z",
+      "finished_utc": "2026-09-21T12:45:50Z",
+      "actual_preempt": "none voluntary (full) lazy",
+      "online_cpus": "0-19",
+      "power": {
+        "/sys/devices/system/cpu/cpu2/cpufreq/scaling_governor": "performance",
+        "/sys/devices/system/cpu/cpu2/cpufreq/energy_performance_preference": "performance",
+        "/sys/devices/system/cpu/intel_pstate/no_turbo": "1"
+      },
+      "binary_sha256": "37a9410ea2ed5e3b93f7826b9b78d1ceac453a26b60003dcf2e2052dd06121ef",
+      "status": "pass",
+      "cleanup": "pass"
+    },
+    {
+      "series": "regression-retest",
+      "point": "aa-child",
+      "kernel": "6.16.0-ionetap19-bad-30cb02a874b4-xxxxxxxxxxxxx+",
+      "boot_id": "66a1b952-587f-43e2-9ee0-0047caea56bc",
+      "started_utc": "2026-09-21T12:46:59Z",
+      "finished_utc": "2026-09-21T12:47:04Z",
+      "actual_preempt": "none voluntary (full) lazy",
+      "online_cpus": "0-19",
+      "power": {
+        "/sys/devices/system/cpu/cpu2/cpufreq/scaling_governor": "performance",
+        "/sys/devices/system/cpu/cpu2/cpufreq/energy_performance_preference": "performance",
+        "/sys/devices/system/cpu/intel_pstate/no_turbo": "1"
+      },
+      "binary_sha256": "37a9410ea2ed5e3b93f7826b9b78d1ceac453a26b60003dcf2e2052dd06121ef",
+      "status": "pass",
+      "cleanup": "pass"
+    },
+    {
+      "series": "regression-retest",
+      "point": "aa-latest",
+      "kernel": "7.3.0-rc4-sf-latest",
+      "boot_id": "2506c24b-ed11-4d90-9fb2-73d7f19e45bf",
+      "started_utc": "2026-09-21T12:48:14Z",
+      "finished_utc": "2026-09-21T12:48:18Z",
+      "actual_preempt": "(full) lazy",
+      "online_cpus": "0-19",
+      "power": {
+        "/sys/devices/system/cpu/cpu2/cpufreq/scaling_governor": "performance",
+        "/sys/devices/system/cpu/cpu2/cpufreq/energy_performance_preference": "performance",
+        "/sys/devices/system/cpu/intel_pstate/no_turbo": "1"
+      },
+      "binary_sha256": "37a9410ea2ed5e3b93f7826b9b78d1ceac453a26b60003dcf2e2052dd06121ef",
+      "status": "pass",
+      "cleanup": "pass"
+    },
+    {
+      "series": "regression-retest",
+      "point": "aa-parent-b",
+      "kernel": "6.16.0-ionetap19-good-0bfa1c2da7a8-xxxxxxxxxxxx+",
+      "boot_id": "d0dbbbfc-7709-47f9-89e5-1f915988f6a5",
+      "started_utc": "2026-09-21T12:49:29Z",
+      "finished_utc": "2026-09-21T12:49:33Z",
+      "actual_preempt": "none voluntary (full) lazy",
+      "online_cpus": "0-19",
+      "power": {
+        "/sys/devices/system/cpu/cpu2/cpufreq/scaling_governor": "performance",
+        "/sys/devices/system/cpu/cpu2/cpufreq/energy_performance_preference": "performance",
+        "/sys/devices/system/cpu/intel_pstate/no_turbo": "1"
+      },
+      "binary_sha256": "37a9410ea2ed5e3b93f7826b9b78d1ceac453a26b60003dcf2e2052dd06121ef",
+      "status": "pass",
+      "cleanup": "pass"
+    }
+  ]
+}

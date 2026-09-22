@@ -1,5 +1,9 @@
 # 裸机结果
 
+下文保留原报告数据。[9 月 21～22 日独立补测](early-unconfined-20260922/README.zh-CN.md)
+单独存放：包括原回归复测、提前返回原型的计时、受限路径代价和存活 socket 权限检查。
+不同对照的百分比不混算。
+
 主表来自本 bundle 中简短 standalone 源码的独立运行。每点 fresh boot，先做 3 轮
 warm-up，再做 15 轮 measured；每轮用 2,048 次 `sendmmsg()` 发送 65,536 条消息。
 计时区只包含系统调用，setup、对端排空和校验均不计时。

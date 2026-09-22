@@ -1,5 +1,11 @@
 # Bare-metal result
 
+The data below is the original report. The independent
+[September 21–22 follow-up](early-unconfined-20260922/README.md) is kept in its
+own directory: the original-regression retest, early-return prototype timing,
+confined-path cost and live-socket permission checks. Results from these
+different comparisons are not combined.
+
 The primary table is an independent run of the concise standalone source in
 this bundle. Each point used a fresh boot and 3 warm-up plus 15 measured
 rounds. Each measured round sent 65,536 messages as 2,048 `sendmmsg()` calls.

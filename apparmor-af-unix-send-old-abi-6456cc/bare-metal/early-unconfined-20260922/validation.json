@@ -1,0 +1,271 @@
+{
+  "schema": "apparmor-followup-checks-v1",
+  "scope": "curated outcomes from separately recorded untimed checks; not exhaustive security validation",
+  "prototype_socketpair": {
+    "raw_audit_status": "raw-audit-pass",
+    "static_tests_per_boot": 29,
+    "points": {
+      "a": {
+        "static_permissions": {
+          "status": "pass",
+          "cases": 29
+        },
+        "probes": {
+          "entry": 1056,
+          "peer": 2112,
+          "work": 2112
+        }
+      },
+      "b": {
+        "static_permissions": {
+          "status": "pass",
+          "cases": 29
+        },
+        "probes": {
+          "entry": 1056,
+          "peer": 2112,
+          "work": 0
+        }
+      },
+      "a2": {
+        "static_permissions": {
+          "status": "pass",
+          "cases": 29
+        },
+        "probes": {
+          "entry": 1056,
+          "peer": 2112,
+          "work": 2112
+        }
+      }
+    }
+  },
+  "two_process": {
+    "raw_audit_status": "raw-audit-pass",
+    "fixed_phase_results_identical": true,
+    "serial_scenarios": 4,
+    "phases_per_scenario": 7,
+    "checks_per_phase": 3,
+    "receiver_contract": "baseline equivalence only: an existing receiver socket continued receiving after receiver-only deny updates on both original boots and the prototype",
+    "points": {
+      "a": {
+        "static_permissions": {
+          "status": "pass",
+          "count": 29
+        },
+        "serial_checks": 84,
+        "skipped_phases": 0,
+        "pending_at_close": 0,
+        "probes": [
+          {
+            "case": "unconfined",
+            "begin": 1,
+            "end": 1,
+            "active": 0,
+            "entry": 1024,
+            "peer": 2048,
+            "work": 2048
+          },
+          {
+            "case": "sender-confined",
+            "begin": 1,
+            "end": 1,
+            "active": 0,
+            "entry": 1024,
+            "peer": 2048,
+            "work": 2048
+          },
+          {
+            "case": "receiver-confined",
+            "begin": 1,
+            "end": 1,
+            "active": 0,
+            "entry": 1024,
+            "peer": 2048,
+            "work": 2048
+          },
+          {
+            "case": "both-confined",
+            "begin": 1,
+            "end": 1,
+            "active": 0,
+            "entry": 1024,
+            "peer": 2048,
+            "work": 2048
+          }
+        ],
+        "races": [
+          {
+            "name": "concurrent-sender",
+            "duration_ns": 2000000523,
+            "replacements": 16,
+            "replacements_inside_send_loop": true,
+            "allowed": 45619,
+            "denied": 2778034,
+            "semantic_pass": true,
+            "status": "pass"
+          },
+          {
+            "name": "concurrent-peer-with-sender-deny",
+            "duration_ns": 2000000448,
+            "replacements": 16,
+            "replacements_inside_send_loop": true,
+            "allowed": 0,
+            "denied": 2627993,
+            "semantic_pass": true,
+            "status": "pass"
+          }
+        ]
+      },
+      "b": {
+        "static_permissions": {
+          "status": "pass",
+          "count": 29
+        },
+        "serial_checks": 84,
+        "skipped_phases": 0,
+        "pending_at_close": 0,
+        "probes": [
+          {
+            "case": "unconfined",
+            "begin": 1,
+            "end": 1,
+            "active": 0,
+            "entry": 1024,
+            "peer": 2048,
+            "work": 0
+          },
+          {
+            "case": "sender-confined",
+            "begin": 1,
+            "end": 1,
+            "active": 0,
+            "entry": 1024,
+            "peer": 2048,
+            "work": 1024
+          },
+          {
+            "case": "receiver-confined",
+            "begin": 1,
+            "end": 1,
+            "active": 0,
+            "entry": 1024,
+            "peer": 2048,
+            "work": 1024
+          },
+          {
+            "case": "both-confined",
+            "begin": 1,
+            "end": 1,
+            "active": 0,
+            "entry": 1024,
+            "peer": 2048,
+            "work": 2048
+          }
+        ],
+        "races": [
+          {
+            "name": "concurrent-sender",
+            "duration_ns": 2000000638,
+            "replacements": 16,
+            "replacements_inside_send_loop": true,
+            "allowed": 44126,
+            "denied": 2889612,
+            "semantic_pass": true,
+            "status": "pass"
+          },
+          {
+            "name": "concurrent-peer-with-sender-deny",
+            "duration_ns": 2000000533,
+            "replacements": 16,
+            "replacements_inside_send_loop": true,
+            "allowed": 0,
+            "denied": 2606660,
+            "semantic_pass": true,
+            "status": "pass"
+          }
+        ]
+      },
+      "a2": {
+        "static_permissions": {
+          "status": "pass",
+          "count": 29
+        },
+        "serial_checks": 84,
+        "skipped_phases": 0,
+        "pending_at_close": 0,
+        "probes": [
+          {
+            "case": "unconfined",
+            "begin": 1,
+            "end": 1,
+            "active": 0,
+            "entry": 1024,
+            "peer": 2048,
+            "work": 2048
+          },
+          {
+            "case": "sender-confined",
+            "begin": 1,
+            "end": 1,
+            "active": 0,
+            "entry": 1024,
+            "peer": 2048,
+            "work": 2048
+          },
+          {
+            "case": "receiver-confined",
+            "begin": 1,
+            "end": 1,
+            "active": 0,
+            "entry": 1024,
+            "peer": 2048,
+            "work": 2048
+          },
+          {
+            "case": "both-confined",
+            "begin": 1,
+            "end": 1,
+            "active": 0,
+            "entry": 1024,
+            "peer": 2048,
+            "work": 2048
+          }
+        ],
+        "races": [
+          {
+            "name": "concurrent-sender",
+            "duration_ns": 2000000293,
+            "replacements": 16,
+            "replacements_inside_send_loop": true,
+            "allowed": 46182,
+            "denied": 2675323,
+            "semantic_pass": true,
+            "status": "pass"
+          },
+          {
+            "name": "concurrent-peer-with-sender-deny",
+            "duration_ns": 2000000125,
+            "replacements": 16,
+            "replacements_inside_send_loop": true,
+            "allowed": 0,
+            "denied": 2535398,
+            "semantic_pass": true,
+            "status": "pass"
+          }
+        ]
+      }
+    }
+  },
+  "limits": [
+    "Single-label live-update comparison; static stacked-label tests do not establish stacked-label live-update correctness.",
+    "No exhaustive concurrency, namespace or socket-type coverage.",
+    "No application-level timing; no attribution of the whole-release gap solely to the original commit."
+  ],
+  "retained_preflight_failures": [
+    "Original prototype attempt stopped on the reference kernel: ABI 4.0 lacked network_v9; formal controls used ABI 5.0 without relaxing deny expectations.",
+    "Initial live-update setup produced implicit stacked labels; formal run entered one label before dropping privileges.",
+    "Receiver immediate-revocation assumption failed; formal receiver contract was explicitly baseline equivalence, not immediate revocation.",
+    "A 2-million-operation cap ended one race before two seconds; cap raised to 20 million before the formal contract was frozen."
+  ]
+}

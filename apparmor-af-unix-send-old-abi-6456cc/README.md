@@ -51,6 +51,12 @@ this unconfined AF_UNIX datagram send path.
 
 ## Contents
 
+- [September 21–22 follow-up](bare-metal/early-unconfined-20260922/README.md):
+  original-regression retest and a separate early-return prototype on v7.3-rc4.
+  The prototype reduced unconfined socketpair send time by 12.84%; a separate
+  two-process test found a 1.25% cost with both peers confined. Includes the
+  tested patch, permission-check results and independently verifiable samples.
+  This is a prototype, not a completed security fix or an application speedup.
 - [`bare-metal/`](bare-metal/) contains source and run identity, result
   summaries, and all selected measured rows;
 - [`reproducer/`](reproducer/) contains both the concise standalone source and

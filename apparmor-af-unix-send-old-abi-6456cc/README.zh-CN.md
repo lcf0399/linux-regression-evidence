@@ -42,6 +42,10 @@ Turbo 关闭；三点的 `/proc/self/attr/current` 均为 `unconfined`。
 
 ## 目录
 
+- [9 月 21～22 日补测](bare-metal/early-unconfined-20260922/README.zh-CN.md)：原回归
+  复测，以及 v7.3-rc4 上的独立提前返回原型。原型使 unconfined socketpair 发送段快
+  12.84%；另一组双进程测试中，双方受限时慢 1.25%。包含实际测试补丁、权限检查结果和
+  可独立重算的样本；这是原型，不是完成安全验证的修复，也不代表应用整体加速。
 - [`bare-metal/`](bare-metal/)：源码与运行身份、结果摘要和全部选中 measured row；
 - [`reproducer/`](reproducer/)：简短 standalone 源码，以及生成 `u0`/`s0` 表的
   未修改原始正式 workload；

@@ -1,0 +1,26 @@
+--- a/security/apparmor/af_unix.c
++++ b/security/apparmor/af_unix.c
+@@ -634,12 +634,17 @@
+ 	struct unix_sock *peeru = unix_sk(peer_sk);
+ 	struct unix_sock *u = unix_sk(sk);
+ 	int plen;
+-	struct sockaddr_un *paddr = aa_sunaddr(unix_sk(peer_sk), &plen);
++	struct sockaddr_un *paddr;
+ 
+ 	AA_BUG(!label);
+ 	AA_BUG(!sk);
+ 	AA_BUG(!peer_sk);
+ 	AA_BUG(!peer_label);
++
++	if (unconfined(label))
++		return 0;
++
++	paddr = aa_sunaddr(unix_sk(peer_sk), &plen);
+ 
+ 	return unix_peer_perm(subj_cred, label, op, request, sk,
+ 			      is_unix_fs(sk) ? &u->path : NULL,
+@@ -809,4 +814,3 @@
+ 
+ 	return error;
+ }
+-

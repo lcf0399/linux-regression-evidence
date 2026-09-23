@@ -48,9 +48,9 @@ I/O 源文件主动探索阶段已经结束，目前没有排队的新 target �
 
 更新于 2026-09-23，不刷新前述旧线程的核对日期。
 
-- [RT sysctl 读取重建条件](candidate/sched-rt-sysctl-read-rebuild/)：
+- [RT sysctl 读取重建条件](sched-rt-sysctl-read-rebuild/)：
   Joseph Salisbury 已有补丁仅适配 v7.2 上下文，所测 RT 读取循环耗时降低约 96.9%。
-  成功写入仍执行维护，有限正确性检查通过。反馈尚未发送，不声称已经合入。
+  成功写入仍执行维护，有限正确性检查通过。已准备发送上游反馈，尚未发送，不声称已经合入。
 
 ## 如何阅读 bundle
 

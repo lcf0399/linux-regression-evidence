@@ -15,7 +15,8 @@ proposal; it is not a new patch submission or a claim that upstream accepted it.
   still calls `rebuild_sched_domains()` without the successful-write guard.
   The proposal is therefore not present in that checked mainline version.
   Maintainer trees and all stable branches were not exhaustively checked.
-- Validation feedback from this bundle has not yet been sent. No acceptance,
+- Validation feedback is prepared for the original thread but has not yet been
+  sent. No acceptance,
   `Tested-by` inclusion, or merge is claimed.
 
 The tested patch changes only the context around the three original logic

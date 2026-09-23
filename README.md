@@ -52,10 +52,11 @@ active experiment queue or automatically recommend an upstream report.
 
 Updated on 2026-09-23; this does not refresh the older thread audits above.
 
-- [RT sysctl read rebuild guard](candidate/sched-rt-sysctl-read-rebuild/):
+- [RT sysctl read rebuild guard](sched-rt-sysctl-read-rebuild/):
   Joseph Salisbury's existing proposal, context-adapted to v7.2, reduces the
   tested RT read-loop cost by 96.9%. Successful writes retain maintenance;
-  limited correctness checks passed. Feedback is not yet sent; no merge claimed.
+  limited correctness checks passed. Prepared for upstream feedback; not yet sent,
+  and no merge claimed.
 
 ## Reading a bundle
 

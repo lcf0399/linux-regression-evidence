@@ -44,6 +44,14 @@ I/O 源文件主动探索阶段已经结束，目前没有排队的新 target �
 | [`region API ring lifecycle`](candidate/io-uring-region-api-ring-lifecycle/) | 材料已准备；现实影响限于反复创建、销毁短生命周期 ring。 | release `+10.832%`；两个相邻 direct-parent pair 为 `+4.563%`、`+3.019%`。 |
 | [`NOP diagnostic control`](candidate/io-uring-nop-diagnostic-control/) | 不建议发性能回归报告；保留为诊断接口成本证据。 | release plain/inject `+15.801%/+16.240%`；精确提交成分 `+8.311%/+8.692%`。 |
 
+## 已有补丁的验证
+
+更新于 2026-09-23，不刷新前述旧线程的核对日期。
+
+- [RT sysctl 读取重建条件](candidate/sched-rt-sysctl-read-rebuild/)：
+  Joseph Salisbury 已有补丁仅适配 v7.2 上下文，所测 RT 读取循环耗时降低约 96.9%。
+  成功写入仍执行维护，有限正确性检查通过。反馈尚未发送，不声称已经合入。
+
 ## 如何阅读 bundle
 
 每个目标目录才是该结论的权威来源。典型结构包括：

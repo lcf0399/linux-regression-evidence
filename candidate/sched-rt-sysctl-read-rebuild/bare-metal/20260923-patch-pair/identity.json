@@ -1,0 +1,127 @@
+{
+  "schema": "rt-sysctl-patch-validation-v1",
+  "date": "2026-09-23",
+  "base_git_commit": "8d3ae59288f1e7d58d76558a6ee96d533bc5019f",
+  "base_tag": "v7.2",
+  "patch_author": "Joseph Salisbury",
+  "patch_message_id": "20260313183716.990792-1-joseph.salisbury@oracle.com",
+  "adaptation": "Context only: v7.2 has no sched_rt_do_global() call; the three logic changes are unchanged.",
+  "builds": {
+    "base": {
+      "kernelrelease": "7.2.0-bm-7.2",
+      "config_sha256": "b78bf2097de2916652148620459a583eda2e907384cdfb6058045688668ff157",
+      "bzimage_sha256": "7f86abc91282912b3416ea86cbeb8ceb2e74a7ea8cf48f9031b572542816dbf9",
+      "vmlinux_sha256": "395572b9ce1a2205009f800946123e9f4798ba2ba70db18bccd2abb8ca0eeacf",
+      "rt_source_sha256": "94683b7c7291d4fe47692503bd90be45e42629fac4a12e63fae29cb82bfdad94"
+    },
+    "patch": {
+      "kernelrelease": "7.2.0-rr-jos",
+      "required_kernel_cmdline": "preempt=full crashkernel=0",
+      "config_sha256": "631d02f855a275c9ca8a91cd0aa5cc59235f8aadcd04b6ca5078c42cebac34a5",
+      "bzimage_sha256": "5a38afb92b29dbb172dce7250c05ac4d7b0e8452d88e58b49d9270b1567b87ee",
+      "vmlinux_sha256": "f63f107500f01f6d881dd0adbafeca37a8bff154b3668f686d72c12f9f074f1a",
+      "rt_source_sha256": "d3d2b07f625287086aa3ee1f2e7033ee415a81bad741e585f110b21fda75abec",
+      "proposal_message_id": "20260313183716.990792-1-joseph.salisbury@oracle.com"
+    }
+  },
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "linker": "GNU ld 2.46",
+  "kbuild": {
+    "user": "kernel-study",
+    "host": "linux-perf-bm",
+    "timestamp": "2026-07-25 00:00:00 UTC",
+    "version": 1
+  },
+  "configuration_difference": "CONFIG_LOCALVERSION only among actual Kconfig symbols; generated architecture heading comments also differ.",
+  "matching_other_config_symbols": 11069,
+  "platform": {
+    "cpu": "Intel Core i7-12700KF",
+    "logical_cpus_online": 20,
+    "physical_cores": 12,
+    "numa_nodes": 1,
+    "llc_domains": 1,
+    "topology": "CPU CORE SOCKET NODE\n  0    0      0    0\n  1    0      0    0\n  2    1      0    0\n  3    1      0    0\n  4    2      0    0\n  5    2      0    0\n  6    3      0    0\n  7    3      0    0\n  8    4      0    0\n  9    4      0    0\n 10    5      0    0\n 11    5      0    0\n 12    6      0    0\n 13    6      0    0\n 14    7      0    0\n 15    7      0    0\n 16    8      0    0\n 17    9      0    0\n 18   10      0    0\n 19   11      0    0"
+  },
+  "contract": {
+    "cpu": 2,
+    "observer_cpu": 17,
+    "cases": [
+      "period",
+      "runtime",
+      "rr"
+    ],
+    "semantic_reads": 32,
+    "probe_reads": 8,
+    "timing_reads": 4096,
+    "warmups": 3,
+    "rounds": 9,
+    "max_cv_pct": 3,
+    "max_base_drift_pct": 2,
+    "effect_pct": 5,
+    "values": {
+      "period": 1000000,
+      "runtime": 950000,
+      "rr": 100
+    },
+    "defaults": {
+      "period": 1000000,
+      "runtime": 1000000,
+      "rr": 100
+    },
+    "write_cases": 12,
+    "write_phases": [
+      "semantic",
+      "probe"
+    ]
+  },
+  "runtime": {
+    "preemption": "full",
+    "relevant_cmdline": "preempt=full crashkernel=0",
+    "governor": "performance",
+    "epp": "performance",
+    "turbo": "disabled",
+    "rt_group_sched": false,
+    "trace_during_timing": "off"
+  },
+  "binaries": {
+    "rt_sysctl_read": {
+      "source_sha256": "29b024cf346bdbf064f2dcfba954f24f5a299dcb17781bda34f727d52e0cf77e",
+      "binary_sha256": "0d79ca2240b813107c39743ecfb9347386d70136bff8f321a4b4886afe1d8cef",
+      "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0"
+    },
+    "sysctl_checks": {
+      "source_sha256": "ac5fa30023e2157d8b8ac2254b8b5d0f22a78a89bb2b64934cbe2ba284e7fab1",
+      "binary_sha256": "1400f22d603cc45d67ee236285e58a243e75a409c01e9298b7f3376b64473948",
+      "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0"
+    }
+  },
+  "libc_sha256": "85e64f97e348786a8fb4d9f3d52fec289e2fb86bba20f0731dfe61990525e0f7",
+  "boots": {
+    "base-a": {
+      "started": "2026-09-23T15:01:41Z",
+      "finished": "2026-09-23T15:01:55Z",
+      "kernel": "7.2.0-bm-7.2",
+      "status": "pass",
+      "cleanup": "pass"
+    },
+    "patch": {
+      "started": "2026-09-23T15:03:21Z",
+      "finished": "2026-09-23T15:03:36Z",
+      "kernel": "7.2.0-rr-jos",
+      "status": "pass",
+      "cleanup": "pass"
+    },
+    "base-b": {
+      "started": "2026-09-23T15:05:00Z",
+      "finished": "2026-09-23T15:05:14Z",
+      "kernel": "7.2.0-bm-7.2",
+      "status": "pass",
+      "cleanup": "pass"
+    }
+  },
+  "restoration": {
+    "kernel": "7.0.0-27-generic",
+    "finished": "2026-09-23T15:06:07Z",
+    "settings": "Saved RT values and 41 power settings restored per boot; original boot state restored."
+  }
+}

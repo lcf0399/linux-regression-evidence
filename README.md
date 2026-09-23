@@ -48,6 +48,15 @@ active experiment queue or automatically recommend an upstream report.
 | [`region API ring lifecycle`](candidate/io-uring-region-api-ring-lifecycle/) | Prepared; real-world impact is limited to repeated short-lived ring setup and teardown. | Release `+10.832%`; adjacent direct-parent pairs `+4.563%` and `+3.019%`. |
 | [`NOP diagnostic control`](candidate/io-uring-nop-diagnostic-control/) | No upstream regression report proposed; retained as diagnostic-interface cost evidence. | Release plain/inject `+15.801%/+16.240%`; exact-commit component `+8.311%/+8.692%`. |
 
+## Existing-patch validation
+
+Updated on 2026-09-23; this does not refresh the older thread audits above.
+
+- [RT sysctl read rebuild guard](candidate/sched-rt-sysctl-read-rebuild/):
+  Joseph Salisbury's existing proposal, context-adapted to v7.2, reduces the
+  tested RT read-loop cost by 96.9%. Successful writes retain maintenance;
+  limited correctness checks passed. Feedback is not yet sent; no merge claimed.
+
 ## Reading a bundle
 
 Each directory is the authoritative source for its claim. A typical bundle

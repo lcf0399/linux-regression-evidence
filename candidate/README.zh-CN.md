@@ -9,5 +9,11 @@
 | [`io-uring-region-api-ring-lifecycle/`](io-uring-region-api-ring-lifecycle/) | 已准备，发送前需刷新上游审计 | 只覆盖反复创建和销毁短生命周期标准 ring。 |
 | [`io-uring-nop-diagnostic-control/`](io-uring-nop-diagnostic-control/) | 已收口，不建议发送 | NOP 是测试/控制 opcode，不代表应用 I/O。 |
 
+## 已有补丁验证
+
+[RT sysctl 读取](sched-rt-sysctl-read-rebuild/)记录对 Joseph Salisbury 已有方案的验证，
+不是新设计的修复。v7.2 读取循环耗时降低约 96.9%，成功写入仍执行维护。
+反馈尚未发送，所核对主线尚无该修改。
+
 决定发送某项时，再执行当前上游排重、修复审计、`get_maintainer.pl` 收件人核对和公开文件
 边界检查。邮件草稿保留在本地并由 `.gitignore` 排除。

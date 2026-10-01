@@ -1,0 +1,210 @@
+diff --git a/io_uring/rsrc.c b/io_uring/rsrc.c
+--- a/io_uring/rsrc.c
++++ b/io_uring/rsrc.c
+@@ -150,11 +150,33 @@
+ 	io_free_imu(ctx, imu);
+ }
+ 
++static void *io_rsrc_node_refill(struct io_alloc_cache *cache)
++{
++	void *node;
++	int i, nr;
++
++	/* Called only on an empty node cache; registration does not prefill it. */
++	nr = kmalloc_bulk(sizeof(struct io_rsrc_node), GFP_KERNEL,
++			  cache->max_cached, cache->entries);
++	if (!nr)
++		return io_cache_alloc_new(cache, GFP_KERNEL);
++	node = cache->entries[nr - 1];
++	for (i = 0; i < nr - 1; i++) {
++		void *entry = cache->entries[i];
++
++		if (!io_alloc_cache_put(cache, entry))
++			kfree(entry);
++	}
++	return node;
++}
++
+ struct io_rsrc_node *io_rsrc_node_alloc(struct io_ring_ctx *ctx, int type)
+ {
+ 	struct io_rsrc_node *node;
+ 
+-	node = io_cache_alloc(&ctx->node_cache, GFP_KERNEL);
++	node = io_alloc_cache_get(&ctx->node_cache);
++	if (!node)
++		node = io_rsrc_node_refill(&ctx->node_cache);
+ 	if (node) {
+ 		node->type = type;
+ 		node->refs = 1;
+diff --git a/include/linux/slab.h b/include/linux/slab.h
+--- a/include/linux/slab.h
++++ b/include/linux/slab.h
+@@ -825,6 +825,10 @@
+ int kmem_cache_alloc_bulk_noprof(struct kmem_cache *s, gfp_t flags, size_t size, void **p);
+ #define kmem_cache_alloc_bulk(...)	alloc_hooks(kmem_cache_alloc_bulk_noprof(__VA_ARGS__))
+ 
++/* Diagnostic shared-kmalloc bulk interface; all objects or none. */
++int kmalloc_bulk_noprof(size_t bytes, gfp_t flags, size_t nr, void **p);
++#define kmalloc_bulk(...)	alloc_hooks(kmalloc_bulk_noprof(__VA_ARGS__))
++
+ static __always_inline void kfree_bulk(size_t size, void **p)
+ {
+ 	kmem_cache_free_bulk(NULL, size, p);
+diff --git a/mm/slub.c b/mm/slub.c
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -2618,7 +2618,8 @@
+ }
+ 
+ static int __kmem_cache_alloc_bulk(struct kmem_cache *s, gfp_t flags,
+-				   size_t size, void **p);
++				   size_t size, void **p,
++				   unsigned int orig_size);
+ 
+ 
+ static int refill_sheaf(struct kmem_cache *s, struct slab_sheaf *sheaf,
+@@ -2631,7 +2632,8 @@
+ 		return 0;
+ 
+ 	filled = __kmem_cache_alloc_bulk(s, gfp, to_fill,
+-					 &sheaf->objects[sheaf->size]);
++					 &sheaf->objects[sheaf->size],
++					 s->object_size);
+ 
+ 	sheaf->size += filled;
+ 
+@@ -5372,7 +5374,7 @@
+ 		sheaf->capacity = size;
+ 
+ 		if (!__kmem_cache_alloc_bulk(s, gfp, size,
+-					     &sheaf->objects[0])) {
++					     &sheaf->objects[0], s->object_size)) {
+ 			kfree(sheaf);
+ 			return NULL;
+ 		}
+@@ -5506,7 +5508,8 @@
+ 			return refill_sheaf(s, sheaf, gfp);
+ 
+ 		if (!__kmem_cache_alloc_bulk(s, gfp, sheaf->capacity - sheaf->size,
+-					     &sheaf->objects[sheaf->size])) {
++					     &sheaf->objects[sheaf->size],
++					     s->object_size)) {
+ 			return -ENOMEM;
+ 		}
+ 		sheaf->size = sheaf->capacity;
+@@ -7352,7 +7355,7 @@
+ #ifndef CONFIG_SLUB_TINY
+ static inline
+ int __kmem_cache_alloc_bulk(struct kmem_cache *s, gfp_t flags, size_t size,
+-			    void **p)
++			    void **p, unsigned int orig_size)
+ {
+ 	struct kmem_cache_cpu *c;
+ 	unsigned long irqflags;
+@@ -7367,7 +7370,7 @@
+ 	local_lock_irqsave(&s->cpu_slab->lock, irqflags);
+ 
+ 	for (i = 0; i < size; i++) {
+-		void *object = kfence_alloc(s, s->object_size, flags);
++		void *object = kfence_alloc(s, orig_size, flags);
+ 
+ 		if (unlikely(object)) {
+ 			p[i] = object;
+@@ -7392,7 +7395,7 @@
+ 			 * of re-populating per CPU c->freelist
+ 			 */
+ 			p[i] = ___slab_alloc(s, flags, NUMA_NO_NODE,
+-					    _RET_IP_, c, s->object_size);
++					    _RET_IP_, c, orig_size);
+ 			if (unlikely(!p[i]))
+ 				goto error;
+ 
+@@ -7422,12 +7425,13 @@
+ }
+ #else /* CONFIG_SLUB_TINY */
+ static int __kmem_cache_alloc_bulk(struct kmem_cache *s, gfp_t flags,
+-				   size_t size, void **p)
++				   size_t size, void **p,
++				   unsigned int orig_size)
+ {
+ 	int i;
+ 
+ 	for (i = 0; i < size; i++) {
+-		void *object = kfence_alloc(s, s->object_size, flags);
++		void *object = kfence_alloc(s, orig_size, flags);
+ 
+ 		if (unlikely(object)) {
+ 			p[i] = object;
+@@ -7435,7 +7439,7 @@
+ 		}
+ 
+ 		p[i] = __slab_alloc_node(s, flags, NUMA_NO_NODE,
+-					 _RET_IP_, s->object_size);
++					 _RET_IP_, orig_size);
+ 		if (unlikely(!p[i]))
+ 			goto error;
+ 
+@@ -7451,8 +7455,9 @@
+ #endif /* CONFIG_SLUB_TINY */
+ 
+ /* Note that interrupts must be enabled when calling this function. */
+-int kmem_cache_alloc_bulk_noprof(struct kmem_cache *s, gfp_t flags, size_t size,
+-				 void **p)
++static __always_inline int alloc_bulk(struct kmem_cache *s, gfp_t flags,
++				     size_t size, void **p,
++				     unsigned int orig_size)
+ {
+ 	unsigned int i = 0;
+ 
+@@ -7471,7 +7476,8 @@
+ 		 * If we ran out of memory, don't bother with freeing back to
+ 		 * the percpu sheaves, we have bigger problems.
+ 		 */
+-		if (unlikely(__kmem_cache_alloc_bulk(s, flags, size - i, p + i) == 0)) {
++		if (unlikely(__kmem_cache_alloc_bulk(s, flags, size - i, p + i,
++						   orig_size) == 0)) {
+ 			if (i > 0)
+ 				__kmem_cache_free_bulk(s, i, p);
+ 			return 0;
+@@ -7483,13 +7489,40 @@
+ 	 * Done outside of the IRQ disabled fastpath loop.
+ 	 */
+ 	if (unlikely(!slab_post_alloc_hook(s, NULL, flags, size, p,
+-		    slab_want_init_on_alloc(flags, s), s->object_size))) {
++		    slab_want_init_on_alloc(flags, s), orig_size))) {
+ 		return 0;
+ 	}
+ 
+ 	return size;
+ }
++
++int kmem_cache_alloc_bulk_noprof(struct kmem_cache *s, gfp_t flags, size_t size,
++				 void **p)
++{
++	if (!size)
++		return 0;
++	return alloc_bulk(s, flags, size, p, s->object_size);
++}
+ EXPORT_SYMBOL(kmem_cache_alloc_bulk_noprof);
++
++/* Diagnostic interface: the shared buckets and requested-size checks stay. */
++int kmalloc_bulk_noprof(size_t bytes, gfp_t flags, size_t nr, void **p)
++{
++	struct kmem_cache *s;
++	unsigned long caller = _RET_IP_;
++	int i, got;
++
++	if (!nr || nr > INT_MAX || !bytes || bytes > KMALLOC_MAX_CACHE_SIZE)
++		return 0;
++	s = kmalloc_slab(bytes, NULL, flags, caller);
++	got = alloc_bulk(s, flags, nr, p, bytes);
++	for (i = 0; i < got; i++) {
++		p[i] = kasan_kmalloc(s, p[i], bytes, flags);
++		trace_kmalloc(caller, p[i], bytes, s->size, flags, NUMA_NO_NODE);
++	}
++	return got;
++}
++EXPORT_SYMBOL(kmalloc_bulk_noprof);
+ 
+ /*
+  * Object placement in a slab is made very easy because we always start at

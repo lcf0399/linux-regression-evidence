@@ -1,5 +1,10 @@
 # Upstream status audit
 
+This is the dated 2026-08-07 thread/source snapshot, not a current inbox or
+merge-status audit. The [2026-10-01 evidence update](../README.md) adds new
+TCP and patch tests. Its prepared reply to Uzair has not been sent as part of
+that update, and the diagnostic prototype is not an accepted upstream patch.
+
 The introducing change was posted by Jens Axboe as
 [`[PATCH 06/14] io_uring/rsrc: get rid of per-ring io_rsrc_node list`](https://lore.kernel.org/io-uring/20241029152249.667290-7-axboe@kernel.dk/)
 and merged as `7029acd8a950`. The patch deliberately moved resource-node

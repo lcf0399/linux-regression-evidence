@@ -1,73 +1,31 @@
-# io_uring MSG_RING SEND_FD fixed-file 安装
+# io_uring SEND_FD 安装与节点缓存测试
 
-本证据包记录一条很窄的 io_uring registration/update slowdown。workload 使用
-`IORING_OP_MSG_RING` 与 `IORING_MSG_SEND_FD`，把 source ring 中的一个 fixed file
-安装到另一个 ring 的 sparse fixed-file table 空槽中。它是聚焦的 synthetic
-microbenchmark，不是应用 benchmark，也不声称普通 io_uring read/write fast path 存在
-同样回归。
+更新于 2026-10-01。**原始安装路径的慢差仍然存在，但稳定的本机 TCP 测试没有显示
+明显整体变慢；两种保持 128 闲置节点上限的批量方案也都没有获得明确收益。**
+这些结果不足以支持默认扩大缓存，或为了性能采用本次诊断原型。
 
-## 主结果
+这是合成管理与 TCP 测试，不代表所有 io_uring 应用。原提交解决资源管理问题，
+不能仅凭本项成本建议撤回。目录按测试回答的问题整理，详细英文页可直接供上游阅读。
 
-正式证据是围绕
-[`7029acd8a950`](https://github.com/torvalds/linux/commit/7029acd8a950393ee3a3d8e1a7ee1a9b77808a3b)
-（`io_uring/rsrc: get rid of per-ring io_rsrc_node list`）的精确 direct-parent 对照：
-
-| 点 | mean ns/install | CV |
-| --- | ---: | ---: |
-| parent A | `102.476` | `0.705%` |
-| child | `114.441` | `0.289%` |
-| parent B | `102.576` | `0.340%` |
-
-child 相对 parent 控制中点慢 `11.621%`；drop-first 为 `11.649%`，parent 漂移仅
-`0.097%`，45 行 measured 数据全部通过语义检查。三个 fresh-boot 点使用同一 workload
-binary、归一化配置、构建控制、CPU 2，实际运行抢占模式均为 `full`。
-
-该提交为每个 fixed-file slot 引入独立 resource node，以消除 per-ring serialization 和
-资源回收停滞。因此本证据描述的是可测的 registration/update trade-off，不建议回退这项
-正确性/可扩展性变更。
-
-## v3 补丁验证（2026-09-10）
-
-三枚作者原补丁在精确 public v6.18-rc4 上完成验证。原 first fill 为
-`107.731 ns/install`，对未修改版快 `9.791%`、对 0001+0002 快 `8.819%`。
-独立同 ring 的 4096 文件移除→重装区间分别快 `18.820% / 18.584%`；
-独立计数证明扩大缓存避免后续批次反复分配。
-
-注册开始至首填完成没有改善：原辅助程序 `+1.144%`，新 ring 间隔版 `+1.637%`。
-少量使用/小表未过门项均保留；注册 4096 只用 64 后仍有 4032 个闲置 node。
-未修改版也有退出工作跨轮现象，但尚未证明它造成此前高 CV。
-[v3 结果页](bare-metal/uzair-v3-prefill/README.zh-CN.md)集中保存全部 28 项计时、
-机制验证、身份与辅助源码；不宣称完整生命周期或普通 I/O 性能收益。
-
-## 证据链
-
-| 问题 | 结果 | 范围 |
+| 问题 | 对照及结论 | 材料 |
 | --- | --- | --- |
-| release-level 信号是否复现？ | Linux 6.13 对 6.12：`+10.747%`；Linux 7.1.3 对 6.12.95：`+15.602%` | 匹配 endpoint 的辅助复核 |
-| 是否只有 4,096 槽才出现？ | 64–4,096 槽均为 `+8.399%`～`+11.889%` | 范围检查；小点更吵 |
-| workload 是否命中新路径？ | 128 次固定文件安装内嵌套的 `io_rsrc_node_alloc()` 从 `0` 变为 `128` | 非计时 direct-hit trace |
-| 后续 node cache 为什么没关闭首次填充成本？ | v7.1.3 同 ring reuse 从 `137.789` 降至 `109.643 ns/install`（`-20.427%`） | cache 改善 reuse；新 ring 的 cache 为空 |
-| 专用 slab 是否有用？ | 初版私人 patch 使 cold first fill 慢约 8%；删除非故意的 `SLAB_ACCOUNT` 后该新增成本消失 | 仅为诊断；记账语义不能随意删除 |
-| 修订后的 32-object bulk refill 是否有用？ | patch 1：`-0.655%`；patch 1+2 对 patch 1：`+0.007%` | 干净 current-base 计时持平；非计时 probe 证明 bulk 完整执行 |
-| 首次填充是否创建新 slab 页？ | 4,096 次 node allocation 内恰好嵌套 32 次 `allocate_slab()` | 机制证明，不是 clean latency 归因 |
-| 这些新 slab 页是否解释了差距？ | 预热 slab backing 后，计时 first fill 中的 32 次新 slab 调用全部消失，但结果为 `+0.927%` | 没有加速；4,096 次逐对象分配仍然保留 |
-| 大部分计时成本在哪里？ | 把全部 4,096 个 raw node 的分配/清零移到注册阶段后，first fill 减少 `10.934 ns/install`（`-9.493%`） | 诊断 prefill；未测注册时间和常驻内存 |
+| 原提交有没有增加安装成本？ | `7029acd8a950` 精确父→子→父：原 4096 次安装慢 11.621%；4/64/256/4096 项注册＋首填补测也有净增加 | [原始回归](bare-metal/original-regression/README.md) |
+| 含网络收发的任务是否变慢？ | 同一原提交：64/256 连接的稳定总区间变化均不足 1%；256 安装阶段仍慢约 8.7%～8.8%；两项四连接结果不稳定 | [TCP 补测](bare-metal/original-regression/README.md#tcp-follow-up) |
+| 旧专用 slab＋32 批量是否有效？ | v6.18-rc4 原版→前两枚补丁→原版：没有明确收益；64 项注册＋首填慢 5.18%；五项稳定 TCP 总区间变化不足 1% | [旧批量方案](bare-metal/dedicated-slab32/README.md) |
+| 共享 kmalloc＋128 批量是否有效？ | 同一 v6.18-rc4 基线上的独立诊断原型：64/256 注册＋首填分别慢 9.61%/4.42%；五项稳定 TCP 总区间增加 0.005%～1.320% | [设计、补丁与结果](bare-metal/shared-slab128/README.md) |
+| 为什么不继续扩大缓存？ | 旧 v3 整批更换 4096 项有收益，换 64 项没有；注册 4096 只用 64 后留下 4032 个闲置节点 | [保留的 v3 结果](bare-metal/uzair-v3-prefill/README.zh-CN.md) |
 
-两项 prefill 诊断把这些成本区分得更清楚。slab prime 把新页创建移出计时区，但保留全部
-4,096 次逐对象分配，延迟没有改善；full prefill 把 raw allocation 与清零全部移出计时区，
-结果快 `9.493%`。这把后续研究范围收窄到反复执行的逐对象分配、清零及首次触碰或局部性影响，
-但不能证明其中哪一项成本最大。两项诊断都没有证明总成本下降，因为注册工作和常驻内存不在
-主测量范围内。
-
-详细数字、边界、路径计数和合并后的 allocation 诊断见
-[`bare-metal/`](bare-metal/README.zh-CN.md)。两项精确诊断源码增量也已收录以便重放，并明确
-不是上游修复提案。
+旧 32 与新 128 是两组各自匹配的对照，不能将百分比相减当作直接比较。不稳定项是
+未能下结论，不是证明没有影响。目前仍未核实到单个 ring 经常整批回收超过 128 个节点
+的实际应用，不用 4096 的微基准收益论证默认扩容。
 
 ## 目录
 
-- [`bare-metal/`](bare-metal/README.zh-CN.md)：精确 A/B、范围检查、cache/allocation
-  诊断、协作者补丁结果、紧凑身份和入选的逐轮数据；
-- [`reproducer/`](reproducer/README.zh-CN.md)：正式源码、可读 F0-only 源码、cold/warm
-  helper、validator、runner 与两项预填充诊断源码增量；
-- [`upstream-status/`](upstream-status/)：引入线程、后续 cache 变更和有日期的源码审计；
-- `email/`：本地往来邮件和发送记录；被 Git 忽略，不属于公开证据包。
+- [方法与数据索引](bare-metal/README.zh-CN.md)：计时边界、控制条件、离线复算。
+- [复现程序](reproducer/README.md)：独立编译的 C 程序；共享一份最新管理/TCP 源码。
+- [历史诊断](bare-metal/history/README.md)：保留缓存冷热、记账、逐对象分配等有用证据，
+  删除首页和结果页中重复的过程叙述。
+- [有日期的上游记录](upstream-status/README.md)：历史状态，不代表原型获采纳。
+
+本次补测的原始数值和不稳定项均保留。私信、实验机控制脚本、凭据、二进制和完整主机日志
+不公开。给 Uzair 的回复仍单独保存在本地，本次公开整理不会发送邮件。

@@ -1,5 +1,71 @@
 # Reproducers
 
+## Current management and TCP follow ups
+
+`registration_cost.c` and `network_cost.c` are the tested small-count management
+and loopback TCP sources. They share `io_uring_msg_ring_f0_standalone.c`, use raw
+Linux UAPI and need no liburing. Only the include path in `registration_cost.c`
+was adjusted for this public layout; no workload logic changed. The tested
+source and binary hashes are recorded in each result's `provenance.json`.
+
+Build on Linux with GCC and kernel UAPI headers:
+
+```sh
+make
+ulimit -n 65536
+ulimit -l 65536
+./build/registration_cost --smoke paced 4 4 50000 /tmp/msg-reg-smoke.tsv
+./build/network_cost --smoke fresh 4 1 50000 /tmp/msg-tcp-smoke.tsv
+```
+
+The output path must not already exist. Raising the memlock limit may require
+an administrator; the measured harness used a 64 MiB process limit. The helpers
+select logical CPU 2. The TCP
+program binds loopback only. Check that this CPU and io_uring are available
+before running. Compilation alone does not establish runtime semantics or hit
+the kernel path; the published experiments checked those separately.
+
+These commands illustrate one clean point; they do not reboot or change power
+settings. Run only after local semantic and path checks, with matched runtime
+settings and probes disabled:
+
+```sh
+./build/registration_cost --timing paced 64 64 50000 /tmp/msg-reg64.tsv
+./build/registration_cost --timing reuse 256 256 0 /tmp/msg-reuse256.tsv
+./build/network_cost --timing fresh 4 16 50000 /tmp/msg-tcp4-q16.tsv
+./build/network_cost --timing reuse 64 1 50000 /tmp/msg-tcp64-q1.tsv
+```
+
+For the complete fixed matrix, management uses 4/64/256 entries in `paced`
+and `reuse` modes; TCP uses `fresh 4`, `reuse 64`, `reuse 256`, each with 1/16
+exchanges and gap 50000 us. Keep the 50 ms gaps outside timing. Management
+collects 3 warmups then 15 groups of 32; TCP collects 3 warmups then 15 groups
+of 4. See [methods and timing boundaries](../bare-metal/README.md).
+
+The earlier original-commit 64/256/4,096 management supplement used the
+already-published lifecycle auxiliary, not the new small-count source:
+
+```sh
+gcc -O2 -g -std=gnu11 -Wall -Wextra -Werror \
+  -o build/registration_cost_lifecycle \
+  ../bare-metal/uzair-v3-prefill/registration_cost_lifecycle.c
+```
+
+Its CLI uses the same management arguments. This source distinction is kept
+in the published identities rather than presenting a rebuilt program as the
+exact original binary.
+
+The [shared-128 diagnostic patch](../bare-metal/shared-slab128/shared-bulk128.patch)
+applies to v6.18-rc4, independently of Uzair's patches. Check it against a
+clean source checkout before any build; it is not an endorsed production fix.
+This repository does not install kernels or modify boot state automatically.
+
+For an offline check that runs no workload, use:
+
+```sh
+python3 -B verify_followups.py
+```
+
 ## Exact experiment source
 
 `io_uring_msg_ring_round.c` is the exact 1,165-line source used for the

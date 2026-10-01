@@ -1,5 +1,9 @@
 # 上游状态审计
 
+下文是 2026-08-07 的线程／源码快照，不是当前邮箱或合入状态的新审计。
+[2026-10-01 证据整理](../README.zh-CN.md)补充了 TCP 与补丁测试；本次整理没有发送
+给 Uzair 的待发回复，诊断原型也不是已经获上游采纳的补丁。
+
 引入变更由 Jens Axboe 以
 [`[PATCH 06/14] io_uring/rsrc: get rid of per-ring io_rsrc_node list`](https://lore.kernel.org/io-uring/20241029152249.667290-7-axboe@kernel.dk/)
 发出，随后合入为 `7029acd8a950`。该补丁有意把 resource-node 分配移到 registration

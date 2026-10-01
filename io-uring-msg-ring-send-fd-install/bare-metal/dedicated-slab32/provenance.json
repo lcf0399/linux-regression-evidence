@@ -1,0 +1,564 @@
+{
+  "format": "msg-ring-public-evidence-v1",
+  "platform": {
+    "cpu_model": "Intel Core i7-12700KF",
+    "installed_ram_gib": 32,
+    "workload_cpu": 2,
+    "logical_cpus_online": "0-19",
+    "smt_sibling_cpu": 3
+  },
+  "experiments": {
+    "small-management-and-tcp": {
+      "kernels": {
+        "unpatched": {
+          "commit": "6146a0f1dfae5d37442a9ddcba012add260bceb0",
+          "tree": "f54e81b1a159f6594aac1d85398315700275d433",
+          "kernelrelease": "6.18.0-rc4-msgv2-unpatched-6146a0f1dfaexxxxxxxxx",
+          "config_sha256": "d0fcdd07ac849310ea835193ca1e9e6a2bdc4b6fc347408b29762bd06fbac43e",
+          "canonical_config_sha256": "03f9fc7c17932d9ba84c147a822aad4d6f6c57710bdb77f9562035c7eb6bebf7",
+          "bzimage_sha256": "4aaf55da5310342ef12a34024ab27963192fe95d5ecd56ece54d89c6f7c50d83",
+          "vmlinux_sha256": "21bd91909d4074f69ebae50a342863f5fb5b948e381bc0da6feb95363a2acba3",
+          "vmlinux_build_id": "f8b3f1a8f80c55b669f3ec7581efa6bdfcf9ed32",
+          "system_map_sha256": "650c8dbf73db26e6e1df635e59971327f6e775c0e390570e1c904ef44349f570",
+          "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+          "compiler_launcher": "ccache version 4.12.3",
+          "compiler_command": "ccache gcc",
+          "kbuild_timestamp": "2026-09-01 00:00:00 UTC",
+          "kbuild_version": "1"
+        },
+        "p12": {
+          "commit": "2359f858fa8db024958efc2eb7ac43a9002b44fe",
+          "tree": "9642a639267799af93e23807690f8a893a825b2b",
+          "kernelrelease": "6.18.0-rc4-msgv2-p12-2359f858fa8dxxxxxxxxxxxxxx+",
+          "config_sha256": "2408040c6d9b60782b84faaeda0311db27be5b08857be31290607f2e952afab6",
+          "canonical_config_sha256": "03f9fc7c17932d9ba84c147a822aad4d6f6c57710bdb77f9562035c7eb6bebf7",
+          "bzimage_sha256": "c08a39ca05eb61a43f52602a6560c419a42124b15af1174648809114b10c6039",
+          "vmlinux_sha256": "9798b6abbec3614f224c07db48154ae0190bce900ad022aa8ba0cf84537100cf",
+          "vmlinux_build_id": "e7c05fe929624089d6f5b43ff432a9a0abe949c5",
+          "system_map_sha256": "961c29324e36970c0abc2561384c5ddc5a343dca06246d066c642773a0b5f9a2",
+          "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+          "compiler_launcher": "ccache version 4.12.3",
+          "compiler_command": "ccache gcc",
+          "kbuild_timestamp": "2026-09-01 00:00:00 UTC",
+          "kbuild_version": "1"
+        }
+      },
+      "sources_sha256": {
+        "registration_cost.c": "1e64a2169216e46b0dd51961d7d062d99cd034792d88fbc7d5dd2e21176f5244",
+        "network_cost.c": "239612c34e1361ac54d59a20a2f28e6f6b18402f7013498b826a017b3d6473a4",
+        "io_uring_msg_ring_f0_standalone.c": "064d26197b1a9cc5e14bb7d648255c3403becb0d4278703b3f8b035a2398d1fe"
+      },
+      "points": {
+        "qual-unpatched": {
+          "role": "unpatched",
+          "release": "6.18.0-rc4-msgv2-unpatched-6146a0f1dfaexxxxxxxxx",
+          "build_id": "f8b3f1a8f80c55b669f3ec7581efa6bdfcf9ed32",
+          "binary_sha256": "278eb0e2d7c067296fc1e7ed7948782ec31ebaae93c5100ffa85d9349c1fbcb1",
+          "preempt": "full",
+          "governor": "performance",
+          "epp": "performance",
+          "no_turbo": "1",
+          "online": "0-19",
+          "cpu2_siblings": "2-3",
+          "microcode": "0x3e",
+          "network_binary_sha256": "082a39a8925a0168a6bfa12a0112c80bc911ac5b5d3269b9dbb1c384d0c6b15f",
+          "cmdline_without_storage_identifiers": "ro rootfstype=ext4 preempt=full crashkernel=2G-4G:320M,4G-32G:512M,32G-64G:1024M,64G-128G:2048M,128G-:4096M"
+        },
+        "qual-p12": {
+          "role": "p12",
+          "release": "6.18.0-rc4-msgv2-p12-2359f858fa8dxxxxxxxxxxxxxx+",
+          "build_id": "e7c05fe929624089d6f5b43ff432a9a0abe949c5",
+          "binary_sha256": "278eb0e2d7c067296fc1e7ed7948782ec31ebaae93c5100ffa85d9349c1fbcb1",
+          "preempt": "full",
+          "governor": "performance",
+          "epp": "performance",
+          "no_turbo": "1",
+          "online": "0-19",
+          "cpu2_siblings": "2-3",
+          "microcode": "0x3e",
+          "network_binary_sha256": "082a39a8925a0168a6bfa12a0112c80bc911ac5b5d3269b9dbb1c384d0c6b15f",
+          "cmdline_without_storage_identifiers": "ro rootfstype=ext4 preempt=full crashkernel=2G-4G:320M,4G-32G:512M,32G-64G:1024M,64G-128G:2048M,128G-:4096M"
+        },
+        "unpatched-a": {
+          "role": "unpatched",
+          "release": "6.18.0-rc4-msgv2-unpatched-6146a0f1dfaexxxxxxxxx",
+          "build_id": "f8b3f1a8f80c55b669f3ec7581efa6bdfcf9ed32",
+          "binary_sha256": "278eb0e2d7c067296fc1e7ed7948782ec31ebaae93c5100ffa85d9349c1fbcb1",
+          "preempt": "full",
+          "governor": "performance",
+          "epp": "performance",
+          "no_turbo": "1",
+          "online": "0-19",
+          "cpu2_siblings": "2-3",
+          "microcode": "0x3e",
+          "network_binary_sha256": "082a39a8925a0168a6bfa12a0112c80bc911ac5b5d3269b9dbb1c384d0c6b15f",
+          "cmdline_without_storage_identifiers": "ro rootfstype=ext4 preempt=full crashkernel=2G-4G:320M,4G-32G:512M,32G-64G:1024M,64G-128G:2048M,128G-:4096M"
+        },
+        "p12": {
+          "role": "p12",
+          "release": "6.18.0-rc4-msgv2-p12-2359f858fa8dxxxxxxxxxxxxxx+",
+          "build_id": "e7c05fe929624089d6f5b43ff432a9a0abe949c5",
+          "binary_sha256": "278eb0e2d7c067296fc1e7ed7948782ec31ebaae93c5100ffa85d9349c1fbcb1",
+          "preempt": "full",
+          "governor": "performance",
+          "epp": "performance",
+          "no_turbo": "1",
+          "online": "0-19",
+          "cpu2_siblings": "2-3",
+          "microcode": "0x3e",
+          "network_binary_sha256": "082a39a8925a0168a6bfa12a0112c80bc911ac5b5d3269b9dbb1c384d0c6b15f",
+          "cmdline_without_storage_identifiers": "ro rootfstype=ext4 preempt=full crashkernel=2G-4G:320M,4G-32G:512M,32G-64G:1024M,64G-128G:2048M,128G-:4096M"
+        },
+        "unpatched-b": {
+          "role": "unpatched",
+          "release": "6.18.0-rc4-msgv2-unpatched-6146a0f1dfaexxxxxxxxx",
+          "build_id": "f8b3f1a8f80c55b669f3ec7581efa6bdfcf9ed32",
+          "binary_sha256": "278eb0e2d7c067296fc1e7ed7948782ec31ebaae93c5100ffa85d9349c1fbcb1",
+          "preempt": "full",
+          "governor": "performance",
+          "epp": "performance",
+          "no_turbo": "1",
+          "online": "0-19",
+          "cpu2_siblings": "2-3",
+          "microcode": "0x3e",
+          "network_binary_sha256": "082a39a8925a0168a6bfa12a0112c80bc911ac5b5d3269b9dbb1c384d0c6b15f",
+          "cmdline_without_storage_identifiers": "ro rootfstype=ext4 preempt=full crashkernel=2G-4G:320M,4G-32G:512M,32G-64G:1024M,64G-128G:2048M,128G-:4096M"
+        }
+      },
+      "input_contract": {
+        "cpu": 2,
+        "group_count": 15,
+        "warmup_count": 3,
+        "max_cv_percent": 3,
+        "max_absolute_control_drift_percent": 2,
+        "require_drop_first": true
+      },
+      "qualification": {
+        "qual-unpatched/mgmt-paced-256": [
+          {
+            "record_type": "bulkcounts",
+            "install": 256,
+            "nodes": 256,
+            "new": 256,
+            "bulk": 0,
+            "requested": 0,
+            "got": 0,
+            "recv": 0,
+            "send": 0,
+            "markers": 12,
+            "depth": 0,
+            "newdepth": 0,
+            "bulkdepth": 0
+          }
+        ],
+        "qual-unpatched/mgmt-paced-4": [
+          {
+            "record_type": "bulkcounts",
+            "install": 4,
+            "nodes": 4,
+            "new": 4,
+            "bulk": 0,
+            "requested": 0,
+            "got": 0,
+            "recv": 0,
+            "send": 0,
+            "markers": 12,
+            "depth": 0,
+            "newdepth": 0,
+            "bulkdepth": 0
+          }
+        ],
+        "qual-unpatched/mgmt-paced-64": [
+          {
+            "record_type": "bulkcounts",
+            "install": 64,
+            "nodes": 64,
+            "new": 64,
+            "bulk": 0,
+            "requested": 0,
+            "got": 0,
+            "recv": 0,
+            "send": 0,
+            "markers": 12,
+            "depth": 0,
+            "newdepth": 0,
+            "bulkdepth": 0
+          }
+        ],
+        "qual-unpatched/mgmt-reuse-256": [
+          {
+            "record_type": "bulkcounts",
+            "install": 1280,
+            "nodes": 1280,
+            "new": 768,
+            "bulk": 0,
+            "requested": 0,
+            "got": 0,
+            "recv": 0,
+            "send": 0,
+            "markers": 31,
+            "depth": 0,
+            "newdepth": 0,
+            "bulkdepth": 0
+          }
+        ],
+        "qual-unpatched/mgmt-reuse-4": [
+          {
+            "record_type": "bulkcounts",
+            "install": 20,
+            "nodes": 20,
+            "new": 4,
+            "bulk": 0,
+            "requested": 0,
+            "got": 0,
+            "recv": 0,
+            "send": 0,
+            "markers": 31,
+            "depth": 0,
+            "newdepth": 0,
+            "bulkdepth": 0
+          }
+        ],
+        "qual-unpatched/mgmt-reuse-64": [
+          {
+            "record_type": "bulkcounts",
+            "install": 320,
+            "nodes": 320,
+            "new": 64,
+            "bulk": 0,
+            "requested": 0,
+            "got": 0,
+            "recv": 0,
+            "send": 0,
+            "markers": 31,
+            "depth": 0,
+            "newdepth": 0,
+            "bulkdepth": 0
+          }
+        ],
+        "qual-unpatched/net-fresh-4-q1": [
+          {
+            "record_type": "bulkcounts",
+            "install": 4,
+            "nodes": 4,
+            "new": 4,
+            "bulk": 0,
+            "requested": 0,
+            "got": 0,
+            "recv": 4,
+            "send": 4,
+            "markers": 7,
+            "depth": 0,
+            "newdepth": 0,
+            "bulkdepth": 0
+          }
+        ],
+        "qual-unpatched/net-fresh-4-q16": [
+          {
+            "record_type": "bulkcounts",
+            "install": 4,
+            "nodes": 4,
+            "new": 4,
+            "bulk": 0,
+            "requested": 0,
+            "got": 0,
+            "recv": 64,
+            "send": 64,
+            "markers": 7,
+            "depth": 0,
+            "newdepth": 0,
+            "bulkdepth": 0
+          }
+        ],
+        "qual-unpatched/net-reuse-256-q1": [
+          {
+            "record_type": "bulkcounts",
+            "install": 1024,
+            "nodes": 1024,
+            "new": 640,
+            "bulk": 0,
+            "requested": 0,
+            "got": 0,
+            "recv": 1024,
+            "send": 1024,
+            "markers": 25,
+            "depth": 0,
+            "newdepth": 0,
+            "bulkdepth": 0
+          }
+        ],
+        "qual-unpatched/net-reuse-256-q16": [
+          {
+            "record_type": "bulkcounts",
+            "install": 1024,
+            "nodes": 1024,
+            "new": 640,
+            "bulk": 0,
+            "requested": 0,
+            "got": 0,
+            "recv": 16384,
+            "send": 16384,
+            "markers": 25,
+            "depth": 0,
+            "newdepth": 0,
+            "bulkdepth": 0
+          }
+        ],
+        "qual-unpatched/net-reuse-64-q1": [
+          {
+            "record_type": "bulkcounts",
+            "install": 256,
+            "nodes": 256,
+            "new": 64,
+            "bulk": 0,
+            "requested": 0,
+            "got": 0,
+            "recv": 256,
+            "send": 256,
+            "markers": 25,
+            "depth": 0,
+            "newdepth": 0,
+            "bulkdepth": 0
+          }
+        ],
+        "qual-unpatched/net-reuse-64-q16": [
+          {
+            "record_type": "bulkcounts",
+            "install": 256,
+            "nodes": 256,
+            "new": 64,
+            "bulk": 0,
+            "requested": 0,
+            "got": 0,
+            "recv": 4096,
+            "send": 4096,
+            "markers": 25,
+            "depth": 0,
+            "newdepth": 0,
+            "bulkdepth": 0
+          }
+        ],
+        "qual-p12/mgmt-paced-256": [
+          {
+            "record_type": "bulkcounts",
+            "install": 256,
+            "nodes": 256,
+            "new": 8,
+            "bulk": 8,
+            "requested": 256,
+            "got": 256,
+            "recv": 0,
+            "send": 0,
+            "markers": 12,
+            "depth": 0,
+            "newdepth": 0,
+            "bulkdepth": 0
+          }
+        ],
+        "qual-p12/mgmt-paced-4": [
+          {
+            "record_type": "bulkcounts",
+            "install": 4,
+            "nodes": 4,
+            "new": 1,
+            "bulk": 1,
+            "requested": 32,
+            "got": 32,
+            "recv": 0,
+            "send": 0,
+            "markers": 12,
+            "depth": 0,
+            "newdepth": 0,
+            "bulkdepth": 0
+          }
+        ],
+        "qual-p12/mgmt-paced-64": [
+          {
+            "record_type": "bulkcounts",
+            "install": 64,
+            "nodes": 64,
+            "new": 2,
+            "bulk": 2,
+            "requested": 64,
+            "got": 64,
+            "recv": 0,
+            "send": 0,
+            "markers": 12,
+            "depth": 0,
+            "newdepth": 0,
+            "bulkdepth": 0
+          }
+        ],
+        "qual-p12/mgmt-reuse-256": [
+          {
+            "record_type": "bulkcounts",
+            "install": 1280,
+            "nodes": 1280,
+            "new": 24,
+            "bulk": 24,
+            "requested": 768,
+            "got": 768,
+            "recv": 0,
+            "send": 0,
+            "markers": 31,
+            "depth": 0,
+            "newdepth": 0,
+            "bulkdepth": 0
+          }
+        ],
+        "qual-p12/mgmt-reuse-4": [
+          {
+            "record_type": "bulkcounts",
+            "install": 20,
+            "nodes": 20,
+            "new": 1,
+            "bulk": 1,
+            "requested": 32,
+            "got": 32,
+            "recv": 0,
+            "send": 0,
+            "markers": 31,
+            "depth": 0,
+            "newdepth": 0,
+            "bulkdepth": 0
+          }
+        ],
+        "qual-p12/mgmt-reuse-64": [
+          {
+            "record_type": "bulkcounts",
+            "install": 320,
+            "nodes": 320,
+            "new": 2,
+            "bulk": 2,
+            "requested": 64,
+            "got": 64,
+            "recv": 0,
+            "send": 0,
+            "markers": 31,
+            "depth": 0,
+            "newdepth": 0,
+            "bulkdepth": 0
+          }
+        ],
+        "qual-p12/net-fresh-4-q1": [
+          {
+            "record_type": "bulkcounts",
+            "install": 4,
+            "nodes": 4,
+            "new": 1,
+            "bulk": 1,
+            "requested": 32,
+            "got": 32,
+            "recv": 4,
+            "send": 4,
+            "markers": 7,
+            "depth": 0,
+            "newdepth": 0,
+            "bulkdepth": 0
+          }
+        ],
+        "qual-p12/net-fresh-4-q16": [
+          {
+            "record_type": "bulkcounts",
+            "install": 4,
+            "nodes": 4,
+            "new": 1,
+            "bulk": 1,
+            "requested": 32,
+            "got": 32,
+            "recv": 64,
+            "send": 64,
+            "markers": 7,
+            "depth": 0,
+            "newdepth": 0,
+            "bulkdepth": 0
+          }
+        ],
+        "qual-p12/net-reuse-256-q1": [
+          {
+            "record_type": "bulkcounts",
+            "install": 1024,
+            "nodes": 1024,
+            "new": 20,
+            "bulk": 20,
+            "requested": 640,
+            "got": 640,
+            "recv": 1024,
+            "send": 1024,
+            "markers": 25,
+            "depth": 0,
+            "newdepth": 0,
+            "bulkdepth": 0
+          }
+        ],
+        "qual-p12/net-reuse-256-q16": [
+          {
+            "record_type": "bulkcounts",
+            "install": 1024,
+            "nodes": 1024,
+            "new": 20,
+            "bulk": 20,
+            "requested": 640,
+            "got": 640,
+            "recv": 16384,
+            "send": 16384,
+            "markers": 25,
+            "depth": 0,
+            "newdepth": 0,
+            "bulkdepth": 0
+          }
+        ],
+        "qual-p12/net-reuse-64-q1": [
+          {
+            "record_type": "bulkcounts",
+            "install": 256,
+            "nodes": 256,
+            "new": 2,
+            "bulk": 2,
+            "requested": 64,
+            "got": 64,
+            "recv": 256,
+            "send": 256,
+            "markers": 25,
+            "depth": 0,
+            "newdepth": 0,
+            "bulkdepth": 0
+          }
+        ],
+        "qual-p12/net-reuse-64-q16": [
+          {
+            "record_type": "bulkcounts",
+            "install": 256,
+            "nodes": 256,
+            "new": 2,
+            "bulk": 2,
+            "requested": 64,
+            "got": 64,
+            "recv": 4096,
+            "send": 4096,
+            "markers": 25,
+            "depth": 0,
+            "newdepth": 0,
+            "bulkdepth": 0
+          }
+        ]
+      },
+      "collection": {
+        "execution": "pass",
+        "restoration": "pass"
+      },
+      "once_costs_note": "Network once_setup/once_cleanup values are repeated in rows; do not sum them.",
+      "independent_boots_verified": true
+    }
+  },
+  "publication": {
+    "timing_rows": 9828,
+    "metrics": 54,
+    "all_timing_rows_and_unstable_metrics_retained": true,
+    "note": "Consolidated numeric records, not private host logs; raw values unchanged."
+  },
+  "files_sha256": {
+    "timing.tsv": "e472dc5ea91a4ac3fec3b59b8b824f3d5d0e343f4a1c31d18a9fa0b334b3f55d",
+    "results.tsv": "f8b4894ae580d614410a1b0a8b99da991b5d6656943edb21c57000ff49eac9cc"
+  }
+}

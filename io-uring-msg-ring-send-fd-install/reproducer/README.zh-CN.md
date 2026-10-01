@@ -1,5 +1,23 @@
 # Reproducer
 
+## 最新管理与 TCP 补测
+
+新增的 `registration_cost.c`、`network_cost.c` 共用现有 raw-UAPI helper，直接 `make`
+即可独立编译，不依赖本地实验框架或 liburing。只调整管理源码中的 include 相对路径，
+逻辑未改；完整参数、计时边界和注意事项见[英文说明](README.md)。
+
+旧 64/256/4096 原提交管理补测仍使用 v3 目录下已公开的生命周期辅助源码，不冒充与
+四槽扩展是同一二进制。原始身份分别保存在各实验的 `provenance.json`。
+
+仅读取公开结果、不会运行 workload 或修改系统的离线检查：
+
+```sh
+python3 -B verify_followups.py
+```
+
+共享 slab／128 的[精确诊断补丁](../bare-metal/shared-slab128/shared-bulk128.patch)
+独立应用于 v6.18-rc4，不叠加旧专用 slab 补丁，也不是已认可的正式修复。
+
 ## 正式实验源码
 
 `io_uring_msg_ring_round.c` 是正式实验使用的同一份 1,165 行源码，SHA-256 为

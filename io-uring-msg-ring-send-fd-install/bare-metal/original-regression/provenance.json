@@ -1,0 +1,621 @@
+{
+  "format": "msg-ring-public-evidence-v1",
+  "platform": {
+    "cpu_model": "Intel Core i7-12700KF",
+    "installed_ram_gib": 32,
+    "workload_cpu": 2,
+    "logical_cpus_online": "0-19",
+    "smt_sibling_cpu": 3
+  },
+  "experiments": {
+    "registration-64-256-4096": {
+      "kernels": {
+        "parent": {
+          "commit": "e410ffca588691e36d5449a5bf521a1a7b712911",
+          "kernelrelease": "6.12.0-rc4-msgf07029-good-e410ffca5886-xxxxxxxx+",
+          "config_sha256": "e5a83d433ec34f5bb8160810136d8966c82d24de5b975f0e189970ad28da1552",
+          "canonical_config_sha256": "c839b55296a9db9a49a5ace7012000476bdc050b34c134157e80f7123426e2d7",
+          "bzimage_sha256": "453a514e93124e3a6e22c09fb7d074189b987e9ea28191fc1f324052c338daa0",
+          "vmlinux_sha256": "d21b46dc554147f37772e444d6e9d10b94ae0bcd14dbcd7eed383a28f9b99672",
+          "vmlinux_build_id": "6ef1e57e7983be0f9e49bc42c4b8e595f2e2cfa2",
+          "system_map_sha256": "a4650f687699827544a5973b53b84631649789e80b2c8a3e2cca5abc6bad3324",
+          "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+          "compiler_launcher": "ccache version 4.12.3",
+          "compiler_command": "ccache gcc -std=gnu11",
+          "kbuild_timestamp": "2026-07-25 00:00:00 UTC",
+          "kbuild_version": "1"
+        },
+        "child": {
+          "commit": "7029acd8a950393ee3a3d8e1a7ee1a9b77808a3b",
+          "kernelrelease": "6.12.0-rc4-msgf07029-bad-7029acd8a950-xxxxxxxxx+",
+          "config_sha256": "24a05703dfa337f900fa72c2f159cdaf06a8a60cbd88419ad4634a12d9f303fc",
+          "canonical_config_sha256": "c839b55296a9db9a49a5ace7012000476bdc050b34c134157e80f7123426e2d7",
+          "bzimage_sha256": "1a0a77898eaabb599062266dae94dbe918c6e49d11408f186c1325bab3ce0d57",
+          "vmlinux_sha256": "9f52cdea5c195b03982f20bd01d2dcf0db1e2003b8a37e9688381d57716ba77a",
+          "vmlinux_build_id": "3868e9663bca56591ea60c9d764d1124fcf64e66",
+          "system_map_sha256": "2102ef439af731f3a1d39d7b7dfa1c776e3c2678e561a66cbab6ac0b65b23883",
+          "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+          "compiler_launcher": "ccache version 4.12.3",
+          "compiler_command": "ccache gcc -std=gnu11",
+          "kbuild_timestamp": "2026-07-25 00:00:00 UTC",
+          "kbuild_version": "1"
+        }
+      },
+      "sources_sha256": {
+        "registration_cost.c": "2ba6f64c6700bbd77554338867b371746c8a9aa705dc029afecd31b840a79f13",
+        "io_uring_msg_ring_f0_standalone.c": "064d26197b1a9cc5e14bb7d648255c3403becb0d4278703b3f8b035a2398d1fe"
+      },
+      "points": {
+        "qual-parent": {
+          "role": "parent",
+          "release": "6.12.0-rc4-msgf07029-good-e410ffca5886-xxxxxxxx+",
+          "build_id": "6ef1e57e7983be0f9e49bc42c4b8e595f2e2cfa2",
+          "binary_sha256": "692612192bc8f1cf8faa9e3a073bfd282186d2508e2484b429ba10e0f5bdd045",
+          "preempt": "full",
+          "governor": "performance",
+          "epp": "performance",
+          "no_turbo": "1",
+          "online": "0-19",
+          "cpu2_siblings": "2-3",
+          "microcode": "0x3e",
+          "cmdline_without_storage_identifiers": "ro rootfstype=ext4 preempt=full crashkernel=2G-4G:320M,4G-32G:512M,32G-64G:1024M,64G-128G:2048M,128G-:4096M"
+        },
+        "qual-child": {
+          "role": "child",
+          "release": "6.12.0-rc4-msgf07029-bad-7029acd8a950-xxxxxxxxx+",
+          "build_id": "3868e9663bca56591ea60c9d764d1124fcf64e66",
+          "binary_sha256": "692612192bc8f1cf8faa9e3a073bfd282186d2508e2484b429ba10e0f5bdd045",
+          "preempt": "full",
+          "governor": "performance",
+          "epp": "performance",
+          "no_turbo": "1",
+          "online": "0-19",
+          "cpu2_siblings": "2-3",
+          "microcode": "0x3e",
+          "cmdline_without_storage_identifiers": "ro rootfstype=ext4 preempt=full crashkernel=2G-4G:320M,4G-32G:512M,32G-64G:1024M,64G-128G:2048M,128G-:4096M"
+        },
+        "parent-a": {
+          "role": "parent",
+          "release": "6.12.0-rc4-msgf07029-good-e410ffca5886-xxxxxxxx+",
+          "build_id": "6ef1e57e7983be0f9e49bc42c4b8e595f2e2cfa2",
+          "binary_sha256": "692612192bc8f1cf8faa9e3a073bfd282186d2508e2484b429ba10e0f5bdd045",
+          "preempt": "full",
+          "governor": "performance",
+          "epp": "performance",
+          "no_turbo": "1",
+          "online": "0-19",
+          "cpu2_siblings": "2-3",
+          "microcode": "0x3e",
+          "cmdline_without_storage_identifiers": "ro rootfstype=ext4 preempt=full crashkernel=2G-4G:320M,4G-32G:512M,32G-64G:1024M,64G-128G:2048M,128G-:4096M"
+        },
+        "child": {
+          "role": "child",
+          "release": "6.12.0-rc4-msgf07029-bad-7029acd8a950-xxxxxxxxx+",
+          "build_id": "3868e9663bca56591ea60c9d764d1124fcf64e66",
+          "binary_sha256": "692612192bc8f1cf8faa9e3a073bfd282186d2508e2484b429ba10e0f5bdd045",
+          "preempt": "full",
+          "governor": "performance",
+          "epp": "performance",
+          "no_turbo": "1",
+          "online": "0-19",
+          "cpu2_siblings": "2-3",
+          "microcode": "0x3e",
+          "cmdline_without_storage_identifiers": "ro rootfstype=ext4 preempt=full crashkernel=2G-4G:320M,4G-32G:512M,32G-64G:1024M,64G-128G:2048M,128G-:4096M"
+        },
+        "parent-b": {
+          "role": "parent",
+          "release": "6.12.0-rc4-msgf07029-good-e410ffca5886-xxxxxxxx+",
+          "build_id": "6ef1e57e7983be0f9e49bc42c4b8e595f2e2cfa2",
+          "binary_sha256": "692612192bc8f1cf8faa9e3a073bfd282186d2508e2484b429ba10e0f5bdd045",
+          "preempt": "full",
+          "governor": "performance",
+          "epp": "performance",
+          "no_turbo": "1",
+          "online": "0-19",
+          "cpu2_siblings": "2-3",
+          "microcode": "0x3e",
+          "cmdline_without_storage_identifiers": "ro rootfstype=ext4 preempt=full crashkernel=2G-4G:320M,4G-32G:512M,32G-64G:1024M,64G-128G:2048M,128G-:4096M"
+        }
+      },
+      "input_contract": {
+        "cpu": 2,
+        "group_count": 15,
+        "warmup_count": 3,
+        "max_cv_percent": 3,
+        "max_absolute_control_drift_percent": 2,
+        "require_drop_first": true
+      },
+      "qualification": {
+        "qual-parent/256": [
+          {
+            "record_type": "counts",
+            "register": 1,
+            "install": 256,
+            "nodes_fill": 0,
+            "nodes_registration": 0,
+            "markers": 12,
+            "depth": 0
+          }
+        ],
+        "qual-parent/4096": [
+          {
+            "record_type": "counts",
+            "register": 1,
+            "install": 4096,
+            "nodes_fill": 0,
+            "nodes_registration": 0,
+            "markers": 12,
+            "depth": 0
+          }
+        ],
+        "qual-parent/64": [
+          {
+            "record_type": "counts",
+            "register": 1,
+            "install": 64,
+            "nodes_fill": 0,
+            "nodes_registration": 0,
+            "markers": 12,
+            "depth": 0
+          }
+        ],
+        "qual-child/256": [
+          {
+            "record_type": "counts",
+            "register": 1,
+            "install": 256,
+            "nodes_fill": 256,
+            "nodes_registration": 0,
+            "markers": 12,
+            "depth": 0
+          }
+        ],
+        "qual-child/4096": [
+          {
+            "record_type": "counts",
+            "register": 1,
+            "install": 4096,
+            "nodes_fill": 4096,
+            "nodes_registration": 0,
+            "markers": 12,
+            "depth": 0
+          }
+        ],
+        "qual-child/64": [
+          {
+            "record_type": "counts",
+            "register": 1,
+            "install": 64,
+            "nodes_fill": 64,
+            "nodes_registration": 0,
+            "markers": 12,
+            "depth": 0
+          }
+        ]
+      },
+      "collection": {
+        "execution": "pass",
+        "restoration": "pass"
+      },
+      "once_costs_note": "Network once_setup/once_cleanup values are repeated in rows; do not sum them.",
+      "independent_boots_verified": true
+    },
+    "registration-4": {
+      "kernels": {
+        "parent": {
+          "commit": "e410ffca588691e36d5449a5bf521a1a7b712911",
+          "kernelrelease": "6.12.0-rc4-msgf07029-good-e410ffca5886-xxxxxxxx+",
+          "config_sha256": "e5a83d433ec34f5bb8160810136d8966c82d24de5b975f0e189970ad28da1552",
+          "canonical_config_sha256": "c839b55296a9db9a49a5ace7012000476bdc050b34c134157e80f7123426e2d7",
+          "bzimage_sha256": "453a514e93124e3a6e22c09fb7d074189b987e9ea28191fc1f324052c338daa0",
+          "vmlinux_sha256": "d21b46dc554147f37772e444d6e9d10b94ae0bcd14dbcd7eed383a28f9b99672",
+          "vmlinux_build_id": "6ef1e57e7983be0f9e49bc42c4b8e595f2e2cfa2",
+          "system_map_sha256": "a4650f687699827544a5973b53b84631649789e80b2c8a3e2cca5abc6bad3324",
+          "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+          "compiler_launcher": "ccache version 4.12.3",
+          "compiler_command": "ccache gcc -std=gnu11",
+          "kbuild_timestamp": "2026-07-25 00:00:00 UTC",
+          "kbuild_version": "1"
+        },
+        "child": {
+          "commit": "7029acd8a950393ee3a3d8e1a7ee1a9b77808a3b",
+          "kernelrelease": "6.12.0-rc4-msgf07029-bad-7029acd8a950-xxxxxxxxx+",
+          "config_sha256": "24a05703dfa337f900fa72c2f159cdaf06a8a60cbd88419ad4634a12d9f303fc",
+          "canonical_config_sha256": "c839b55296a9db9a49a5ace7012000476bdc050b34c134157e80f7123426e2d7",
+          "bzimage_sha256": "1a0a77898eaabb599062266dae94dbe918c6e49d11408f186c1325bab3ce0d57",
+          "vmlinux_sha256": "9f52cdea5c195b03982f20bd01d2dcf0db1e2003b8a37e9688381d57716ba77a",
+          "vmlinux_build_id": "3868e9663bca56591ea60c9d764d1124fcf64e66",
+          "system_map_sha256": "2102ef439af731f3a1d39d7b7dfa1c776e3c2678e561a66cbab6ac0b65b23883",
+          "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+          "compiler_launcher": "ccache version 4.12.3",
+          "compiler_command": "ccache gcc -std=gnu11",
+          "kbuild_timestamp": "2026-07-25 00:00:00 UTC",
+          "kbuild_version": "1"
+        }
+      },
+      "sources_sha256": {
+        "registration_cost.c": "1e64a2169216e46b0dd51961d7d062d99cd034792d88fbc7d5dd2e21176f5244",
+        "io_uring_msg_ring_f0_standalone.c": "064d26197b1a9cc5e14bb7d648255c3403becb0d4278703b3f8b035a2398d1fe"
+      },
+      "points": {
+        "qual-parent": {
+          "role": "parent",
+          "release": "6.12.0-rc4-msgf07029-good-e410ffca5886-xxxxxxxx+",
+          "build_id": "6ef1e57e7983be0f9e49bc42c4b8e595f2e2cfa2",
+          "binary_sha256": "278eb0e2d7c067296fc1e7ed7948782ec31ebaae93c5100ffa85d9349c1fbcb1",
+          "preempt": "full",
+          "governor": "performance",
+          "epp": "performance",
+          "no_turbo": "1",
+          "online": "0-19",
+          "cpu2_siblings": "2-3",
+          "microcode": "0x3e",
+          "cmdline_without_storage_identifiers": "ro rootfstype=ext4 preempt=full crashkernel=2G-4G:320M,4G-32G:512M,32G-64G:1024M,64G-128G:2048M,128G-:4096M"
+        },
+        "qual-child": {
+          "role": "child",
+          "release": "6.12.0-rc4-msgf07029-bad-7029acd8a950-xxxxxxxxx+",
+          "build_id": "3868e9663bca56591ea60c9d764d1124fcf64e66",
+          "binary_sha256": "278eb0e2d7c067296fc1e7ed7948782ec31ebaae93c5100ffa85d9349c1fbcb1",
+          "preempt": "full",
+          "governor": "performance",
+          "epp": "performance",
+          "no_turbo": "1",
+          "online": "0-19",
+          "cpu2_siblings": "2-3",
+          "microcode": "0x3e",
+          "cmdline_without_storage_identifiers": "ro rootfstype=ext4 preempt=full crashkernel=2G-4G:320M,4G-32G:512M,32G-64G:1024M,64G-128G:2048M,128G-:4096M"
+        },
+        "parent-a": {
+          "role": "parent",
+          "release": "6.12.0-rc4-msgf07029-good-e410ffca5886-xxxxxxxx+",
+          "build_id": "6ef1e57e7983be0f9e49bc42c4b8e595f2e2cfa2",
+          "binary_sha256": "278eb0e2d7c067296fc1e7ed7948782ec31ebaae93c5100ffa85d9349c1fbcb1",
+          "preempt": "full",
+          "governor": "performance",
+          "epp": "performance",
+          "no_turbo": "1",
+          "online": "0-19",
+          "cpu2_siblings": "2-3",
+          "microcode": "0x3e",
+          "cmdline_without_storage_identifiers": "ro rootfstype=ext4 preempt=full crashkernel=2G-4G:320M,4G-32G:512M,32G-64G:1024M,64G-128G:2048M,128G-:4096M"
+        },
+        "child": {
+          "role": "child",
+          "release": "6.12.0-rc4-msgf07029-bad-7029acd8a950-xxxxxxxxx+",
+          "build_id": "3868e9663bca56591ea60c9d764d1124fcf64e66",
+          "binary_sha256": "278eb0e2d7c067296fc1e7ed7948782ec31ebaae93c5100ffa85d9349c1fbcb1",
+          "preempt": "full",
+          "governor": "performance",
+          "epp": "performance",
+          "no_turbo": "1",
+          "online": "0-19",
+          "cpu2_siblings": "2-3",
+          "microcode": "0x3e",
+          "cmdline_without_storage_identifiers": "ro rootfstype=ext4 preempt=full crashkernel=2G-4G:320M,4G-32G:512M,32G-64G:1024M,64G-128G:2048M,128G-:4096M"
+        },
+        "parent-b": {
+          "role": "parent",
+          "release": "6.12.0-rc4-msgf07029-good-e410ffca5886-xxxxxxxx+",
+          "build_id": "6ef1e57e7983be0f9e49bc42c4b8e595f2e2cfa2",
+          "binary_sha256": "278eb0e2d7c067296fc1e7ed7948782ec31ebaae93c5100ffa85d9349c1fbcb1",
+          "preempt": "full",
+          "governor": "performance",
+          "epp": "performance",
+          "no_turbo": "1",
+          "online": "0-19",
+          "cpu2_siblings": "2-3",
+          "microcode": "0x3e",
+          "cmdline_without_storage_identifiers": "ro rootfstype=ext4 preempt=full crashkernel=2G-4G:320M,4G-32G:512M,32G-64G:1024M,64G-128G:2048M,128G-:4096M"
+        }
+      },
+      "input_contract": {
+        "cpu": 2,
+        "group_count": 15,
+        "warmup_count": 3,
+        "max_cv_percent": 3,
+        "max_absolute_control_drift_percent": 2,
+        "require_drop_first": true
+      },
+      "qualification": {
+        "qual-parent/4": [
+          {
+            "record_type": "counts",
+            "register": 1,
+            "install": 4,
+            "nodes_fill": 0,
+            "nodes_registration": 0,
+            "markers": 12,
+            "depth": 0
+          }
+        ],
+        "qual-child/4": [
+          {
+            "record_type": "counts",
+            "register": 1,
+            "install": 4,
+            "nodes_fill": 4,
+            "nodes_registration": 0,
+            "markers": 12,
+            "depth": 0
+          }
+        ]
+      },
+      "collection": {
+        "execution": "pass",
+        "restoration": "pass"
+      },
+      "once_costs_note": "Network once_setup/once_cleanup values are repeated in rows; do not sum them.",
+      "independent_boots_verified": true
+    },
+    "tcp": {
+      "kernels": {
+        "parent": {
+          "commit": "e410ffca588691e36d5449a5bf521a1a7b712911",
+          "kernelrelease": "6.12.0-rc4-msgf07029-good-e410ffca5886-xxxxxxxx+",
+          "config_sha256": "e5a83d433ec34f5bb8160810136d8966c82d24de5b975f0e189970ad28da1552",
+          "canonical_config_sha256": "c839b55296a9db9a49a5ace7012000476bdc050b34c134157e80f7123426e2d7",
+          "bzimage_sha256": "453a514e93124e3a6e22c09fb7d074189b987e9ea28191fc1f324052c338daa0",
+          "vmlinux_sha256": "d21b46dc554147f37772e444d6e9d10b94ae0bcd14dbcd7eed383a28f9b99672",
+          "vmlinux_build_id": "6ef1e57e7983be0f9e49bc42c4b8e595f2e2cfa2",
+          "system_map_sha256": "a4650f687699827544a5973b53b84631649789e80b2c8a3e2cca5abc6bad3324",
+          "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+          "compiler_launcher": "ccache version 4.12.3",
+          "compiler_command": "ccache gcc -std=gnu11",
+          "kbuild_timestamp": "2026-07-25 00:00:00 UTC",
+          "kbuild_version": "1"
+        },
+        "child": {
+          "commit": "7029acd8a950393ee3a3d8e1a7ee1a9b77808a3b",
+          "kernelrelease": "6.12.0-rc4-msgf07029-bad-7029acd8a950-xxxxxxxxx+",
+          "config_sha256": "24a05703dfa337f900fa72c2f159cdaf06a8a60cbd88419ad4634a12d9f303fc",
+          "canonical_config_sha256": "c839b55296a9db9a49a5ace7012000476bdc050b34c134157e80f7123426e2d7",
+          "bzimage_sha256": "1a0a77898eaabb599062266dae94dbe918c6e49d11408f186c1325bab3ce0d57",
+          "vmlinux_sha256": "9f52cdea5c195b03982f20bd01d2dcf0db1e2003b8a37e9688381d57716ba77a",
+          "vmlinux_build_id": "3868e9663bca56591ea60c9d764d1124fcf64e66",
+          "system_map_sha256": "2102ef439af731f3a1d39d7b7dfa1c776e3c2678e561a66cbab6ac0b65b23883",
+          "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+          "compiler_launcher": "ccache version 4.12.3",
+          "compiler_command": "ccache gcc -std=gnu11",
+          "kbuild_timestamp": "2026-07-25 00:00:00 UTC",
+          "kbuild_version": "1"
+        }
+      },
+      "sources_sha256": {
+        "registration_cost.c": "1e64a2169216e46b0dd51961d7d062d99cd034792d88fbc7d5dd2e21176f5244",
+        "network_cost.c": "239612c34e1361ac54d59a20a2f28e6f6b18402f7013498b826a017b3d6473a4",
+        "io_uring_msg_ring_f0_standalone.c": "064d26197b1a9cc5e14bb7d648255c3403becb0d4278703b3f8b035a2398d1fe"
+      },
+      "points": {
+        "qual-parent": {
+          "role": "parent",
+          "release": "6.12.0-rc4-msgf07029-good-e410ffca5886-xxxxxxxx+",
+          "build_id": "6ef1e57e7983be0f9e49bc42c4b8e595f2e2cfa2",
+          "binary_sha256": "082a39a8925a0168a6bfa12a0112c80bc911ac5b5d3269b9dbb1c384d0c6b15f",
+          "preempt": "full",
+          "governor": "performance",
+          "epp": "performance",
+          "no_turbo": "1",
+          "online": "0-19",
+          "cpu2_siblings": "2-3",
+          "microcode": "0x3e",
+          "cmdline_without_storage_identifiers": "ro rootfstype=ext4 preempt=full crashkernel=2G-4G:320M,4G-32G:512M,32G-64G:1024M,64G-128G:2048M,128G-:4096M"
+        },
+        "qual-child": {
+          "role": "child",
+          "release": "6.12.0-rc4-msgf07029-bad-7029acd8a950-xxxxxxxxx+",
+          "build_id": "3868e9663bca56591ea60c9d764d1124fcf64e66",
+          "binary_sha256": "082a39a8925a0168a6bfa12a0112c80bc911ac5b5d3269b9dbb1c384d0c6b15f",
+          "preempt": "full",
+          "governor": "performance",
+          "epp": "performance",
+          "no_turbo": "1",
+          "online": "0-19",
+          "cpu2_siblings": "2-3",
+          "microcode": "0x3e",
+          "cmdline_without_storage_identifiers": "ro rootfstype=ext4 preempt=full crashkernel=2G-4G:320M,4G-32G:512M,32G-64G:1024M,64G-128G:2048M,128G-:4096M"
+        },
+        "parent-a": {
+          "role": "parent",
+          "release": "6.12.0-rc4-msgf07029-good-e410ffca5886-xxxxxxxx+",
+          "build_id": "6ef1e57e7983be0f9e49bc42c4b8e595f2e2cfa2",
+          "binary_sha256": "082a39a8925a0168a6bfa12a0112c80bc911ac5b5d3269b9dbb1c384d0c6b15f",
+          "preempt": "full",
+          "governor": "performance",
+          "epp": "performance",
+          "no_turbo": "1",
+          "online": "0-19",
+          "cpu2_siblings": "2-3",
+          "microcode": "0x3e",
+          "cmdline_without_storage_identifiers": "ro rootfstype=ext4 preempt=full crashkernel=2G-4G:320M,4G-32G:512M,32G-64G:1024M,64G-128G:2048M,128G-:4096M"
+        },
+        "child": {
+          "role": "child",
+          "release": "6.12.0-rc4-msgf07029-bad-7029acd8a950-xxxxxxxxx+",
+          "build_id": "3868e9663bca56591ea60c9d764d1124fcf64e66",
+          "binary_sha256": "082a39a8925a0168a6bfa12a0112c80bc911ac5b5d3269b9dbb1c384d0c6b15f",
+          "preempt": "full",
+          "governor": "performance",
+          "epp": "performance",
+          "no_turbo": "1",
+          "online": "0-19",
+          "cpu2_siblings": "2-3",
+          "microcode": "0x3e",
+          "cmdline_without_storage_identifiers": "ro rootfstype=ext4 preempt=full crashkernel=2G-4G:320M,4G-32G:512M,32G-64G:1024M,64G-128G:2048M,128G-:4096M"
+        },
+        "parent-b": {
+          "role": "parent",
+          "release": "6.12.0-rc4-msgf07029-good-e410ffca5886-xxxxxxxx+",
+          "build_id": "6ef1e57e7983be0f9e49bc42c4b8e595f2e2cfa2",
+          "binary_sha256": "082a39a8925a0168a6bfa12a0112c80bc911ac5b5d3269b9dbb1c384d0c6b15f",
+          "preempt": "full",
+          "governor": "performance",
+          "epp": "performance",
+          "no_turbo": "1",
+          "online": "0-19",
+          "cpu2_siblings": "2-3",
+          "microcode": "0x3e",
+          "cmdline_without_storage_identifiers": "ro rootfstype=ext4 preempt=full crashkernel=2G-4G:320M,4G-32G:512M,32G-64G:1024M,64G-128G:2048M,128G-:4096M"
+        }
+      },
+      "input_contract": {
+        "cpu": 2,
+        "group_count": 15,
+        "warmup_count": 3,
+        "max_cv_percent": 3,
+        "max_absolute_control_drift_percent": 2,
+        "require_drop_first": true
+      },
+      "qualification": {
+        "qual-parent/net-fresh-4-q1": [
+          {
+            "record_type": "tcpcounts",
+            "install": 4,
+            "nodes": 0,
+            "recv": 4,
+            "send": 4,
+            "markers": 7,
+            "depth": 0
+          }
+        ],
+        "qual-parent/net-fresh-4-q16": [
+          {
+            "record_type": "tcpcounts",
+            "install": 4,
+            "nodes": 0,
+            "recv": 64,
+            "send": 64,
+            "markers": 7,
+            "depth": 0
+          }
+        ],
+        "qual-parent/net-reuse-256-q1": [
+          {
+            "record_type": "tcpcounts",
+            "install": 1024,
+            "nodes": 0,
+            "recv": 1024,
+            "send": 1024,
+            "markers": 25,
+            "depth": 0
+          }
+        ],
+        "qual-parent/net-reuse-256-q16": [
+          {
+            "record_type": "tcpcounts",
+            "install": 1024,
+            "nodes": 0,
+            "recv": 16384,
+            "send": 16384,
+            "markers": 25,
+            "depth": 0
+          }
+        ],
+        "qual-parent/net-reuse-64-q1": [
+          {
+            "record_type": "tcpcounts",
+            "install": 256,
+            "nodes": 0,
+            "recv": 256,
+            "send": 256,
+            "markers": 25,
+            "depth": 0
+          }
+        ],
+        "qual-parent/net-reuse-64-q16": [
+          {
+            "record_type": "tcpcounts",
+            "install": 256,
+            "nodes": 0,
+            "recv": 4096,
+            "send": 4096,
+            "markers": 25,
+            "depth": 0
+          }
+        ],
+        "qual-child/net-fresh-4-q1": [
+          {
+            "record_type": "tcpcounts",
+            "install": 4,
+            "nodes": 4,
+            "recv": 4,
+            "send": 4,
+            "markers": 7,
+            "depth": 0
+          }
+        ],
+        "qual-child/net-fresh-4-q16": [
+          {
+            "record_type": "tcpcounts",
+            "install": 4,
+            "nodes": 4,
+            "recv": 64,
+            "send": 64,
+            "markers": 7,
+            "depth": 0
+          }
+        ],
+        "qual-child/net-reuse-256-q1": [
+          {
+            "record_type": "tcpcounts",
+            "install": 1024,
+            "nodes": 1024,
+            "recv": 1024,
+            "send": 1024,
+            "markers": 25,
+            "depth": 0
+          }
+        ],
+        "qual-child/net-reuse-256-q16": [
+          {
+            "record_type": "tcpcounts",
+            "install": 1024,
+            "nodes": 1024,
+            "recv": 16384,
+            "send": 16384,
+            "markers": 25,
+            "depth": 0
+          }
+        ],
+        "qual-child/net-reuse-64-q1": [
+          {
+            "record_type": "tcpcounts",
+            "install": 256,
+            "nodes": 256,
+            "recv": 256,
+            "send": 256,
+            "markers": 25,
+            "depth": 0
+          }
+        ],
+        "qual-child/net-reuse-64-q16": [
+          {
+            "record_type": "tcpcounts",
+            "install": 256,
+            "nodes": 256,
+            "recv": 4096,
+            "send": 4096,
+            "markers": 25,
+            "depth": 0
+          }
+        ]
+      },
+      "collection": {
+        "execution": "pass",
+        "restoration": "pass"
+      },
+      "once_costs_note": "Network once_setup/once_cleanup values are repeated in rows; do not sum them.",
+      "independent_boots_verified": true
+    }
+  },
+  "publication": {
+    "timing_rows": 6930,
+    "metrics": 48,
+    "all_timing_rows_and_unstable_metrics_retained": true,
+    "note": "Consolidated numeric records, not private host logs; raw values unchanged."
+  },
+  "files_sha256": {
+    "timing.tsv": "3f1c1f9d7967c15fe276ddcf77d4f40ccac663771436d37f73be90b541b82182",
+    "results.tsv": "5bb53db71a494e65f5a6fd752926c21ab936c5c737ee2ac50076e7b73c758f64"
+  }
+}

@@ -1,0 +1,17 @@
+case	kernel_role	probed	requested_state_applied	inherited_counterexample_observed	first_fair_updates	second_fair_updates	timed_samples
+mode-equal	original	false	false	true	NA	NA	0
+mode-explicit	original	false	true	false	NA	NA	0
+clamp-equal	original	false	false	true	NA	NA	0
+clamp-explicit	original	false	true	false	NA	NA	0
+mode-equal	original	true	false	true	0	1	0
+mode-explicit	original	true	true	false	1	0	0
+clamp-equal	original	true	false	true	1	0	0
+clamp-explicit	original	true	true	false	1	1	0
+mode-equal	v4	false	true	false	NA	NA	0
+mode-explicit	v4	false	true	false	NA	NA	0
+clamp-equal	v4	false	true	false	NA	NA	0
+clamp-explicit	v4	false	true	false	NA	NA	0
+mode-equal	v4	true	true	false	1	0	0
+mode-explicit	v4	true	true	false	1	0	0
+clamp-equal	v4	true	true	false	1	1	0
+clamp-explicit	v4	true	true	false	1	1	0

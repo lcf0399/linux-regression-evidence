@@ -1,0 +1,3 @@
+profile	original_a_ns_per_call	prototype_ns_per_call	original_b_ns_per_call	original_midpoint_ns_per_call	prototype_change_percent	saved_ns_per_call	original_b_vs_original_a_drift_percent	max_cv_percent	drop_first_change_percent	stability_pass
+setparam-current-v2	619.402136	163.228770	616.966827	618.184481	-73.595460	454.955712	-0.393171	0.119929	-73.595552	true
+setparam-fast-control-v2	162.510758	162.635226	162.683731	162.597245	0.023359	-0.037982	0.106438	0.181641	0.023231	true

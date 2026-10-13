@@ -1,5 +1,9 @@
 # io_uring SEND_FD installation and cache tests
 
+Upstream status checked 2026-10-10: the new results were sent to Uzair on
+October 1; no later reply or corresponding mainline fix was found. See the
+[dated audit](upstream-status/README.md). Measurements below are unchanged.
+
 Updated 2026-10-01. **The original installation slowdown remains measurable,
 but the stable loopback TCP cases did not show a substantial overall slowdown.
 Neither fixed-limit bulk-refill implementation showed a clear benefit in the
@@ -40,7 +44,7 @@ production application has been verified that frequently recycles more than
 
 The 2026-10-01 update publishes all numeric rows and unstable metrics from the
 new follow-ups. It does not publish private correspondence, host-control scripts,
-credentials, binaries or full host logs. The reply prepared for Uzair remains
-separate from this public evidence and has not been sent as part of this update.
+credentials, binaries or full host logs. The October 1 reply to Uzair was sent
+separately; private correspondence is not included in this public evidence.
 
 [中文说明](README.zh-CN.md)

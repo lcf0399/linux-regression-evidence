@@ -1,5 +1,9 @@
 # fsnotify concurrent inotify watch add/remove regression
 
+Closed on 2026-10-10. No further experiments or follow-up are queued.
+This accepts the maintainer's trade-off assessment; it does not mean a fix was
+merged. Measurements, the reproducer and attribution evidence are retained.
+
 Status: reported upstream; maintainer response received; single-worker
 follow-up sent on 2026-07-29. The exact P1 result shows no material
 single-worker regression. Upstream currently treats the observed P6/P8

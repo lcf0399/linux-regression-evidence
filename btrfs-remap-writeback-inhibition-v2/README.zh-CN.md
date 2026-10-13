@@ -1,5 +1,13 @@
 # Btrfs writeback-inhibition inline-buffer v2 验证
 
+本线于2026-10-10明确结题，不再排队跟进或追加实验。对应修复已在主线，
+本项目的报告／验证证据继续保留；专用实验内核及可重建产物按结题范围退役。
+
+上游状态核对于2026-10-10：所验证修改已进入主线，提交为
+[`67bd829a14b7`](https://github.com/torvalds/linux/commit/67bd829a14b7d71ffea28147b98dadf9ee684568)，
+保留Chengfeng Lin的`Tested-by`。当前主线`3857c2fe5449`（v7.3-rc6）仍使用该内联缓冲区。
+9月12日的7.2 stable review是另一个阶段；本次没有核实首次包含它的stable正式版本。
+
 本目录保存对下列上游补丁的独立裸机验证：
 
 ```text

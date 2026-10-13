@@ -1,5 +1,9 @@
 # io_uring scalar futex wait/wake inflight-tracking regression
 
+Closed on 2026-10-10. No further experiments or follow-up are queued.
+The corresponding fix is in mainline. Report and validation evidence are retained;
+dedicated experimental kernels and rebuildable artifacts may be retired.
+
 This bundle records a narrow scalar io_uring futex wait/wake slowdown
 introduced by
 [`079afb081c42`](https://github.com/torvalds/linux/commit/079afb081c4288e94d5e4223d3eb6306d853c68b)

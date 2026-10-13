@@ -1,0 +1,272 @@
+[
+  {
+    "case": {
+      "competitor": 0,
+      "work": 0
+    },
+    "counts": {
+      "active": 0,
+      "ends": 2,
+      "nested": 1997,
+      "requeue": 1997,
+      "starts": 2,
+      "update": 16020
+    },
+    "point": "payload-ref-a"
+  },
+  {
+    "case": {
+      "competitor": 0,
+      "work": 256
+    },
+    "counts": {
+      "active": 0,
+      "ends": 2,
+      "nested": 1999,
+      "requeue": 1999,
+      "starts": 2,
+      "update": 16023
+    },
+    "point": "payload-ref-a"
+  },
+  {
+    "case": {
+      "competitor": 0,
+      "work": 4096
+    },
+    "counts": {
+      "active": 0,
+      "ends": 2,
+      "nested": 2000,
+      "requeue": 2000,
+      "starts": 2,
+      "update": 16074
+    },
+    "point": "payload-ref-a"
+  },
+  {
+    "case": {
+      "competitor": 1,
+      "work": 0
+    },
+    "counts": {
+      "active": 0,
+      "ends": 2,
+      "nested": 2,
+      "requeue": 2,
+      "starts": 2,
+      "update": 18352
+    },
+    "point": "payload-ref-a"
+  },
+  {
+    "case": {
+      "competitor": 1,
+      "work": 256
+    },
+    "counts": {
+      "active": 0,
+      "ends": 2,
+      "nested": 3,
+      "requeue": 3,
+      "starts": 2,
+      "update": 18314
+    },
+    "point": "payload-ref-a"
+  },
+  {
+    "case": {
+      "competitor": 1,
+      "work": 4096
+    },
+    "counts": {
+      "active": 0,
+      "ends": 2,
+      "nested": 1,
+      "requeue": 1,
+      "starts": 2,
+      "update": 19544
+    },
+    "point": "payload-ref-a"
+  },
+  {
+    "case": {
+      "competitor": 0,
+      "work": 0
+    },
+    "counts": {
+      "active": 0,
+      "ends": 2,
+      "nested": 0,
+      "requeue": 1224,
+      "starts": 2,
+      "update": 12472
+    },
+    "point": "payload-revert"
+  },
+  {
+    "case": {
+      "competitor": 0,
+      "work": 256
+    },
+    "counts": {
+      "active": 0,
+      "ends": 2,
+      "nested": 0,
+      "requeue": 1175,
+      "starts": 2,
+      "update": 12381
+    },
+    "point": "payload-revert"
+  },
+  {
+    "case": {
+      "competitor": 0,
+      "work": 4096
+    },
+    "counts": {
+      "active": 0,
+      "ends": 2,
+      "nested": 0,
+      "requeue": 1046,
+      "starts": 2,
+      "update": 12183
+    },
+    "point": "payload-revert"
+  },
+  {
+    "case": {
+      "competitor": 1,
+      "work": 0
+    },
+    "counts": {
+      "active": 0,
+      "ends": 2,
+      "nested": 0,
+      "requeue": 0,
+      "starts": 2,
+      "update": 18437
+    },
+    "point": "payload-revert"
+  },
+  {
+    "case": {
+      "competitor": 1,
+      "work": 256
+    },
+    "counts": {
+      "active": 0,
+      "ends": 2,
+      "nested": 0,
+      "requeue": 3,
+      "starts": 2,
+      "update": 18297
+    },
+    "point": "payload-revert"
+  },
+  {
+    "case": {
+      "competitor": 1,
+      "work": 4096
+    },
+    "counts": {
+      "active": 0,
+      "ends": 2,
+      "nested": 0,
+      "requeue": 0,
+      "starts": 2,
+      "update": 19370
+    },
+    "point": "payload-revert"
+  },
+  {
+    "case": {
+      "competitor": 0,
+      "work": 0
+    },
+    "counts": {
+      "active": 0,
+      "ends": 2,
+      "nested": 1997,
+      "requeue": 1997,
+      "starts": 2,
+      "update": 16017
+    },
+    "point": "payload-ref-b"
+  },
+  {
+    "case": {
+      "competitor": 0,
+      "work": 256
+    },
+    "counts": {
+      "active": 0,
+      "ends": 2,
+      "nested": 1994,
+      "requeue": 1994,
+      "starts": 2,
+      "update": 16023
+    },
+    "point": "payload-ref-b"
+  },
+  {
+    "case": {
+      "competitor": 0,
+      "work": 4096
+    },
+    "counts": {
+      "active": 0,
+      "ends": 2,
+      "nested": 2000,
+      "requeue": 2000,
+      "starts": 2,
+      "update": 16076
+    },
+    "point": "payload-ref-b"
+  },
+  {
+    "case": {
+      "competitor": 1,
+      "work": 0
+    },
+    "counts": {
+      "active": 0,
+      "ends": 2,
+      "nested": 3,
+      "requeue": 3,
+      "starts": 2,
+      "update": 18357
+    },
+    "point": "payload-ref-b"
+  },
+  {
+    "case": {
+      "competitor": 1,
+      "work": 256
+    },
+    "counts": {
+      "active": 0,
+      "ends": 2,
+      "nested": 3,
+      "requeue": 3,
+      "starts": 2,
+      "update": 18251
+    },
+    "point": "payload-ref-b"
+  },
+  {
+    "case": {
+      "competitor": 1,
+      "work": 4096
+    },
+    "counts": {
+      "active": 0,
+      "ends": 2,
+      "nested": 2,
+      "requeue": 2,
+      "starts": 2,
+      "update": 19546
+    },
+    "point": "payload-ref-b"
+  }
+]

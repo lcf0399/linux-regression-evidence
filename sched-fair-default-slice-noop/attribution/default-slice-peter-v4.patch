@@ -1,0 +1,62 @@
+Subject: [RFC prototype] sched/fair: distinguish slice mode before skipping updates
+
+Use separate checks for default/custom mode and requested duration.
+Keep stale-default refreshes, implicit clamp resets and the full
+update path outside the actual fair class. Equal numeric runtimes
+alone must not skip a requested mode change or clamp reset.
+
+This experimental prototype was prepared with LLM assistance.
+It is not a signed-off submission.
+
+---
+--- a/kernel/sched/syscalls.c
++++ b/kernel/sched/syscalls.c
+@@ -488,6 +488,38 @@
+ 		return -EPERM;
+ 
+ 	return 0;
++}
++
++static bool fair_params_changed(struct task_struct *p,
++				const struct sched_attr *attr)
++{
++	if (attr->sched_nice != task_nice(p))
++		return true;
++
++	/* Keep the full update path for PI-boosted and sched_ext tasks. */
++	if (p->sched_class != &fair_sched_class)
++		return true;
++
++	if (!!attr->sched_runtime != !!p->se.custom_slice)
++		return true;
++
++	if (attr->sched_runtime && attr->sched_runtime != p->se.slice)
++		return true;
++
++	if (!attr->sched_runtime &&
++	    p->se.slice != READ_ONCE(sysctl_sched_base_slice))
++		return true;
++
++#ifdef CONFIG_UCLAMP_TASK
++	/* Equal fair parameters do not rule out an implicit clamp reset. */
++	if ((!p->uclamp_req[UCLAMP_MIN].user_defined &&
++	     p->uclamp_req[UCLAMP_MIN].value != uclamp_none(UCLAMP_MIN)) ||
++	    (!p->uclamp_req[UCLAMP_MAX].user_defined &&
++	     p->uclamp_req[UCLAMP_MAX].value != uclamp_none(UCLAMP_MAX)))
++		return true;
++#endif
++
++	return false;
+ }
+ 
+ int __sched_setscheduler(struct task_struct *p,
+@@ -589,8 +621,7 @@
+ 	 */
+ 	if (unlikely(policy == p->policy)) {
+ 		if (fair_policy(policy) &&
+-		    (attr->sched_nice != task_nice(p) ||
+-		     (attr->sched_runtime != p->se.slice)))
++		    fair_params_changed(p, attr))
+ 			goto change;
+ 		if (rt_policy(policy) && attr->sched_priority != p->rt_priority)
+ 			goto change;

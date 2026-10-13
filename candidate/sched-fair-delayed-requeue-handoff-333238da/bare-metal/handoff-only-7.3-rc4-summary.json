@@ -1,0 +1,147 @@
+{
+  "comparisons": {
+    "0": {
+      "full_sequences": {
+        "latest": {
+          "elapsed_ms_mean": 221.1090118888889,
+          "n": 9,
+          "roundtrip_ns_mean": 2211.090118888889,
+          "roundtrips_per_sample": 100000
+        },
+        "ref-a": {
+          "elapsed_ms_mean": 220.9852827777778,
+          "n": 9,
+          "roundtrip_ns_mean": 2209.8528277777777,
+          "roundtrips_per_sample": 100000
+        },
+        "ref-b": {
+          "elapsed_ms_mean": 220.697524,
+          "n": 9,
+          "roundtrip_ns_mean": 2206.97524,
+          "roundtrips_per_sample": 100000
+        }
+      },
+      "latest": {
+        "diagnostic_cv_pct": 0.33008531546536696,
+        "diagnostic_ns_mean": 2211.090118888889,
+        "eagain": 0,
+        "eintr": 0,
+        "measured_rounds": 9,
+        "shape": "near-two-waits",
+        "wait_calls_per_roundtrip": 1.9960722222222222,
+        "wait_calls_ratio_max": 1.99838,
+        "wait_calls_ratio_min": 1.991,
+        "wake_calls_per_roundtrip": 2.0,
+        "woken_per_roundtrip": 1.9960722222222222
+      },
+      "latest_vs_reference_midpoint_pct": 0.12117677930560955,
+      "max_cv_pct": 0.3316175755276842,
+      "reference_a": {
+        "diagnostic_cv_pct": 0.11755405791492998,
+        "diagnostic_ns_mean": 2209.8528277777777,
+        "eagain": 0,
+        "eintr": 0,
+        "measured_rounds": 9,
+        "shape": "near-two-waits",
+        "wait_calls_per_roundtrip": 1.9991911111111111,
+        "wait_calls_ratio_max": 1.99931,
+        "wait_calls_ratio_min": 1.99909,
+        "wake_calls_per_roundtrip": 2.0,
+        "woken_per_roundtrip": 1.9991911111111111
+      },
+      "reference_b": {
+        "diagnostic_cv_pct": 0.3316175755276842,
+        "diagnostic_ns_mean": 2206.97524,
+        "eagain": 0,
+        "eintr": 0,
+        "measured_rounds": 9,
+        "shape": "near-two-waits",
+        "wait_calls_per_roundtrip": 1.9991555555555556,
+        "wait_calls_ratio_max": 1.99922,
+        "wait_calls_ratio_min": 1.99907,
+        "wake_calls_per_roundtrip": 2.0,
+        "woken_per_roundtrip": 1.9991555555555556
+      },
+      "reference_drift_pct": -0.13021626334597247,
+      "stability_pass": true
+    },
+    "5": {
+      "full_sequences": {
+        "latest": {
+          "elapsed_ms_mean": 220.7216482222222,
+          "n": 9,
+          "roundtrip_ns_mean": 2207.216482222222,
+          "roundtrips_per_sample": 100000
+        },
+        "ref-a": {
+          "elapsed_ms_mean": 222.07486133333333,
+          "n": 9,
+          "roundtrip_ns_mean": 2220.7486133333337,
+          "roundtrips_per_sample": 100000
+        },
+        "ref-b": {
+          "elapsed_ms_mean": 221.89125944444444,
+          "n": 9,
+          "roundtrip_ns_mean": 2218.9125944444445,
+          "roundtrips_per_sample": 100000
+        }
+      },
+      "latest": {
+        "diagnostic_cv_pct": 0.3770862699191948,
+        "diagnostic_ns_mean": 2207.216482222222,
+        "eagain": 0,
+        "eintr": 0,
+        "measured_rounds": 9,
+        "shape": "near-two-waits",
+        "wait_calls_per_roundtrip": 1.99367,
+        "wait_calls_ratio_max": 1.99527,
+        "wait_calls_ratio_min": 1.99277,
+        "wake_calls_per_roundtrip": 2.0,
+        "woken_per_roundtrip": 1.99367
+      },
+      "latest_vs_reference_midpoint_pct": -0.5682470385158234,
+      "max_cv_pct": 0.3770862699191948,
+      "reference_a": {
+        "diagnostic_cv_pct": 0.20478135831919764,
+        "diagnostic_ns_mean": 2220.748613333333,
+        "eagain": 1,
+        "eintr": 0,
+        "measured_rounds": 9,
+        "shape": "near-two-waits",
+        "wait_calls_per_roundtrip": 1.999171111111111,
+        "wait_calls_ratio_max": 1.99924,
+        "wait_calls_ratio_min": 1.99907,
+        "wake_calls_per_roundtrip": 2.0,
+        "woken_per_roundtrip": 1.99917
+      },
+      "reference_b": {
+        "diagnostic_cv_pct": 0.20706721193541475,
+        "diagnostic_ns_mean": 2218.9125944444445,
+        "eagain": 0,
+        "eintr": 0,
+        "measured_rounds": 9,
+        "shape": "near-two-waits",
+        "wait_calls_per_roundtrip": 1.9992077777777777,
+        "wait_calls_ratio_max": 1.9994,
+        "wait_calls_ratio_min": 1.99906,
+        "wake_calls_per_roundtrip": 2.0,
+        "woken_per_roundtrip": 1.9992077777777777
+      },
+      "reference_drift_pct": -0.08267567422378663,
+      "stability_pass": true
+    }
+  },
+  "exact_commit_attributed": false,
+  "includes_process_lifecycle": false,
+  "independent_boots": true,
+  "latest_commit": "93f51579e7df248780214094418f205253383cc5",
+  "scheduler_features": {
+    "latest": "PLACE_LAG PLACE_DEADLINE_INITIAL PLACE_REL_DEADLINE RUN_TO_PARITY PREEMPT_SHORT NO_NEXT_BUDDY PICK_BUDDY CACHE_HOT_BUDDY DELAY_DEQUEUE DELAY_ZERO NO_PARANOID_AVG WAKEUP_PREEMPTION HRTICK HRTICK_DL NONTASK_CAPACITY TTWU_QUEUE SIS_UTIL NO_WARN_DOUBLE_CLOCK NO_RT_PUSH_IPI NO_RT_RUNTIME_SHARE NO_LB_MIN ATTACH_AGE_LOAD WA_IDLE WA_WEIGHT WA_BIAS UTIL_EST NO_LATENCY_WARN NI_RANDOM NI_RATE",
+    "ref-a": "PLACE_LAG PLACE_DEADLINE_INITIAL PLACE_REL_DEADLINE RUN_TO_PARITY PREEMPT_SHORT NO_NEXT_BUDDY PICK_BUDDY CACHE_HOT_BUDDY DELAY_DEQUEUE DELAY_ZERO NO_PARANOID_AVG WAKEUP_PREEMPTION HRTICK HRTICK_DL NONTASK_CAPACITY TTWU_QUEUE SIS_UTIL NO_WARN_DOUBLE_CLOCK NO_RT_PUSH_IPI NO_RT_RUNTIME_SHARE NO_LB_MIN ATTACH_AGE_LOAD WA_IDLE WA_WEIGHT WA_BIAS UTIL_EST NO_LATENCY_WARN NI_RANDOM NI_RATE",
+    "ref-b": "PLACE_LAG PLACE_DEADLINE_INITIAL PLACE_REL_DEADLINE RUN_TO_PARITY PREEMPT_SHORT NO_NEXT_BUDDY PICK_BUDDY CACHE_HOT_BUDDY DELAY_DEQUEUE DELAY_ZERO NO_PARANOID_AVG WAKEUP_PREEMPTION HRTICK HRTICK_DL NONTASK_CAPACITY TTWU_QUEUE SIS_UTIL NO_WARN_DOUBLE_CLOCK NO_RT_PUSH_IPI NO_RT_RUNTIME_SHARE NO_LB_MIN ATTACH_AGE_LOAD WA_IDLE WA_WEIGHT WA_BIAS UTIL_EST NO_LATENCY_WARN NI_RANDOM NI_RATE"
+  },
+  "schema": "weighted-latest-audit-v1",
+  "scope": "Latest release follow-up, no attribution to one mainline fix or application-wide claim",
+  "status": "replay-pass",
+  "timings_are_full_steady_state_roundtrips": true
+}

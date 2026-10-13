@@ -1,0 +1,3 @@
+profile	old_a_ns_per_call	intermediate_ns_per_call	new_ns_per_call	old_b_ns_per_call	new_vs_old_midpoint_percent	old_b_vs_old_a_drift_percent	max_cv_percent
+setparam-current-v2	536.905067	546.543733	575.744400	538.431400	7.081721	0.284284	0.249443
+setparam-fast-control-v2	169.177667	165.189533	162.414933	167.225133	-3.440201	-1.154132	0.229931

@@ -1,5 +1,15 @@
 # Btrfs Writeback-Inhibition Inline-Buffer v2 Validation
 
+Closed on 2026-10-10. No further experiments or follow-up are queued.
+The corresponding fix is in mainline. Report and validation evidence are retained;
+dedicated experimental kernels and rebuildable artifacts may be retired.
+
+Upstream status checked 2026-10-10: the validated change is in mainline as
+[`67bd829a14b7`](https://github.com/torvalds/linux/commit/67bd829a14b7d71ffea28147b98dadf9ee684568),
+including Chengfeng Lin's `Tested-by`. The inline-buffer implementation is present
+at mainline `3857c2fe5449` (v7.3-rc6). The September 12 v7.2 stable-review message
+is separate evidence, not a check of the first stable release containing it.
+
 This directory contains an independent bare-metal validation of:
 
 ```text

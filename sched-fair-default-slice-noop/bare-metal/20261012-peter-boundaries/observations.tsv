@@ -1,0 +1,5 @@
+case	original_result	v3_result	first_fair_updates_both	second_fair_updates_both	classification
+mode-equal	slice 2900000 ns after default change	slice 2900000 ns after default change	0	1	counterexample
+mode-explicit	slice 2800000 ns retained	slice 2800000 ns retained	1	0	explicit control
+clamp-equal	uclamp_min 1024 after final call	uclamp_min 1024 after final call	1	0	counterexample
+clamp-explicit	uclamp_min 0 after final call	uclamp_min 0 after final call	1	1	explicit control

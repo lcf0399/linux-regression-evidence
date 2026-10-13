@@ -1,5 +1,20 @@
 # tmpfs flistxattr(fd) 小列表回归证据
 
+本线于2026-10-10明确结题，不再排队跟进或追加实验。对应修复已在主线，
+本项目的报告／验证证据继续保留；专用实验内核及可重建产物按结题范围退役。
+
+时间线（北京时间）：修复 `1e7cd8a53b72` 经
+[`ff8747aacaff`](https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux.git/+/ff8747aacaff8266dd751b8a8648fb728dcc3b21)
+于2026-06-15进入Linus主线，早于我们的7月6日报告。原报告测试的7.1.0以及后续7.1.3
+均不包含该修复；Jan于7月9日要求复测，我们于7月17日反馈精确父子版本的裸机验证。
+因此，这是对已发布7.1回归的独立复现和对既有主线修复的验证，不是报告后才写成／合入的修复。
+
+2026-10-10核对正式版本：该修复是
+[v7.2正式标签](https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux.git/+/refs/tags/v7.2)
+（`8d3ae59288f1`，北京时间2026-08-17发布）的祖先，不是v7.1的祖先。
+v7.2源码仍保留每superblock缓存和链表枚举实现。因此，首次包含它的主线正式版是v7.2。
+这不等于已经核实它是否／何时回移到更旧的stable分支，也没有新增性能测量。
+
 这个目录保存一条很窄的 Linux FS 性能回归证据：
 
 ```text

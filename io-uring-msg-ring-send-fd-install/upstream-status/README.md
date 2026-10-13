@@ -1,9 +1,15 @@
 # Upstream status audit
 
-This is the dated 2026-08-07 thread/source snapshot, not a current inbox or
-merge-status audit. The [2026-10-01 evidence update](../README.md) adds new
-TCP and patch tests. Its prepared reply to Uzair has not been sent as part of
-that update, and the diagnostic prototype is not an accepted upstream patch.
+Latest status check: 2026-10-10. The new TCP and patch results were sent to Uzair
+on October 1 (UTC+08:00). Gmail, including Spam/Trash, contains no later reply.
+The public RFC series still ends with Gabriel's September 25 UTC reply
+(`87cxu1yv61.fsf@mailhost.krisman.be`, September 26 in UTC+08:00). No separate
+patch-2 review was located. The checked mainline `3857c2fe5449` (v7.3-rc6) still
+uses the fixed resource-node cache and individual allocation, not the proposed
+dedicated-slab/bulk/prefill changes. No acceptance or merge is claimed; this is
+not a new benchmark of that mainline build. Private correspondence stays private.
+
+The remaining text is the historical 2026-08-07 thread/source snapshot.
 
 The introducing change was posted by Jens Axboe as
 [`[PATCH 06/14] io_uring/rsrc: get rid of per-ring io_rsrc_node list`](https://lore.kernel.org/io-uring/20241029152249.667290-7-axboe@kernel.dk/)

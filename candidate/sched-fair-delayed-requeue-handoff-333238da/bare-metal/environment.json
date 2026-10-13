@@ -1,0 +1,44 @@
+{
+  "payload-ref-a": {
+    "actual_preempt": "(full) lazy",
+    "apparmor_profile": "unconfined",
+    "autogroup_enabled": "1",
+    "cpu2_siblings": "2-3",
+    "features": "PLACE_LAG PLACE_DEADLINE_INITIAL PLACE_REL_DEADLINE RUN_TO_PARITY PREEMPT_SHORT NO_NEXT_BUDDY PICK_BUDDY CACHE_HOT_BUDDY DELAY_DEQUEUE DELAY_ZERO NO_PARANOID_AVG WAKEUP_PREEMPTION HRTICK HRTICK_DL NONTASK_CAPACITY TTWU_QUEUE SIS_UTIL NO_WARN_DOUBLE_CLOCK NO_RT_PUSH_IPI NO_RT_RUNTIME_SHARE NO_LB_MIN ATTACH_AGE_LOAD WA_IDLE WA_WEIGHT WA_BIAS UTIL_EST NO_LATENCY_WARN NI_RANDOM NI_RATE",
+    "kernel": "7.2.0-bm-7.2",
+    "online": "0-19",
+    "power": {
+      "/sys/devices/system/cpu/cpu2/cpufreq/energy_performance_preference": "performance",
+      "/sys/devices/system/cpu/cpu2/cpufreq/scaling_governor": "performance",
+      "/sys/devices/system/cpu/intel_pstate/no_turbo": "1"
+    }
+  },
+  "payload-ref-b": {
+    "actual_preempt": "(full) lazy",
+    "apparmor_profile": "unconfined",
+    "autogroup_enabled": "1",
+    "cpu2_siblings": "2-3",
+    "features": "PLACE_LAG PLACE_DEADLINE_INITIAL PLACE_REL_DEADLINE RUN_TO_PARITY PREEMPT_SHORT NO_NEXT_BUDDY PICK_BUDDY CACHE_HOT_BUDDY DELAY_DEQUEUE DELAY_ZERO NO_PARANOID_AVG WAKEUP_PREEMPTION HRTICK HRTICK_DL NONTASK_CAPACITY TTWU_QUEUE SIS_UTIL NO_WARN_DOUBLE_CLOCK NO_RT_PUSH_IPI NO_RT_RUNTIME_SHARE NO_LB_MIN ATTACH_AGE_LOAD WA_IDLE WA_WEIGHT WA_BIAS UTIL_EST NO_LATENCY_WARN NI_RANDOM NI_RATE",
+    "kernel": "7.2.0-bm-7.2",
+    "online": "0-19",
+    "power": {
+      "/sys/devices/system/cpu/cpu2/cpufreq/energy_performance_preference": "performance",
+      "/sys/devices/system/cpu/cpu2/cpufreq/scaling_governor": "performance",
+      "/sys/devices/system/cpu/intel_pstate/no_turbo": "1"
+    }
+  },
+  "payload-revert": {
+    "actual_preempt": "(full) lazy",
+    "apparmor_profile": "unconfined",
+    "autogroup_enabled": "1",
+    "cpu2_siblings": "2-3",
+    "features": "PLACE_LAG PLACE_DEADLINE_INITIAL PLACE_REL_DEADLINE RUN_TO_PARITY PREEMPT_SHORT NO_NEXT_BUDDY PICK_BUDDY CACHE_HOT_BUDDY DELAY_DEQUEUE DELAY_ZERO NO_PARANOID_AVG WAKEUP_PREEMPTION HRTICK HRTICK_DL NONTASK_CAPACITY TTWU_QUEUE SIS_UTIL NO_WARN_DOUBLE_CLOCK NO_RT_PUSH_IPI NO_RT_RUNTIME_SHARE NO_LB_MIN ATTACH_AGE_LOAD WA_IDLE WA_WEIGHT WA_BIAS UTIL_EST NO_LATENCY_WARN NI_RANDOM NI_RATE",
+    "kernel": "7.2.0-rv-333",
+    "online": "0-19",
+    "power": {
+      "/sys/devices/system/cpu/cpu2/cpufreq/energy_performance_preference": "performance",
+      "/sys/devices/system/cpu/cpu2/cpufreq/scaling_governor": "performance",
+      "/sys/devices/system/cpu/intel_pstate/no_turbo": "1"
+    }
+  }
+}

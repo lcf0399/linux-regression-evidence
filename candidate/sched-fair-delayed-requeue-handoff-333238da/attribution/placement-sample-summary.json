@@ -1,0 +1,137 @@
+{
+  "claimed_cost_decomposition": false,
+  "fairness_or_fix_validated": false,
+  "instrumented_times_used": false,
+  "profiles": {
+    "reference": {
+      "clean_controls": [
+        {
+          "nice": 0,
+          "phase": "before",
+          "wait_calls_per_roundtrip": 1.99922
+        },
+        {
+          "nice": 5,
+          "phase": "before",
+          "wait_calls_per_roundtrip": 1.99907
+        },
+        {
+          "nice": 0,
+          "phase": "after",
+          "wait_calls_per_roundtrip": 1.99916
+        },
+        {
+          "nice": 5,
+          "phase": "after",
+          "wait_calls_per_roundtrip": 1.99913
+        }
+      ],
+      "profiles": {
+        "0": {
+          "instrumented_wait_calls_per_roundtrip": 1.99957,
+          "observations": {
+            "lag_changed": 32,
+            "not_repositioned": 1,
+            "pick_current": 32,
+            "protected_current_rule": 32,
+            "repositioned": 31
+          },
+          "state_details": {
+            "current_eligible_at_pick": 32,
+            "equal_vruntime_at_pick": 31,
+            "inner_update_positive": 32,
+            "lag_zero_after": 31,
+            "later_update_positive": 0,
+            "later_update_zero": 32,
+            "wakee_eligible_at_pick": 31
+          }
+        },
+        "5": {
+          "instrumented_wait_calls_per_roundtrip": 1.99962,
+          "observations": {
+            "lag_changed": 32,
+            "not_repositioned": 1,
+            "pick_current": 32,
+            "protected_current_rule": 32,
+            "repositioned": 31
+          },
+          "state_details": {
+            "current_eligible_at_pick": 32,
+            "equal_vruntime_at_pick": 31,
+            "inner_update_positive": 32,
+            "lag_zero_after": 31,
+            "later_update_positive": 0,
+            "later_update_zero": 32,
+            "wakee_eligible_at_pick": 31
+          }
+        }
+      }
+    },
+    "revert": {
+      "clean_controls": [
+        {
+          "nice": 0,
+          "phase": "before",
+          "wait_calls_per_roundtrip": 1.14072
+        },
+        {
+          "nice": 5,
+          "phase": "before",
+          "wait_calls_per_roundtrip": 1.14268
+        },
+        {
+          "nice": 0,
+          "phase": "after",
+          "wait_calls_per_roundtrip": 1.13796
+        },
+        {
+          "nice": 5,
+          "phase": "after",
+          "wait_calls_per_roundtrip": 1.14155
+        }
+      ],
+      "profiles": {
+        "0": {
+          "instrumented_wait_calls_per_roundtrip": 1.17578,
+          "observations": {
+            "lag_unchanged": 32,
+            "not_repositioned": 32,
+            "pick_current": 9,
+            "pick_wakee": 23,
+            "protected_current_rule": 9
+          },
+          "state_details": {
+            "current_eligible_at_pick": 9,
+            "equal_vruntime_at_pick": 0,
+            "inner_update_positive": 0,
+            "lag_zero_after": 0,
+            "later_update_positive": 32,
+            "later_update_zero": 0,
+            "wakee_eligible_at_pick": 23
+          }
+        },
+        "5": {
+          "instrumented_wait_calls_per_roundtrip": 1.1755,
+          "observations": {
+            "lag_unchanged": 32,
+            "not_repositioned": 32,
+            "pick_current": 11,
+            "pick_wakee": 21,
+            "protected_current_rule": 11
+          },
+          "state_details": {
+            "current_eligible_at_pick": 11,
+            "equal_vruntime_at_pick": 0,
+            "inner_update_positive": 0,
+            "lag_zero_after": 0,
+            "later_update_positive": 32,
+            "later_update_zero": 0,
+            "wakee_eligible_at_pick": 21
+          }
+        }
+      }
+    }
+  },
+  "samples_are_not_population_frequencies": true,
+  "status": "raw-replay-pass"
+}

@@ -1,5 +1,10 @@
 # RT sysctl reads: validation of Joseph Salisbury's rebuild guard
 
+Status checked 2026-10-10: feedback has been sent, including a direct resend
+after the author's old address bounced. No technical reply was found, and the
+successful-write guard is absent from the checked v7.3-rc6 mainline path.
+See [upstream status](upstream-status/README.md); the measurements below are unchanged.
+
 On v7.2, Joseph Salisbury's patch reduces repeated reads of
 `sched_rt_period_us` and `sched_rt_runtime_us` from about 8.57 µs to
 0.264 µs per read, a 96.9% reduction in this bare-metal microbenchmark.

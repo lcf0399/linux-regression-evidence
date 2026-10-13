@@ -1,5 +1,9 @@
 # RT sysctl 读取：Joseph Salisbury 补丁验证
 
+2026-10-10核对：反馈已发送，旧地址退信后也已向作者kernel.org地址补送。
+未查到技术回复，所查v7.3-rc6主线路径仍无“仅成功写入才重建”的条件。
+详见[上游状态](upstream-status/README.md)；下方测量结果不改。
+
 在 v7.2 上，Joseph Salisbury 的补丁使重复读取 `sched_rt_period_us` 和
 `sched_rt_runtime_us` 的耗时从约 8.57 µs 降至 0.264 µs，减少约 96.9%。
 计时包含返回内容检查。这是对[已有补丁](https://patchew.org/linux/20260313183716.990792-1-joseph.salisbury@oracle.com/)

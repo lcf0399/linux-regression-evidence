@@ -1,5 +1,15 @@
 # Upstream status
 
+Latest check, 2026-10-10: validation was sent to the original thread on September
+23 UTC (September 24 in UTC+08:00), then resent directly to `jsalisbury@kernel.org`
+after the Oracle address bounced. The [public validation reply](https://lists.openwall.net/linux-kernel/2026/09/23/2523)
+is archived. No technical response was found in Gmail, including Spam/Trash;
+the vacation responder is not a maintainer review. Mainline `3857c2fe5449`
+(v7.3-rc6) still calls `rebuild_sched_domains()` after reads and failed writes.
+The proposal is not present in that inspected path. No new timing was performed.
+
+The following is the earlier, pre-send September 23 snapshot.
+
 Checked on 2026-09-23 UTC. This bundle validates Joseph Salisbury's existing
 proposal; it is not a new patch submission or a claim that upstream accepted it.
 

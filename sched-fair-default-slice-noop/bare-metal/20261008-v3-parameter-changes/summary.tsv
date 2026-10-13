@@ -1,0 +1,4 @@
+profile	original_a_ns_per_call	prototype_ns_per_call	original_b_ns_per_call	original_midpoint_ns_per_call	prototype_change_percent	saved_ns_per_call	original_b_vs_original_a_drift_percent	max_cv_percent	drop_first_change_percent	stability_pass
+custom-change	644.519541	646.423545	647.087167	645.803354	0.096034	-0.620191	0.398378	0.222209	0.116949	true
+mode-change	652.964092	656.021560	649.755804	651.359948	0.715674	-4.661612	-0.491342	0.169291	0.711236	true
+custom-noop-control	189.460660	191.046901	191.567566	190.514113	0.279658	-0.532788	1.112054	0.109044	0.278756	true

@@ -1,8 +1,13 @@
 # 上游状态审计
 
-下文是 2026-08-07 的线程／源码快照，不是当前邮箱或合入状态的新审计。
-[2026-10-01 证据整理](../README.zh-CN.md)补充了 TCP 与补丁测试；本次整理没有发送
-给 Uzair 的待发回复，诊断原型也不是已经获上游采纳的补丁。
+最新状态核对于2026-10-10。TCP与补丁的新结果已于10月1日（北京时间）发给Uzair，
+Gmail（包括垃圾邮件和已删除）未查到之后的新回复。公开RFC最新仍为Gabriel的
+9月25日UTC／9月26日北京时间回复，Message-ID为`87cxu1yv61.fsf@mailhost.krisman.be`；
+未定位到单独的patch 2评审。主线`3857c2fe5449`（v7.3-rc6）仍使用固定资源节点缓存和
+逐个分配，没有对应的专用slab／批量／预填充方案。这不是该主线版本的新性能测试，
+也不声称方案已被接受或合入；私信正文不公开。
+
+以下保留2026-08-07的历史线程／源码快照。
 
 引入变更由 Jens Axboe 以
 [`[PATCH 06/14] io_uring/rsrc: get rid of per-ring io_rsrc_node list`](https://lore.kernel.org/io-uring/20241029152249.667290-7-axboe@kernel.dk/)

@@ -1,0 +1,24 @@
+{
+  "checked_on": "2026-10-10",
+  "fix": "1e7cd8a53b72a58a44c4d282aed95f6ce0e76db0",
+  "release": "v7.2",
+  "release_commit": "8d3ae59288f1e7d58d76558a6ee96d533bc5019f",
+  "release_commit_date": "2026-08-16T14:32:26-07:00",
+  "release_date_beijing": "2026-08-17",
+  "official_release_record": "https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux.git/+/refs/tags/v7.2?format=JSON",
+  "local_ancestry_checks": {
+    "command": "git merge-base --is-ancestor FIX TAG",
+    "v7.2_exit_code": 0,
+    "v7.1_exit_code": 1
+  },
+  "release_tree_and_source_blob_ids_match": {
+    "fs/xattr.c": "d5897911520075ad9110bc59820dda9777a62e69",
+    "include/linux/xattr.h": "54ac3cbc133f86fa31cb9666af9bee8a101a92c2",
+    "mm/shmem.c": "9001aaf3b7b943d23303611b67dce6858568290a"
+  },
+  "implementation_check": "v7.2 retains struct simple_xattr_cache and per-inode list enumeration in simple_xattr_list; the change is not merely present as a reverted ancestor.",
+  "first_mainline_final_release": "v7.2",
+  "older_stable_branch_backports": "not checked",
+  "new_performance_measurements": 0,
+  "scope": "Release/source containment, not a new benchmark or a claim that this project authored the fix."
+}

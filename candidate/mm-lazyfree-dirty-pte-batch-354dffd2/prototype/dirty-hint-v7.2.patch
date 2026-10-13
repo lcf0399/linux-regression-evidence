@@ -1,0 +1,17 @@
+--- a/mm/rmap.c
++++ b/mm/rmap.c
+@@ -1960,6 +1960,14 @@
+ 
+ 	/* We only support lazyfree or file folios batching for now ... */
+ 	if (folio_test_anon(folio) && folio_test_swapbacked(folio))
++		return 1;
++
++	/*
++	 * A dirty hint only disables batching. Keep the usual post-clear
++	 * dirty/refcount checks and barriers, including concurrent writers.
++	 */
++	if (folio_test_anon(folio) && !(vma->vm_flags & VM_DROPPABLE) &&
++	    (folio_test_dirty(folio) || pte_dirty(pte)))
+ 		return 1;
+ 
+ 	if (pte_unused(pte))

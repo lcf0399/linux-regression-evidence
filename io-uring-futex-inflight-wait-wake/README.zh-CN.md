@@ -1,5 +1,8 @@
 # io_uring 标量 futex wait/wake inflight-tracking 回归
 
+本线于2026-10-10明确结题，不再排队跟进或追加实验。对应修复已在主线，
+本项目的报告／验证证据继续保留；专用实验内核及可重建产物按结题范围退役。
+
 本证据包记录一条很窄的标量 io_uring futex wait/wake slowdown，精确引入提交为
 [`079afb081c42`](https://github.com/torvalds/linux/commit/079afb081c4288e94d5e4223d3eb6306d853c68b)
 （`io_uring/futex: mark wait requests as inflight`）。

@@ -1,0 +1,25 @@
+{
+  "baseline": "v7.2",
+  "compiler": "GCC 15.2.0",
+  "config_comment_difference": "Generated header says Linux/x86 versus Linux/x86_64; configuration symbols otherwise match",
+  "config_difference": "CONFIG_LOCALVERSION only",
+  "diagnostic_revert": "333238da9a193ffc58792995f3e951e4cb87bfd2",
+  "independent_probe_count": 18,
+  "raw_replay_sha256": "618eb24e7523d5e1e6577e48f7b7c264901b60211ddaa27e1014d3a03ce17f0b",
+  "reference": {
+    "bzimage_sha256": "7f86abc91282912b3416ea86cbeb8ceb2e74a7ea8cf48f9031b572542816dbf9",
+    "config_sha256": "b78bf2097de2916652148620459a583eda2e907384cdfb6058045688668ff157",
+    "kernelrelease": "7.2.0-bm-7.2",
+    "required_kernel_cmdline": "preempt=full crashkernel=0"
+  },
+  "revert": {
+    "bzimage_sha256": "03ddfcd2a3d24001d3d52fefd2c6c70be06781b5207e3ce4fe0ffa79044cd513",
+    "config_sha256": "025a7d2b9dd2042bcdf56ce470bd147d317e86a9cb29b5b0c85667c75f93a911",
+    "kernelrelease": "7.2.0-rv-333",
+    "required_kernel_cmdline": "preempt=full crashkernel=0",
+    "reverted_commit": "333238da9a193ffc58792995f3e951e4cb87bfd2"
+  },
+  "sample_count": 162,
+  "workload_binary_sha256": "01b75a6b19bc5c9d151774148750c968f816644bd4f604234fdee9aeda9a4845",
+  "workload_source_sha256": "ba8aac8d37d2507706a0d4995ae55a477626b9cd96153120b18eee130c6396c6"
+}

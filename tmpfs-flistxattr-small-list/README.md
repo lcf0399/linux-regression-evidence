@@ -1,5 +1,25 @@
 # tmpfs flistxattr(fd) Small-List Regression Evidence
 
+Closed on 2026-10-10. No further experiments or follow-up are queued.
+The corresponding fix is in mainline. Report and validation evidence are retained;
+dedicated experimental kernels and rebuildable artifacts may be retired.
+
+Timeline (UTC+08:00): fix `1e7cd8a53b72` entered Linus's tree on June 15,
+2026, through merge [`ff8747aacaff`](https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux.git/+/ff8747aacaff8266dd751b8a8648fb728dcc3b21),
+before our July 6 report. The tested 7.1.0 release and later 7.1.3 check lacked
+that fix. Jan requested a retest on July 9; our July 17 reply provided exact
+parent/child bare-metal validation. This was independent reproduction in the
+released 7.1 line and validation of an existing mainline fix, not a fix written
+or first merged in response to our report.
+
+Release containment checked on 2026-10-10: the fix is an ancestor of the
+[v7.2 release](https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux.git/+/refs/tags/v7.2)
+(`8d3ae59288f1`, released August 17, 2026, UTC+08:00), but not v7.1.
+The v7.2 source still contains the per-superblock cache and list-based enumeration.
+Thus v7.2 is the first mainline final release containing this fix. This check does
+not establish whether, or when, it was backported to older stable branches, and
+does not add a new performance measurement.
+
 This directory contains curated evidence for a narrow Linux FS performance
 regression:
 

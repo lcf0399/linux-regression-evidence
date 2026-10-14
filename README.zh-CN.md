@@ -40,9 +40,9 @@ I/O 源文件主动探索阶段已经结束，目前没有排队的新 target �
 | [`kernfs-empty-cgroup-removal/`](kernfs-empty-cgroup-removal/) | T.J. Mercier最新回复是9月16日；我们9月17日发送独立标记原型与补丁后未查到新回复，所查主线尚无该快捷路径。 | 原精确删除增幅约 46%～48%。新[独立请求标记](kernfs-empty-cgroup-removal/bare-metal/inode-requested/README.zh-CN.md)在一轮矩阵中使删除耗时降低 22.36%～22.72%、连续整段降低 7.35%～9.01%，代价是每节点增加 8 字节。旧实验分开保留；正确性覆盖仍未齐，无应用级影响测量。 |
 | [`fair默认时间片参数未变`](sched-fair-default-slice-noop/) | RFC于10月9日发送，10月10日补发原样补丁附件；10月12日Peter回复。实测第四版补丁及结果已于10月13日回复；这是已发送状态，不代表已被接受或合入。 | 第四版在已测组合中修正模式／uclamp两项边界，默认参数未变成本约616.51→162.39 ns/次；不是此前版本慢差的完整归因。 |
 
-## 尚未发送的候选与已关闭诊断项
+## 尚未发送的候选
 
-四个未发送报告／优化讨论候选和一个未发送但已关闭的诊断 bundle 统一放在
+四个未发送报告／优化讨论候选统一放在
 [`candidate/`](candidate/) 下。进入该目录不会形成新的实验队列，也不表示一定值得
 发送上游。
 
@@ -52,7 +52,6 @@ I/O 源文件主动探索阶段已经结束，目前没有排队的新 target �
 | [`fair 同步交接`](candidate/sched-fair-delayed-requeue-handoff-333238da/) | 讨论稿，未发送；诊断性撤回不是修复。 | 撤回 `333238da9a19` 后，无／轻计算完整往返缩短 11.31%／9.58%；加入第三个忙线程后没有稳定的明显优势。 |
 | [`async cancel miss`](candidate/io-uring-async-cancel-miss-5623eb1e/) | 可发送，但范围限于 guaranteed-miss slow path 和 whole commit。 | 精确 A/B `+8.833%`，hit control `-0.562%`。 |
 | [`region API ring lifecycle`](candidate/io-uring-region-api-ring-lifecycle/) | 材料已准备；现实影响限于反复创建、销毁短生命周期 ring。 | release `+10.832%`；两个相邻 direct-parent pair 为 `+4.563%`、`+3.019%`。 |
-| [`NOP diagnostic control`](candidate/io-uring-nop-diagnostic-control/) | 不建议发性能回归报告；保留为诊断接口成本证据。 | release plain/inject `+15.801%/+16.240%`；精确提交成分 `+8.311%/+8.692%`。 |
 
 ## 已有补丁的验证
 

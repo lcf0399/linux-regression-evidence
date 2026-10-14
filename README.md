@@ -47,9 +47,9 @@ Upstream status was checked on 2026-10-10; the default-slice row also records th
 | [`kernfs-empty-cgroup-removal/`](kernfs-empty-cgroup-removal/) | T.J. Mercier's latest reply is September 16. Our independent-marker prototype and patch were sent September 17; no later reply was found. The checked mainline does not contain that shortcut. | Exact-source deletion increase about 46–48%. The new [inode-request marker](kernfs-empty-cgroup-removal/bare-metal/inode-requested/README.md) reduces rmdir latency 22.36–22.72% and continuous whole-sequence latency 7.35–9.01% in one matrix, at 8 extra bytes per node. Old experiments remain separate; unresolved correctness coverage and no measured application impact. |
 | [`fair unchanged default slice`](sched-fair-default-slice-noop/) | RFC sent October 9, intact patch attached in an October 10 reply. Peter replied October 12; the tested fourth revision and its results were sent in reply on October 13. This confirms submission, not acceptance or merge. | The v7.2 revision handles the two reported mode/uclamp cases in the tests and reduces unchanged-default cost from about 616.51 to 162.39 ns/call. It is not a complete attribution of the earlier release slowdown. |
 
-## Unsent candidates and closed diagnostic
+## Unsent candidates
 
-Four unsent report or optimization-discussion candidates and one unsent but closed diagnostic bundle are
+Four unsent report or optimization-discussion candidates are
 grouped under [`candidate/`](candidate/). Inclusion there does not create an
 active experiment queue or automatically recommend an upstream report.
 
@@ -59,7 +59,6 @@ active experiment queue or automatically recommend an upstream report.
 | [`fair synchronous handoff`](candidate/sched-fair-delayed-requeue-handoff-333238da/) | Technical-discussion candidate; not submitted upstream. A diagnostic revert is not a fix. | Reverting `333238da9a19` reduces no/light-computation roundtrips by 11.31%/9.58%; no stable material advantage with a third busy thread. |
 | [`async cancel miss`](candidate/io-uring-async-cancel-miss-5623eb1e/) | Reportable, but scoped to the guaranteed-miss slow path and the whole commit. | Exact A/B `+8.833%`, hit control `-0.562%`. |
 | [`region API ring lifecycle`](candidate/io-uring-region-api-ring-lifecycle/) | Prepared; real-world impact is limited to repeated short-lived ring setup and teardown. | Release `+10.832%`; adjacent direct-parent pairs `+4.563%` and `+3.019%`. |
-| [`NOP diagnostic control`](candidate/io-uring-nop-diagnostic-control/) | No upstream regression report proposed; retained as diagnostic-interface cost evidence. | Release plain/inject `+15.801%/+16.240%`; exact-commit component `+8.311%/+8.692%`. |
 
 ## Existing-patch validation
 

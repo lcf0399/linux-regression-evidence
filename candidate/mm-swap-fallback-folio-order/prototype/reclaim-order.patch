@@ -1,0 +1,49 @@
+--- a/mm/vmscan.c
++++ b/mm/vmscan.c
+@@ -1153,6 +1153,37 @@
+ 			SWAP_OPS_F_REQUIRE_NOFS))
+ 		return true;
+ 	return false;
++}
++
++/*
++ * Keep this ordering local to the swap-allocation fallback.  Reclaim takes
++ * folios from the tail, so reverse only the newly split children to process
++ * physically adjacent pages in ascending order after the original head.
++ */
++static int split_folio_for_swap(struct folio *folio, struct list_head *list)
++{
++#ifdef CONFIG_TRANSPARENT_HUGEPAGE
++	if (folio_test_anon(folio) && !folio_test_swapcache(folio) &&
++	    folio_order(folio) == HPAGE_PMD_ORDER) {
++		LIST_HEAD(split_folios);
++		struct folio *child;
++		int ret;
++
++		ret = split_folio_to_list(folio, &split_folios);
++		if (ret) {
++			/* A failed split may still have produced some children. */
++			list_splice_tail_init(&split_folios, list);
++			return ret;
++		}
++
++		while (!list_empty(&split_folios)) {
++			child = list_last_entry(&split_folios, struct folio, lru);
++			list_move_tail(&child->lru, list);
++		}
++		return 0;
++	}
++#endif
++	return split_folio_to_list(folio, list);
+ }
+ 
+ /*
+@@ -1391,7 +1422,7 @@
+ 				if (ret != -E2BIG)
+ 					goto activate_locked;
+ 				/* Fallback to swap normal pages */
+-				if (split_folio_to_list(folio, folio_list))
++				if (split_folio_for_swap(folio, folio_list))
+ 					goto activate_locked;
+ #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+ 				if (nr_pages >= HPAGE_PMD_NR) {

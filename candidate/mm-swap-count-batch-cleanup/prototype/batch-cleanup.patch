@@ -1,0 +1,61 @@
+--- a/mm/swapfile.c
++++ b/mm/swapfile.c
+@@ -1536,9 +1536,9 @@
+ 	ci->extend_table = NULL;
+ }
+ 
+-/* Decrease the swap count of one slot, without freeing it */
+-static void __swap_cluster_put_entry(struct swap_cluster_info *ci,
+-				    unsigned int ci_off)
++/* Return whether the caller must check the extend table before unlocking. */
++static bool __swap_cluster_put_entry_deferred(struct swap_cluster_info *ci,
++					      unsigned int ci_off)
+ {
+ 	int count;
+ 	unsigned long swp_tb;
+@@ -1571,7 +1571,14 @@
+ 	 * so free it. And if we just put the count value from MAX - 1, it's
+ 	 * also possible that a pending dup just attached an extend table.
+ 	 */
+-	if (unlikely(count == SWP_TB_COUNT_MAX - 2 || count == SWP_TB_COUNT_MAX - 1))
++	return unlikely(count == SWP_TB_COUNT_MAX - 2 || count == SWP_TB_COUNT_MAX - 1);
++}
++
++/* Single-slot callers retain the immediate extend-table check. */
++static void __swap_cluster_put_entry(struct swap_cluster_info *ci,
++				     unsigned int ci_off)
++{
++	if (__swap_cluster_put_entry_deferred(ci, ci_off))
+ 		swap_extend_table_try_free(ci);
+ }
+ 
+@@ -1596,6 +1603,7 @@
+ 	unsigned int ci_off, ci_end;
+ 	pgoff_t end = offset + nr;
+ 	bool need_reclaim = false;
++	bool check_extend = false;
+ 	unsigned int nr_reclaimed;
+ 	unsigned long swp_tb;
+ 	int ci_batch = -1;
+@@ -1621,13 +1629,20 @@
+ 		 * slots will be freed when folio is removed from swap cache
+ 		 * (__swap_cache_del_folio).
+ 		 */
+-		__swap_cluster_put_entry(ci, ci_off);
++		check_extend |= __swap_cluster_put_entry_deferred(ci, ci_off);
+ 		if (ci_batch != -1) {
++			if (check_extend) {
++				swap_extend_table_try_free(ci);
++				check_extend = false;
++			}
+ 			__swap_cluster_free_entries(si, ci, ci_batch, ci_off - ci_batch);
+ 			ci_batch = -1;
+ 		}
+ 	} while (++ci_off < ci_end);
+ 
++	/* Check before a final slot release or dropping the cluster lock. */
++	if (check_extend)
++		swap_extend_table_try_free(ci);
+ 	if (ci_batch != -1)
+ 		__swap_cluster_free_entries(si, ci, ci_batch, ci_off - ci_batch);
+ 	swap_cluster_unlock(ci);

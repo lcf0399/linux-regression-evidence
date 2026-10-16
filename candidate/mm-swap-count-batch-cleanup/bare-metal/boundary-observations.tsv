@@ -1,0 +1,7 @@
+arm	mode	decrements	held_lock_snapshots	extension_released
+original	concurrent	272	16	1
+original	mixed	26	10	1
+original	release	17	1	1
+patched	concurrent	272	16	1
+patched	mixed	26	10	1
+patched	release	17	1	1

@@ -127,5 +127,3 @@ python3 -B verify.py
 
 This checks artifact hashes and independently recomputes medians, population
 CVs, repeat-boot drift and all four endpoint/drop-first comparisons.
-The export also replayed the full local raw timing and trace records.
-Private mail, credentials and raw trace files are not included.

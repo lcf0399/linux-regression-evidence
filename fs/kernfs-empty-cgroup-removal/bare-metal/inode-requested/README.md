@@ -132,8 +132,6 @@ interleavings. These results do not prove full concurrency safety.
 Run `python3 -B verify.py` here. It checks exported hashes and recomputes all
 eight metrics, CVs, drift and drop-first from 288 metric rows representing
 108 invocations. It also checks recorded bounded-test counts, not kernel safety.
-The local export replayed the raw timing/trace/semantic records before
-publication; raw traces, private correspondence and kernel binaries are not included.
 
 - [Identity](identity.json), [provenance](provenance.json), [compact table](result-summary.tsv).
 - [Reproduction instructions and auxiliary sources](reproducer/README.md).

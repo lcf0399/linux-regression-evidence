@@ -16,7 +16,7 @@
 | C | 原样完整 v3 | `3ad37b35866d99d62b992c53a1f45418f5fa76f2` |
 
 完整 tree、原补丁字节 SHA、内核/工作负载身份和 12 个计时 boot ID 见
-[`identity.json`](identity.json)。这里不分发私人邮件或作者原始补丁附件。
+[`identity.json`](identity.json)。材料记录了被测协作者补丁的身份，但不包含其源码补丁。
 
 两次完成的计时矩阵各自使用六次独立启动：
 

@@ -1,7 +1,7 @@
 # Same-CPU synchronous handoff and delayed requeue accounting
 
-Report candidate, 2026-09-21. Not submitted upstream; not an accepted or merged
-fix. The revert used here is a diagnostic, **not a proposed optimization**.
+Report candidate, 2026-09-21. The revert used here is a diagnostic,
+**not a proposed optimization**.
 
 On the tested v7.2 kernel, reverting `333238da9a19` ("sched: Update time before
 requeueing delayed entities") reduced complete two-thread roundtrip time by
@@ -95,8 +95,3 @@ The command runs locally and does not configure the machine or reboot it.
 The recorded matrix repeats each of the six cases three times per kernel.
 Do not treat timings collected on an arbitrary development machine as a
 reproduction of the matched bare-metal comparison.
-
-Mail drafts remain ignored under `email/`; private source links remain under
-`private-provenance/`. Full runner inputs, traces and raw logs stay in the
-experiment workspace. Before reporting, refresh the relevant upstream audit
-and recipient list. This bundle does not claim that no later fix exists.

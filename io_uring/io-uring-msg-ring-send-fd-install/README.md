@@ -42,9 +42,7 @@ production application has been verified that frequently recycles more than
 - [Dated upstream records](upstream-status/README.md): historical correspondence
   and source audit, not a claim that the current prototype has been accepted.
 
-The 2026-10-01 update publishes all numeric rows and unstable metrics from the
-new follow-ups. It does not publish private correspondence, host-control scripts,
-credentials, binaries or full host logs. The October 1 reply to Uzair was sent
-separately; private correspondence is not included in this public evidence.
+The 2026-10-01 results include all numeric rows and unstable metrics from the
+follow-up experiments.
 
 [中文说明](README.zh-CN.md)

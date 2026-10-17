@@ -1,7 +1,6 @@
 # Upstream status audit
 
-Historical source/thread audit: 2026-08-03. Latest mailbox and stable-queue
-status check: 2026-08-24.
+Historical source/thread audit: 2026-08-03. Stable-queue status: 2026-08-24.
 
 Current disposition: resolved upstream. Commit
 [`73e701909747`](https://github.com/torvalds/linux/commit/73e7019097473fc9f83a334ef2c6ab3343709fef)
@@ -53,12 +52,10 @@ with `0.319%` control drift and a matching `1.578%` drop-first result. This
 directly confirms a small improvement on patch 2's scalar shared-WAIT target
 path. Shared WAITV remains untested.
 
-The patch-validation reply was sent from Gmail on 2026-07-31 with Message-ID
+The patch-validation reply was sent on 2026-07-31 with Message-ID
 `<CANGjgdkhQZWntcnpa2zBshGn_E7yaKDnPcSbH-HBBfXGWAw1+g@mail.gmail.com>`.
 The original report has Message-ID
 `<CANGjgdn=R_qyUdE=j9za+vkmqcxacbP-84OHXF4nZ4ho9qRyVg@mail.gmail.com>`.
-Both are present in Gmail `SENT`; the validation reply has the expected
-`In-Reply-To`, `References`, and recipients.
 
 On 2026-08-24, Greg Kroah-Hartman sent three stable-queue notifications for
 the upstream fix:

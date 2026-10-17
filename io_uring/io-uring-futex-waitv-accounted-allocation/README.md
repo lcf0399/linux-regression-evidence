@@ -48,9 +48,7 @@ accounting can be retained with lower per-request overhead.
 The 2026-08-30 upstream refresh found that Linus master `08dbfad3f504` and the
 io_uring maintainer's `for-next` `44e96e364b04` both retain this
 `GFP_KERNEL_ACCOUNT` allocation. The original patch thread still has no reply,
-and no equivalent performance optimization was found. The public evidence and
-a narrow reply to the original patch thread are prepared, but the reply has
-not yet been sent. The separately fixed futex inflight-WAKE regression is a
+and no equivalent performance optimization was found. The separately fixed futex inflight-WAKE regression is a
 different cost and does not resolve this WAITV allocation difference.
 
 ## Layout

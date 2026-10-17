@@ -124,6 +124,4 @@ python3 -B verify.py --all-metrics
 ```
 
 This checks hashes and independently recomputes all 432 groups, CVs, repeat-boot
-drift and endpoint/drop-first comparisons. Export validation replayed the full
-local timing and trace records before producing this compact bundle. Private
-mail, credentials, raw environment logs and raw traces are excluded.
+drift and endpoint/drop-first comparisons.

@@ -61,11 +61,10 @@ baseline 中点为 `196.616 ns/pair`，patch 1 中点为 `189.948 ns/pair`，完
 `0.319%`，最大 CV `0.200%`，45 行计时全部通过。这直接命中 patch 2 取消 inflight
 tracking 的标量 shared-WAIT 路径；shared WAITV 未测试。
 
-原始报告于 2026-07-30 从 Gmail 发送，Message-ID 为
+原始报告于 2026-07-30 发送，Message-ID 为
 `<CANGjgdn=R_qyUdE=j9za+vkmqcxacbP-84OHXF4nZ4ho9qRyVg@mail.gmail.com>`。
 补丁验证回复于 2026-07-31 发送，Message-ID 为
-`<CANGjgdkhQZWntcnpa2zBshGn_E7yaKDnPcSbH-HBBfXGWAw1+g@mail.gmail.com>`；其线程头和
-实际收件人均正确。
+`<CANGjgdkhQZWntcnpa2zBshGn_E7yaKDnPcSbH-HBBfXGWAw1+g@mail.gmail.com>`。
 
 Jens 针对 WAKE 的修复已经上游合并为
 [`73e701909747`](https://github.com/torvalds/linux/commit/73e7019097473fc9f83a334ef2c6ab3343709fef)

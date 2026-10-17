@@ -6,9 +6,6 @@ Two direct-parent bare-metal tests further attribute `4.563%` and `3.019%`
 increases in the complete lifecycle cost to the adjacent SQ and CQ region API
 conversions.
 
-Upstream state: **not sent**. A current duplicate/fix audit and recipient check
-will be performed if a send decision is made.
-
 ## Primary results
 
 The release screen used a fresh-boot

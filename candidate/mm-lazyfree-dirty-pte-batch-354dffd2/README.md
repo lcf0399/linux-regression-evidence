@@ -1,6 +1,6 @@
 # Lazyfree: failed PTE-batch work on redirtied large folios
 
-October 13, 2026. Optimization-discussion candidate; not submitted upstream.
+October 13, 2026. Optimization-discussion candidate.
 The change is in `mm/rmap.c`, found while studying a `huge_memory.c` workload.
 The evidence supports avoidable work in a narrow path, not an established
 application speedup. Retain the candidate; it is not an urgent regression report.
@@ -73,19 +73,16 @@ not measured zero benefits or proof that no matching application exists.
 
 The patch has not exhaustively covered races, GUP or architectures; late dirty
 PTEs do not benefit, and three controls remain unstable. v7.2 results do not cover
-newer correctness fixes. No fresh upstream duplicate/fix audit was done here.
-Before sending, check the then-current source, patch applicability, correctness
-fixes and recipients. A suitable question is whether the failed-batch strategy is
+newer correctness fixes. A suitable question is whether the failed-batch strategy is
 worth adjusting while preserving the success path, not whether to revert it.
 
 ## Files and reproduction
 
-- [Patch](prototype/dirty-hint-v7.2.patch): exact tested experimental patch, not a signed-off submission.
+- [Patch](prototype/dirty-hint-v7.2.patch): exact tested experimental patch.
 - [Program](reproducer/whole_probe.c), [unchanged helper source](reproducer/base_probe.c), [Makefile](reproducer/Makefile).
 - [All 33 lifecycle records](bare-metal/whole-lifecycle.tsv), including six warmups.
   Nanosecond columns sum four cycles; divide by four and 1000 for the table above.
 - [Summaries and all seven controls' formal samples](bare-metal/results.json).
-- Raw-source locations and hashes remain in ignored `private-provenance/`.
 
 ```sh
 make -C reproducer selftest

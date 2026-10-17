@@ -1,6 +1,6 @@
 # 上游状态审计
 
-历史源码/线程审计日期：2026-08-03；最新邮箱与 stable queue 状态核对日期：2026-08-24。
+历史源码/线程审计日期：2026-08-03；stable queue 状态日期：2026-08-24。
 
 当前处置：上游已解决。提交
 [`73e701909747`](https://github.com/torvalds/linux/commit/73e7019097473fc9f83a334ef2c6ab3343709fef)
@@ -39,12 +39,10 @@ WAIT/WAKE workload 快 `3.392%`，完整系列快 `3.416%`，完整系列相对�
 相对 patch 1 中点快 `1.578%`，控制漂移 `0.319%`，drop-first 仍为 `1.578%`。
 这直接确认 patch 2 在标量 shared-WAIT 目标路径上的小幅改善；shared WAITV 仍未测试。
 
-补丁验证结果回复已于 2026-07-31 从 Gmail 发送，Message-ID 为
+补丁验证结果回复已于 2026-07-31 发送，Message-ID 为
 `<CANGjgdkhQZWntcnpa2zBshGn_E7yaKDnPcSbH-HBBfXGWAw1+g@mail.gmail.com>`。
 原始报告的 Message-ID 为
 `<CANGjgdn=R_qyUdE=j9za+vkmqcxacbP-84OHXF4nZ4ho9qRyVg@mail.gmail.com>`。
-原始报告与验证回复均在 Gmail `SENT` 中；验证回复的 `In-Reply-To`、`References` 和
-实际收件人均正确。
 
 2026-08-24，Greg Kroah-Hartman 针对该上游修复发出三封 stable queue 通知：
 

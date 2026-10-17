@@ -40,7 +40,7 @@ WAITV allocation 成本。当前诊断不建议取消 memcg accounting，也不�
 
 2026-08-30 的上游刷新显示，Linus master `08dbfad3f504` 和 io_uring 维护者
 `for-next` `44e96e364b04` 都仍保留这项 `GFP_KERNEL_ACCOUNT` 分配；原补丁线程仍无回复，
-也未发现等效性能优化。公开证据与回复原补丁线程的窄邮件均已准备好，但回复尚未发送。另一条
+也未发现等效性能优化。另一条
 已经修复的 futex inflight-WAKE 回归属于不同成本，不会解决这里的 WAITV allocation 差异。
 
 ## 目录

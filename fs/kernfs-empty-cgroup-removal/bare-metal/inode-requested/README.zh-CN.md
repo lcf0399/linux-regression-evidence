@@ -103,7 +103,6 @@ KCSAN/lockdep 及全部相关交错。因此不能称完整并发安全证明。
 
 在本目录运行 `python3 -B verify.py`，可检查导出文件哈希，从代表 108 次运行的
 288 行指标记录复算八项指标、CV、漂移及 drop-first，并核对语义检查数量；它不证明内核安全。
-公开前已在本地重放原始计时、跟踪及语义记录。私人邮件、原始 trace 和内核产物不上传。
 
 - [构建/运行身份](identity.json)、[来源哈希](provenance.json)、[简表](result-summary.tsv)。
 - [复现步骤与辅助源码](reproducer/README.md)。

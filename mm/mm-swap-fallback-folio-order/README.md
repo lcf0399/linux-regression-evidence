@@ -79,4 +79,4 @@ No real application benefit, cross-machine generality, or complete recovery
 of the earlier cross-version difference is claimed.
 
 [Exact benchmark source and standalone instructions](reproducer/README.md).
-[Upstream snapshot and submission status](upstream-status/README.md).
+[Upstream source snapshots](upstream-status/README.md).

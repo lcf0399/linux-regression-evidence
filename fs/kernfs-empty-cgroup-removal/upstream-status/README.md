@@ -1,6 +1,6 @@
 # Upstream report status
 
-Status update: 2026-09-17, checked against the author's mailbox thread.
+Status snapshot: 2026-09-17.
 The original report was sent on September 13. Tejun asked about practical
 impact; T.J. Mercier supplied the INODE_INITED change. The author's
 [validation](../bare-metal/inode-inited/README.md) reply was sent on September 15
@@ -9,13 +9,8 @@ suggested a watcher-based alternative, while questioning the practical benefit.
 
 An [independent inode-request marker prototype](../bare-metal/inode-requested/README.md)
 was tested on September 16. The reply was sent on September 17 at 18:06:52
-UTC+8, replying to T.J.'s latest message with the original recipients and
-the prototype attached. Gmail's SENT label and reply headers were checked.
-The 1,321-byte attachment matches the [published patch](../bare-metal/inode-requested/patches/inode-requested.patch)
-byte for byte (SHA-256 `15d088b15e4bf290cd894493b6b5a9ea7f5b0f33f9d49b642daf49aa838fae47`).
-No subsequent reply was present in the checked thread. No accepted fix,
-complete concurrency proof or merge is claimed. This is a mailbox check, not a new exhaustive public-archive or
-mainline merge search. Private messages and drafts are not published here.
+UTC+8, with the [prototype patch](../bare-metal/inode-requested/patches/inode-requested.patch).
+No accepted fix, complete concurrency proof or merge is claimed.
 
 Original Message-ID:
 `<CANGjgdn=H50AaA-+O_GA-hkE9UwLANmkjx1zRsKUzxF5za8VfQ@mail.gmail.com>`.
@@ -29,14 +24,10 @@ Latest checked T.J. reply Message-ID:
 
 Author's sent inode-requested reply Message-ID:
 `<CANGjgdkwEsP8ahDX5sVORfKLF52JmvEev9BcWPeTJT2XzyWJAQ@mail.gmail.com>`.
-Its `In-Reply-To` is the T.J. message above. Public archival of this new
-reply has not been independently checked.
 
 ## Historical source audit: September 13
 
-Public source references were rechecked on 2026-09-13. The mail search below
-is the recorded audit from that date, not a fresh mailbox check or an
-exhaustive search.
+The source references below were checked on 2026-09-13.
 
 The original notification patch was T.J. Mercier's
 `[PATCH v5 2/3] kernfs: Send IN_DELETE_SELF and IN_IGNORED`, Message-ID
@@ -77,12 +68,3 @@ those three proposals. They were not benchmarked at that audit date, so no
 claim of zero timing impact was made. The September 14 follow-up explicitly
 adds the file-handle read-lock fix to both compared kernels as a prerequisite;
 it does not isolate that fix's performance effect.
-
-The bounded search found no matching report of this exact empty-leaf cost.
-Some lore pages were unavailable and mirrors were used; access failure is
-not evidence that a report does not exist.
-
-The original report opened a narrowly titled regression thread citing the
-introducing commits. Follow-up replies stay in that thread. Publication of
-evidence and actual email delivery are separate steps. Private mail files
-are excluded by `.gitignore`.

@@ -4,8 +4,7 @@ Uzair's old patches 1+2 keep the idle-node cache limit at 128 and refill on a
 cache miss from a dedicated slab, in batches of 32. The matched baseline is
 public v6.18-rc4 `6146a0f1dfae5d37442a9ddcba012add260bceb0`; the local test
 commit for the unchanged patch pair is `2359f858fa8db024958efc2eb7ac43a9002b44fe`.
-Private patch correspondence is not redistributed here. This is not the
-shared-kmalloc/128 prototype and not a direct comparison against it.
+This is not the shared-kmalloc/128 prototype and not a direct comparison against it.
 
 ## Small management and TCP results
 

@@ -20,8 +20,8 @@ The earlier exact-commit regression result is unchanged.
 
 [`identity.json`](identity.json) records complete trees, original patch
 byte hashes, build/artifact hashes, workload identities, and all 12 timing
-boot identities. The original collaborator patches and private email are
-not redistributed here.
+boot identities. This bundle identifies, but does not include, the tested
+collaborator patches.
 
 Both completed timing matrices used independent boots in this order:
 
@@ -261,5 +261,4 @@ below 2%, and drop-first checks. For auxiliary results these checks use
 the 15 predefined group means. All original individual samples, including
 tails, are retained in the experiment archive; no outlier was discarded.
 Aborted preflight/probe/partial runs remain separate and are not mixed into
-the two completed matrices. Bulky raw traces, boot images, private patch
-attachments, and correspondence are excluded from this compact bundle.
+the two completed matrices.

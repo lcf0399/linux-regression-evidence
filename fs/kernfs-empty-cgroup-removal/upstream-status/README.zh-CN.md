@@ -1,16 +1,14 @@
 # 上游报告状态
 
-2026-09-17 状态更新，已核对作者邮箱中的原线程：原报告 9 月 13 日已发送。
+2026-09-17 状态快照：原报告 9 月 13 日已发送。
 Tejun 询问现实影响，T.J. Mercier 随后提出 INODE_INITED 改动。
 作者的[补丁验证](../bare-metal/inode-inited/README.zh-CN.md)回复已于 9 月 15 日（UTC+8）发送。
 T.J. 在 9 月 15 日的后续回复中指出同步问题，提出 watcher 判断的替代思路，仍质疑现实收益。
 
 9 月 16 日完成的[独立 inode 请求标记原型](../bare-metal/inode-requested/README.zh-CN.md)
-结果现已公开，对应回复已于 9 月 17 日 18:06:52（UTC+8）发送，回复 T.J. 最新邮件并保留原收件人。
-已核对 Gmail 的 SENT 标记、回复头及附件；1,321-byte 附件与[公开补丁](../bare-metal/inode-requested/patches/inode-requested.patch)
-逐字节一致（SHA-256 `15d088b15e4bf290cd894493b6b5a9ea7f5b0f33f9d49b642daf49aa838fae47`）。
-此次核对的线程内尚无后续回复。不声称修复已被接受、并发安全已完整证明或已经合入。
-此次是邮箱核对，不是重新穷尽检索公开归档或核验最新主线合入状态；私人邮件与草稿不公开。
+结果现已公开，对应回复及[原型补丁](../bare-metal/inode-requested/patches/inode-requested.patch)
+已于 9 月 17 日 18:06:52（UTC+8）发送。
+不声称修复已被接受、并发安全已完整证明或已经合入。
 
 原报告 Message-ID：
 `<CANGjgdn=H50AaA-+O_GA-hkE9UwLANmkjx1zRsKUzxF5za8VfQ@mail.gmail.com>`。
@@ -24,12 +22,10 @@ T.J. 在 9 月 15 日的后续回复中指出同步问题，提出 watcher 判�
 
 作者已发送的 inode-requested 回复 Message-ID：
 `<CANGjgdkwEsP8ahDX5sVORfKLF52JmvEev9BcWPeTJT2XzyWJAQ@mail.gmail.com>`。
-`In-Reply-To` 指向上面的 T.J. 邮件；尚未独立确认这封新回复的公开归档。
 
 ## 9 月 13 日源码审计（历史快照）
 
-2026-09-13 重新核对了公开源码引用。下面的邮件检索沿用当天已保存的审计，
-不是再次检查邮箱，也不是穷尽搜索。
+以下源码引用核对于2026-09-13。
 
 原通知补丁为 T.J. Mercier 的 `[PATCH v5 2/3] kernfs: Send IN_DELETE_SELF and IN_IGNORED`，
 Message-ID 为 `20260225223404.783173-3-tjmercier@google.com`。
@@ -60,11 +56,6 @@ driver-core-linus `77be3641f3e3a56e42a5ed889372ef395a933f3c`。
 因此，固定 7.3-rc2 补测包含名称哈希修改，但没有叠加这三项提案。
 它们均不是直接减少本场景逐节点删除工作的修复；本机没有测试它们，不能宣称计时绝对不受影响。
 
-有限检索没有找到同一空叶子删除、同一精确增量的报告，不声称首次发现或穷尽讨论。
-lore 部分页面不可读时使用镜像，不能把访问失败当作不存在报告。
-
 原报告已经另开范围明确的 regression 线程，后续回复沿用原线程。
 9 月 14 日补测明确把文件句柄入口读锁修复加入 A/B 两端作为前置条件，
 没有单独测它的性能效果；不把上述历史审计中的“尚未补测”当成当前状态。
-公开 evidence、补齐固定 commit URL 和真正发出回复是分开的步骤。
-私人邮件文件由 `.gitignore` 排除，不进入公开证据。

@@ -96,4 +96,3 @@ python3 -B verify.py --all-metrics
 ```
 
 核验 SHA，重算全部 432 个分组、CV、重复启动漂移及端点/drop-first 比较。
-导出前已从本地完整计时和跟踪记录重放核验；公开包不含私人邮件、凭据、原始环境日志或原始 trace。

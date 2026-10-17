@@ -74,11 +74,10 @@ and the maximum CV was `0.200%`. All 45 rows passed. This directly exercises
 the scalar shared-WAIT path where patch 2 removes inflight tracking; shared
 WAITV was not tested.
 
-The original report was sent from Gmail on 2026-07-30 with Message-ID
+The original report was sent on 2026-07-30 with Message-ID
 `<CANGjgdn=R_qyUdE=j9za+vkmqcxacbP-84OHXF4nZ4ho9qRyVg@mail.gmail.com>`.
 The patch-validation reply was sent on 2026-07-31 with Message-ID
-`<CANGjgdkhQZWntcnpa2zBshGn_E7yaKDnPcSbH-HBBfXGWAw1+g@mail.gmail.com>`;
-its thread headers and recipients are correct.
+`<CANGjgdkhQZWntcnpa2zBshGn_E7yaKDnPcSbH-HBBfXGWAw1+g@mail.gmail.com>`.
 
 Jens' WAKE-side fix was merged upstream as
 [`73e701909747`](https://github.com/torvalds/linux/commit/73e7019097473fc9f83a334ef2c6ab3343709fef)

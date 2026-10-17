@@ -71,12 +71,8 @@ public-inbox 从 2025-03-21 到 2026-07-20 的历史，以及 regressions 从 20
 [locking review](https://lore.kernel.org/linux-fsdevel/20260123-mengenlehre-wildhasen-46e47a6e7558@brauner/)
 和[维护者回复](https://lore.kernel.org/linux-fsdevel/m5a3dyhvpnjhyjmxae2o2sd2azhynbrupmhzsy2fbgomhdcyow@imnv6ytjaxfi/)。
 
-对精确源码 diff 运行当前 `scripts/get_maintainer.pl`，得到 Jan Kara、Amir Goldstein、
-`linux-fsdevel@vger.kernel.org` 和 `linux-kernel@vger.kernel.org`。Christian Brauner
-review 过 `94bd` 与 `a05fc7`，因此仍是相关 CC。
+## 尚待讨论的技术问题
 
-## 发送前决策
-
-目前没有可供新 parent/fix A/B 验证的候选修复。上游草稿因此分别陈述精确 parent/child
-结果和最新源码审计，并询问这项取舍是否值得优化。如果新 revision 或维护者分支修改这些
+目前没有可供新 parent/fix A/B 验证的候选修复。精确 parent/child
+结果和源码审计属于不同证据，待讨论的是这项取舍是否值得优化。如果新 revision 或维护者分支修改这些
 热路径操作，应把它当作新候选重新测试，不能只根据源码相似性推断运行时结果。

@@ -79,16 +79,10 @@ expected to be infrequent. See the
 [locking review](https://lore.kernel.org/linux-fsdevel/20260123-mengenlehre-wildhasen-46e47a6e7558@brauner/),
 and [maintainer response](https://lore.kernel.org/linux-fsdevel/m5a3dyhvpnjhyjmxae2o2sd2azhynbrupmhzsy2fbgomhdcyow@imnv6ytjaxfi/).
 
-Running the current `scripts/get_maintainer.pl` on the exact source diff
-returned Jan Kara, Amir Goldstein, `linux-fsdevel@vger.kernel.org`, and
-`linux-kernel@vger.kernel.org`. Christian Brauner remains a relevant CC
-because he reviewed both `94bd` and `a05fc7`.
+## Open technical question
 
-## Before-send decision
-
-There is no candidate fix to validate in a new parent/fix A/B. The upstream
-draft therefore reports the exact parent/child measurements, states the
-latest-source audit separately, and asks whether optimizing this tradeoff is
-worth pursuing. If a new revision or maintainer branch changes these hot-path
+There is no candidate fix to validate in a new parent/fix A/B. The exact
+parent/child measurements and source audit are separate evidence; the question
+is whether optimizing this tradeoff is worth pursuing. If a new revision or maintainer branch changes these hot-path
 operations, it should be treated as a new candidate and retested rather than
 assuming that source similarity proves a runtime result.

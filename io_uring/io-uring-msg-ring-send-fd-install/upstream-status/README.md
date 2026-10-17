@@ -1,13 +1,11 @@
 # Upstream status audit
 
-Latest status check: 2026-10-10. The new TCP and patch results were sent to Uzair
-on October 1 (UTC+08:00). Gmail, including Spam/Trash, contains no later reply.
-The public RFC series still ends with Gabriel's September 25 UTC reply
+Status snapshot: 2026-10-10. The public RFC series ends with Gabriel's September 25 UTC reply
 (`87cxu1yv61.fsf@mailhost.krisman.be`, September 26 in UTC+08:00). No separate
 patch-2 review was located. The checked mainline `3857c2fe5449` (v7.3-rc6) still
 uses the fixed resource-node cache and individual allocation, not the proposed
 dedicated-slab/bulk/prefill changes. No acceptance or merge is claimed; this is
-not a new benchmark of that mainline build. Private correspondence stays private.
+not a new benchmark of that mainline build.
 
 The remaining text is the historical 2026-08-07 thread/source snapshot.
 
@@ -35,7 +33,5 @@ path did not surface an existing report for the same MSG_RING SEND_FD bulk
 empty-slot installation workload.
 
 A new narrow regression report linking the original patch 06 thread was sent
-on 2026-08-07 at 16:16 UTC. Gmail confirms the exact sender and recipients,
-and the message is publicly archived by the io-uring lore archive. No bounce,
-list hold, or maintainer reply had been observed at the time of this update.
+on 2026-08-07 at 16:16 UTC and is publicly archived by the io-uring lore archive.
 Exact message IDs and source references are in [`refs.tsv`](refs.tsv).

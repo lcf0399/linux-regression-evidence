@@ -14,8 +14,5 @@ master `08dbfad3f504` 和 io_uring 维护者 `for-next` `44e96e364b04`，都仍�
 取消 WAITV 的 memcg-accounted allocation。按原线程、精确提交、WAITV、accounting 和
 performance 重新检索，仍未发现等效性能优化或相同性能报告；原补丁线程仍无归档回复。
 
-因此证据仍值得发送，但应视为窄、优先级中等的性能反馈。合适路径是回复原补丁线程，而不是
-新发 broad regression report；回复保留 accounting 目标，只询问能否降低每次 WAITV
-分配的开销。另一条已解决的 inflight-WAKE 回归不会解决这项 allocation 差异。2026-08-30
-在 Linux v7.2 的 `io_uring/futex.c` 上运行 `get_maintainer.pl`，得到 Jens Axboe、io-uring
-和 linux-kernel；公开文件边界也已审计。回复已经准备好，但尚未发送。
+技术问题是能否在保留 accounting 目标的同时降低每次 WAITV 分配的开销。
+另一条已解决的 inflight-WAKE 回归不会解决这项 allocation 差异。

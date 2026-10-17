@@ -47,6 +47,5 @@
 - [复现程序和命令](reproducer/README.md)；[第四版实测补丁](attribution/default-slice-peter-v4.patch)；[第三版历史补丁](attribution/default-slice-noop-v3.patch)。
 - 首封RFC及补充附件已发送；[第四版回复及实测补丁](https://lkml.iu.edu/2610.1/11150.html)于10月13日17:58（北京时间）发送并公开归档。
   [Peter当日回复](https://lkml.iu.edu/2610.1/11486.html)认为实现合理；不是正式Reviewed-by或合入通知。
-  当日核验的主线master／tip sched/core仍未采用该优化；询问是否需正式提交的一句话于22:53（北京时间）发送。私有邮件不在公开包中。
+  当日核验的主线master／tip sched/core仍未采用该优化。
 - 场景、原型及分析有LLM辅助；数据来自实测，邮件保留`Assisted-by: LLM`。
-- 本次公开整理保留已有结果，没有新增实验；公开材料不代表补丁已经合入上游。

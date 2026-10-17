@@ -1,6 +1,6 @@
 # F01: batch shared swap-count cleanup checks
 
-Unsent optimization-discussion candidate, separate from the F02 folio-order
+Optimization-discussion candidate, separate from the F02 folio-order
 prototype. The fixed baseline is MM snapshot
 `2967f3ccdb5fae956f1b085370ec292bab5c7e25` (7.3-rc5), already including
 Kemeng Shi's early-return scan. The second kernel adds only this batching
@@ -28,7 +28,3 @@ mixed transitions and concurrent count changes, not all configurations or races.
 - [All compact timing rows, builds, and offline verification](bare-metal/README.md)
 - [Review scope and separate historical results](review.md)
 - [Chinese explanation](README.zh-CN.md)
-
-This proposal has not been submitted upstream. DCO confirmation and a fresh
-upstream/recipient check remain pre-send tasks. Publication adds no new
-performance measurements or maintainer endorsement.

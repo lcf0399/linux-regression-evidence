@@ -7,17 +7,17 @@
 
 ## 按子系统查找
 
-12份证据材料按内核子系统归类。
+13份证据材料按内核子系统归类。
 
 | 目录 | 场景数 | 内容 |
 | --- | ---: | --- |
 | [fs/](fs/) | 4 | Btrfs、fsnotify、kernfs、tmpfs xattr |
 | [mm/](mm/) | 2 | mprotect；换出回退页序 |
 | [io_uring/](io_uring/) | 3 | MSG_RING SEND_FD、标量 futex、WAITV |
-| [kernel/sched/](kernel/sched/) | 2 | fair 默认时间片、RT sysctl |
+| [kernel/sched/](kernel/sched/) | 3 | fair 默认时间片、延迟重新入队管道交接、RT sysctl |
 | [security/](security/) | 1 | AppArmor AF_UNIX |
 
-[candidate/](candidate/)保存另外5个候选。
+[candidate/](candidate/)保存另外4个候选。
 tmpfs归入文件系统、AppArmor归入安全子系统；不是仅按benchmark调用的接口或研究目录命名分类。
 
 ## 已发送或已进入上游线程
@@ -52,6 +52,12 @@ tmpfs修复在6月15日已进入主线，早于7月6日报告；当时被测7.1�
 | [`kernfs-empty-cgroup-removal/`](fs/kernfs-empty-cgroup-removal/) | T.J. Mercier最新回复是9月16日；我们9月17日发送独立标记原型与补丁后未查到新回复，所查主线尚无该快捷路径。 | 原精确删除增幅约 46%～48%。新[独立请求标记](fs/kernfs-empty-cgroup-removal/bare-metal/inode-requested/README.zh-CN.md)在一轮矩阵中使删除耗时降低 22.36%～22.72%、连续整段降低 7.35%～9.01%，代价是每节点增加 8 字节。旧实验分开保留；正确性覆盖仍未齐，无应用级影响测量。 |
 | [`fair默认时间片参数未变`](kernel/sched/sched-fair-default-slice-noop/) | 第四版补丁及结果于10月13日回复且公开归档；Peter当日认为实现合理，尚非正式Reviewed-by或合入通知。当天核验的主线／tip sched/core未采用优化。 | 第四版在已测组合中修正模式／uclamp两项边界，默认参数未变成本约616.51→162.39 ns/次；不是此前版本慢差的完整归因。 |
 
+## 已准备的补充报告
+
+| 证据 | 报告状态 | 核心证据 |
+| --- | --- | --- |
+| [`MMTests管道交接`](kernel/sched/sched-fair-delayed-requeue-handoff-333238da/) | 10月30日移入正式证据，邮件未发送。来自复现MMTests/will-it-scale，不计入模型生成场景的发现成果。 | 原生CORE、15-worker：v7.3线程／进程吞吐比v7.1.3低15.69%／14.82%；v7.2匹配诊断撤回`333238da9a19`后线程吞吐提高13.65%。撤回不是修复建议。 |
+
 ## 优化原型
 
 | 材料 | 当前状态 | 核心证据 |
@@ -60,13 +66,12 @@ tmpfs修复在6月15日已进入主线，早于7月6日报告；当时被测7.1�
 
 ## 其他候选
 
-另外五个性能回归／优化讨论候选放在 [`candidate/`](candidate/) 下。
+另外四个性能回归／优化讨论候选放在 [`candidate/`](candidate/) 下。
 
 | 候选 | 当前判断 | 核心证据 |
 | --- | --- | --- |
 | [`共享swap计数清理`](candidate/mm-swap-count-batch-cleanup/) | 同锁批量清理原型。 | 固定MM树配对，每16页munmap合并均值3.264→2.337µs，平均省0.927µs；收益随槽位位置变化、样本有重叠，未证明应用收益。 |
 | [`lazyfree PTE批量失败`](candidate/mm-lazyfree-dirty-pte-batch-354dffd2/) | 局部优化有效，尚未证明应用收益。 | 同v7.2原型使PAGEOUT减少71.37%（60.69µs／32MiB）；全流程均值−1.53%／−2.26%，与漂移和波动相近。 |
-| [`fair 同步交接`](candidate/sched-fair-delayed-requeue-handoff-333238da/) | 诊断性撤回，不是修复方案。 | 撤回 `333238da9a19` 后，无／轻计算完整往返缩短 11.31%／9.58%；加入第三个忙线程后没有稳定的明显优势。 |
 | [`async cancel miss`](candidate/io-uring-async-cancel-miss-5623eb1e/) | 可发送，但范围限于 guaranteed-miss slow path 和 whole commit。 | 精确 A/B `+8.833%`，hit control `-0.562%`。 |
 | [`region API ring lifecycle`](candidate/io-uring-region-api-ring-lifecycle/) | 材料已准备；现实影响限于反复创建、销毁短生命周期 ring。 | release `+10.832%`；两个相邻 direct-parent pair 为 `+4.563%`、`+3.019%`。 |
 

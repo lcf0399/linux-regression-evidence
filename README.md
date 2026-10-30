@@ -8,17 +8,17 @@ the individual bundles.
 
 ## Browse by subsystem
 
-Twelve evidence bundles are grouped by kernel subsystem.
+Thirteen evidence bundles are grouped by kernel subsystem.
 
 | Directory | Cases | Topics |
 | --- | ---: | --- |
 | [fs/](fs/) | 4 | Btrfs, fsnotify, kernfs, tmpfs xattr |
 | [mm/](mm/) | 2 | mprotect; swap-fallback folio order |
 | [io_uring/](io_uring/) | 3 | MSG_RING SEND_FD, scalar futex, WAITV |
-| [kernel/sched/](kernel/sched/) | 2 | Fair default slice, RT sysctl |
+| [kernel/sched/](kernel/sched/) | 3 | Fair default slice, delayed-requeue pipe handoff, RT sysctl |
 | [security/](security/) | 1 | AppArmor AF_UNIX |
 
-Five additional candidates are listed under [candidate/](candidate/).
+Four additional candidates are listed under [candidate/](candidate/).
 
 ## Sent or active upstream threads
 
@@ -55,6 +55,12 @@ Upstream status was checked on 2026-10-10; the default-slice row also records th
 | [`kernfs-empty-cgroup-removal/`](fs/kernfs-empty-cgroup-removal/) | T.J. Mercier's latest reply is September 16. Our independent-marker prototype and patch were sent September 17; no later reply was found. The checked mainline does not contain that shortcut. | Exact-source deletion increase about 46–48%. The new [inode-request marker](fs/kernfs-empty-cgroup-removal/bare-metal/inode-requested/README.md) reduces rmdir latency 22.36–22.72% and continuous whole-sequence latency 7.35–9.01% in one matrix, at 8 extra bytes per node. Old experiments remain separate; unresolved correctness coverage and no measured application impact. |
 | [`fair unchanged default slice`](kernel/sched/sched-fair-default-slice-noop/) | The tested fourth revision and October 13 reply are publicly archived. Peter said the revision looks reasonable; this is not a formal Reviewed-by or merge notice. The mainline and tip sched/core snapshots checked that day still lack the optimization. | The v7.2 revision handles the two reported mode/uclamp cases in the tests and reduces unchanged-default cost from about 616.51 to 162.39 ns/call. It is not a complete attribution of the earlier release slowdown. |
 
+## Prepared supplementary report
+
+| Evidence | Report state | Core evidence |
+| --- | --- | --- |
+| [`MMTests pipe handoff`](kernel/sched/sched-fair-delayed-requeue-handoff-333238da/) | Formal evidence prepared October 30; mail not yet sent. Found by reproducing MMTests/will-it-scale, not our generated workloads. | Native CORE, 15 workers: v7.3 thread/process throughput is 15.69%/14.82% below v7.1.3. Matched v7.2 diagnostic revert of `333238da9a19` improves thread throughput 13.65%; not a proposed fix. |
+
 ## Optimization prototype
 
 | Evidence | Current state | Core evidence |
@@ -63,14 +69,13 @@ Upstream status was checked on 2026-10-10; the default-slice row also records th
 
 ## Additional candidates
 
-Five additional performance or optimization-discussion candidates are
+Four additional performance or optimization-discussion candidates are
 grouped under [`candidate/`](candidate/).
 
 | Candidate | Current disposition | Core evidence |
 | --- | --- | --- |
 | [`shared swap-count cleanup`](candidate/mm-swap-count-batch-cleanup/) | Locked-batch cleanup prototype. | Fixed MM-tree pair: 3.264 -> 2.337 us/16-page munmap, about 0.927 us saved; slot-position-dependent mean, overlapping distributions, no established application gain. |
 | [`lazyfree PTE-batch failure`](candidate/mm-lazyfree-dirty-pte-batch-354dffd2/) | Local optimization evidence; no application benefit established. | Same-v7.2 prototype reduces PAGEOUT by 71.37% (60.69 us/32 MiB); lifecycle means change by -1.53%/-2.26%, comparable to drift and variation. |
-| [`fair synchronous handoff`](candidate/sched-fair-delayed-requeue-handoff-333238da/) | A diagnostic revert, not a proposed fix. | Reverting `333238da9a19` reduces no/light-computation roundtrips by 11.31%/9.58%; no stable material advantage with a third busy thread. |
 | [`async cancel miss`](candidate/io-uring-async-cancel-miss-5623eb1e/) | Reportable, but scoped to the guaranteed-miss slow path and the whole commit. | Exact A/B `+8.833%`, hit control `-0.562%`. |
 | [`region API ring lifecycle`](candidate/io-uring-region-api-ring-lifecycle/) | Prepared; real-world impact is limited to repeated short-lived ring setup and teardown. | Release `+10.832%`; adjacent direct-parent pairs `+4.563%` and `+3.019%`. |
 

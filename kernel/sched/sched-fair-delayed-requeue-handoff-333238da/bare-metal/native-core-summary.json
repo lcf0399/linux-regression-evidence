@@ -1,0 +1,525 @@
+{
+  "schema": "native-core-pipe-handoff-v1",
+  "origin": "Reproduction of MMTests will-it-scale/context_switch1; not source/call-graph or model-generated workload discovery.",
+  "identity": {
+    "mmtests": "638401e07e70d67fa5a1e6295e1315ae0af831b2",
+    "will_it_scale": "a34a85cc1e9b9b74e94fdd3ecc479019da610e6a",
+    "v7.1.3": "199c9959d3a9b53f346c221757fc7ac507fbac50",
+    "v7.2": "8d3ae59288f1e7d58d76558a6ee96d533bc5019f",
+    "v7.3": "c03c1a14507dfaf8b856c2608f9ac216021fc222",
+    "diagnostic_revert_on_v7.2": "333238da9a193ffc58792995f3e951e4cb87bfd2"
+  },
+  "measurement": {
+    "throughput_unit": "handoffs/s; higher is better",
+    "window": "15 native measured intervals after 6 built-in warmup intervals",
+    "placement": "Native CORE masks; eight P-cores, both SMT siblings available; cores reused above eight workers",
+    "clean_observations": 702,
+    "scale_observations": 648,
+    "attribution_observations": 54,
+    "attribution_reused_baseline_observations_counted_once": 18,
+    "repetitions_per_condition_per_boot": 9,
+    "baseline_denominator": "mean of initial and returned means",
+    "cv": "sample standard deviation / mean * 100",
+    "csv_cpu_and_wall_scope": "whole invocation including built-in warmup; not throughput window"
+  },
+  "scale_sequence": [
+    "v7.1.3",
+    "v7.3",
+    "v7.1.3"
+  ],
+  "scale": {
+    "context_switch1-threads-w1": {
+      "initial": 593415.3333333334,
+      "new": 590904.7777777778,
+      "returned": 596706,
+      "new_vs_baseline_midpoint_percent": -0.6983975116636287,
+      "baseline_return_drift_percent": 0.554530104266493,
+      "cv_percent": [
+        0.4595556755445067,
+        0.47418325065076644,
+        0.660161286195623
+      ]
+    },
+    "context_switch1-processes-w1": {
+      "initial": 642509.6666666666,
+      "new": 634519.3333333334,
+      "returned": 643534.6666666666,
+      "new_vs_baseline_midpoint_percent": -1.3223235176184844,
+      "baseline_return_drift_percent": 0.1595306737278701,
+      "cv_percent": [
+        0.6931090823636694,
+        0.31549669830787036,
+        0.4938407251937107
+      ]
+    },
+    "context_switch1-threads-w2": {
+      "initial": 1188747.3333333333,
+      "new": 1172134.111111111,
+      "returned": 1193152.111111111,
+      "new_vs_baseline_midpoint_percent": -1.5798829085750588,
+      "baseline_return_drift_percent": 0.3705394455377098,
+      "cv_percent": [
+        0.5013454349597811,
+        0.5283873940559588,
+        0.4312931478591859
+      ]
+    },
+    "context_switch1-processes-w2": {
+      "initial": 1288371,
+      "new": 1261254.3333333333,
+      "returned": 1288775.3333333333,
+      "new_vs_baseline_midpoint_percent": -2.1200839843656505,
+      "baseline_return_drift_percent": 0.03138329978966681,
+      "cv_percent": [
+        0.20347275949801277,
+        0.24577492816316887,
+        0.3632631638928331
+      ]
+    },
+    "context_switch1-threads-w4": {
+      "initial": 2378867.6666666665,
+      "new": 2303332.111111111,
+      "returned": 2393225.777777778,
+      "new_vs_baseline_midpoint_percent": -3.4665964560021467,
+      "baseline_return_drift_percent": 0.6035691397340504,
+      "cv_percent": [
+        0.32317949737198365,
+        1.348485363000217,
+        0.22485072374796333
+      ]
+    },
+    "context_switch1-processes-w4": {
+      "initial": 2581612.5555555555,
+      "new": 2463409.222222222,
+      "returned": 2582247.5555555555,
+      "new_vs_baseline_midpoint_percent": -4.590396749064196,
+      "baseline_return_drift_percent": 0.024597029427742,
+      "cv_percent": [
+        0.32174359703025457,
+        0.5420098077058754,
+        0.32856011867784324
+      ]
+    },
+    "context_switch1-threads-w6": {
+      "initial": 3493513.6666666665,
+      "new": 3343290,
+      "returned": 3509503.777777778,
+      "new_vs_baseline_midpoint_percent": -4.51858712269061,
+      "baseline_return_drift_percent": 0.4577085604009712,
+      "cv_percent": [
+        0.2743700692724911,
+        0.6397834414159446,
+        0.3117932268026675
+      ]
+    },
+    "context_switch1-processes-w6": {
+      "initial": 3791182.5555555555,
+      "new": 3632020.5555555555,
+      "returned": 3804904.111111111,
+      "new_vs_baseline_midpoint_percent": -4.3712712891052945,
+      "baseline_return_drift_percent": 0.3619333902939559,
+      "cv_percent": [
+        0.3654274021368569,
+        0.2573951580771942,
+        0.19665941307299603
+      ]
+    },
+    "context_switch1-threads-w8": {
+      "initial": 4576895.222222222,
+      "new": 4428225.555555556,
+      "returned": 4596980.666666667,
+      "new_vs_baseline_midpoint_percent": -3.4600945295350183,
+      "baseline_return_drift_percent": 0.43884431408707236,
+      "cv_percent": [
+        0.26111595043082503,
+        0.37600295782130344,
+        0.2345787501938627
+      ]
+    },
+    "context_switch1-processes-w8": {
+      "initial": 4976574.666666667,
+      "new": 4844311.222222222,
+      "returned": 4964400.444444444,
+      "new_vs_baseline_midpoint_percent": -2.538510194886323,
+      "baseline_return_drift_percent": -0.24463055490288044,
+      "cv_percent": [
+        0.25006015228107337,
+        0.30290248553486426,
+        0.5644746912919446
+      ]
+    },
+    "context_switch1-threads-w11": {
+      "initial": 7280561.444444444,
+      "new": 6512190.777777778,
+      "returned": 7277663.666666667,
+      "new_vs_baseline_midpoint_percent": -10.535924151804043,
+      "baseline_return_drift_percent": -0.03980157024824349,
+      "cv_percent": [
+        0.13877390283125207,
+        0.38826483990843497,
+        0.07957579551721998
+      ]
+    },
+    "context_switch1-processes-w11": {
+      "initial": 7408619.888888889,
+      "new": 6669837.888888889,
+      "returned": 7406702.777777778,
+      "new_vs_baseline_midpoint_percent": -9.960275061770885,
+      "baseline_return_drift_percent": -0.025876764361820737,
+      "cv_percent": [
+        0.10544185226999493,
+        0.21997919457014847,
+        0.16756424127663966
+      ]
+    },
+    "context_switch1-threads-w15": {
+      "initial": 10875243.333333334,
+      "new": 9168152,
+      "returned": 10872945.444444444,
+      "new_vs_baseline_midpoint_percent": -15.688132987258363,
+      "baseline_return_drift_percent": -0.021129539987829737,
+      "cv_percent": [
+        0.05438539811017307,
+        0.11285157629622332,
+        0.07562519165724642
+      ]
+    },
+    "context_switch1-processes-w15": {
+      "initial": 10645852.333333334,
+      "new": 9070217.777777778,
+      "returned": 10651643.333333334,
+      "new_vs_baseline_midpoint_percent": -14.823621333339766,
+      "baseline_return_drift_percent": 0.05439677180067992,
+      "cv_percent": [
+        0.16872405219481298,
+        0.21819445748729732,
+        0.08179187367756004
+      ]
+    },
+    "context_switch1-threads-w20": {
+      "initial": 10934015.333333334,
+      "new": 9379618.777777778,
+      "returned": 11085574,
+      "new_vs_baseline_midpoint_percent": -14.806596655470983,
+      "baseline_return_drift_percent": 1.3861208535589364,
+      "cv_percent": [
+        0.556210737201626,
+        0.09698532365075509,
+        0.7431463289955337
+      ]
+    },
+    "context_switch1-processes-w20": {
+      "initial": 10609241.888888888,
+      "new": 9110282.111111112,
+      "returned": 10683821.666666666,
+      "new_vs_baseline_midpoint_percent": -14.429578558843337,
+      "baseline_return_drift_percent": 0.7029699064160733,
+      "cv_percent": [
+        0.803373081412981,
+        0.07255578057188716,
+        1.0574584420674942
+      ]
+    },
+    "context_switch1-threads-w26": {
+      "initial": 9849109.444444444,
+      "new": 8627102.888888888,
+      "returned": 9913221.666666666,
+      "new_vs_baseline_midpoint_percent": -12.691444745216195,
+      "baseline_return_drift_percent": 0.6509443578006424,
+      "cv_percent": [
+        1.163690130658622,
+        0.2334142967638088,
+        1.4762641391194418
+      ]
+    },
+    "context_switch1-processes-w26": {
+      "initial": 9728806.444444444,
+      "new": 8390258.222222222,
+      "returned": 9681751.666666666,
+      "new_vs_baseline_midpoint_percent": -13.549541706176715,
+      "baseline_return_drift_percent": -0.48366444585449253,
+      "cv_percent": [
+        1.414261432840944,
+        0.20053378858487925,
+        2.009936948879128
+      ]
+    },
+    "context_switch1-threads-w33": {
+      "initial": 9301199.555555556,
+      "new": 8491426,
+      "returned": 9310768.222222222,
+      "new_vs_baseline_midpoint_percent": -8.753055008632128,
+      "baseline_return_drift_percent": 0.1028756195317948,
+      "cv_percent": [
+        0.1042683579332649,
+        0.12956289150996458,
+        0.08351882642366415
+      ]
+    },
+    "context_switch1-processes-w33": {
+      "initial": 9062452.555555556,
+      "new": 8406083.222222222,
+      "returned": 9079838.444444444,
+      "new_vs_baseline_midpoint_percent": -7.33162396940693,
+      "baseline_return_drift_percent": 0.191845295545634,
+      "cv_percent": [
+        0.05529000341436342,
+        0.07758091692552677,
+        0.12024815000079145
+      ]
+    },
+    "context_switch1-threads-w39": {
+      "initial": 9158100.333333334,
+      "new": 8487404.666666666,
+      "returned": 9171206.333333334,
+      "new_vs_baseline_midpoint_percent": -7.389790339405467,
+      "baseline_return_drift_percent": 0.14310828144454835,
+      "cv_percent": [
+        0.15092216108139606,
+        0.4636019543072512,
+        0.14893846597854796
+      ]
+    },
+    "context_switch1-processes-w39": {
+      "initial": 8865608.777777778,
+      "new": 8305187.777777778,
+      "returned": 8892130.666666666,
+      "new_vs_baseline_midpoint_percent": -6.461204662217545,
+      "baseline_return_drift_percent": 0.2991547400035044,
+      "cv_percent": [
+        0.1825193564724216,
+        0.5474289706023161,
+        0.11942082876989353
+      ]
+    },
+    "context_switch1-threads-w40": {
+      "initial": 9136845,
+      "new": 8483405.555555556,
+      "returned": 9143763.111111112,
+      "new_vs_baseline_midpoint_percent": -7.18683422353692,
+      "baseline_return_drift_percent": 0.07571662987728711,
+      "cv_percent": [
+        0.2098780078434745,
+        0.4779062584215935,
+        0.13238996757331467
+      ]
+    },
+    "context_switch1-processes-w40": {
+      "initial": 8825968.444444444,
+      "new": 8258801.222222222,
+      "returned": 8842348.777777778,
+      "new_vs_baseline_midpoint_percent": -6.51287139179545,
+      "baseline_return_drift_percent": 0.1855924756182903,
+      "cv_percent": [
+        0.22596355015965627,
+        0.5962080901267819,
+        0.36979151612373035
+      ]
+    }
+  },
+  "revert_sequence": [
+    "v7.2",
+    "v7.2 diagnostic revert",
+    "v7.2"
+  ],
+  "revert": {
+    "context_switch1-threads-w2": {
+      "initial": 1178295.2222222222,
+      "new": 1174770.2222222222,
+      "returned": 1182545.4444444445,
+      "new_vs_baseline_midpoint_percent": -0.4786524724761487,
+      "baseline_return_drift_percent": 0.3607094505744035,
+      "cv_percent": [
+        0.7473091530645045,
+        0.8152109961720427,
+        0.5362629166094189
+      ]
+    },
+    "context_switch1-threads-w15": {
+      "initial": 9413892.111111112,
+      "new": 10695876.666666666,
+      "returned": 9409225.333333334,
+      "new_vs_baseline_midpoint_percent": 13.646176816725998,
+      "baseline_return_drift_percent": -0.04957330849659769,
+      "cv_percent": [
+        0.11043321479369968,
+        0.10383167471105481,
+        0.08698400999112686
+      ]
+    }
+  },
+  "pmu": {
+    "scope": "Separate task-family diagnostics; same 15 post-warmup intervals, metrics normalized per handoff; not exclusive function cost",
+    "invocations": 24,
+    "comparisons": [
+      {
+        "old": "01-7.1",
+        "new": "02-7.3",
+        "workers": 2,
+        "metrics": {
+          "kernel_cycles": {
+            "old": 6210.150158386581,
+            "new": 6503.511698401074,
+            "percent": 4.723904133273149
+          },
+          "kernel_instructions": {
+            "old": 7965.5446550216375,
+            "new": 7628.6522320448275,
+            "percent": -4.229370841131697
+          },
+          "context_switches": {
+            "old": 1.000002582992277,
+            "new": 1.0000020705781507,
+            "percent": -5.124128026334773e-05
+          },
+          "cpu_migrations": {
+            "old": 1.9771922262422862e-05,
+            "new": 7.143189390857701e-06,
+            "percent": -63.87205403678149
+          }
+        }
+      },
+      {
+        "old": "01-7.1",
+        "new": "02-7.3",
+        "workers": 15,
+        "metrics": {
+          "kernel_cycles": {
+            "old": 6985.698575446561,
+            "new": 8118.243182262563,
+            "percent": 16.21233144522849
+          },
+          "kernel_instructions": {
+            "old": 8337.968997513655,
+            "new": 10422.68583422695,
+            "percent": 25.002693549651568
+          },
+          "context_switches": {
+            "old": 1.0000014904120251,
+            "new": 1.0000007310408783,
+            "percent": -7.593700150909655e-05
+          },
+          "cpu_migrations": {
+            "old": 6.198574106679221e-07,
+            "new": 8.134563977053859e-07,
+            "percent": 31.23282608315563
+          }
+        }
+      },
+      {
+        "old": "03-7.2",
+        "new": "04-revert333",
+        "workers": 2,
+        "metrics": {
+          "kernel_cycles": {
+            "old": 6521.043237160667,
+            "new": 6644.927170161208,
+            "percent": 1.8997563502505033
+          },
+          "kernel_instructions": {
+            "old": 7944.894191403952,
+            "new": 7884.800736836234,
+            "percent": -0.7563782867333502
+          },
+          "context_switches": {
+            "old": 1.0000031195207644,
+            "new": 1.0000026141217118,
+            "percent": -5.053974759805513e-05
+          },
+          "cpu_migrations": {
+            "old": 1.6854431575182734e-05,
+            "new": 1.7912230911922664e-05,
+            "percent": 6.27609024974467
+          }
+        }
+      },
+      {
+        "old": "03-7.2",
+        "new": "04-revert333",
+        "workers": 15,
+        "metrics": {
+          "kernel_cycles": {
+            "old": 7923.748124938446,
+            "new": 7048.807976890466,
+            "percent": -11.041998486729753
+          },
+          "kernel_instructions": {
+            "old": 10239.077025988743,
+            "new": 8354.820681019391,
+            "percent": -18.402599572078103
+          },
+          "context_switches": {
+            "old": 1.000000456022103,
+            "new": 1.0000010397252435,
+            "percent": 5.837028742572414e-05
+          },
+          "cpu_migrations": {
+            "old": 6.5879440097151e-07,
+            "new": 7.946890592766976e-07,
+            "percent": 20.627779790597288
+          }
+        }
+      }
+    ]
+  },
+  "entry_probes": {
+    "scope": "Separate intrusive diagnostics; rates per handoff, not exact uninstrumented frequencies",
+    "invocations": 8,
+    "comparisons": [
+      {
+        "old": "03-7.2",
+        "new": "04-revert333",
+        "workers": 2,
+        "metrics": {
+          "requeue": {
+            "old": 0.010057237880611237,
+            "new": 0.002891981952437903,
+            "percent": -71.24476932167244
+          },
+          "requeue_returns": {
+            "old": 0.010057237880611237,
+            "new": 0.002891981952437903,
+            "percent": -71.24476932167244
+          },
+          "update_curr": {
+            "old": 3.048046035309425,
+            "new": 3.0184996819506846,
+            "percent": -0.9693539079287827
+          },
+          "update_curr_inside_requeue": {
+            "old": 0.010057237880611237,
+            "new": 0.0,
+            "percent": -100.0
+          }
+        }
+      },
+      {
+        "old": "03-7.2",
+        "new": "04-revert333",
+        "workers": 15,
+        "metrics": {
+          "requeue": {
+            "old": 0.92647343303716,
+            "new": 0.5534329103004976,
+            "percent": -40.2645677074369
+          },
+          "requeue_returns": {
+            "old": 0.9264733780838421,
+            "new": 0.5534328975885464,
+            "percent": -40.26456553633827
+          },
+          "update_curr": {
+            "old": 6.716711615943214,
+            "new": 5.059070416337679,
+            "percent": -24.679356423027787
+          },
+          "update_curr_inside_requeue": {
+            "old": 0.9264733937847901,
+            "new": 0.0,
+            "percent": -100.0
+          }
+        }
+      }
+    ]
+  }
+}

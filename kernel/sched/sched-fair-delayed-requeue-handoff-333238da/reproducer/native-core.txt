@@ -1,0 +1,165 @@
+Native CORE will-it-scale pipe-handoff reproduction
+==================================================
+
+This describes the native CORE measurements in the accompanying report.
+Run on a dedicated test host.
+CPU numbers describe the measured i7-12700KF; adapt them to the other host's
+physical topology, then keep the chosen topology identical across kernels.
+
+Pinned inputs
+-------------
+will-it-scale: https://github.com/antonblanchard/will-it-scale
+  a34a85cc1e9b9b74e94fdd3ecc479019da610e6a
+MMTests: https://github.com/gormanm/mmtests
+  638401e07e70d67fa5a1e6295e1315ae0af831b2
+Kernel peeled commits (not annotated-tag object IDs):
+  v7.1.3  199c9959d3a9b53f346c221757fc7ac507fbac50
+  v7.2    8d3ae59288f1e7d58d76558a6ee96d533bc5019f
+  v7.3    c03c1a14507dfaf8b856c2608f9ac216021fc222
+Diagnostic v7.2 variant: reverse 333238da9a193ffc58792995f3e951e4cb87bfd2.
+It removes update_curr(cfs_rq) from requeue_delayed_entity and is NOT a
+proposed fix. The intervention was not performed on v7.3.
+
+Build
+-----
+Dependencies: C compiler, make, patch, hwloc development files, GNU time,
+systemd and cgroup-v2 cpuset support. Tested GCC 15.2.0 and hwloc 2.13.0.
+Use clean adjacent will-it-scale and mmtests checkouts. In will-it-scale:
+
+  git checkout --detach a34a85cc1e9b9b74e94fdd3ecc479019da610e6a
+  git -C ../mmtests checkout --detach 638401e07e70d67fa5a1e6295e1315ae0af831b2
+  sed -n '/^==== BEGIN align-alloc.patch ====$/,/^==== END align-alloc.patch ====$/p' \
+    ../mmtests/shellpack_src/src/wis/wis-install | sed '1d;$d' | patch -p1
+  sed -i 's|/tmp/shared_area|shared_area|g' main.c
+  make -j2 context_switch1_threads context_switch1_processes \
+    CFLAGS='-Wall -O2 -g -std=gnu11'
+
+The alignment patch and shared_area relocation are from the pinned MMTests
+install recipe. tests/context_switch1.c is unchanged. Other file-path edits
+in the recipe affect file-backed tests, not this pipe test.
+
+Our executable SHA-256 values (different build environments can differ):
+  threads:
+    6fd5c63e4caec9916cbd3942b1ad037f738d24b1232c18711f96b72bc5f248d6
+  processes:
+    e0e9cf0017bdc0e5f276d7625ecfc0f26b1af1593bca1c50aafd9b1aa7497867
+
+Placement and one invocation
+----------------------------
+Check lscpu -e=CPU,CORE,SOCKET,NODE. On this host CPU0-15 are eight P-cores;
+CORE masks are 0,1; 2,3; ...; 14,15. CPU16-19 are E-cores and excluded from
+the test group, but all 20 logical CPUs remain online.
+
+Keep both SMT CPUs in each CORE mask. Native hwloc binding is enabled;
+do not add -n or -m. Helpers inherit their worker's mask. Above eight
+workers, cores are reused in native order. The coordinator retains CPU0-15.
+This is not one worker/helper pair forced onto two separate physical cores.
+
+Example for 15 workers in thread mode (replace mode with processes):
+Use an ordinary account with sudo for service creation. Keep the checkout
+outside /tmp and /var/tmp because PrivateTmp would hide it.
+
+  workers=15
+  mode=threads
+  binary="$PWD/context_switch1_$mode"
+  work=$(mktemp -d "$PWD/wis-run.XXXXXX")
+  sudo systemd-run --quiet --wait --pipe --collect --service-type=exec \
+    --unit="wis-handoff-$$" \
+    -p "User=$(id -un)" -p "Group=$(id -gn)" \
+    -p 'CPUAffinity=0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15' \
+    -p AllowedCPUs=0-15 -p MemoryMax=2G -p MemorySwapMax=0 \
+    -p "TasksMax=$((2 * workers + 16))" \
+    -p RuntimeMaxSec=45 -p TimeoutStopSec=5 -p KillMode=control-group \
+    -p NoNewPrivileges=yes -p Environment=LC_ALL=C \
+    -p "WorkingDirectory=$work" -p "ReadWritePaths=$work" \
+    -p PrivateTmp=yes -p PrivateDevices=yes \
+    -p ProtectSystem=strict -p ProtectHome=read-only \
+    -p TemporaryFileSystem=/dev/shm:rw,size=16M,mode=1777 \
+    -p LimitCORE=0 -p LimitFSIZE=536870912 -p LimitNOFILE=8192 \
+    -- /usr/bin/time -v -o "$work/time.txt" \
+    "$binary" -t "$workers" -s 15 > "$work/native.txt"
+
+Separately validate affinity/clone inheritance using strace -f with
+sched_setaffinity, clone and clone3 before clean timing. Check the effective
+mask after intersection with the cgroup, not merely the requested mask.
+At 15 workers, 30 worker/helper tasks use the eight CORE masks; the first
+seven masks have four tasks each and the last has two. The coordinator is
+additional. In process mode these are processes, not the same thread group.
+Do not use strace or perf during timing. Preserve failed/incomplete runs.
+
+Separate actual-placement check (not clean timing): two inherited 199-Hz
+CPU-clock records per condition on v7.1.3, v7.3, v7.2 and the diagnostic
+revert. In each record, 14/15 worker/helper pairs at 15 workers had all
+captured samples on one logical CPU per pair; the remaining pair used the
+CPU14/15 core. At 2 workers, both pairs had samples across their core's
+SMT CPUs. Thus an allowed CORE mask does not imply the pair actually runs
+on separate logical CPUs. The pattern was unchanged across the four kernels.
+Pairs were reconstructed from fork events, with independently checked
+affinity masks. The sampled window starts six seconds after the last test
+thread is created and ends at the first test-thread exit. It approximates
+the measured interval, not an exact benchmark marker or a complete schedule;
+unsampled migrations and other timing effects cannot be excluded.
+
+Parameters, runtime and sampling
+--------------------------------
+Native recipe worker list on this host:
+  2, 6, 11, 15, 20, 26, 33, 39, 40
+Also measured separately: 1, 4, 8. Both thread and process modes were tested.
+This does not cover every possible MMTests configuration.
+
+Bare metal, i7-12700KF, 32 GiB RAM; GCC 15.2.0, runtime preempt=full.
+SCHED_OTHER/nice 0, no custom sched_runtime/slice, no extra CPU-bound spinner.
+powersave governor, balance_performance EPP, Turbo enabled at every point.
+No CPU bandwidth quota; 2 GiB memory cap and no swap for the test group.
+RT budget remains 950000 us per 1000000 us; these are not RT tasks.
+The matched v7.2 builds differ only in the diagnostic revert and LOCALVERSION.
+Keep other settings matched and restore temporary changes afterward.
+No benchmark, kernel build, coverage observer or profiler runs concurrently.
+
+For each condition in each boot: one placement diagnostic, one complete
+warmup run, then nine measured runs without instrumentation. Each run has
+six native warmup intervals, fifteen
+measurement intervals and average:N. The average is the integer floor of
+the sum of fifteen measured totals divided by fifteen.
+
+The main metric is aggregate native handoffs/s, two increments per
+write/read round trip. It is not a PMU context-switch count. GNU time records
+whole-run user/system CPU and elapsed time separately. Runs last about
+21 seconds; lower throughput does not mean a correspondingly longer run.
+
+Independent comparisons:
+  24 conditions: v7.1.3 -> v7.3 -> v7.1.3.
+  Thread workers 2/15: v7.2 A -> diagnostic revert -> v7.2 B.
+Nine runs within one boot are not nine independent boots. Keep comparisons
+and boot positions separate; do not pool batches. Compare the middle mean
+to the mean of the first/return means. CV uses sample standard deviation;
+return drift is return / first - 1.
+
+Per-run measurements and raw-output verification are retained locally and
+available on request; no measurement CSV accompanies the initial report.
+
+Separate post-warmup diagnostics
+-------------------------------
+Counter diagnostics use the same fifteen native intervals as the throughput
+denominator, not the whole 21-second invocation. A diagnostic-only preload
+reads inherited task-scoped perf descriptors at the original "measurement"
+and "average" output boundaries; the benchmark executable and hot loop are
+unchanged. Subtract the two readings and divide by the sum of the fifteen
+native handoff totals. Record enabled/running time and boundary read times;
+these are short sequential snapshots, not a simultaneous stop of all workers.
+
+There were three counter runs per condition at v7.1.3, v7.3, v7.2 and the
+matched revert, for 2/15 workers. Kernel instructions/cycles cover the test
+task family, not update_curr alone; interrupt work in that context can count.
+They are diagnostics, never additional clean-throughput samples.
+
+A different batch used two entry-probe runs per condition on v7.2 and the
+revert, with the same native window markers. Count requeue_delayed_entity
+entries/returns, update_curr entries, and update_curr inside the requeue,
+restricted to the marked benchmark thread group. Check entry/return bounds
+and per-object count conservation; the first arguments are sched_entity and
+cfs_rq respectively, not a common runqueue identifier. Exact tested symbols
+and the presence/absence of the internal update_curr call were checked in
+both vmlinux files. Probe overhead changes execution, so no PMU or throughput
+values from these instrumented runs are used as performance evidence. The counts
+do not reconstruct every lag value, hierarchy or scheduling decision.

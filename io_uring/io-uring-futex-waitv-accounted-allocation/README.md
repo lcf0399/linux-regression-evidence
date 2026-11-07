@@ -1,5 +1,10 @@
 # io_uring WAITV accounted-allocation regression
 
+Checked 2026-10-19: regzbot closed this report as inconclusive on October 13,
+citing lack of feedback and a likely microbenchmark issue. This is not a fix
+and does not invalidate the accounting requirement. See the
+[tracking status](upstream-status/README.md). Original measurements are retained.
+
 This bundle records a narrow io_uring futex `WAITV -> WAKE` slowdown
 introduced by
 [`6e0d71c288fd`](https://github.com/torvalds/linux/commit/6e0d71c288fdcf5866f5d0c6cde850a091cc3c55)

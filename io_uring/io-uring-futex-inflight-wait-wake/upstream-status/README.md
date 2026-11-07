@@ -1,5 +1,14 @@
 # Upstream status audit
 
+Tracking checked 2026-10-19: regzbot associates the report with `73e701909747`
+and [`4d327bbd1cd2`](https://github.com/torvalds/linux/commit/4d327bbd1cd2485783553b6b2b401aa475f90dd0),
+listing mainline v7.3-rc1 and stable-branch backports. See the
+[tracking entry](../../../upstream-status/README.md). These are actual fixes,
+not an inconclusive closure; this does not establish removal of every measured
+historical slowdown.
+
+## Earlier source, patch-validation and stable-queue records
+
 Historical source/thread audit: 2026-08-03. Stable-queue status: 2026-08-24.
 
 Current disposition: resolved upstream. Commit

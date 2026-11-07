@@ -1,0 +1,13 @@
+{
+  "schema": "zswap-eight-repeat-public-summary-v1",
+  "date": "2026-11-06",
+  "measured": 54,
+  "warmups_retained_locally": 12,
+  "admissions": 18,
+  "base_commit": "2967f3ccdb5fae956f1b085370ec292bab5c7e25",
+  "binary_sha256": "89fadc67de7d50e1f3bfada676aac907188b7991313667034e4ff7103fcffa71",
+  "patch_sha256": "9c2c449d2df6b36d937c9e5863c2e525bded56f1adbfd3a6b32b310a93fe7b78",
+  "source_sha256": "e0e85a071fb01ccc5758cfa252fb92ade201a50359cdf49f07ac3e7337aba5ff",
+  "independent_summary_sha256": "7e20f0a52cb2a8fb914bb217ab3cf5411f9681c71633b35a4d0cda9b1db69f9f",
+  "boundary": "One fixed MM baseline/prototype/baseline rerun. Same worker timed code,new binary with bounded pre-timing stat convergence,32MiB,finite64MiB/max, eight distinct P cores,controller CPU18,lzo/zsmalloc,barriers unchanged. The original six non-timing admissions per boot are retained; clean timing only finite8/unlimited8. Two warmups and nine clean samples per condition per boot; no retries or outlier removal. No free-affinity variant, new kernel build, other benchmark, cache drop or safety change. Restore generic after every point. Report remaining variability rather than retry until stable."
+}

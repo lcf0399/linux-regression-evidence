@@ -1,58 +1,97 @@
-# Upstream check — 2026-10-30
+# Upstream discussion and follow-up
 
-## Existing discussion
+Updated November 7, 2026. Dates below use China time (UTC+08:00).
+Mailbox-confirmed replies and sent follow-ups are dated records, not a
+claim that every message has a verified public archive URL.
 
-[Mike Galbraith's October 18 report](https://lists.openwall.net/linux-kernel/2026/10/18/311)
-identifies `333238da9a193ffc58792995f3e951e4cb87bfd2`
-("sched: Update time before requeueing delayed entities") in a wakeup-jitter
-test. Our MMTests pipe-throughput result supplies complementary evidence
-against the same commit, not a first report or a separately counted issue.
+## Current disposition: necessary accounting, measured workload cost
 
-- Thread: `Re: [PATCH v3 7/7] sched/eevdf: Move to a single runqueue`
-- Reply target: `<b1002150c3e4f877d04790cd8e85d2149d17722f.camel@gmx.de>`
+Vincent Guittot's November 7 reply explains why `333238da9a19` is needed.
+Resetting the wakee's lag before charging current's outstanding runtime
+can give the wakee undeserved positive lag and allow it to preempt.
+Updating current first removes that advantage; slice protection can then
+let current continue.
+
+Turning DELAY_ZERO off can retain positive credit accumulated during
+delayed dequeue. It restores throughput in this test but can treat zero
+lag and a tiny negative lag very differently on wakeup. It is not an
+established fair replacement policy. The measured loss remains valid;
+removing the accounting update or changing the global default is not
+the proposed resolution.
+
+No new fix was supplied with that explanation. Further experiments and
+thanks-only replies are paused. A concrete upstream change or a new
+testable result can justify another bounded comparison.
+
+## Existing thread and report
+
+- Thread: `Re: [PATCH v3 7/7] sched/eevdf: Move to a single runqueue`.
+- [Mike's October 18 report](https://lists.openwall.net/linux-kernel/2026/10/18/311)
+  already identified `333238da9a193ffc58792995f3e951e4cb87bfd2`,
+  “sched: Update time before requeueing delayed entities,” in a wakeup-jitter test.
 - [Vincent's October 21 explanation](https://lkml.iu.edu/2610.2/13555.html)
-  discusses lag, slice protection and the separate flat-hierarchy wakeup case.
-- [Mike's later diagnostic](https://lkml.iu.edu/2610.2/15077.html) and
-  [Jakub's follow-up](https://lkml.iu.edu/2610.2/16079.html) do not establish a
-  repair of the pipe-throughput result measured here.
+  covers lag, slice protection and a separate flat-hierarchy wakeup case.
+- [Our October 30 report](https://lists.openwall.net/linux-kernel/2026/10/30/1506)
+  supplies native pipe-throughput, scaling and matched-revert evidence.
+  Its missing reply headers were followed by a short threaded link reply;
+  the report and attachment were not resent.
 
-Their periodic wakeup task and CPU-bound competitors are not the same workload
-as repeatedly blocking pipe participants. The shared commit is established;
-an identical detailed cause is not assumed. The time update is required for
-correct accounting, so our revert is diagnostic, not a proposed fix.
+The periodic wakeup task with CPU-bound competition is not the same
+workload as the pipe participants. A shared accounting change does not
+by itself establish an identical detailed scheduling sequence.
 
-## Maintainer-tree source check
+## November 1: bounded redundant-update prototype
 
-The official tip repository refs and `kernel/sched/fair.c` were read on
-October 30 and compared with tested v7.3 (`c03c1a14507dfaf8b856c2608f9ac216021fc222`).
+The matched v7.3 baseline / prototype / baseline test has 54 clean calls.
+The prototype skips the leading `update_curr_eevdf()` in
+`__dequeue_task()` only when `pick_task_fair()` has already updated
+current. Ordinary dequeue, wakeup-preemption, lag and hierarchy accounting
+remain intact; it does not revert `333238da9a19`.
 
-| Branch | Frozen tip | Compared functions |
+Throughput changes by +1.27% at two workers and −0.22% at 15 workers.
+Separate probes observe only about 1.4 such leading updates per million
+handoffs at 15 workers. This is not the frequent delayed-requeue path and
+does not recover the main loss. The result was sent on November 1.
+Mike subsequently clarified that his setup used pinned wakelat and eight
+CPU-bound tasks in the same cgroup; no equivalence to this prototype is assumed.
+
+## November 3: DELAY_ZERO control
+
+Tianchen Ding reported a separate pipe regression bisected to the same
+commit. His proposed explanation is a change from wakeup preemption to
+current continuing until a pipe read blocks: the updated accounting
+changes lag, eligibility and repositioning under DELAY_ZERO. He asked
+for the feature-toggle comparison.
+
+The same unpatched v7.3 image, original two/15-worker thread conditions
+and native P-core CORE masks were used. Three fresh boots, nine clean
+calls per condition/boot, give 54 calls. Correct accounting and
+DELAY_DEQUEUE remain enabled.
+
+| Workers | On A, handoffs/s | Off, handoffs/s | On B, handoffs/s | Off vs. on mean | Return drift |
+| ---: | ---: | ---: | ---: | ---: | ---: |
+| 2 | 1,156,118 | 1,158,966 | 1,157,812 | +0.173% | +0.146% |
+| 15 | 9,172,415 | 10,424,959 | 9,164,990 | +13.702% | −0.081% |
+
+Maximum within-boot CV is 0.603% overall and 0.134% at 15 workers.
+Independent replay covered 810 measured intervals and recovery checks.
+The result was sent in reply to Tianchen on November 3.
+
+Separate full-invocation counters, including warmup, show the 15-worker
+involuntary-switch share changing from 0.357% to 41.482% and back to
+0.359%. This supports a change in handoff behavior; it does not reconstruct
+every wakeup or establish the fairness of disabling the feature.
+
+## Dated source audit, not a current merge claim
+
+The October 30 source comparison used tested v7.3
+`c03c1a14507dfaf8b856c2608f9ac216021fc222`:
+
+| Branch | Checked tip | Compared paths |
 | --- | --- | --- |
-| sched/core | [`b99b7f60c5b4`](https://kernel.googlesource.com/pub/scm/linux/kernel/git/tip/tip/+/b99b7f60c5b473d374c68b53753153b4aa9e0702/kernel/sched/fair.c) | `requeue_delayed_entity` and `enqueue_hierarchy` unchanged; `enqueue_task_fair` only moves an assignment across a comment and expands the comment |
-| sched/urgent | [`cac037a85c19`](https://kernel.googlesource.com/pub/scm/linux/kernel/git/tip/tip/+/cac037a85c1971ec75c4d3edf5a28af9ec2a089c/kernel/sched/fair.c) | All three functions unchanged |
+| sched/core | [`b99b7f60c5b4`](https://kernel.googlesource.com/pub/scm/linux/kernel/git/tip/tip/+/b99b7f60c5b473d374c68b53753153b4aa9e0702/kernel/sched/fair.c) | Requeue and hierarchy functions unchanged; enqueue difference was comment-adjacent |
+| sched/urgent | [`cac037a85c19`](https://kernel.googlesource.com/pub/scm/linux/kernel/git/tip/tip/+/cac037a85c1971ec75c4d3edf5a28af9ec2a089c/kernel/sched/fair.c) | All three compared functions unchanged |
 
-No functional change in these paths, or matching new fix, was identified in
-this check. This is a source comparison, not a performance test of those tips.
-The absence of an internal `update_curr()` in the current requeue function is
-already true of tested v7.3; it is not a newly discovered fix. The internal-call
-probe and diagnostic revert in this report explicitly compare v7.2 builds.
-
-SHA-256 of the fetched `fair.c`: sched/core
-`21495f53002f83ca61c9119fd18ce6dce03d36d9bdab1d05dbee9f0a2e6bb859`;
-sched/urgent `ca68eebb8458dc43c53605c18eb278a24be7ef4c9a97412bfd6ae959a43a39f5`.
-The complete lore thread and Gitiles history-range view were unavailable;
-the dated replies and fixed source revisions above are the checked scope.
-
-## Reporting state
-
-Formal public evidence prepared on October 30; **our supplementary mail is not
-yet sent**. The v7.3 maintainer lookup was repeated that day. The reply is
-addressed to Vincent, Mike and Peter, with Ingo, Juri and LKML copied, preserving
-Mike's original thread.
-
-The report's current workload is the existing MMTests/will-it-scale benchmark,
-not our source/call-graph or model-generated scenarios. Native CORE scaling,
-the matched v7.2 revert and post-warmup diagnostics are the main evidence.
-Older custom-futex and single-logical-CPU measurements remain separate.
-Only reproduction instructions are planned as an initial mail attachment;
-the compact measurements are in the public bundle.
+These tips were not benchmarked. The checked scope did not identify a
+matching repair; it is not a fresh audit of current maintainer trees.
+Complete correspondence and delivery verification remain local.

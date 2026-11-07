@@ -1,5 +1,9 @@
 # io_uring WAITV accounted-allocation 回归
 
+2026-10-19核对：regzbot已于10月13日以缺少反馈、很可能属于微基准问题为由结束跟踪，
+标记为inconclusive，不是已有修复，也不否定必要的内存记账。
+详见[跟踪状态](upstream-status/README.zh-CN.md)。原实验数据保留。
+
 本证据包记录一条很窄的 io_uring futex `WAITV -> WAKE` slowdown，引入提交为
 [`6e0d71c288fd`](https://github.com/torvalds/linux/commit/6e0d71c288fdcf5866f5d0c6cde850a091cc3c55)
 （`io_uring/futex: use GFP_KERNEL_ACCOUNT for futex data allocation`）。它与直接

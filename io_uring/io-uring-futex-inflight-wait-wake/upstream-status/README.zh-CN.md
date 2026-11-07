@@ -1,5 +1,12 @@
 # 上游状态审计
 
+2026-10-19跟踪核对：regzbot将本报告关联到`73e701909747`及
+[`4d327bbd1cd2`](https://github.com/torvalds/linux/commit/4d327bbd1cd2485783553b6b2b401aa475f90dd0)，
+标示主线v7.3-rc1及稳定分支回补。见[跟踪条目](../../../upstream-status/README.zh-CN.md)。
+这是实际修复记录，不是inconclusive关闭；不由此声称全部历史慢差均已消失。
+
+## 早期源码、补丁验证和stable queue记录
+
 历史源码/线程审计日期：2026-08-03；stable queue 状态日期：2026-08-24。
 
 当前处置：上游已解决。提交

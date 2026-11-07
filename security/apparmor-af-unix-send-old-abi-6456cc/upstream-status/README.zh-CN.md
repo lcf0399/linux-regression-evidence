@@ -1,10 +1,22 @@
 # 上游状态审计
 
+## 2026-10-19：维护者表示会调查，跟踪已关闭
+
+regzbot于10月13日以微基准问题、开发者研究为由将本报告标为inconclusive并停止跟踪，
+不是确认修复。[跟踪记录](../../../upstream-status/README.zh-CN.md)。
+
+John Johansen的[8月6日回复（北京时间）](https://lists.ubuntu.com/archives/apparmor/2026-August/014884.html)
+表示要调查开销来源，并不保证完全恢复；这能证明维护者回应和调查意向，不能证明已完成分析。
+[9月23日的原型与测量](https://lists.openwall.net/linux-kernel/2026/09/22/2475)来自Chengfeng，
+不能算作John的修复。本次核对的公开线程没有显示维护者对该原型给出后续技术结论。
+
+## 2026-08-05至08-07历史快照
+
 源码/修复审计日期：2026-08-05。邮件状态更新：2026-08-07。
 
 回归报告已于 2026-08-05 发出。John Johansen 回复称 AppArmor 维护者会调查
 unconfined 路径额外开销的来源；他指出相关提交看起来已经有 early bailout，并认为
-当前回归应当还能改善，但不承诺完全恢复。在其分析完成前无需继续追问。
+当前回归应当还能改善，但不承诺完全恢复。
 
 - 已核对精确引入提交及 AppArmor 6.17 merge 历史；
 - 已检查 `security/apparmor/af_unix.c` 与

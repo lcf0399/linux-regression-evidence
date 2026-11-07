@@ -1,5 +1,10 @@
 # io_uring scalar futex wait/wake inflight-tracking regression
 
+Checked 2026-10-19: regzbot links two actual fixes, lists mainline v7.3-rc1 and
+stable-branch backports. This differs from an inconclusive tracking closure;
+path-specific gains remain limited to the original measurements. See the
+[fix and tracking record](upstream-status/README.md).
+
 Closed on 2026-10-10. No further experiments or follow-up are queued.
 The corresponding fix is in mainline. Report and validation evidence are retained;
 dedicated experimental kernels and rebuildable artifacts may be retired.

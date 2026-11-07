@@ -1,5 +1,11 @@
 # mprotect shared-dirty toggle evidence
 
+Checked 2026-10-19: regzbot closed the June report as inconclusive on October 12,
+citing unsuccessful reproduction by others and a possible microbenchmark issue.
+This is not a merged fix or a re-evaluation of the local measurements. The May
+report remains a separate entry without a closure mark, not another independent
+discovery. See the [tracking summary and original entries](../../upstream-status/README.md).
+
 This directory supports the narrowly scoped upstream report:
 
 ```text

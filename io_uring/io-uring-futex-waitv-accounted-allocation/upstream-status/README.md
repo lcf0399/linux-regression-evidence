@@ -1,7 +1,16 @@
 # Upstream status audit
 
-Historical audit date: 2026-07-30. Current source and thread status refreshed:
-2026-08-30.
+## Tracking checked 2026-10-19
+
+Regzbot stopped tracking the report as inconclusive on October 13, citing lack
+of feedback and a likely microbenchmark issue. This is a tracking disposition,
+not a fix or a finding that required accounting can be removed. See the
+[report entry and status distinctions](../../../upstream-status/README.md).
+
+## Historical July 30 and August 30 source/thread audits
+
+The source and search conclusions below are dated August 30. This tracking
+update does not claim a fresh audit of all current branches.
 
 The introducing patch was posted by Jens Axboe as
 `[PATCH for-next] io_uring/futex: use GFP_KERNEL_ACCOUNT for futex data allocation`

@@ -1,8 +1,12 @@
 # Private/mail drafting history
 **/email/
+**/mail-tools/
 
 # Private discovery/model/Codex provenance; not part of the public evidence.
 **/private-provenance/
+*.eml
+**/__pycache__/
+*.pyc
 
 # Local-only raw archives
 local-archive/

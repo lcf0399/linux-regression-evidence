@@ -1,0 +1,7 @@
+point	case	kind	data	swapped_pages	stored_pages	stored_left	stores	may_calls	limit_flushes
+00-baseline	unlimited1	state	pass	8192	8192	0	NA	NA	NA
+00-baseline	unlimited1	path	pass	8192	8192	0	8192	8192	0
+01-prototype	unlimited1	state	pass	8192	8192	0	NA	NA	NA
+01-prototype	unlimited1	path	pass	8192	8192	0	8192	8192	0
+02-baseline	unlimited1	state	pass	8192	8192	0	NA	NA	NA
+02-baseline	unlimited1	path	pass	8192	8192	0	8192	8192	0

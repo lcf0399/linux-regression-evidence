@@ -1,14 +1,25 @@
 # MMTests pipe-handoff throughput and delayed-requeue accounting
 
-**Origin:** this report came from reproducing the existing MMTests
-`will-it-scale/context_switch1` benchmark, not from our source/call-graph
-or model-generated workloads. It is recorded separately from that method's
-discovery results.
+**Origin:** reproducing MMTests `will-it-scale/context_switch1`, not our
+source/call-graph or model-generated workloads. This supplements an
+existing upstream report against the same accounting change.
 
-Formal evidence bundle, promoted on 2026-10-30. The report is prepared for
-upstream; promotion does not mean it has been sent, accepted or fixed.
-Mike Galbraith previously identified the same commit in a different wakeup
-test; this is complementary throughput and attribution evidence.
+[Reported on October 30](https://lists.openwall.net/linux-kernel/2026/10/30/1506).
+A November 1 follow-up reports a narrow redundant-update prototype that
+changed 2-worker throughput by +1.27% and 15-worker throughput by −0.22%:
+it did not improve the main regression.
+
+At Tianchen Ding's suggestion, 54 clean same-image v7.3 calls compared
+DELAY_ZERO on/off/on. Disabling it improved 15-worker throughput by
+13.70%; the 2-worker control changed by +0.17%. Correct runtime accounting
+and DELAY_DEQUEUE stayed enabled. The results were sent on November 3.
+
+On November 7, Vincent Guittot explained why the accounting update is
+needed: the old order could give a waking task undeserved positive lag.
+Disabling DELAY_ZERO can retain that credit and recover handoff throughput
+while compromising fairness. This is a valid diagnostic, not a validated
+production fix. Further experiments are paused pending a concrete change
+or new evidence. See [the dated follow-up](upstream-status/README.md).
 
 ## Main results
 

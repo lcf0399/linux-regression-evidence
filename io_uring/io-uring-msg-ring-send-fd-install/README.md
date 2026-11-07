@@ -1,8 +1,11 @@
 # io_uring SEND_FD installation and cache tests
 
-Upstream status checked 2026-10-10: the new results were sent to Uzair on
-October 1; no later reply or corresponding mainline fix was found. See the
-[dated audit](upstream-status/README.md). Measurements below are unchanged.
+Checked 2026-10-19: regzbot stopped tracking this report on October 13 as
+inconclusive, citing a microbenchmark issue already being investigated.
+Uzair posted a three-patch RFC and Gabriel reviewed its cache-memory and
+workload tradeoffs; this is not evidence of acceptance or a merged fix.
+See the [dated status and public replies](upstream-status/README.md).
+Measurements below are unchanged.
 
 Updated 2026-10-01. **The original installation slowdown remains measurable,
 but the stable loopback TCP cases did not show a substantial overall slowdown.

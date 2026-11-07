@@ -1,0 +1,15 @@
+--- prior/zswap_case.c
++++ unlimited1/zswap_case.c
+@@ -42,9 +42,9 @@
+ }
+ int main(int argc,char **argv)
+ {
+-    if(argc==2&&!strcmp(argv[1],"--selftest")){puts("selftest=pass cases=3 no_runtime_changes=1");return 0;}
+-    ck(argc==3&&geteuid()==0,"args");bool finite=strcmp(argv[2],"unlimited8")!=0;unsigned workers=!strcmp(argv[2],"finite1")?1:8;
+-    ck(!strcmp(argv[2],"finite1")||!strcmp(argv[2],"finite8")||!strcmp(argv[2],"unlimited8"),"case");
++    if(argc==2&&!strcmp(argv[1],"--selftest")){puts("selftest=pass cases=4 no_runtime_changes=1");return 0;}
++    ck(argc==3&&geteuid()==0,"args");bool finite=strcmp(argv[2],"unlimited8")&&strcmp(argv[2],"unlimited1");unsigned workers=(!strcmp(argv[2],"finite1")||!strcmp(argv[2],"unlimited1"))?1:8;
++    ck(!strcmp(argv[2],"finite1")||!strcmp(argv[2],"finite8")||!strcmp(argv[2],"unlimited8")||!strcmp(argv[2],"unlimited1"),"case");
+     char root[PATH_MAX],leaf[PATH_MAX],p[PATH_MAX];ck(realpath(argv[1],root),"root");const char *prefix="/sys/fs/cgroup/ks-memcontrol-rest-";
+     ck(!strncmp(root,prefix,strlen(prefix))&&!strchr(root+strlen(prefix),'/'),"owned root");alarm(25);pin(18);
+     path(leaf,root,"g0");ck(!mkdir(leaf,0755),"mkdir");path(p,leaf,"memory.zswap.max");put(p,finite?"67108864":"max");

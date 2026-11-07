@@ -48,4 +48,6 @@
 - 首封RFC及补充附件已发送；[第四版回复及实测补丁](https://lkml.iu.edu/2610.1/11150.html)于10月13日17:58（北京时间）发送并公开归档。
   [Peter当日回复](https://lkml.iu.edu/2610.1/11486.html)认为实现合理；不是正式Reviewed-by或合入通知。
   当日核验的主线master／tip sched/core仍未采用该优化。
+- 同代码的[正式补丁](https://lists.openwall.net/linux-kernel/2026/10/18/950)于10月19日00:59（北京时间）投稿，
+  已有10月20日公开归档核验记录。正式投稿与原RFC分别记录，不代表合入；本次未更新维护树合入核验。
 - 场景、原型及分析有LLM辅助；数据来自实测，邮件保留`Assisted-by: LLM`。

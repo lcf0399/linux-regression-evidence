@@ -1,5 +1,11 @@
 # AppArmor AF_UNIX send slowdown after `6456ccbd2ff7`
 
+Checked 2026-10-19: regzbot stopped tracking this report as inconclusive on
+October 13, citing a microbenchmark issue and developer investigation. The
+public maintainer reply is a commitment to investigate, not a completed fix;
+the September prototype came from this study. See the
+[public replies and tracking disposition](upstream-status/README.md).
+
 This bundle records a focused AF_UNIX datagram send slowdown caused by the
 exact source delta of
 [`6456ccbd2ff7`](https://github.com/torvalds/linux/commit/6456ccbd2ff72814b3c1b2e2a3a2145a2ced858d)

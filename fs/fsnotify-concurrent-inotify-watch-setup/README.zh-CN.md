@@ -1,5 +1,9 @@
 # fsnotify 并发 inotify watch 增删回归
 
+2026-10-19核对：regzbot于10月12日结束跟踪，理由是维护者接受该可扩展性取舍并计划改善。
+这是[公开跟踪处置](upstream-status/README.zh-CN.md)，不是已有修复；
+与下述10月10日本研究决定收束是两个不同日期。
+
 本线于2026-10-10结题，不再排队跟进或追加实验。结题原因是接受维护者指出的性能取舍，
 不是对应修复已经合入。原始测量、复现程序及归因证据继续保留。
 
@@ -104,7 +108,9 @@ rhashtable 替换 list，并避免 inode mark 固定 inode；这可能顺带改�
 是有意安排的压力形状，但工具、递归遍历、源码树和 inotify 语义均未修改。详见
 [`real-topology/README.zh-CN.md`](real-topology/README.zh-CN.md)。
 
-## 最新上游状态审计
+## 历史源码审计（2026-07-20）
+
+2026-10-19核对的跟踪处置见顶部；以下保留原源码审计的版本范围。
 
 2026-07-20 的审计覆盖最新正式版 `v7.1.4`、`v7.2-rc4`、Linus `master` 的
 `1590cf032971`、`next-20260717`，以及 Jan Kara 的 linux-fs `fsnotify`、`for_next` 和

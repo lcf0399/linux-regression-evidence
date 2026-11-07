@@ -1,0 +1,820 @@
+{
+  "anonymous": {
+    "vector-self-one.operation_cpu_ns_per_call": {
+      "parent_a": {
+        "n": 9,
+        "mean": 390274.1111111111,
+        "median": 390025.5,
+        "minimum": 389601.0,
+        "maximum": 392551.5,
+        "cv_percent": 0.23012287931718736
+      },
+      "child": {
+        "n": 9,
+        "mean": 440546.1666666667,
+        "median": 440502.0,
+        "minimum": 439004.5,
+        "maximum": 441488.5,
+        "cv_percent": 0.18278727673112405
+      },
+      "parent_b": {
+        "n": 9,
+        "mean": 393437.6111111111,
+        "median": 391074.0,
+        "minimum": 389657.0,
+        "maximum": 399022.0,
+        "cv_percent": 0.9192616705478517
+      },
+      "parent_pooled": {
+        "n": 18,
+        "mean": 391855.8611111111,
+        "median": 390684.0,
+        "minimum": 389601.0,
+        "maximum": 399022.0,
+        "cv_percent": 0.7733863834509704
+      },
+      "child_minus_parent": 48690.30555555556,
+      "child_change_percent": 12.425565211017563,
+      "parent_return_drift_percent": 0.8105841279078208
+    },
+    "vector-self-one.operation_wall_ns_per_call": {
+      "parent_a": {
+        "n": 9,
+        "mean": 390612.77777777775,
+        "median": 390422.0,
+        "minimum": 389866.0,
+        "maximum": 392806.0,
+        "cv_percent": 0.22973614084172994
+      },
+      "child": {
+        "n": 9,
+        "mean": 440815.55555555556,
+        "median": 440761.0,
+        "minimum": 439279.0,
+        "maximum": 441759.5,
+        "cv_percent": 0.18228789018087513
+      },
+      "parent_b": {
+        "n": 9,
+        "mean": 402367.3333333333,
+        "median": 391298.5,
+        "minimum": 389881.5,
+        "maximum": 426931.5,
+        "cv_percent": 3.9247257958117703
+      },
+      "parent_pooled": {
+        "n": 18,
+        "mean": 396490.05555555556,
+        "median": 391050.0,
+        "minimum": 389866.0,
+        "maximum": 426931.5,
+        "cv_percent": 3.1330233481870797
+      },
+      "child_minus_parent": 44325.5,
+      "child_change_percent": 11.17947332572864,
+      "parent_return_drift_percent": 3.0092603786358474
+    },
+    "vector-self-one.main_cpu_ns": {
+      "parent_a": {
+        "n": 9,
+        "mean": 28392678.777777776,
+        "median": 28371094,
+        "minimum": 28174187,
+        "maximum": 28715190,
+        "cv_percent": 0.6021055531246322
+      },
+      "child": {
+        "n": 9,
+        "mean": 28579825.333333332,
+        "median": 28518483,
+        "minimum": 28310667,
+        "maximum": 28862890,
+        "cv_percent": 0.6945987175774734
+      },
+      "parent_b": {
+        "n": 9,
+        "mean": 28442618.888888888,
+        "median": 28382728,
+        "minimum": 28279518,
+        "maximum": 28775791,
+        "cv_percent": 0.5303276032618933
+      },
+      "parent_pooled": {
+        "n": 18,
+        "mean": 28417648.833333332,
+        "median": 28375600.5,
+        "minimum": 28174187,
+        "maximum": 28775791,
+        "cv_percent": 0.5577298241467664
+      },
+      "child_minus_parent": 162176.5,
+      "child_change_percent": 0.5706893661440837,
+      "parent_return_drift_percent": 0.1758908044640073
+    },
+    "vector-self-one.main_wall_ns": {
+      "parent_a": {
+        "n": 9,
+        "mean": 28434916.777777776,
+        "median": 28429762,
+        "minimum": 28184644,
+        "maximum": 28726695,
+        "cv_percent": 0.5619031423316079
+      },
+      "child": {
+        "n": 9,
+        "mean": 28620483.555555556,
+        "median": 28579332,
+        "minimum": 28344967,
+        "maximum": 28927356,
+        "cv_percent": 0.7134306736716528
+      },
+      "parent_b": {
+        "n": 9,
+        "mean": 28485771.555555556,
+        "median": 28472819,
+        "minimum": 28293320,
+        "maximum": 28779803,
+        "cv_percent": 0.4892620868718548
+      },
+      "parent_pooled": {
+        "n": 18,
+        "mean": 28460344.166666668,
+        "median": 28437397.0,
+        "minimum": 28184644,
+        "maximum": 28779803,
+        "cv_percent": 0.5192467436658175
+      },
+      "child_minus_parent": 160139.38888888806,
+      "child_change_percent": 0.5626755177347675,
+      "parent_return_drift_percent": 0.17884623392856458
+    },
+    "vector-self-many.operation_cpu_ns_per_call": {
+      "parent_a": {
+        "n": 9,
+        "mean": 410759.8888888889,
+        "median": 409637.5,
+        "minimum": 408682.0,
+        "maximum": 419092.0,
+        "cv_percent": 0.7872490332319954
+      },
+      "child": {
+        "n": 9,
+        "mean": 460531.1666666667,
+        "median": 460771.0,
+        "minimum": 459271.0,
+        "maximum": 461353.0,
+        "cv_percent": 0.15644340454241934
+      },
+      "parent_b": {
+        "n": 9,
+        "mean": 411161.3333333333,
+        "median": 410959.0,
+        "minimum": 409340.5,
+        "maximum": 413854.5,
+        "cv_percent": 0.31018980338196683
+      },
+      "parent_pooled": {
+        "n": 18,
+        "mean": 410960.6111111111,
+        "median": 410541.75,
+        "minimum": 408682.0,
+        "maximum": 419092.0,
+        "cv_percent": 0.5824229379639341
+      },
+      "child_minus_parent": 49570.55555555556,
+      "child_change_percent": 12.06211841605258,
+      "parent_return_drift_percent": 0.09773214359618532
+    },
+    "vector-self-many.operation_wall_ns_per_call": {
+      "parent_a": {
+        "n": 9,
+        "mean": 411061.8333333333,
+        "median": 409900.5,
+        "minimum": 408991.0,
+        "maximum": 419436.5,
+        "cv_percent": 0.7908570122900571
+      },
+      "child": {
+        "n": 9,
+        "mean": 460823.1111111111,
+        "median": 461045.5,
+        "minimum": 459577.0,
+        "maximum": 461683.5,
+        "cv_percent": 0.15839056430746506
+      },
+      "parent_b": {
+        "n": 9,
+        "mean": 411473.44444444444,
+        "median": 411217.0,
+        "minimum": 409686.0,
+        "maximum": 414217.0,
+        "cv_percent": 0.31236403163327153
+      },
+      "parent_pooled": {
+        "n": 18,
+        "mean": 411267.6388888889,
+        "median": 410847.25,
+        "minimum": 408991.0,
+        "maximum": 419436.5,
+        "cv_percent": 0.5853635806239712
+      },
+      "child_minus_parent": 49555.47222222225,
+      "child_change_percent": 12.04944603861977,
+      "parent_return_drift_percent": 0.10013362412495397
+    },
+    "vector-self-many.main_cpu_ns": {
+      "parent_a": {
+        "n": 9,
+        "mean": 109554497.22222222,
+        "median": 109485224,
+        "minimum": 109060374,
+        "maximum": 109987849,
+        "cv_percent": 0.2556897066764611
+      },
+      "child": {
+        "n": 9,
+        "mean": 110269504.44444445,
+        "median": 110119477,
+        "minimum": 109792880,
+        "maximum": 111197967,
+        "cv_percent": 0.38720457746260606
+      },
+      "parent_b": {
+        "n": 9,
+        "mean": 109943913.33333333,
+        "median": 109934375,
+        "minimum": 109714376,
+        "maximum": 110162733,
+        "cv_percent": 0.1520592457924756
+      },
+      "parent_pooled": {
+        "n": 18,
+        "mean": 109749205.27777778,
+        "median": 109796386.0,
+        "minimum": 109060374,
+        "maximum": 110162733,
+        "cv_percent": 0.2736835687317751
+      },
+      "child_minus_parent": 520299.16666667163,
+      "child_change_percent": 0.47408012235694574,
+      "parent_return_drift_percent": 0.3554542451335463
+    },
+    "vector-self-many.main_wall_ns": {
+      "parent_a": {
+        "n": 9,
+        "mean": 109618260.44444445,
+        "median": 109589610,
+        "minimum": 109157449,
+        "maximum": 110003643,
+        "cv_percent": 0.22525268262025627
+      },
+      "child": {
+        "n": 9,
+        "mean": 110340251.55555555,
+        "median": 110193731,
+        "minimum": 109979829,
+        "maximum": 111210876,
+        "cv_percent": 0.35881833487414677
+      },
+      "parent_b": {
+        "n": 9,
+        "mean": 110006211,
+        "median": 109993051,
+        "minimum": 109735842,
+        "maximum": 110292485,
+        "cv_percent": 0.177211155924283
+      },
+      "parent_pooled": {
+        "n": 18,
+        "mean": 109812235.72222222,
+        "median": 109837361.5,
+        "minimum": 109157449,
+        "maximum": 110292485,
+        "cv_percent": 0.26769644489772537
+      },
+      "child_minus_parent": 528015.8333333284,
+      "child_change_percent": 0.4808351545350309,
+      "parent_return_drift_percent": 0.35391052000151024
+    }
+  },
+  "file": {
+    "fresh.interface.cpu_ns": {
+      "parent_a": {
+        "n": 9,
+        "mean": 387823.6666666667,
+        "median": 386683,
+        "minimum": 385081,
+        "maximum": 394510,
+        "cv_percent": 0.8000629694374469
+      },
+      "child": {
+        "n": 9,
+        "mean": 438417,
+        "median": 438529,
+        "minimum": 435900,
+        "maximum": 441416,
+        "cv_percent": 0.35610594549512686
+      },
+      "parent_b": {
+        "n": 9,
+        "mean": 386770.8888888889,
+        "median": 386270,
+        "minimum": 385461,
+        "maximum": 389752,
+        "cv_percent": 0.37703583384989464
+      },
+      "parent_pooled": {
+        "n": 18,
+        "mean": 387297.27777777775,
+        "median": 386274.5,
+        "minimum": 385081,
+        "maximum": 394510,
+        "cv_percent": 0.6231513019895872
+      },
+      "child_minus_parent": 51119.72222222225,
+      "child_change_percent": 13.199091539071839,
+      "parent_return_drift_percent": -0.2714578475383922
+    },
+    "fresh.drain.cpu_ns": {
+      "parent_a": {
+        "n": 9,
+        "mean": 773.1111111111111,
+        "median": 780,
+        "minimum": 735,
+        "maximum": 838,
+        "cv_percent": 3.950632019897741
+      },
+      "child": {
+        "n": 9,
+        "mean": 802.3333333333334,
+        "median": 794,
+        "minimum": 761,
+        "maximum": 857,
+        "cv_percent": 3.8847812319506523
+      },
+      "parent_b": {
+        "n": 9,
+        "mean": 787.2222222222222,
+        "median": 784,
+        "minimum": 762,
+        "maximum": 814,
+        "cv_percent": 2.289850942812912
+      },
+      "parent_pooled": {
+        "n": 18,
+        "mean": 780.1666666666666,
+        "median": 782.0,
+        "minimum": 735,
+        "maximum": 838,
+        "cv_percent": 3.2543458469961744
+      },
+      "child_minus_parent": 22.166666666666742,
+      "child_change_percent": 2.8412732322153467,
+      "parent_return_drift_percent": 1.8252371371083598
+    },
+    "fresh.including_drain.cpu_ns": {
+      "parent_a": {
+        "n": 9,
+        "mean": 388596.77777777775,
+        "median": 387463,
+        "minimum": 385816,
+        "maximum": 395253,
+        "cv_percent": 0.7981424623867068
+      },
+      "child": {
+        "n": 9,
+        "mean": 439219.3333333333,
+        "median": 439323,
+        "minimum": 436673,
+        "maximum": 442252,
+        "cv_percent": 0.3608224858768262
+      },
+      "parent_b": {
+        "n": 9,
+        "mean": 387558.1111111111,
+        "median": 387045,
+        "minimum": 386261,
+        "maximum": 390535,
+        "cv_percent": 0.37600138208299194
+      },
+      "parent_pooled": {
+        "n": 18,
+        "mean": 388077.44444444444,
+        "median": 387049.5,
+        "minimum": 385816,
+        "maximum": 395253,
+        "cv_percent": 0.6212057357231997
+      },
+      "child_minus_parent": 51141.888888888876,
+      "child_change_percent": 13.178268827785523,
+      "parent_return_drift_percent": -0.2672864846194334
+    },
+    "fresh.interface.wall_ns": {
+      "parent_a": {
+        "n": 9,
+        "mean": 387854.44444444444,
+        "median": 386692,
+        "minimum": 385134,
+        "maximum": 394550,
+        "cv_percent": 0.7992599311360803
+      },
+      "child": {
+        "n": 9,
+        "mean": 438481.22222222225,
+        "median": 438586,
+        "minimum": 435935,
+        "maximum": 441556,
+        "cv_percent": 0.3594033007523317
+      },
+      "parent_b": {
+        "n": 9,
+        "mean": 386805.22222222225,
+        "median": 386288,
+        "minimum": 385473,
+        "maximum": 389775,
+        "cv_percent": 0.377520134047933
+      },
+      "parent_pooled": {
+        "n": 18,
+        "mean": 387329.8333333333,
+        "median": 386307.5,
+        "minimum": 385134,
+        "maximum": 394550,
+        "cv_percent": 0.622692266389682
+      },
+      "child_minus_parent": 51151.388888888934,
+      "child_change_percent": 13.206157772223136,
+      "parent_return_drift_percent": -0.2705195820883466
+    },
+    "fresh.drain.wall_ns": {
+      "parent_a": {
+        "n": 9,
+        "mean": 767.4444444444445,
+        "median": 758,
+        "minimum": 731,
+        "maximum": 837,
+        "cv_percent": 4.1477952751280585
+      },
+      "child": {
+        "n": 9,
+        "mean": 818.2222222222222,
+        "median": 814,
+        "minimum": 759,
+        "maximum": 917,
+        "cv_percent": 6.603288034191154
+      },
+      "parent_b": {
+        "n": 9,
+        "mean": 794.2222222222222,
+        "median": 797,
+        "minimum": 765,
+        "maximum": 818,
+        "cv_percent": 2.245089124019777
+      },
+      "parent_pooled": {
+        "n": 18,
+        "mean": 780.8333333333334,
+        "median": 781.0,
+        "minimum": 731,
+        "maximum": 837,
+        "cv_percent": 3.65895581022449
+      },
+      "child_minus_parent": 37.3888888888888,
+      "child_change_percent": 4.788331554606895,
+      "parent_return_drift_percent": 3.489213841030825
+    },
+    "fresh.including_drain.wall_ns": {
+      "parent_a": {
+        "n": 9,
+        "mean": 388621.8888888889,
+        "median": 387471,
+        "minimum": 385865,
+        "maximum": 395291,
+        "cv_percent": 0.7963099502905048
+      },
+      "child": {
+        "n": 9,
+        "mean": 439299.44444444444,
+        "median": 439413,
+        "minimum": 436705,
+        "maximum": 442473,
+        "cv_percent": 0.3693941318209677
+      },
+      "parent_b": {
+        "n": 9,
+        "mean": 387599.44444444444,
+        "median": 387091,
+        "minimum": 386272,
+        "maximum": 390560,
+        "cv_percent": 0.3751348622872837
+      },
+      "parent_pooled": {
+        "n": 18,
+        "mean": 388110.6666666667,
+        "median": 387098.5,
+        "minimum": 385865,
+        "maximum": 395291,
+        "cv_percent": 0.6193640437032222
+      },
+      "child_minus_parent": 51188.77777777775,
+      "child_change_percent": 13.189222089003238,
+      "parent_return_drift_percent": -0.2630949191687826
+    },
+    "oldest.interface.cpu_ns": {
+      "parent_a": {
+        "n": 9,
+        "mean": 362613.22222222225,
+        "median": 362277,
+        "minimum": 359939,
+        "maximum": 369716,
+        "cv_percent": 0.7764678918593042
+      },
+      "child": {
+        "n": 9,
+        "mean": 114842.11111111111,
+        "median": 114346,
+        "minimum": 113997,
+        "maximum": 117303,
+        "cv_percent": 0.8998732251905293
+      },
+      "parent_b": {
+        "n": 9,
+        "mean": 361998.8888888889,
+        "median": 362343,
+        "minimum": 360085,
+        "maximum": 363620,
+        "cv_percent": 0.31546282402540227
+      },
+      "parent_pooled": {
+        "n": 18,
+        "mean": 362306.05555555556,
+        "median": 362297.0,
+        "minimum": 359939,
+        "maximum": 369716,
+        "cv_percent": 0.5818614442449839
+      },
+      "child_minus_parent": -247463.94444444444,
+      "child_change_percent": -68.30245883276402,
+      "parent_return_drift_percent": -0.1694183487211287
+    },
+    "oldest.drain.cpu_ns": {
+      "parent_a": {
+        "n": 9,
+        "mean": 809.2222222222222,
+        "median": 816,
+        "minimum": 755,
+        "maximum": 873,
+        "cv_percent": 5.058214187433601
+      },
+      "child": {
+        "n": 9,
+        "mean": 533.1111111111111,
+        "median": 529,
+        "minimum": 480,
+        "maximum": 578,
+        "cv_percent": 5.846938181209933
+      },
+      "parent_b": {
+        "n": 9,
+        "mean": 779.5555555555555,
+        "median": 779,
+        "minimum": 741,
+        "maximum": 831,
+        "cv_percent": 3.7051710912776366
+      },
+      "parent_pooled": {
+        "n": 18,
+        "mean": 794.3888888888889,
+        "median": 791.0,
+        "minimum": 741,
+        "maximum": 873,
+        "cv_percent": 4.733627212856593
+      },
+      "child_minus_parent": -261.2777777777778,
+      "child_change_percent": -32.89041191691727,
+      "parent_return_drift_percent": -3.666071673760807
+    },
+    "oldest.including_drain.cpu_ns": {
+      "parent_a": {
+        "n": 9,
+        "mean": 363422.44444444444,
+        "median": 363032,
+        "minimum": 360719,
+        "maximum": 370547,
+        "cv_percent": 0.7761724318112044
+      },
+      "child": {
+        "n": 9,
+        "mean": 115375.22222222222,
+        "median": 114906,
+        "minimum": 114502,
+        "maximum": 117869,
+        "cv_percent": 0.9123125489365185
+      },
+      "parent_b": {
+        "n": 9,
+        "mean": 362778.44444444444,
+        "median": 363097,
+        "minimum": 360877,
+        "maximum": 364451,
+        "cv_percent": 0.3144188765203144
+      },
+      "parent_pooled": {
+        "n": 18,
+        "mean": 363100.44444444444,
+        "median": 363064.5,
+        "minimum": 360719,
+        "maximum": 370547,
+        "cv_percent": 0.5820415136456698
+      },
+      "child_minus_parent": -247725.22222222222,
+      "child_change_percent": -68.22498457727033,
+      "parent_return_drift_percent": -0.17720424531965095
+    },
+    "oldest.interface.wall_ns": {
+      "parent_a": {
+        "n": 9,
+        "mean": 362577.22222222225,
+        "median": 362228,
+        "minimum": 359897,
+        "maximum": 369709,
+        "cv_percent": 0.7801651189824765
+      },
+      "child": {
+        "n": 9,
+        "mean": 114768.33333333333,
+        "median": 114264,
+        "minimum": 113930,
+        "maximum": 117209,
+        "cv_percent": 0.8957190490364733
+      },
+      "parent_b": {
+        "n": 9,
+        "mean": 361938.77777777775,
+        "median": 362290,
+        "minimum": 360059,
+        "maximum": 363553,
+        "cv_percent": 0.31236640844113067
+      },
+      "parent_pooled": {
+        "n": 18,
+        "mean": 362258,
+        "median": 362259.0,
+        "minimum": 359897,
+        "maximum": 369709,
+        "cv_percent": 0.5839432993378767
+      },
+      "child_minus_parent": -247489.6666666667,
+      "child_change_percent": -68.31862006268092,
+      "parent_return_drift_percent": -0.17608509451627619
+    },
+    "oldest.drain.wall_ns": {
+      "parent_a": {
+        "n": 9,
+        "mean": 799.7777777777778,
+        "median": 790,
+        "minimum": 762,
+        "maximum": 844,
+        "cv_percent": 3.877476913681949
+      },
+      "child": {
+        "n": 9,
+        "mean": 540.6666666666666,
+        "median": 526,
+        "minimum": 481,
+        "maximum": 597,
+        "cv_percent": 7.319829190618332
+      },
+      "parent_b": {
+        "n": 9,
+        "mean": 770.4444444444445,
+        "median": 761,
+        "minimum": 703,
+        "maximum": 842,
+        "cv_percent": 4.785779828481314
+      },
+      "parent_pooled": {
+        "n": 18,
+        "mean": 785.1111111111111,
+        "median": 781.0,
+        "minimum": 703,
+        "maximum": 844,
+        "cv_percent": 4.6277836187501675
+      },
+      "child_minus_parent": -244.44444444444446,
+      "child_change_percent": -31.135012737050673,
+      "parent_return_drift_percent": -3.667685468185611
+    },
+    "oldest.including_drain.wall_ns": {
+      "parent_a": {
+        "n": 9,
+        "mean": 363377,
+        "median": 363018,
+        "minimum": 360672,
+        "maximum": 370536,
+        "cv_percent": 0.7803361317362683
+      },
+      "child": {
+        "n": 9,
+        "mean": 115309,
+        "median": 114861,
+        "minimum": 114436,
+        "maximum": 117778,
+        "cv_percent": 0.9082045763213035
+      },
+      "parent_b": {
+        "n": 9,
+        "mean": 362709.22222222225,
+        "median": 363046,
+        "minimum": 360850,
+        "maximum": 364341,
+        "cv_percent": 0.30631868052507394
+      },
+      "parent_pooled": {
+        "n": 18,
+        "mean": 363043.1111111111,
+        "median": 363032.0,
+        "minimum": 360672,
+        "maximum": 370536,
+        "cv_percent": 0.5831900242471142
+      },
+      "child_minus_parent": -247734.11111111112,
+      "child_change_percent": -68.238207399917,
+      "parent_return_drift_percent": -0.18376996281486147
+    },
+    "whole_worker.cpu_ns": {
+      "parent_a": {
+        "n": 9,
+        "mean": 43356654.11111111,
+        "median": 43942011,
+        "minimum": 37137778,
+        "maximum": 46478360,
+        "cv_percent": 6.198980745873151
+      },
+      "child": {
+        "n": 9,
+        "mean": 39725264.777777776,
+        "median": 39197650,
+        "minimum": 36391563,
+        "maximum": 43109185,
+        "cv_percent": 5.867752635800906
+      },
+      "parent_b": {
+        "n": 9,
+        "mean": 39864561.44444445,
+        "median": 40410077,
+        "minimum": 36063243,
+        "maximum": 41662226,
+        "cv_percent": 4.901478874922778
+      },
+      "parent_pooled": {
+        "n": 18,
+        "mean": 41610607.777777776,
+        "median": 41589713.5,
+        "minimum": 36063243,
+        "maximum": 46478360,
+        "cv_percent": 6.975181241313138
+      },
+      "child_minus_parent": -1885343.0,
+      "child_change_percent": -4.530919159048841,
+      "parent_return_drift_percent": -8.054340765589052
+    },
+    "whole_worker.wall_ns": {
+      "parent_a": {
+        "n": 9,
+        "mean": 48488457.666666664,
+        "median": 48768462,
+        "minimum": 41325137,
+        "maximum": 51551946,
+        "cv_percent": 6.441600823291202
+      },
+      "child": {
+        "n": 9,
+        "mean": 45331569.222222224,
+        "median": 45373082,
+        "minimum": 41224720,
+        "maximum": 49028699,
+        "cv_percent": 5.170577823453985
+      },
+      "parent_b": {
+        "n": 9,
+        "mean": 45184068.44444445,
+        "median": 45874846,
+        "minimum": 42411840,
+        "maximum": 47261993,
+        "cv_percent": 3.476940900479694
+      },
+      "parent_pooled": {
+        "n": 18,
+        "mean": 46836263.05555555,
+        "median": 46572392.0,
+        "minimum": 41325137,
+        "maximum": 51551946,
+        "cv_percent": 6.2768846305605
+      },
+      "child_minus_parent": -1504693.8333333284,
+      "child_change_percent": -3.212668422219156,
+      "parent_return_drift_percent": -6.8147954817169065
+    }
+  }
+}

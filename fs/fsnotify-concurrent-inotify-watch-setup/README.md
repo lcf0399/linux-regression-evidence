@@ -1,5 +1,10 @@
 # fsnotify concurrent inotify watch add/remove regression
 
+Checked 2026-10-19: regzbot closed tracking on October 12 because the maintainer
+accepted the scalability tradeoff while planning improvements. This
+[tracking disposition](upstream-status/README.md) is not a fix and is distinct
+from this study's October 10 closure below.
+
 Closed on 2026-10-10. No further experiments or follow-up are queued.
 This accepts the maintainer's trade-off assessment; it does not mean a fix was
 merged. Measurements, the reproducer and attribution evidence are retained.
@@ -126,7 +131,10 @@ intentional orchestration, although the tool, recursive traversal, source tree,
 and inotify semantics were unmodified. See
 [`real-topology/README.md`](real-topology/README.md).
 
-## Latest upstream status audit
+## Historical source audit (2026-07-20)
+
+The tracking disposition checked on October 19 is at the top of this page;
+the original source-audit scope is retained below.
 
 An audit on 2026-07-20 checked the latest released kernel (`v7.1.4`),
 `v7.2-rc4`, Linus' master at `1590cf032971`, `next-20260717`, and Jan Kara's

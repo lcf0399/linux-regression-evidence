@@ -1,5 +1,18 @@
 # 上游状态审计
 
+## 2026-10-19：停止跟踪，不是方案已采纳
+
+regzbot于10月13日将本报告标为inconclusive并停止跟踪，理由是微基准问题且已有开发者研究。
+[完整跟踪记录及状态区分](../../../upstream-status/README.zh-CN.md)。
+
+“已有研究”有具体公开依据：Uzair于9月14日发布[三枚RFC](https://lists.openwall.net/linux-kernel/2026/09/14/1077)，
+尝试专用slab、批量补充及预填充；其中测量明确归于Chengfeng，不能算独立复现。
+Gabriel在[9月26日评审（北京时间）](https://lists.openwall.net/linux-kernel/2026/09/25/2034)中
+要求解释实际工作集及后续I/O能否摊薄安装成本，反对任意扩大不可回收的节点缓存，
+有条件地建议保留128项上限并批量补充。这不是接受该系列，也不能推断作者现在仍在持续工作。
+
+## 2026-10-10及更早的源码／线程快照
+
 状态快照日期为2026-10-10。公开RFC最后一封回复为Gabriel的
 9月25日UTC／9月26日北京时间回复，Message-ID为`87cxu1yv61.fsf@mailhost.krisman.be`；
 未定位到单独的patch 2评审。主线`3857c2fe5449`（v7.3-rc6）仍使用固定资源节点缓存和

@@ -1,6 +1,14 @@
 # Upstream status and prior-art audit
 
-Audit date: 2026-07-20.
+## Tracking checked 2026-10-19
+
+Regzbot closed tracking on October 12, recording that Jan Kara accepted the
+scalability tradeoff while planning improvements. This is not a completed fix
+and does not change the original scoped measurements. See the
+[entry and summary](../../../upstream-status/README.md).
+
+The source/prior-art audit below is dated July 20; it is not a fresh review of
+the current trees.
 
 ## Outcome
 

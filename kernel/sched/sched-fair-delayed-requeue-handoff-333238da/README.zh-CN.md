@@ -1,10 +1,19 @@
 # MMTests管道交接吞吐与延迟重新入队记账
 
-**发现来源：复现MMTests中的既有 `will-it-scale/context_switch1` benchmark。**
-不是我们的源码／调用图或模型生成场景发现，不计入该方法的发现成果。
+**发现来源：复现MMTests既有 `will-it-scale/context_switch1` benchmark，**
+不是源码／调用图或模型生成场景；作为同一提交既有讨论的补充证据单列。
 
-2026-10-30转为正式证据材料，准备向上游反馈；转正式不表示已经发送、上游接受或修复。
-Mike Galbraith此前在另一种唤醒测试中定位过同一提交，本报告提供管道吞吐和归因的补充证据。
+[10月30日已报告上游](https://lists.openwall.net/linux-kernel/2026/10/30/1506)。
+11月1日验证了一处局部重复更新原型：2-worker吞吐+1.27%，15-worker−0.22%，未改善主要慢差。
+
+按Tianchen Ding建议完成54次同镜像7.3的DELAY_ZERO开→关→开对照：
+15-worker关闭后提高13.70%，2-worker仅+0.17%；正确记账及DELAY_DEQUEUE始终保留。
+结果于11月3日回复上游。
+
+11月7日Vincent Guittot解释了必要的公平性修复：旧顺序可能给唤醒任务不应得的正lag；
+关闭DELAY_ZERO虽能改善交接，却可能保留这项不公平优势。
+因此开关实验有效，但不能直接作为正式修复。当前暂停追加探索，等待具体修改或新证据。
+详见[有日期的跟进记录](upstream-status/README.zh-CN.md)。
 
 ## 核心结果
 

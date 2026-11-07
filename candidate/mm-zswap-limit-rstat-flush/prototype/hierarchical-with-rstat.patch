@@ -1,0 +1,79 @@
+diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+index 4d00748..13e705b 100644
+--- a/mm/memcontrol.c
++++ b/mm/memcontrol.c
+@@ -674,6 +674,11 @@ struct memcg_vmstats_percpu {
+ 	struct memcg_vmstats_percpu __percpu	*parent_pcpu;
+ 	struct memcg_vmstats			*vmstats;
+ 
++#ifdef CONFIG_ZSWAP
++	/* Hierarchical compressed bytes, updated eagerly and summed on read. */
++	long			zswap_hier;
++#endif
++
+ 	/* The above should fit a single cacheline for memcg_rstat_updated() */
+ 
+ 	/* Local (CPU and cgroup) page state & events */
+@@ -6212,6 +6217,35 @@ static struct cftype swap_files[] = {
+ };
+ 
+ #ifdef CONFIG_ZSWAP
++/*
++ * Evaluation of Joanne Koong's hierarchical per-CPU experiment (9092e0057f03).
++ * Keep the existing rstat updates: public usage and shrinker accounting still
++ * consume them. Only the limit pre-check uses this additional counter.
++ * Callers hold rcu_read_lock() and use the same memcg as their rstat update.
++ */
++static void memcg_zswap_hier_add(struct mem_cgroup *memcg, long val)
++{
++	struct memcg_vmstats_percpu __percpu *statc_pcpu;
++	struct memcg_vmstats_percpu *statc;
++
++	statc_pcpu = memcg->vmstats_percpu;
++	for (; statc_pcpu; statc_pcpu = statc->parent_pcpu) {
++		statc = this_cpu_ptr(statc_pcpu);
++		this_cpu_add(statc_pcpu->zswap_hier, val);
++	}
++}
++
++static unsigned long memcg_zswap_hier_sum(struct mem_cgroup *memcg)
++{
++	long sum = 0;
++	int cpu;
++
++	for_each_possible_cpu(cpu)
++		sum += READ_ONCE(per_cpu_ptr(memcg->vmstats_percpu,
++					     cpu)->zswap_hier);
++	return max(sum, 0L);
++}
++
+ /**
+  * obj_cgroup_may_zswap - check if this cgroup can zswap
+  * @objcg: the object cgroup
+@@ -6245,9 +6279,7 @@ bool obj_cgroup_may_zswap(struct obj_cgroup *objcg)
+ 			break;
+ 		}
+ 
+-		/* Force flush to get accurate stats for charging */
+-		__mem_cgroup_flush_stats(memcg, true);
+-		pages = memcg_page_state(memcg, MEMCG_ZSWAP_B) / PAGE_SIZE;
++		pages = memcg_zswap_hier_sum(memcg) / PAGE_SIZE;
+ 		if (pages < max)
+ 			continue;
+ 		ret = false;
+@@ -6283,6 +6315,7 @@ void obj_cgroup_charge_zswap(struct obj_cgroup *objcg, size_t size)
+ 
+ 	rcu_read_lock();
+ 	memcg = obj_cgroup_memcg(objcg);
++	memcg_zswap_hier_add(memcg, size);
+ 	mod_memcg_state(memcg, MEMCG_ZSWAP_B, size);
+ 	mod_memcg_state(memcg, MEMCG_ZSWAPPED, 1);
+ 	if (size == PAGE_SIZE)
+@@ -6311,6 +6344,7 @@ void obj_cgroup_uncharge_zswap(struct obj_cgroup *objcg, size_t size)
+ 
+ 	rcu_read_lock();
+ 	memcg = obj_cgroup_memcg(objcg);
++	memcg_zswap_hier_add(memcg, -(long)size);
+ 	mod_memcg_state(memcg, MEMCG_ZSWAP_B, -size);
+ 	mod_memcg_state(memcg, MEMCG_ZSWAPPED, -1);
+ 	if (size == PAGE_SIZE)

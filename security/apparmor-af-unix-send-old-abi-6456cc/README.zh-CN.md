@@ -1,5 +1,9 @@
 # `6456ccbd2ff7` 后的 AppArmor AF_UNIX 发送 slowdown
 
+2026-10-19核对：regzbot于10月13日以微基准问题、开发者已在研究为由停止跟踪，
+标记为inconclusive。公开依据是John Johansen表示会调查，不能写成维护者已有完成的修复；
+9月的后续原型来自本研究。详见[公开回复与跟踪处置](upstream-status/README.zh-CN.md)。
+
 这个 bundle 记录一条窄范围 AF_UNIX 数据报发送 slowdown，精确来源是
 [`6456ccbd2ff7`](https://github.com/torvalds/linux/commit/6456ccbd2ff72814b3c1b2e2a3a2145a2ced858d)
 （`apparmor: fix regression in fs based unix sockets when using old abi`）的源码增量。

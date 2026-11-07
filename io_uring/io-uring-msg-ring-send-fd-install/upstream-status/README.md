@@ -1,5 +1,20 @@
 # Upstream status audit
 
+## 2026-10-19: tracking closed, not an accepted fix
+
+Regzbot closed this report as inconclusive on October 13, citing a microbenchmark
+issue already under investigation. See the [tracking audit](../../../upstream-status/README.md).
+
+There is concrete public development: Uzair's [September 14 three-patch RFC](https://lists.openwall.net/linux-kernel/2026/09/14/1077)
+tries a dedicated slab, bulk refill and prefill. Its measurements are credited to
+Chengfeng, not an independent replication. Gabriel's [September 25 UTC review](https://lists.openwall.net/linux-kernel/2026/09/25/2034)
+questions the real working set, whether later I/O amortizes installation cost,
+and enlarged unreclaimable caches. He conditionally suggests bulk refill while
+retaining the 128-entry limit. This is substantive review, not acceptance or
+evidence that the author is still actively working on it today.
+
+## Source/thread snapshots from October 10 and earlier
+
 Status snapshot: 2026-10-10. The public RFC series ends with Gabriel's September 25 UTC reply
 (`87cxu1yv61.fsf@mailhost.krisman.be`, September 26 in UTC+08:00). No separate
 patch-2 review was located. The checked mainline `3857c2fe5449` (v7.3-rc6) still

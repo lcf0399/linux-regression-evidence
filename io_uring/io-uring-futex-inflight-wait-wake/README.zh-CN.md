@@ -1,5 +1,9 @@
 # io_uring 标量 futex wait/wake inflight-tracking 回归
 
+2026-10-19核对：regzbot关联两枚实际修复，标示主线v7.3-rc1及稳定分支回补。
+这与其他条目人工以inconclusive结束跟踪不同；各路径收益仍以原测量为准。
+见[修复与跟踪记录](upstream-status/README.zh-CN.md)。
+
 本线于2026-10-10明确结题，不再排队跟进或追加实验。对应修复已在主线，
 本项目的报告／验证证据继续保留；专用实验内核及可重建产物按结题范围退役。
 

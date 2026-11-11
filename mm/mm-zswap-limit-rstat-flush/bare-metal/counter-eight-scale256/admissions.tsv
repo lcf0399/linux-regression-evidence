@@ -1,0 +1,13 @@
+point	case	kind	data	swapped_pages	stored_pages	stored_left	compressed_bytes	stores	may_calls	limit_flushes
+00-baseline	finite8	state	pass	65536	65536	0	19662645	NA	NA	NA
+00-baseline	finite8	path	pass	65536	65536	0	19662645	65536	65536	65536
+00-baseline	unlimited8	state	pass	65536	65536	0	19662945	NA	NA	NA
+00-baseline	unlimited8	path	pass	65536	65536	0	19662945	65536	65536	0
+01-prototype	finite8	state	pass	65536	65536	0	19662945	NA	NA	NA
+01-prototype	finite8	path	pass	65536	65536	0	19662945	65536	65536	0
+01-prototype	unlimited8	state	pass	65536	65536	0	19662945	NA	NA	NA
+01-prototype	unlimited8	path	pass	65536	65536	0	19662945	65536	65536	0
+02-baseline	finite8	state	pass	65536	65536	0	19662645	NA	NA	NA
+02-baseline	finite8	path	pass	65536	65536	0	19662645	65536	65536	65536
+02-baseline	unlimited8	state	pass	65536	65536	0	19662945	NA	NA	NA
+02-baseline	unlimited8	path	pass	65536	65536	0	19662945	65536	65536	0

@@ -156,12 +156,73 @@ def verify_eight_repeat():
           'source/patch identity, no pooling or new kernel experiment')
 
 
+def verify_eight_scale256():
+    """Separate larger-workload export; all older dataset identities stay intact."""
+    folder = 'counter-eight-scale256'
+    rows = read('samples.tsv', folder)
+    points = ('00-baseline', '01-prototype', '02-baseline')
+    cases = ('finite8', 'unlimited8')
+    metrics = ('pageout_cpu_us_per_256mib', 'restore_verify_cpu_us',
+               'program_cpu_us', 'program_wall_us')
+    expected = {(point, case, str(i)) for point in points for case in cases for i in range(9)}
+    actual = [(row['point'], row['case'], row['repetition']) for row in rows]
+    need(len(actual) == len(set(actual)) == 54 and set(actual) == expected, '256 MiB sample inventory')
+    for row in rows:
+        need(all(math.isfinite(float(row[key])) and float(row[key]) > 0 for key in metrics),
+             '256 MiB positive timings')
+        close(row['pageout_cpu_ns_per_page'], float(row[metrics[0]]) * 1000 / 65536,
+              '256 MiB per-page denominator')
+        need(0 < int(row['compressed_bytes']) < 67108864, '256 MiB quota unfilled')
+        need(264241152 <= int(row['batched_zswapped_bytes']) <= 268435456, '256 MiB batched state')
+        need(0 <= int(row['pending_slot_bytes']) <= 5242880 and
+             int(row['pending_slot_bytes']) % 4096 == 0, '256 MiB pending slot boundary')
+    summaries = read('summary.tsv', folder)
+    need(len(summaries) == 8 and {(row['case'], row['metric']) for row in summaries} ==
+         {(case, metric) for case in cases for metric in metrics}, '256 MiB summary inventory')
+    for row in summaries:
+        groups = [[float(value[row['metric']]) for value in rows
+                   if value['point'] == point and value['case'] == row['case']] for point in points]
+        values = list(map(stats, groups))
+        for label, value in zip(('baseline_a', 'prototype', 'baseline_b'), values):
+            close(row[label + '_mean_us'], value['mean'], '256 MiB mean')
+            close(row[label + '_cv_percent'], value['cv_percent'], '256 MiB sample CV')
+        baseline = statistics.mean(groups[0] + groups[2])
+        close(row['change_percent'], 100 * (values[1]['mean'] / baseline - 1), '256 MiB change')
+        close(row['return_drift_percent'], 100 * (values[2]['mean'] / values[0]['mean'] - 1),
+              '256 MiB return drift')
+    admissions = read('admissions.tsv', folder)
+    expected = {(p, c, k) for p in points for c in cases for k in ('state', 'path')}
+    need(len(admissions) == 12 and {(r['point'], r['case'], r['kind']) for r in admissions}
+         == expected, '256 MiB admission inventory')
+    for row in admissions:
+        need(row['data'] == 'pass' and int(row['stored_left']) == 0 and
+             int(row['swapped_pages']) == int(row['stored_pages']) == 65536, '256 MiB admission state')
+        need(0 < int(row['compressed_bytes']) < 67108864, '256 MiB admission quota unfilled')
+        if row['kind'] == 'path':
+            need(int(row['stores']) == int(row['may_calls']) == 65536, '256 MiB store path')
+            flushes = 65536 if row['case'] == 'finite8' and row['point'] != '01-prototype' else 0
+            need(int(row['limit_flushes']) == flushes, '256 MiB forced-flush path')
+        else:
+            need(all(row[k] == 'NA' for k in ('stores', 'may_calls', 'limit_flushes')),
+                 '256 MiB unprobed is unknown')
+    identity = json.loads((ROOT / 'bare-metal' / folder / 'identity.json').read_text())
+    need((identity['measured'], identity['admissions'], identity['total_bytes'], identity['pages'],
+          identity['bytes_per_worker'], identity['workers']) ==
+         (54, 12, 268435456, 65536, 33554432, 8), '256 MiB identity and denominator')
+    for path, key in (('reproducer/zswap_case_scale256.c', 'source_sha256'),
+                      ('prototype/hierarchical-with-rstat.patch', 'patch_sha256')):
+        need(hashlib.sha256((ROOT / path).read_bytes()).hexdigest() == identity[key], '256 MiB measured identity')
+    print('PASS: counter-eight-scale256: 54 measured observations, 12 admissions and 8 summaries; '
+          'exact source/patch identity, separate 256 MiB denominator (offline only)')
+
+
 def verify():
     verify_dataset()
     points = ('00-baseline', '01-prototype', '02-baseline')
     verify_dataset('counter-mm-pair', points, CASES, '01-prototype')
     verify_dataset('counter-unlimited1', points, ('unlimited1',), '01-prototype')
     verify_eight_repeat()
+    verify_eight_scale256()
     for manifest in ('source-sha256.tsv', 'counter-source-sha256.tsv'):
         for row in read(manifest):
             path = (ROOT/row['file']).resolve()

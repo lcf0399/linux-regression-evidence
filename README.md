@@ -10,7 +10,9 @@ The [2026-10-19 public tracking update](upstream-status/README.md) records five
 manual closures, separating fixes, accepted trade-offs, inconclusive outcomes
 and an older unclosed entry. Manual closure does not increase the fix count.
 
-## Recent update — November 7, 2026
+## Recent update — November 11, 2026
+
+The November 11 refresh concerns zswap; other notes retain their November 7 snapshot.
 
 - Three supplementary MMTests reports now have subsystem homes: pipe handoff,
   Redis post-flush cost and the sembench balancing tradeoff. They are not
@@ -18,9 +20,10 @@ and an older unclosed entry. Manual closure does not increase the fix count.
 - Pipe handoff includes the DELAY_ZERO control and upstream fairness explanation;
   Redis includes microcode and direct-commit CPU profiles; sembench retains the
   small v4 improvement. Replies, verified fixes and merges are distinct states.
-- Zswap remains unsent; its new eight-worker repeat retains the finite-limit
-  benefit and noisy or adverse restore/unlimited results. Ordinary NOP and
-  time-unmap retain scoped cost findings, not complete attribution of version gaps.
+- Zswap supplementary results were sent on November 11 and moved to `mm/`.
+  A separate eight-worker, 256 MiB batch supports the finite-limit benefit;
+  return drift limits effect-size precision. Historical noisy 32 MiB batches remain
+  separate. Ordinary NOP and time-unmap retain scoped cost findings, not complete attribution of version gaps.
 - New experiments use 7.3 as the latest endpoint; completed 7.2 evidence keeps
   its original identity. One libMicro sweep produced 1,092 valid results and
   33 latest-end lead conditions, not 33 confirmed regressions. The native
@@ -29,18 +32,18 @@ and an older unclosed entry. Manual closure does not increase the fix count.
 
 ## Browse by subsystem
 
-Fifteen evidence bundles are grouped by kernel subsystem.
+Sixteen evidence bundles are grouped by kernel subsystem.
 
 | Directory | Cases | Topics |
 | --- | ---: | --- |
 | [fs/](fs/) | 4 | Btrfs, fsnotify, kernfs, tmpfs xattr |
-| [mm/](mm/) | 2 | mprotect; swap-fallback folio order |
+| [mm/](mm/) | 3 | mprotect; swap-fallback folio order; finite zswap limit checks |
 | [io_uring/](io_uring/) | 3 | MSG_RING SEND_FD, scalar futex, WAITV |
 | [kernel/sched/](kernel/sched/) | 4 | Fair default slice, delayed-requeue pipe handoff, sembench new-idle tradeoff, RT sysctl |
 | [security/](security/) | 1 | AppArmor AF_UNIX |
 | [arch/x86/](arch/x86/) | 1 | Persistent post-flush cost in Redis |
 
-Seven standalone candidate bundles and an additional review inventory are listed
+Six standalone candidate bundles and an additional review inventory are listed
 under [candidate/](candidate/).
 
 ## Sent or active upstream threads
@@ -87,6 +90,7 @@ This group's upstream checks began on 2026-10-10; the default-slice row also rec
 | [`MMTests pipe handoff`](kernel/sched/sched-fair-delayed-requeue-handoff-333238da/) | Reported October 30; DELAY_ZERO results sent November 3; fairness explanation received November 7. Further experiments paused. Native MMTests/will-it-scale, not generated workloads. | At 15 workers, v7.3 thread/process throughput is 15.69%/14.82% below v7.1.3. Disabling DELAY_ZERO improves throughput 13.70%, but is not a validated fair production fix. |
 | [`Redis post-IBPB cost`](arch/x86/redis-ibpb-post-flush-a3af84b0/) | Original report sent November 3; profiles and microcode reply sent November 4. Bounded follow-up closed; exact archive URLs remain unchecked. Native MMTests Redis. | v7.3 ZPOPMIN throughput −12.87%, full-test time +0.58%. Both microcodes reproduce; added CPU samples are distributed across kernel send/receive paths. Persistent processor-state mechanism remains unexplained. |
 | [`sembench new-idle tradeoff`](kernel/sched/sched-newidle-sembench-tradeoff/) | User confirmed sending on November 5 as feedback on the posted Bresenham v4. Sent headers and public archival have not been independently checked. Found through native MMTests/sembench, not generated workloads. | Disabling NI_RANDOM on v7.3 raises 815-worker mean throughput by 23.48%; matched v4 improves it only 1.98%, without recovering the main loss. The toggle is a diagnostic control, not a production recommendation. |
+| [`finite zswap limit statistics flush`](mm/mm-zswap-limit-rstat-flush/) | Supplement sent to the original thread on November 11; Gmail Sent body, reply headers and attachment metadata verified. Public archival remains unconfirmed. | Exact commit: single-worker program CPU +15.56%; separate MM derivative pair: −21.78%. Separate eight-worker 256 MiB supplement supports the finite-limit benefit; drift limits precise magnitude, and production impact remains unknown. |
 
 ## Optimization prototype
 
@@ -96,7 +100,7 @@ This group's upstream checks began on 2026-10-10; the default-slice row also rec
 
 ## Additional candidates
 
-Seven standalone performance or optimization-discussion bundles are grouped under
+Six unsent standalone performance or optimization-discussion bundles are grouped under
 [`candidate/`](candidate/). An [additional review inventory](candidate/additional-review/README.md)
 collects 22 leads with target-version and evidence limitations; its entry count
 is not a count of independent established bugs.
@@ -105,7 +109,6 @@ is not a count of independent established bugs.
 | --- | --- | --- |
 | [`ordinary NOP mixed-CQE cost`](candidate/io-uring-mixed-cqe-nop-e26dca67/) | Exact shared-path attribution and bilingual report complete; not sent. | Native 20-thread throughput falls 5.564% across e26dca67fde1, with −0.0324% parent return drift. One identified source, not the entire cross-version loss. |
 | [`COLD deactivation tradeoff`](candidate/mm-madv-cold-deactivation-tradeoff/) | State-dependent cost and benefit of an existing optimization. | Exact commit: per 16 MiB, fresh-file CPU +51 µs / +13.20%; oldest-file CPU −247 µs / −68.30%. Application impact is unknown; not a proposed revert. |
-| [`finite zswap limit statistics flush`](candidate/mm-zswap-limit-rstat-flush/) | Exact attribution and counter evaluation for an already discussed issue. | Exact commit: single-worker program CPU +15.56%; separate MM derivative pair: −21.78%. No clear single-worker unlimited cost detected; concurrent and production tradeoffs remain open. |
 | [`shared swap-count cleanup`](candidate/mm-swap-count-batch-cleanup/) | Locked-batch cleanup prototype. | Fixed MM-tree pair: 3.264 -> 2.337 us/16-page munmap, about 0.927 us saved; slot-position-dependent mean, overlapping distributions, no established application gain. |
 | [`lazyfree PTE-batch failure`](candidate/mm-lazyfree-dirty-pte-batch-354dffd2/) | Local optimization evidence; no application benefit established. | Same-v7.2 prototype reduces PAGEOUT by 71.37% (60.69 us/32 MiB); lifecycle means change by -1.53%/-2.26%, comparable to drift and variation. |
 | [`async cancel miss`](candidate/io-uring-async-cancel-miss-5623eb1e/) | Reportable, but scoped to the guaranteed-miss slow path and the whole commit. | Exact A/B `+8.833%`, hit control `-0.562%`. |

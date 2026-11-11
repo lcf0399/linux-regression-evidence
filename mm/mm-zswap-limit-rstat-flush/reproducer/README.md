@@ -10,6 +10,9 @@ only adds the single-worker unlimited selector and updates the selftest count.
 it adds bounded preparation-stat convergence without changing the timed worker.
 It includes the same `peak_state.c`; compile it with the same flags, for example
 `gcc -O2 -g -std=gnu11 -Wall -Wextra -Werror zswap_case_statwait.c -o build/zswap_case_statwait`.
+`zswap_case_scale256.c` is the exact separately measured November 10 variant,
+32 MiB per worker and 256 MiB total; its [diff](scale256-source.diff) preserves
+the changed workload identity. It accepts only `finite8` / `unlimited8`.
 
 ```sh
 make
@@ -75,5 +78,14 @@ For the later counter evaluation, use baseline/derivative/baseline on the
 sample counts. Keep its three-case batch and the new single-worker unlimited
 batch separate. The [November 6 eight-worker repeat](../bare-metal/counter-eight-repeat/README.md)
 is also separate, not extra samples in the old matrix.
-`verify_results.py` recomputes all four datasets and checks
+For the [November 10 256 MiB supplement](../bare-metal/counter-eight-scale256/README.md),
+compile `build/zswap_case_scale256` with the same flags and helper. Set the owned
+root's `memory.max=2147483648` and `memory.swap.max=1073741824`, keeping
+`pids.max=32`, eight distinct P-cores, controller CPU 18 and the other host/state
+checks above. The binary sets the leaf quota to 64 MiB or `max`. Require all
+65,536 stores, compressed occupancy below the finite quota, no high/max/OOM
+events, data integrity and cleanup. Do not run it with the old 32 MiB resource ceilings
+or silently enlarge quotas after failure. Use the independent fixed A/B/A series,
+two warmups and nine samples per condition per endpoint, without pooling older data.
+`verify_results.py` recomputes all five datasets and checks
 identities and retained failures; it does not execute or revalidate kernel races.

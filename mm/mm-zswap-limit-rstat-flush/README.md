@@ -2,19 +2,31 @@
 
 [中文说明](README.zh-CN.md)
 
+## Upstream status — November 11, 2026
+
+Supplementary results were sent to the original discussion thread. Gmail Sent
+independently confirmed the body, reply headers and metadata of the reproducer
+source and measured-patch attachments. Public archival is not confirmed; sending
+does not establish acceptance or merge. See the [short status record](upstream-status/README.md).
+The main result is single-worker 32 MiB; the current concurrency supplement is
+eight workers totaling 256 MiB. The older 32 MiB concurrency batches below keep
+their original identities and are not pooled with it.
+
 This bundle adds exact-commit bare-metal evidence to the already discussed cost of
 zswap limit checks, followed by an evaluation of a derivative of Joanne Koong's
 hierarchical per-CPU counter experiment. The derivative retains existing rstat
 updates. It shows a finite-limit benefit; a separate single-worker unlimited
-control detects no clear added cost. Concurrent tradeoffs remain unresolved.
-The three batches answer different questions and are not pooled into a universal
+control detects no clear added cost. The separate 256 MiB concurrency supplement
+supports the finite-limit gain, with drift limiting effect-size precision.
+The batches answer different questions and are not pooled into a universal
 fix or application-speedup claim.
 
 The workload prepares 32 MiB of compressible private anonymous memory, disables
 THP, sets `memory.zswap.max=64 MiB`, and calls `MADV_PAGEOUT`. All 8192 base pages
 are stored successfully without reaching the limit or inducing OOM. It then
-accesses and verifies every data word and releases the mappings. Eight-worker
-variants keep the same total work; an unlimited variant is a path control, not
+accesses and verifies every data word and releases the mappings. The historical
+eight-worker variants keep the same total work; the November 10 supplement uses
+32 MiB per worker, 256 MiB total. An unlimited variant is a path control, not
 a proposal to remove limits. Per-cgroup limits can bound shares of the common
 zswap pool, but application frequency and production impact remain unmeasured.
 
@@ -145,6 +157,43 @@ or asserting no concurrency cost.
 [All 54 observations and recomputation](bare-metal/counter-eight-repeat/README.md)
 are separate from the original three batches.
 
+## 5. November 10 eight-worker supplement: 32 MiB per worker, 256 MiB total
+
+On the same MM pair, eight distinct P-cores process 65,536 pages in one shared
+cgroup. `memory.max=2 GiB`, `memory.swap.max=1 GiB` and finite
+`memory.zswap.max=64 MiB`; measured compressed occupancy is 18.7518–18.7520 MiB,
+below the quota. No high/max/OOM events occurred. The new batch independently
+passed 54 measured calls, 12 warmups and 12 non-timing state/path admissions,
+with two warmups and nine samples per condition at each A/B/A endpoint.
+
+| Condition / metric, ms per 256 MiB | Baseline A | Derivative | Baseline B | Descriptive mean change |
+| --- | ---: | ---: | ---: | ---: |
+| Finite, PAGEOUT CPU | 1217.353 | 199.238 | 1279.380 | −84.04% |
+| Finite, reaccess/verification CPU | 217.401 | 215.365 | 219.263 | −1.36% |
+| Finite, complete-program CPU | 1686.122 | 663.404 | 1750.095 | −61.39% |
+| Finite, complete-program wall | 221.937 | 94.618 | 231.435 | −58.26% |
+| Unlimited, PAGEOUT CPU | 193.071 | 196.272 | 194.952 | +1.17% |
+| Unlimited, reaccess/verification CPU | 214.656 | 214.950 | 214.851 | +0.09% |
+| Unlimited, complete-program CPU | 656.704 | 660.535 | 661.254 | +0.24% |
+| Unlimited, complete-program wall | 94.452 | 95.183 | 94.054 | +0.99% |
+
+Derivative PAGEOUT CVs are 4.51% finite and 4.91% unlimited. Finite baseline
+return drift is +5.10%, limiting precision of the −84.04% descriptive mean;
+all nine derivative samples are 186.4–215.1 ms, below all baseline samples at
+1206.5–1284.3 ms, so the benefit direction remains clear. Unlimited drift is
++0.97%; its +1.17% PAGEOUT mean is not a stable regression or an equivalence result.
+The large adverse restore/unlimited means in the old 32 MiB batch did not repeat,
+but workload size, private resource ceilings and date differ: neither pool the
+batches nor attribute the old noise solely to workload size.
+
+Separate path checks observed 65,536 successful stores, finite limit-check
+forced flushes falling from 65,536 to zero, and zero unlimited flushes on both
+kernels. The compressed quota is not reached; low compressibility, near-limit,
+deep-tree and freely scheduled conditions remain outside this result. Reaccess
+may hit swap cache, not pure cold decompression. [All 54 compact observations,
+12 admissions and offline recomputation](bare-metal/counter-eight-scale256/README.md)
+are exported separately; the original raw evidence and identities are retained.
+
 ## Correctness evidence and remaining limits
 
 Sixteen successful bounded checks across the two kernels cover leaf/ancestor
@@ -177,6 +226,6 @@ remain unknown. The useful discussion concerns the cost of retaining both counte
 and which hierarchy, concurrency or fault-path conditions merit validation, not
 whether this small matrix establishes a universally safe or optimal replacement.
 
-See [reproduction](reproducer/README.md), [three separate datasets](bare-metal/README.md)
+See [reproduction](reproducer/README.md), [separate datasets](bare-metal/README.md)
 and [the measured derivative and boundary notes](prototype/README.md).
 Run `python3 reproducer/verify_results.py` for offline recomputation only.

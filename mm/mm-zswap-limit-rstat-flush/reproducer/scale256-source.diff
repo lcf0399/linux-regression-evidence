@@ -1,0 +1,65 @@
+--- measured-32MiB/zswap_case.c
++++ scale-256MiB/zswap_case.c
+@@ -26,7 +26,7 @@
+ static void child(const char *leaf,unsigned id,unsigned workers,int ready,int go,int reports,int restore)
+ {
+     ck(!prctl(PR_SET_PDEATHSIG,SIGKILL),"pdeath");pin(id*2);char p[PATH_MAX];path(p,leaf,"cgroup.procs");put(p,"0");
+-    size_t bytes=(32UL<<20)/workers;uint64_t *m=mmap(NULL,bytes,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS,-1,0);
++    size_t bytes=(256UL<<20)/workers;uint64_t *m=mmap(NULL,bytes,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS,-1,0);
+     ck(m!=MAP_FAILED&&!madvise(m,bytes,MADV_NOHUGEPAGE),"base pages");
+     for(size_t pg=0;pg<bytes/4096;pg++)for(size_t w=0;w<512;w++)m[pg*512+w]=pattern(id,pg,w);
+     unsigned char *vec=malloc(bytes/4096);ck(vec&&!mincore(m,bytes,vec),"resident");for(size_t i=0;i<bytes/4096;i++)ck(vec[i]&1,"initial residency");free(vec);
+@@ -46,8 +46,8 @@
+     uint64_t start=ns(CLOCK_MONOTONIC_RAW);*reads=0;
+     for(;;){
+         *anon=field(leaf,"anon");*thp=field(leaf,"anon_thp");(*reads)++;
+-        ck(*anon<36UL*1024*1024&&!*thp,"bounded preparation metadata and no THP");
+-        if(*anon>=32UL*1024*1024)break;
++        ck(*anon<260UL*1024*1024&&!*thp,"bounded preparation metadata and no THP");
++        if(*anon>=256UL*1024*1024)break;
+         ck(ns(CLOCK_MONOTONIC_RAW)-start<UINT64_C(3000000000),"preparation statistics convergence timeout");
+         struct timespec pause={.tv_nsec=10000000};ck(!nanosleep(&pause,NULL),"preparation statistics poll");
+     }
+@@ -55,9 +55,9 @@
+ }
+ int main(int argc,char **argv)
+ {
+-    if(argc==2&&!strcmp(argv[1],"--selftest")){puts("selftest=pass cases=3 no_runtime_changes=1");return 0;}
+-    ck(argc==3&&geteuid()==0,"args");bool finite=strcmp(argv[2],"unlimited8")!=0;unsigned workers=!strcmp(argv[2],"finite1")?1:8;
+-    ck(!strcmp(argv[2],"finite1")||!strcmp(argv[2],"finite8")||!strcmp(argv[2],"unlimited8"),"case");
++    if(argc==2&&!strcmp(argv[1],"--selftest")){puts("selftest=pass cases=2 no_runtime_changes=1");return 0;}
++    ck(argc==3&&geteuid()==0,"args");bool finite=strcmp(argv[2],"unlimited8")!=0;unsigned workers=8;
++    ck(!strcmp(argv[2],"finite8")||!strcmp(argv[2],"unlimited8"),"case");
+     char root[PATH_MAX],leaf[PATH_MAX],p[PATH_MAX];ck(realpath(argv[1],root),"root");const char *prefix="/sys/fs/cgroup/ks-memcontrol-rest-";
+     ck(!strncmp(root,prefix,strlen(prefix))&&!strchr(root+strlen(prefix),'/'),"owned root");alarm(25);pin(18);
+     path(leaf,root,"g0");ck(!mkdir(leaf,0755),"mkdir");path(p,leaf,"memory.zswap.max");put(p,finite?"67108864":"max");
+@@ -66,17 +66,17 @@
+     close(ready[1]);close(go[0]);close(reports[1]);close(restore[0]);for(unsigned i=0;i<workers;i++){char c;ck(read(ready[0],&c,1)==1&&c=='R',"ready all");}
+     uint64_t anon,thp,stat_reads,stat_poll_ns;prep_stats(leaf,&anon,&thp,&stat_reads,&stat_poll_ns);
+     printf("PREP anon=%"PRIu64" anon_thp=%"PRIu64" stat_reads=%"PRIu64" stat_poll_ns=%"PRIu64"\n",anon,thp,stat_reads,stat_poll_ns);
+-    ck(anon>=32UL*1024*1024&&anon<36UL*1024*1024&&thp==0,"base anonymous bytes plus bounded worker metadata");
++    ck(anon>=256UL*1024*1024&&anon<260UL*1024*1024&&thp==0,"base anonymous bytes plus bounded worker metadata");
+     uint64_t wall=ns(CLOCK_MONOTONIC_RAW);for(unsigned i=0;i<workers;i++)ck(write(go[1],"G",1)==1,"go");
+     struct result first[8];unsigned seen=0;for(unsigned i=0;i<workers;i++){struct result r;ck(read(reports[0],&r,sizeof(r))==sizeof(r),"out report");ck(r.worker<workers&&!(seen&(1U<<r.worker)),"unique");seen|=1U<<r.worker;first[r.worker]=r;}
+     uint64_t pageout_window=ns(CLOCK_MONOTONIC_RAW)-wall;path(p,leaf,"memory.zswap.current");uint64_t compressed=get(p),zswapped=field(leaf,"zswapped");
+     uint64_t stored=fresh_counter("/sys/kernel/debug/zswap/stored_pages");
+-    printf("STATE compressed_bytes=%"PRIu64" zswapped_bytes=%"PRIu64" stored_pages=%"PRIu64" finite=%u same_bytes=33554432 thp=0\n",compressed,zswapped,stored,finite);
+-    ck(compressed>0&&compressed<(32UL<<20)&&zswapped>=(28UL<<20)&&zswapped<=(32UL<<20)&&stored==8192,"stored pages and bounded batched statistics");
++    printf("STATE compressed_bytes=%"PRIu64" zswapped_bytes=%"PRIu64" stored_pages=%"PRIu64" finite=%u same_bytes=268435456 thp=0\n",compressed,zswapped,stored,finite);
++    ck(compressed>0&&compressed<(256UL<<20)&&(!finite||compressed<(64UL<<20))&&zswapped>=(252UL<<20)&&zswapped<=(256UL<<20)&&stored==65536,"stored pages and bounded batched statistics");
+     for(unsigned i=0;i<workers;i++)ck(write(restore[1],"V",1)==1,"verify go");
+     uint64_t cpu=0,restore_cpu=0,swapped=0;seen=0;
+     for(unsigned i=0;i<workers;i++){struct result r;ck(read(reports[0],&r,sizeof(r))==sizeof(r),"final report");ck(r.worker<workers&&!(seen&(1U<<r.worker)),"unique final");seen|=1U<<r.worker;
+-        ck(r.cpu==r.worker*2&&r.bytes==(32UL<<20)/workers&&r.swapped==r.bytes/4096&&r.pageout_cpu_ns==first[r.worker].pageout_cpu_ns,"same result");
++        ck(r.cpu==r.worker*2&&r.bytes==(256UL<<20)/workers&&r.swapped==r.bytes/4096&&r.pageout_cpu_ns==first[r.worker].pageout_cpu_ns,"same result");
+         cpu+=r.pageout_cpu_ns;restore_cpu+=r.restore_cpu_ns;swapped+=r.swapped;
+         printf("WORKER id=%u cpu=%u bytes=%"PRIu64" pageout_cpu_ns=%"PRIu64" pageout_wall_ns=%"PRIu64" restore_cpu_ns=%"PRIu64" swapped=%"PRIu64"\n",r.worker,r.cpu,r.bytes,r.pageout_cpu_ns,r.pageout_wall_ns,r.restore_cpu_ns,r.swapped);}
+     for(unsigned i=0;i<workers;i++){int st;ck(waitpid(pids[i],&st,0)==pids[i]&&WIFEXITED(st)&&WEXITSTATUS(st)==0,"child");}
+@@ -86,6 +86,6 @@
+     /* 20 online CPUs x 64 returned slots x 4KiB: old slot-cache charges can
+      * survive unmapping and zswap invalidation. Do not force a global drain. */
+     ck(left_swap<=20UL*64*4096&&!(left_swap%4096)&&stored_left==0&&!rmdir(leaf),"bounded logical cleanup");
+-    printf("RESULT state=pass case=%s workers=%u bytes=33554432 swapped_pages=%"PRIu64" pageout_cpu_ns=%"PRIu64" pageout_window_wall_ns=%"PRIu64" restore_verify_cpu_ns=%"PRIu64" swap_left=%"PRIu64" zswap_left=%"PRIu64" stored_left=%"PRIu64" data=pass cold_restore_proven=0 backend_completion_proven=0\n",argv[2],workers,swapped,cpu,pageout_window,restore_cpu,left_swap,left_zswap,stored_left);
++    printf("RESULT state=pass case=%s workers=%u bytes=268435456 swapped_pages=%"PRIu64" pageout_cpu_ns=%"PRIu64" pageout_window_wall_ns=%"PRIu64" restore_verify_cpu_ns=%"PRIu64" swap_left=%"PRIu64" zswap_left=%"PRIu64" stored_left=%"PRIu64" data=pass cold_restore_proven=0 backend_completion_proven=0\n",argv[2],workers,swapped,cpu,pageout_window,restore_cpu,left_swap,left_zswap,stored_left);
+     alarm(0);return 0;
+ }

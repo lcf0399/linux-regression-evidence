@@ -14,6 +14,11 @@ the existing `MEMCG_ZSWAP_B` updates because public usage and reclaim/shrinker
 consumers still use them. The original experiment explicitly left those statistics
 unfinished; it is not being treated as a submitted production-ready replacement.
 
+The bodies of `memcg_zswap_hier_add()` and `memcg_zswap_hier_sum()` were
+checked against the saved original commit patch and are byte-identical.
+The complete patch is an adaptation, not an unchanged upstream patch: it
+selects only this mode, retains the rstat updates and fits the tested MM base.
+
 The derivative adds signed per-CPU compressed-byte counters, updates ancestors
 on charge/uncharge under the existing RCU read-side section, and sums possible-CPU
 counters for the limit pre-check. The final sum is clamped at zero. It leaves the
@@ -70,6 +75,9 @@ keeps the failed attempt separate from the 16 successful checks.
 
 RCU races, CPU hotplug, 32-bit overflow/scaling, deeper hierarchies and production
 scale have not been exhausted. Cache-hit restoration does not measure cold
-decompression independently. Eight-worker unlimited timing remains noisy.
+decompression independently. Historical total-32-MiB eight-worker unlimited timing remains noisy;
+the [separate 256 MiB supplement](../bare-metal/counter-eight-scale256/README.md)
+has much smaller variation and no stable unlimited penalty, without establishing
+equivalence or covering other scheduling/hierarchy conditions.
 The demonstrated finite-limit gain and small single-worker control do not remove
 these limitations or establish a best accounting design.

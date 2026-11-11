@@ -8,13 +8,16 @@
 [2026-10-19公开跟踪汇总](upstream-status/README.zh-CN.md)已补入5条人工关闭记录，
 并区分实际修复、接受取舍、inconclusive及未关闭的旧条目；人工关闭不增加修复数量。
 
-## 近期更新（2026-11-07）
+## 近期更新（2026-11-11）
+
+11月11日仅刷新zswap；其他近期说明保留11月7日快照，不代表本次重新审计。
 
 - 三份MMTests补充报告分别归入调度和x86目录：管道交接、Redis安全刷新后代价、sembench均衡取舍。
   它们不是模型生成方法的发现，不因新增目录而重复计数。
 - 管道交接已补DELAY_ZERO对照及上游公平性解释；Redis已补微码和精确提交CPU剖析；
   sembench保留v4仅小幅改善的结果。收到回复、确认修复和合入分别记录。
-- zswap仍为未发送候选；新增八worker复测保留有限额收益及恢复／无限额路径的噪声和不利方向。
+- zswap补充于11月11日发送并移入`mm/`；独立八worker总256MiB批次确认有限额收益方向，
+  回切漂移限制幅度精度，旧总32MiB噪声批次独立保留。
   普通NOP及time-unmap保留已确认的局部成本，不声称解释全部版本差距。
 - 当前新实验以7.3为最新端；已完成的7.2材料不改版本身份。
   libMicro一轮取得1,092份有效结果，33个条件仅为最新端慢差线索，不能计作33个已确认回归；
@@ -22,18 +25,18 @@
 
 ## 按子系统查找
 
-15份证据材料按内核子系统归类。
+16份证据材料按内核子系统归类。
 
 | 目录 | 场景数 | 内容 |
 | --- | ---: | --- |
 | [fs/](fs/) | 4 | Btrfs、fsnotify、kernfs、tmpfs xattr |
-| [mm/](mm/) | 2 | mprotect；换出回退页序 |
+| [mm/](mm/) | 3 | mprotect；换出回退页序；有限zswap限额检查 |
 | [io_uring/](io_uring/) | 3 | MSG_RING SEND_FD、标量 futex、WAITV |
 | [kernel/sched/](kernel/sched/) | 4 | fair 默认时间片、延迟重新入队管道交接、sembench空闲均衡取舍、RT sysctl |
 | [security/](security/) | 1 | AppArmor AF_UNIX |
 | [arch/x86/](arch/x86/) | 1 | Redis安全刷新后的持续代价 |
 
-[candidate/](candidate/)保存另外7份独立候选材料及一份补充审阅清单。
+[candidate/](candidate/)保存另外6份独立候选材料及一份补充审阅清单。
 tmpfs归入文件系统、AppArmor归入安全子系统；不是仅按benchmark调用的接口或研究目录命名分类。
 
 ## 已发送或已进入上游线程
@@ -77,6 +80,7 @@ tmpfs修复在6月15日已进入主线，早于7月6日报告；当时被测7.1�
 | [`MMTests管道交接`](kernel/sched/sched-fair-delayed-requeue-handoff-333238da/) | 10月30日报告，11月3日回复DELAY_ZERO对照；11月7日收到公平性解释，当前暂停追加探索。来源是MMTests/will-it-scale，不是模型生成场景。 | 15-worker下7.3线程／进程吞吐比7.1.3低15.69%／14.82%；同镜像关闭DELAY_ZERO提高13.70%，但不是已验证公平的正式修复。 |
 | [`Redis安全刷新后代价`](arch/x86/redis-ibpb-post-flush-a3af84b0/) | 11月3日原报告、11月4日CPU剖析和微码回复已发送，进一步有界探索收束。精确公开归档地址待核验。来源是MMTests原生Redis。 | 7.3 ZPOPMIN吞吐−12.87%，完整测试时间+0.58%；两微码均重现，新增CPU样本分散在内核收发路径，硬件持续机制未解释清楚。 |
 | [`sembench空闲均衡取舍`](kernel/sched/sched-newidle-sembench-tradeoff/) | 用户于11月5日确认已发送，作为已发布Bresenham v4的测试反馈；实际发送头及公开归档尚未独立核验。来自MMTests原生sembench，不计入模型生成场景的发现成果。 | 7.3关闭NI_RANDOM后815-worker均值+23.48%；匹配v4仅+1.98%，未恢复主要慢差。开关仅作归因控制，不建议普遍关闭策略。 |
+| [`有限zswap限额统计刷新`](mm/mm-zswap-limit-rstat-flush/) | 11月11日原线程补充已发送，Gmail Sent正文、回复头及附件元数据已核验；公开归档待确认。 | 精确提交使单worker程序CPU多15.56%；独立MM配对派生版减少21.78%。八worker总256MiB补充确认有限额收益，基线漂移限制幅度精度，不外推生产规模。 |
 
 ## 优化原型
 
@@ -86,7 +90,7 @@ tmpfs修复在6月15日已进入主线，早于7月6日报告；当时被测7.1�
 
 ## 其他候选
 
-另外七份性能回归／优化讨论候选材料放在 [`candidate/`](candidate/) 下。
+另外六份未发送的性能回归／优化讨论候选材料放在 [`candidate/`](candidate/) 下。
 [补充审阅清单](candidate/additional-review/README.zh-CN.md)汇集22条审阅线索，
 区分目标版本已测、历史结果待复核和证据不足，不将条目数当成独立缺陷数。
 
@@ -94,7 +98,6 @@ tmpfs修复在6月15日已进入主线，早于7月6日报告；当时被测7.1�
 | --- | --- | --- |
 | [`普通NOP的混合CQE支持成本`](candidate/io-uring-mixed-cqe-nop-e26dca67/) | 公共路径精确归因与中英文报告完成，未发送。 | 原生20线程在e26dca67fde1子版吞吐下降5.564%，父版回切−0.0324%；只报告这一明确来源，不将全部跨版本差额归给它。 |
 | [`COLD去活跃化取舍`](candidate/mm-madv-cold-deactivation-tradeoff/) | 已有优化的状态相关成本与收益。 | 精确提交下，每16MiB新填充文件页CPU多51µs／13.20%，最老代文件页省247µs／68.30%；应用影响未知，不建议直接撤回优化。 |
-| [`有限zswap限额统计刷新`](candidate/mm-zswap-limit-rstat-flush/) | 已有问题的精确归因与计数方案验证。 | 精确提交使单worker程序CPU多15.56%；独立MM配对派生版减少21.78%。无限额单worker未检出明确代价，并发及生产取舍未定。 |
 | [`共享swap计数清理`](candidate/mm-swap-count-batch-cleanup/) | 同锁批量清理原型。 | 固定MM树配对，每16页munmap合并均值3.264→2.337µs，平均省0.927µs；收益随槽位位置变化、样本有重叠，未证明应用收益。 |
 | [`lazyfree PTE批量失败`](candidate/mm-lazyfree-dirty-pte-batch-354dffd2/) | 局部优化有效，尚未证明应用收益。 | 同v7.2原型使PAGEOUT减少71.37%（60.69µs／32MiB）；全流程均值−1.53%／−2.26%，与漂移和波动相近。 |
 | [`async cancel miss`](candidate/io-uring-async-cancel-miss-5623eb1e/) | 可发送，但范围限于 guaranteed-miss slow path 和 whole commit。 | 精确 A/B `+8.833%`，hit control `-0.562%`。 |

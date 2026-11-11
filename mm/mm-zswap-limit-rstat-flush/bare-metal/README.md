@@ -1,4 +1,4 @@
-# Three separate measurement batches — 2026-10-18
+# Separate measurement batches — original October 18 evidence and follow-ups
 
 | Batch | Comparison | Measured / warmup / admission counts |
 | --- | --- | ---: |
@@ -58,3 +58,13 @@ The [separate repeat](counter-eight-repeat/README.md) exports all 54 new measure
 its full-program CPU/wall metrics and preparation-only source variant. It does not
 replace or augment the original three batches above. The verifier also checks this
 fourth dataset; additional warmups, admissions and raw evidence remain local.
+
+## November 10 eight-worker 256 MiB supplement
+
+The [fifth separate dataset](counter-eight-scale256/README.md) processes 32 MiB per
+worker, 256 MiB total, retaining the same MM builds, eight P-cores and 64 MiB finite
+compressed quota. It exports 54 measured observations, 12 state/path admissions,
+the source and compact identity. The private memory/swap ceilings scale to
+2 GiB / 1 GiB; measured finite compressed occupancy stays below the quota.
+It neither replaces nor augments any old 32 MiB batch. Its 12 warmups and original
+raw evidence remain local. The offline verifier also checks this separate batch.
